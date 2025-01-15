@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Welcome To The Moon Scenario Editor</title>
+  </head>
+
+  <body>
+    <div id="splashscreen">
+      <div id="splashbox">
+        <h1 id="title"></h1>
+        <h2 id="subtitle">Scenario editor</h2>
+        <div id="split-hor">
+          <div id="col-create">
+            <form>
+              <div class="form-group">
+                <label for="scenario-id">Unique id:</label>
+                <input type="text" id="scenario-id" placeholder="No space, no special char." />
+              </div>
+              <div class="form-group">
+                <label for="scenario-name">Name:</label>
+                <input type="text" id="scenario-name" />
+              </div>
+              <div class="form-group">
+                <label for="scenario-jpg">URL for JPG:</label>
+                <input type="text" id="scenario-jpg" />
+              </div>
+              <button id="btn-create" type="button">Create new</button>
+            </form>
+          </div>
+          <div id="col-load">
+            <form id="form-load-storage">
+              <h3>Load from browser storage</h3>
+              <select id="select-scenario">
+                <option value="">--Choose your scenario--</option>
+              </select>
+              <h4>-------------------- OR ------------------</h4>
+              <h3>Load from a file</h3>
+              <div class="form-group">
+                <label id="load-file-label" for="load-file"> Click here to load .wttm file</label>
+                <input type="file" id="load-file" accept=".wttm" />
+              </div>
+              <button type="submit">Load</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="editor">
+      <div id="top-bar">
+        <div id="save-btn">
+          <i class="fa-icon fa-save"></i>
+          <a id="download-anchor" style="display: none"></a>
+        </div>
+        <div id="save-compressed-btn">
+          <i class="fa-icon fa-compressed"></i>
+          <a id="download-anchor2" style="display: none"></a>
+        </div>
+        <div id="scenario-change-jpg"><i class="fa-icon fa-change-image"></i></div>
+        <div id="display-scenario-id"></div>
+        <div id="display-scenario-name"></div>
+      </div>
+      <div id="editor-main-part">
+        <div id="left-bar">
+          <div id="cell-indicator">Cell: <span id="cell-indicator-counter">----</span></div>
+
+          <button id="add-section">Add section</button>
+          <div id="filler"></div>
+          <button style="display: none" id="force-refresh">Force refresh</button>
+          <textarea style="display: none" id="data"></textarea>
+        </div>
+        <div id="main-frame-wrapper">
+          <div id="main-frame">
+            <div id="hover-indicator"></div>
+            <div id="board"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

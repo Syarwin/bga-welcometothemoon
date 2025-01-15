@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
@@ -14,181 +15,55 @@
  *
  * In this PHP file, you are going to defines the rules of the game.
  */
+
 declare(strict_types=1);
 
 namespace Bga\Games\WelcomeToTheMoon;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\States\EngineTrait;
+use Bga\Games\WelcomeToTheMoon\States\SetupTrait;
+use Bga\Games\WelcomeToTheMoon\DebugTrait;
+
 class Game extends \Table
 {
-    private static array $CARD_TYPES;
+    use SetupTrait;
+    use DebugTrait;
+    use EngineTrait;
 
-    /**
-     * Your global variables labels:
-     *
-     * Here, you can assign labels to global variables you are using for this game. You can use any number of global
-     * variables with IDs between 10 and 99. If your game has options (variants), you also have to associate here a
-     * label to the corresponding ID in `gameoptions.inc.php`.
-     *
-     * NOTE: afterward, you can get/set the global variables with `getGameStateValue`, `setGameStateInitialValue` or
-     * `setGameStateValue` functions.
-     */
-    public function __construct()
+    public static $instance = null;
+    function __construct()
     {
         parent::__construct();
-
-        $this->initGameStateLabels([
-            "my_first_global_variable" => 10,
-            "my_second_global_variable" => 11,
-            "my_first_game_variant" => 100,
-            "my_second_game_variant" => 101,
-        ]);        
-
-        self::$CARD_TYPES = [
-            1 => [
-                "card_name" => clienttranslate('Troll'), // ...
-            ],
-            2 => [
-                "card_name" => clienttranslate('Goblin'), // ...
-            ],
-            // ...
-        ];
-    }
-
-    /**
-     * Player action, example content.
-     *
-     * In this scenario, each time a player plays a card, this method will be called. This method is called directly
-     * by the action trigger on the front side with `bgaPerformAction`.
-     *
-     * @throws BgaUserException
-     */
-    public function actPlayCard(int $card_id): void
-    {
-        // Retrieve the active player ID.
-        $player_id = (int)$this->getActivePlayerId();
-
-        // check input values
-        $args = $this->argPlayerTurn();
-        $playableCardsIds = $args['playableCardsIds'];
-        if (!in_array($card_id, $playableCardsIds)) {
-            throw new \BgaUserException('Invalid card choice');
-        }
-
-        // Add your game logic to play a card here.
-        $card_name = self::$CARD_TYPES[$card_id]['card_name'];
-
-        // Notify all players about the card played.
-        $this->notifyAllPlayers("cardPlayed", clienttranslate('${player_name} plays ${card_name}'), [
-            "player_id" => $player_id,
-            "player_name" => $this->getActivePlayerName(),
-            "card_name" => $card_name,
-            "card_id" => $card_id,
-            "i18n" => ['card_name'],
+        self::$instance = $this;
+        self::initGameStateLabels([
+            'mode' => 10, // DO NOT TOUCH, USED FOR SIMULATING DB MODIFICATION
         ]);
 
-        // at the end of the action, move to the next state
-        $this->gamestate->nextState("playCard");
+        // Engine::boot();
+        // Stats::checkExistence();
+        // Notifications::resetCache();
     }
 
-    public function actPass(): void
+    public static function get()
     {
-        // Retrieve the active player ID.
-        $player_id = (int)$this->getActivePlayerId();
-
-        // Notify all players about the choice to pass.
-        $this->notifyAllPlayers("cardPlayed", clienttranslate('${player_name} passes'), [
-            "player_id" => $player_id,
-            "player_name" => $this->getActivePlayerName(),
-        ]);
-
-        // at the end of the action, move to the next state
-        $this->gamestate->nextState("pass");
+        return self::$instance;
     }
 
-    /**
-     * Game state arguments, example content.
-     *
-     * This method returns some additional information that is very specific to the `playerTurn` game state.
-     *
-     * @return array
-     * @see ./states.inc.php
-     */
-    public function argPlayerTurn(): array
+    // protected function initTable()
+    // {
+    //   Engine::boot();
+    // }
+
+
+    protected function getGameName()
     {
-        // Get some values from the current game situation from the database.
-
-        return [
-            "playableCardsIds" => [1, 2],
-        ];
+        return "welcometothemoon";
     }
 
-    /**
-     * Compute and return the current game progression.
-     *
-     * The number returned must be an integer between 0 and 100.
-     *
-     * This method is called each time we are in a game state with the "updateGameProgression" property set to true.
-     *
-     * @return int
-     * @see ./states.inc.php
-     */
-    public function getGameProgression()
-    {
-        // TODO: compute and return the game progression
-
-        return 0;
-    }
-
-    /**
-     * Game state action, example content.
-     *
-     * The action method of state `nextPlayer` is called everytime the current game state is set to `nextPlayer`.
-     */
-    public function stNextPlayer(): void {
-        // Retrieve the active player ID.
-        $player_id = (int)$this->getActivePlayerId();
-
-        // Give some extra time to the active player when he completed an action
-        $this->giveExtraTime($player_id);
-        
-        $this->activeNextPlayer();
-
-        // Go to another gamestate
-        // Here, we would detect if the game is over, and in this case use "endGame" transition instead 
-        $this->gamestate->nextState("nextPlayer");
-    }
-
-    /**
-     * Migrate database.
-     *
-     * You don't have to care about this until your game has been published on BGA. Once your game is on BGA, this
-     * method is called everytime the system detects a game running with your old database scheme. In this case, if you
-     * change your database scheme, you just have to apply the needed changes in order to update the game database and
-     * allow the game to continue to run with your new version.
-     *
-     * @param int $from_version
-     * @return void
-     */
-    public function upgradeTableDb($from_version)
-    {
-//       if ($from_version <= 1404301345)
-//       {
-//            // ! important ! Use DBPREFIX_<table_name> for all tables
-//
-//            $sql = "ALTER TABLE DBPREFIX_xxxxxxx ....";
-//            $this->applyDbUpgradeToAllDB( $sql );
-//       }
-//
-//       if ($from_version <= 1405061421)
-//       {
-//            // ! important ! Use DBPREFIX_<table_name> for all tables
-//
-//            $sql = "CREATE TABLE DBPREFIX_xxxxxxx ....";
-//            $this->applyDbUpgradeToAllDB( $sql );
-//       }
-    }
 
     /*
      * Gather all information about current game situation (visible by the current player).
@@ -216,109 +91,161 @@ class Game extends \Table
         return $result;
     }
 
+
     /**
-     * Returns the game name.
+     * Compute and return the current game progression.
      *
-     * IMPORTANT: Please do not modify.
+     * The number returned must be an integer between 0 and 100.
+     *
+     * This method is called each time we are in a game state with the "updateGameProgression" property set to true.
+     *
+     * @return int
+     * @see ./states.inc.php
      */
-    protected function getGameName()
+    public function getGameProgression()
     {
-        return "welcometothemoon";
+        // TODO: compute and return the game progression
+
+        return 0;
+    }
+    ///////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    ////////////   Custom Turn Order   ////////////
+    ///////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    public function initCustomTurnOrder($key, $order, $callback, $endCallback, $loop = false, $autoNext = true, $args = [])
+    {
+        $turnOrders = Globals::getCustomTurnOrders();
+        $turnOrders[$key] = [
+            'order' => $order ?? Players::getTurnOrder(),
+            'index' => -1,
+            'callback' => $callback,
+            'args' => $args, // Useful mostly for auto card listeners
+            'endCallback' => $endCallback,
+            'loop' => $loop,
+        ];
+        Globals::setCustomTurnOrders($turnOrders);
+
+        if ($autoNext) {
+            $this->nextPlayerCustomOrder($key);
+        }
     }
 
-    /**
-     * This method is called only once, when a new game is launched. In this method, you must setup the game
-     *  according to the game rules, so that the game is ready to be played.
-     */
-    protected function setupNewGame($players, $options = [])
+    public function initCustomDefaultTurnOrder($key, $callback, $endCallback, $loop = false, $autoNext = true)
     {
-        // Set the colors of the players with HTML color code. The default below is red/green/blue/orange/brown. The
-        // number of colors defined here must correspond to the maximum number of players allowed for the gams.
-        $gameinfos = $this->getGameinfos();
-        $default_colors = $gameinfos['player_colors'];
+        $this->initCustomTurnOrder($key, null, $callback, $endCallback, $loop, $autoNext);
+    }
 
-        foreach ($players as $player_id => $player) {
-            // Now you can access both $player_id and $player array
-            $query_values[] = vsprintf("('%s', '%s', '%s', '%s', '%s')", [
-                $player_id,
-                array_shift($default_colors),
-                $player["player_canal"],
-                addslashes($player["player_name"]),
-                addslashes($player["player_avatar"]),
-            ]);
+    public function nextPlayerCustomOrder($key)
+    {
+        $turnOrders = Globals::getCustomTurnOrders();
+        if (!isset($turnOrders[$key])) {
+            throw new \BgaVisibleSystemException('Asking for the next player of a custom turn order not initialized : ' . $key);
         }
 
-        // Create players based on generic information.
-        //
-        // NOTE: You can add extra field on player table in the database (see dbmodel.sql) and initialize
-        // additional fields directly here.
-        static::DbQuery(
-            sprintf(
-                "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES %s",
-                implode(",", $query_values)
-            )
-        );
+        // Increase index and save
+        $o = $turnOrders[$key];
+        $i = $o['index'] + 1;
+        if ($i == count($o['order']) && $o['loop']) {
+            $i = 0;
+        }
+        $turnOrders[$key]['index'] = $i;
+        Globals::setCustomTurnOrders($turnOrders);
 
-        $this->reattributeColorsBasedOnPreferences($players, $gameinfos["player_colors"]);
-        $this->reloadPlayersBasicInfos();
-
-        // Init global values with their initial values.
-
-        // Dummy content.
-        $this->setGameStateInitialValue("my_first_global_variable", 0);
-
-        // Init game statistics.
-        //
-        // NOTE: statistics used in this file must be defined in your `stats.inc.php` file.
-
-        // Dummy content.
-        // $this->initStat("table", "table_teststat1", 0);
-        // $this->initStat("player", "player_teststat1", 0);
-
-        // TODO: Setup the initial game situation here.
-
-        // Activate first player once everything has been initialized and ready.
-        $this->activeNextPlayer();
+        if ($i < count($o['order'])) {
+            $this->gamestate->jumpToState(ST_GENERIC_NEXT_PLAYER);
+            $this->gamestate->changeActivePlayer($o['order'][$i]);
+            $this->jumpToOrCall($o['callback'], $o['args']);
+        } else {
+            $this->endCustomOrder($key);
+        }
     }
 
-    /**
-     * This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
-     * You can do whatever you want in order to make sure the turn of this player ends appropriately
-     * (ex: pass).
-     *
-     * Important: your zombie code will be called when the player leaves the game. This action is triggered
-     * from the main site and propagated to the gameserver from a server, not from a browser.
-     * As a consequence, there is no current player associated to this action. In your zombieTurn function,
-     * you must _never_ use `getCurrentPlayerId()` or `getCurrentPlayerName()`, otherwise it will fail with a
-     * "Not logged" error message.
-     *
-     * @param array{ type: string, name: string } $state
-     * @param int $active_player
-     * @return void
-     * @throws feException if the zombie mode is not supported at this game state.
-     */
-    protected function zombieTurn(array $state, int $active_player): void
+    public function endCustomOrder($key)
     {
-        $state_name = $state["name"];
+        $turnOrders = Globals::getCustomTurnOrders();
+        if (!isset($turnOrders[$key])) {
+            throw new \BgaVisibleSystemException('Asking for ending a custom turn order not initialized : ' . $key);
+        }
 
-        if ($state["type"] === "activeplayer") {
-            switch ($state_name) {
-                default:
-                {
-                    $this->gamestate->nextState("zombiePass");
-                    break;
-                }
+        $o = $turnOrders[$key];
+        $turnOrders[$key]['index'] = count($o['order']);
+        Globals::setCustomTurnOrders($turnOrders);
+        $callback = $o['endCallback'];
+        $this->jumpToOrCall($callback);
+    }
+
+    public function jumpToOrCall($mixed, $args = [])
+    {
+        if (is_int($mixed) && array_key_exists($mixed, $this->gamestate->states)) {
+            $this->gamestate->jumpToState($mixed);
+        } elseif (method_exists($this, $mixed)) {
+            $method = $mixed;
+            $this->$method($args);
+        } else {
+            throw new \BgaVisibleSystemException('Failing to jumpToOrCall  : ' . $mixed);
+        }
+    }
+
+
+    ////////////////////////////////////
+    ////////////   Zombie   ////////////
+    ////////////////////////////////////
+    /*
+   * zombieTurn:
+   *   This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
+   *   You can do whatever you want in order to make sure the turn of this player ends appropriately
+   */
+    public function zombieTurn($state, $activePlayer): void
+    {
+        die("TODO: zombie mode");
+
+        $stateName = $state['name'];
+        if ($state['type'] == 'activeplayer') {
+        } elseif ($state['type'] == 'multipleactiveplayer') {
+            if ($stateName == 'breakDiscard') {
             }
-
-            return;
+            // Make sure player is in a non blocking status for role turn
+            else {
+                $this->gamestate->setPlayerNonMultiactive($activePlayer, 'zombiePass');
+            }
         }
+    }
 
-        // Make sure player is in a non-blocking status for role turn.
-        if ($state["type"] === "multipleactiveplayer") {
-            $this->gamestate->setPlayerNonMultiactive($active_player, '');
-            return;
-        }
+    /////////////////////////////////////
+    //////////   DB upgrade   ///////////
+    /////////////////////////////////////
+    // You don't have to care about this until your game has been published on BGA.
+    // Once your game is on BGA, this method is called everytime the system detects a game running with your old Database scheme.
+    // In this case, if you change your Database scheme, you just have to apply the needed changes in order to
+    //   update the game database and allow the game to continue to run with your new version.
+    /////////////////////////////////////
+    /*
+   * upgradeTableDb
+   *  - int $from_version : current version of this game database, in numerical form.
+   *      For example, if the game was running with a release of your game named "140430-1345", $from_version is equal to 1404301345
+   */
+    public function upgradeTableDb($from_version)
+    {
+        // if ($from_version <= 2107011810) {
+        //   $sql = 'ALTER TABLE `DBPREFIX_player` ADD `new_score` INT(10) NOT NULL DEFAULT 0';
+        //   self::applyDbUpgradeToAllDB($sql);
+        // }
+    }
 
-        throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
+    /////////////////////////////////////////////////////////////
+    // Exposing protected methods, please use at your own risk //
+    /////////////////////////////////////////////////////////////
+
+    // Exposing protected method getCurrentPlayerId
+    public function getCurrentPId($bReturnNullIfNotLogged = false)
+    {
+        return self::get()->getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
+
+    // Exposing protected method translation
+    public static function translate($text)
+    {
+        return self::get()->_($text);
     }
 }

@@ -1,0 +1,48 @@
+.player-name {
+    svg {
+        width: 25px;
+        height: 21px;
+        cursor: pointer;
+        vertical-align: bottom;
+        margin-left: 3px;
+    }
+}
+
+// .player_score {
+//     .player_score_value {
+//         display: none;
+//     }
+// }
+
+.player-info {
+    display: flex;
+    justify-content: space-between;
+
+    .civ-hand {
+        width: 100px;
+        height: 35px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: white;
+        background: #353534;
+        border: 2px solid white;
+        border-radius: 9px;
+        font-family: "HemiHead";
+        padding-left: 4px;
+        box-shadow: 2px 2px 3px black;
+        cursor: pointer;
+        position: relative;
+        .welcometothemoon-card {
+            position: absolute;
+        }
+    }
+}
+
+.welcometothemoon-first-player-holder {
+    position: absolute;
+    height: 40px;
+    right: 49px;
+    top: 7px;
+    width: 80px;
+}

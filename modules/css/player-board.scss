@@ -1,0 +1,542 @@
+$cellWidth: 30px;
+$cellHeight: $cellWidth;
+$planetGridWidth: 12 * $cellWidth;
+$planetGridHeight: 12 * $cellHeight;
+
+#welcometothemoon-main-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    & > .welcometothemoon-card {
+        position: absolute;
+    }
+}
+
+[data-player-boards-layout="0"] #welcometothemoon-main-container {
+    .pu-player-board-wrapper:not(.active) {
+        display: none;
+    }
+}
+
+.pu-player-board-wrapper {
+    background-color: #f9e5cf;
+    border-radius: 8px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+    border-width: 3px;
+    border-style: solid;
+    margin-bottom: 15px;
+
+    .pu-player-board-top {
+        display: flex;
+        justify-content: center;
+        height: 40px;
+        overflow: hidden;
+        // &:hover {
+        z-index: 10;
+        position: relative;
+        overflow: visible;
+        // }
+
+        .player-board-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            flex-grow: 1;
+
+            .prev-player-board,
+            .next-player-board {
+                padding: 0px 10px;
+                cursor: pointer;
+                font-size: 25px;
+
+                [data-player-boards-layout="1"] & {
+                    display: none;
+                }
+            }
+        }
+
+        .prev-objectives,
+        .next-objectives {
+            --cardScale: 0.4;
+            display: flex;
+
+            .welcometothemoon-card {
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .pu-player-board-resizable {
+        position: relative;
+        width: calc(var(--planetUnknownBoardScale) * 1510px);
+        height: calc(var(--planetUnknownBoardScale) * 1000px);
+
+        // [data-player-boards-layout="1"] & ~ .ark-player-board-resizable {
+        //     margin-top: 20px;
+        // }
+
+        .pu-player-board-fixed-size {
+            width: 1510px;
+            height: 1000px;
+            transform: scale(var(--planetUnknownBoardScale));
+            transform-origin: top left;
+            display: flex;
+
+            .pu-player-board-planet {
+                width: 1000px;
+                height: 1000px;
+
+                .planet {
+                    width: 1000px;
+                    height: 1000px;
+                    box-sizing: border-box;
+                    background-size: 100% 100%;
+
+                    background-image: url("img/Planets/0.jpg");
+                    padding-top: 29px;
+                    padding-left: 15px;
+                    @for $i from 0 to 13 {
+                        &[data-id="#{$i}"] {
+                            background-image: url("img/Planets/#{$i}.jpg");
+                        }
+                    }
+
+                    .chiasm-right {
+                        transform: translateX(7px);
+                    }
+
+                    .pending-tiles {
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                        --tileScale: 0.25;
+                        background: white;
+                        padding: 2px;
+                        border-radius: 2px;
+                        &:empty {
+                            display: none;
+                        }
+
+                        .tile-container {
+                            margin: 0;
+                        }
+                    }
+
+                    .planet-grid {
+                        width: 923px;
+                        height: 923px;
+                        display: grid;
+                        grid-template-columns: repeat(13, 71px);
+                        grid-template-rows: repeat(13, 71px);
+
+                        .tile-container {
+                            z-index: 2;
+                            .tile-inner {
+                                clip-path: none !important;
+                            }
+                        }
+
+                        .planet-grid-cell-overlay {
+                            z-index: 1;
+                            position: relative;
+                            background: #ffffff;
+                            opacity: var(--overlayOpacity);
+                        }
+
+                        .planet-grid-cell {
+                            z-index: 3;
+                            position: relative;
+                            border: 2px solid transparent;
+
+                            &.selectable:not(.unselectable) {
+                                border: 2px dashed white;
+                                background: #f7b1b190;
+                                cursor: pointer;
+                                &:hover {
+                                    border: 2px solid white;
+                                    background: #f7b1b1d1;
+                                }
+                            }
+
+                            &.selected:not(.unselectable),
+                            &.selected:not(.unselectable):hover {
+                                border: 2px solid #0f5308;
+                                background: #7dfc83a1;
+                            }
+
+                            &.ok::before,
+                            &.nok::before {
+                                display: inline-block;
+                                font: normal normal normal 14px/1 FontAwesome;
+                                font-size: 13px;
+                                text-rendering: auto;
+                                position: absolute;
+                                text-stroke: 1px white;
+                                -webkit-text-stroke: 1px #040404;
+                            }
+                            &.ok::before {
+                                content: "\f00c";
+                                color: #00d900;
+                            }
+                            &.nok::before {
+                                content: "\f00d";
+                                color: red;
+                            }
+                            &[data-y="-1"]::before {
+                                left: 42px;
+                                top: 2px;
+                            }
+
+                            &[data-x="-1"]::before {
+                                left: 29px;
+                                top: 19px;
+                            }
+
+                            .welcometothemoon-meeple {
+                                position: absolute;
+
+                                &.icon-rover-meeple {
+                                    top: 10px;
+                                    left: 2px;
+                                }
+
+                                &.icon-lifepod {
+                                    top: 2px;
+                                    left: 12px;
+                                }
+
+                                &.icon-meteor {
+                                    top: 3px;
+                                    left: 1px;
+                                }
+                            }
+                        }
+                    }
+
+                    .planet-ability {
+                        position: absolute;
+                        font-family: "HemiHead";
+                        color: white;
+                        font-size: 10px;
+                        display: flex;
+                        flex-flow: column;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 12;
+
+                        top: 887px;
+                        left: 748px;
+                        width: 220px;
+
+                        .help-marker {
+                            color: black;
+                        }
+
+                        h4 {
+                            font-size: 18px;
+                            text-transform: uppercase;
+                            margin-bottom: 1px;
+                        }
+                    }
+
+                    &[data-id="0"] .planet-ability {
+                        top: 867px;
+                        left: 824px;
+                        width: 144px;
+                    }
+                    &[data-id="2"] .planet-ability {
+                        top: 125px;
+                        left: 133px;
+                        width: 197px;
+                        align-items: baseline;
+                    }
+
+                    &[data-id="8"] .planet-ability {
+                        top: 940px;
+                        left: 523px;
+                        width: 220px;
+                    }
+                }
+            }
+
+            .pu-player-board-corporation {
+                width: 510px;
+                height: 1000px;
+
+                .corporation {
+                    width: 510px;
+                    height: 1000px;
+                    box-sizing: border-box;
+                    background-size: 100% 100%;
+                    position: relative;
+                    background-image: url("img/corporations.jpg");
+                    background-size: 500% 200%;
+
+                    .per-meteor-text {
+                        position: absolute;
+                        left: 372px;
+                        top: 123px;
+                        font-family: "HemiHead";
+                        color: #db9002;
+                        font-variant: small-caps;
+                        font-size: 13px;
+                    }
+
+                    @for $i from 0 to 10 {
+                        &[data-id="#{$i}"] {
+                            background-position-x: ($i % 5) * 100% / 4;
+                            background-position-y: (($i - ($i % 5)) / 5) * 100% / 1;
+                        }
+                    }
+
+                    .corporation-columns {
+                        width: 445px;
+                        height: 608px;
+                        position: absolute;
+                        top: 167px;
+                        left: 30px;
+                        column-gap: 25px;
+                        display: flex;
+
+                        &:hover {
+                            .icon-tracker-civ,
+                            .icon-tracker-water,
+                            .icon-tracker-biomass,
+                            .icon-tracker-rover,
+                            .icon-tracker-tech {
+                                transform: translateX(-75%);
+                            }
+
+                            .icon-lifepod {
+                                transform: translateX(-100%);
+                            }
+
+                            .icon-flux {
+                                transform: translateX(-75%);
+                            }
+                        }
+
+                        .corporation-column {
+                            width: 38px;
+                            height: 608px;
+                            position: relative;
+
+                            .icon-flux {
+                                position: absolute;
+                                top: -28px;
+                                left: 2px;
+                                transition: transform 0.5s;
+                            }
+
+                            .corpo-cell {
+                                width: 38px;
+                                height: 38px;
+                                text-align: center;
+                                &.max-rover {
+                                    position: absolute;
+                                    top: -38px;
+                                }
+
+                                &.selectable {
+                                    box-shadow: 0px 0px 8px 4px white;
+                                    // margin-left: -1px;
+                                    // margin-bottom: -2px;
+                                    cursor: pointer;
+                                    &:hover {
+                                        background: rgba(255, 255, 255, 0.473);
+                                    }
+                                }
+
+                                &.selected,
+                                &.selectable.selected {
+                                    box-shadow: 0px 0px 8px 4px green;
+                                    background: rgba(0, 128, 0, 0.548);
+                                }
+
+                                .icon-lifepod {
+                                    font-size: 11px;
+                                    transition: transform 0.5s;
+                                    margin-top: -8px;
+                                }
+                            }
+                        }
+
+                        .tech-descs {
+                            width: 132px;
+                            margin-left: -6px;
+                            position: relative;
+
+                            .tech-desc-container {
+                                width: 100%;
+                                height: 70px;
+                                margin-bottom: 29px;
+                                margin-top: 6px;
+                                box-sizing: border-box;
+                                position: relative;
+                                color: white;
+                                font-family: "HemiHead";
+                                font-size: 11px;
+                                display: flex;
+                                text-align: center;
+                                align-items: center;
+                                padding: 7px 5px 2px;
+                                box-sizing: border-box;
+
+                                &:nth-child(1) {
+                                    margin-bottom: 73px;
+                                }
+                                &:nth-child(2) {
+                                    margin-bottom: 42px;
+                                }
+                                &:nth-child(3) {
+                                    margin-bottom: 36px;
+                                }
+                                &:nth-child(4) {
+                                    margin-bottom: 23px;
+                                }
+
+                                .help-marker {
+                                    left: auto;
+                                    right: -12px;
+                                    top: -12px;
+                                    color: black;
+                                }
+
+                                &.selectable {
+                                    box-shadow: 0px 0px 8px 4px white;
+                                    // margin-left: -1px;
+                                    // margin-bottom: -2px;
+                                    cursor: pointer;
+                                    &:hover {
+                                        background: rgba(255, 255, 255, 0.473);
+                                    }
+                                }
+
+                                &.selected,
+                                &.selectable.selected {
+                                    box-shadow: 0px 0px 8px 4px green;
+                                    background: rgba(0, 128, 0, 0.548);
+                                }
+
+                                .icon-lifepod {
+                                    position: absolute;
+                                    font-size: 10px;
+                                    transition: transform 0.5s;
+                                    bottom: 0;
+                                }
+                            }
+                        }
+                    }
+
+                    &[data-id="4"] .corporation-columns .tech-descs .tech-desc-container {
+                        &:nth-child(1) {
+                            margin-bottom: 28px;
+                        }
+                        &:nth-child(2) {
+                            margin-bottom: 31px;
+                        }
+                        &:nth-child(3) {
+                            margin-bottom: 28px;
+                        }
+                        &:nth-child(4) {
+                            margin-bottom: 28px;
+                        }
+                        &:nth-child(5) {
+                            margin-bottom: 29px;
+                        }
+                    }
+
+                    .corporation-desc {
+                        position: absolute;
+                        top: 844px;
+                        left: 186px;
+                        width: 285px;
+                        height: 113px;
+                        font-family: "HemiHead";
+                        color: white;
+                        font-size: 13px;
+                        display: flex;
+                        text-align: center;
+                        align-items: center;
+                        padding: 5px 12px;
+                        box-sizing: border-box;
+
+                        .help-marker {
+                            left: auto;
+                            right: -12px;
+                            top: -12px;
+                            color: black;
+                        }
+                    }
+
+                    .rover-reserve {
+                        position: absolute;
+                        bottom: 10px;
+                        left: 10px;
+                    }
+
+                    .meteor-reserve {
+                        position: absolute;
+                        right: 35px;
+                        top: 35px;
+                        width: 240px;
+                        height: 113px;
+                        font-size: 8px;
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        .icon-meteor {
+                            margin: 5px;
+                        }
+                    }
+
+                    .lifepod-reserve {
+                        position: absolute;
+                        left: 25px;
+                        top: 23px;
+                        width: 205px;
+                        height: 138px;
+                        font-size: 12px;
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        .icon-lifepod {
+                            margin: 10px 17px;
+                        }
+
+                        &.selectable {
+                            box-shadow: 0px 0px 8px 4px white;
+                            cursor: pointer;
+                            &:hover {
+                                background: rgba(255, 255, 255, 0.473);
+                            }
+                        }
+
+                        &.selected,
+                        &.selectable.selected {
+                            box-shadow: 0px 0px 8px 4px green;
+                            background: rgba(0, 128, 0, 0.548);
+                        }
+                    }
+
+                    .biomass-patch-holder {
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                        --tileScale: 0.2;
+                        background: white;
+                        padding: 3px;
+                        border-radius: 2px;
+
+                        &:empty {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

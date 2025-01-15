@@ -1,0 +1,306 @@
+#popin_showSettings,
+#popin_showSusan,
+#popin_showScores,
+#popin_chooseCard,
+.welcometothemoon_popin_cards {
+    background-color: #ebd5bd;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px black;
+    position: relative;
+
+    .welcometothemoon_popin_closeicon,
+    .welcometothemoon_popin_cards_closeicon {
+        background-color: #a47a77;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        font-size: 90%;
+        color: white !important;
+        border: 1px solid #35302d;
+        z-index: 2;
+
+        &:hover {
+            text-decoration: none;
+            color: #ccc !important;
+            transform: scale(1.1);
+        }
+
+        i {
+            margin-top: -2px;
+        }
+    }
+
+    h2 {
+        font-family: MyriadPro-Semibold;
+        text-align: center;
+        font-size: 25px;
+        margin: 0px;
+        background: #b79570;
+        border-radius: 8px 8px 0px 0px;
+        padding: 11px 0px 3px;
+        border-bottom: 1px solid #734f2a;
+    }
+}
+
+#popin_showScores_underlay {
+    background: black !important;
+}
+
+#popin_showScores {
+    border-radius: 0px;
+    background: #77bfb8;
+
+    #popin_showScores_contents {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: "HemiHead";
+            font-size: 17px;
+
+            thead {
+                tr {
+                    border-bottom: 2px solid black;
+                    border-top: 2px solid black;
+                    th {
+                        padding: 2px 15px;
+                        min-width: 50px;
+                        height: 50px;
+                        vertical-align: middle;
+                        text-align: center;
+                        border-left: 2px solid black;
+                        border-right: 2px solid black;
+                    }
+
+                    &#scores-names {
+                        background-color: white;
+
+                        th:first-of-type {
+                            font-size: 20px;
+                        }
+
+                        th {
+                            font-weight: bold;
+                        }
+                    }
+
+                    &#scores-planets {
+                        background: #ccd1d1;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    height: 35px;
+                    border-bottom: 2px solid #828080;
+
+                    &:nth-child(odd) {
+                        background-color: #ccd1d1;
+                    }
+
+                    &#scores-row-pastures,
+                    &#scores-row-vegetables,
+                    &#scores-row-cattles,
+                    &#scores-row-stables,
+                    &#scores-row-stoneRooms,
+                    &#scores-row-farmers {
+                        border-bottom: 1px solid black;
+                    }
+
+                    td {
+                        vertical-align: top;
+                        text-align: center;
+                        word-wrap: anywhere;
+                        border-left: 2px solid black;
+                        border-right: 2px solid black;
+                        min-width: 100px;
+
+                        &.row-header {
+                            text-align: right;
+                            padding: 4px 12px 3px;
+                            vertical-align: top;
+                        }
+
+                        .scoring-entry,
+                        .scoring-subentry {
+                            display: flex;
+                            justify-content: flex-end;
+                            padding: 6px 8px;
+
+                            &.scoring-subentry {
+                                justify-content: space-between;
+                                padding: 0px 4px;
+
+                                > div {
+                                    padding: 2px 8px;
+                                    line-height: 28px;
+                                }
+
+                                > div:first-of-type {
+                                    border-right: 1px solid #7b7b7b91;
+                                    margin-top: 0px;
+                                    margin-bottom: 0px;
+                                    min-width: 48px;
+                                    height: 28px;
+                                    text-align: left;
+                                }
+                            }
+
+                            i {
+                                color: #2222229e;
+                                font-size: 1.2em;
+                                margin-left: 4px;
+                                vertical-align: middle;
+                            }
+                        }
+
+                        .scoring-subentries {
+                            border-top: 1px solid #8a8a8a59;
+
+                            .scoring-subentry {
+                                font-size: 13px;
+                                //                background-color:#dfdede;
+                                > div {
+                                    padding: 0px 4px;
+                                }
+                                > div:first-of-type {
+                                    border-right: none;
+                                    height: auto;
+                                }
+
+                                i {
+                                    margin-left: 1px;
+                                }
+                            }
+                        }
+                    }
+
+                    &#scores-row-total {
+                        height: 40px;
+                        border-top: 2px solid black;
+                        font-size: 1.2em;
+                        background: white;
+
+                        td:nth-of-type(1) {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#popin_showSusan {
+    width: 620px;
+
+    #susan-enlarge {
+        width: 630px;
+        height: 630px;
+        padding: 20px 5px;
+
+        #susan-container {
+            transform: scale(1.8);
+            transform-origin: top left;
+        }
+    }
+
+    #susan-modal-footer {
+        display: none;
+        &.active {
+            display: flex;
+        }
+
+        min-height: 50px;
+        background-color: #e6e6e6d1;
+        border-bottom: 1px solid #6a4b2f;
+        justify-content: space-between;
+        align-items: center;
+
+        #susan-rotate-cclockwise,
+        #susan-rotate-clockwise {
+            flex-basis: 33%;
+            height: 48px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            padding-top: 2px;
+
+            svg {
+                height: 45px;
+                width: 50px;
+            }
+        }
+
+        #btnConfirmSusanRotation {
+            display: block;
+            flex-basis: 33%;
+            margin: 0;
+            border-radius: 0;
+            height: 37px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+#btnSusanRotateCclockwise,
+#btnSusanRotateClockwise {
+    svg {
+        height: 26px;
+        width: 30px;
+        margin: -4px 0px -4px;
+    }
+}
+
+#popin_chooseCard {
+    width: 750px;
+    min-height: 300px;
+    --cardScale: 1;
+
+    #welcometothemoon-choose-card {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .welcometothemoon-card {
+            margin: 7px;
+        }
+    }
+
+    #welcometothemoon-choose-card-footer {
+        min-height: 30px;
+        background-color: #e6e6e6d1;
+        border-top: 1px solid #6a4b2f;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        text-align: right;
+        padding: 0px 10px;
+    }
+}
+
+.welcometothemoon_popin_cards {
+    width: 750px;
+    min-height: 300px;
+    --cardScale: 1;
+
+    .modal-cards-holder {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .welcometothemoon-card {
+            margin: 7px;
+        }
+    }
+}

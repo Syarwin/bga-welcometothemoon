@@ -1,0 +1,568 @@
+:root {
+    --cardScale: 0.6;
+}
+
+.welcometothemoon-card {
+    box-sizing: border-box;
+
+    &.selectable {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    &.selected {
+        outline: 4px solid rgb(28, 175, 28);
+        border-radius: 7px;
+        box-shadow: 2px 2px 6px -1px black;
+    }
+
+    .card-inner {
+        transform: scale(var(--cardScale));
+        transform-origin: top left;
+
+        border-radius: 7px;
+        box-sizing: border-box;
+    }
+}
+
+.welcometothemoon-card[data-type="civCard"] {
+    width: calc(var(--cardScale) * 316px);
+    height: calc(var(--cardScale) * 208px);
+}
+.welcometothemoon-card[data-type="civCard"] .card-inner {
+    width: 316px;
+    height: 208px;
+    background-image: url("img/civ.jpg");
+    background-size: 500% 800%;
+    position: relative;
+
+    @for $i from 0 to 40 {
+        &[data-id="#{$i + 1}"] {
+            background-position-x: ($i % 5) * 100% / 4;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 7;
+        }
+    }
+
+    &[data-id="-1"][data-level="1"] {
+        background-position: 25% 100%;
+    }
+    &[data-id="-1"][data-level="2"] {
+        background-position: 50% 100%;
+    }
+    &[data-id="-1"][data-level="3"] {
+        background-position: 75% 100%;
+    }
+    &[data-id="-1"][data-level="4"] {
+        background-position: 100% 100%;
+    }
+
+    .card-title {
+        position: absolute;
+        top: 122px;
+        left: 15px;
+        width: 124px;
+        height: 40px;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 11px;
+        color: #b9b9b9;
+        padding: 2px 5px;
+        box-sizing: border-box;
+    }
+
+    .card-desc {
+        position: absolute;
+        font-family: "HemiHead";
+        top: 30px;
+        left: 25px;
+        width: 160px;
+        font-size: 15px;
+        color: white;
+        height: 78px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .card-effect {
+        position: absolute;
+        font-family: "HemiHead";
+        top: 181px;
+        left: 62px;
+        width: 160px;
+        font-size: 11px;
+        color: white;
+        height: 78px;
+    }
+
+    &[data-id="29"],
+    &[data-id="30"],
+    &[data-id="31"],
+    &[data-id="32"],
+    &[data-id="33"],
+    &[data-id="34"],
+    &[data-id="35"],
+    &[data-id="36"] {
+        .card-desc {
+            width: 265px;
+            top: 2px;
+        }
+    }
+}
+
+.nocard-wrapper {
+    display: flex;
+    border-left: 1px solid black;
+    padding: 0px 5px;
+    font-family: "HemiHead";
+
+    .nocard-indicator {
+        padding: 0px 3px;
+        margin-top: -3px;
+    }
+
+    .nocard-indicator-value {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .icon-medal {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        color: white;
+        margin-top: 7px;
+        transform: translateY(11px);
+        font-size: 15px;
+        line-height: 19px;
+        text-indent: 5px;
+    }
+}
+#pending-cards {
+    flex-wrap: wrap;
+    .nocard-wrapper {
+        border-left: none;
+
+        .nocard-indicator {
+            display: none;
+        }
+    }
+}
+
+.prev-objectives .nocard-wrapper {
+    border-left: none;
+    border-right: 1px solid black;
+    flex-flow: row-reverse;
+}
+
+.welcometothemoon-card[data-type="NOCard"] {
+    width: calc(var(--cardScale) * 396px);
+    height: calc(var(--cardScale) * 260px);
+}
+.welcometothemoon-card[data-type="NOCard"] .card-inner {
+    width: 396px;
+    height: 260px;
+    background-image: url("img/neighbour-objectives.jpg");
+    background-size: 400% 700%;
+    border-radius: 7px;
+    box-shadow: 2px 2px 6px -1px black;
+    box-sizing: border-box;
+
+    @for $i from 0 to 28 {
+        &[data-id="#{$i + 37}"] {
+            background-position-x: ($i % 4) * 100% / 3;
+            background-position-y: (($i - ($i % 4)) / 4) * 100% / 6;
+        }
+    }
+}
+
+.welcometothemoon-card.icon-only[data-type="NOCard"] {
+    width: calc(var(--cardScale) * 275px);
+    height: calc(var(--cardScale) * 100px);
+    overflow: hidden;
+}
+.welcometothemoon-card.icon-only[data-type="NOCard"] .card-inner {
+    margin-top: -53px;
+    margin-left: -46px;
+
+    &[data-id="60"] {
+        margin-top: -28px;
+    }
+}
+
+#player_config #shared-obj {
+    --cardScale: 0.4;
+    padding: 0px;
+    border-bottom: none;
+
+    &:not(:empty) {
+        border-top: 1px solid #80502e;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+
+    .nocard-wrapper {
+        border-left: none;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .welcometothemoon-card[data-type="NOCard"] {
+        width: calc(var(--cardScale) * 275px);
+        height: calc(var(--cardScale) * 100px);
+        overflow: hidden;
+    }
+    .welcometothemoon-card[data-type="NOCard"] .card-inner {
+        margin-top: -53px;
+        margin-left: -46px;
+    }
+}
+
+.welcometothemoon-card[data-type="POCard"] {
+    width: calc(var(--cardScale) * 260px);
+    height: calc(var(--cardScale) * 396px);
+}
+.welcometothemoon-card[data-type="POCard"] .card-inner {
+    width: 260px;
+    height: 396px;
+    background-image: url("img/private-objectives.jpg");
+    background-size: 700% 400%;
+    border-radius: 7px;
+    box-shadow: 2px 2px 6px -1px black;
+    box-sizing: border-box;
+
+    @for $i from 0 to 28 {
+        &[data-id="#{$i + 37}"] {
+            background-position-x: ($i % 7) * 100% / 6;
+            background-position-y: (($i - ($i % 7)) / 7) * 100% / 3;
+        }
+    }
+}
+.pocard-wrapper.selectable {
+    cursor: pointer;
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &.selectedToDiscard .card-inner {
+        filter: grayscale(1);
+        -webkit-transform: translateZ(0) scale(var(--cardScale));
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
+
+        position: relative;
+        &::before {
+            content: "\f1f8";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #d1d1d1be;
+            z-index: 10;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 7px;
+        }
+    }
+}
+
+.pocard-indicator {
+    display: none;
+}
+
+.private-objectives {
+    --cardScale: 0.3;
+
+    .pocard-wrapper {
+        display: flex;
+        border: 2px solid #2d2c2c;
+        padding: 0px 5px;
+        font-family: "HemiHead";
+        border-radius: 9px;
+        height: 36px;
+        box-shadow: 2px 2px 3px #3c3b3b;
+        background: #e4dacc;
+
+        .pocard-indicator {
+            display: block;
+            padding: 0px 6px 0px 3px;
+            margin-top: -3px;
+        }
+
+        .pocard-indicator-value {
+            font-weight: bold;
+            font-size: 20px;
+            &::before {
+                position: absolute;
+                display: inline-block;
+                font: normal normal normal 14px/1 FontAwesome;
+                font-size: 16px;
+                text-rendering: auto;
+                text-stroke: 1px white;
+                -webkit-text-stroke: 1px white;
+                margin-top: 3px;
+                margin-left: -4px;
+
+                content: "\f00d";
+                color: red;
+            }
+            &.ok::before {
+                content: "\f00c";
+                color: #00d900;
+            }
+        }
+
+        .icon-medal {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            color: white;
+            margin-top: 7px;
+            transform: translateY(11px);
+            font-size: 15px;
+            line-height: 19px;
+            text-indent: 5px;
+        }
+    }
+
+    .welcometothemoon-card[data-type="POCard"] {
+        width: calc(var(--cardScale) * 210px);
+        height: 36px;
+        overflow: hidden;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+    .welcometothemoon-card[data-type="POCard"] .card-inner {
+        margin-top: -70px;
+        margin-left: -12px;
+    }
+}
+.next-objectives .private-objectives {
+    display: flex;
+    .pocard-wrapper {
+        display: flex;
+        border: none;
+        border-left: 1px solid black;
+        border-radius: 0;
+        height: 40px;
+        box-shadow: none;
+        background: #f9e5cf;
+
+        &.selectable {
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        &.selected,
+        &.selected:hover {
+            border: 1px solid green;
+            box-shadow: 0px 0px 3px green;
+            margin-top: -1px;
+            margin-right: -1px;
+            background: #d4f9cfcf;
+        }
+    }
+}
+
+#pending-cards {
+    --cardScale: 0.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .welcometothemoon-card {
+        margin: 1px 5px 7px;
+    }
+
+    .nocard-wrapper.selectable {
+        border: none;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.selected .card-inner {
+            box-shadow: 0px 0px 15px 3px #01ce01;
+        }
+    }
+}
+
+.welcometothemoon-card[data-type="EventCard"] {
+    width: calc(var(--cardScale) * 260px);
+    height: calc(var(--cardScale) * 396px);
+    border-radius: 14px;
+    box-shadow: 2px 2px 2px -1px black;
+}
+.welcometothemoon-card[data-type="EventCard"] .card-inner {
+    width: 260px;
+    height: 396px;
+    background-image: url("img/events.jpg");
+    background-size: 900% 700%;
+    border-radius: 15px;
+    box-sizing: border-box;
+
+    @for $i from 0 to 61 {
+        &[data-id="#{$i + 65}"] {
+            background-position-x: ($i % 9) * 100% / 8;
+            background-position-y: (($i - ($i % 9)) / 9) * 100% / 6;
+        }
+    }
+
+    &[data-id="back"] {
+        background-position-x: 6 * 100% / 8;
+        background-position-y: 100%;
+    }
+
+    .card-title {
+        position: absolute;
+        top: 327px;
+        left: 0px;
+        width: 200px;
+        height: 50px;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: white;
+        padding: 3px 7px;
+        box-sizing: border-box;
+        font-family: "HemiHead";
+    }
+
+    .card-desc {
+        position: absolute;
+        font-family: "HemiHead";
+        top: 60px;
+        left: 0px;
+        width: 262px;
+        font-size: 21px;
+        line-height: 25px;
+        color: black;
+        height: 125px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        padding: 5px 12px;
+        box-sizing: border-box;
+    }
+
+    &[data-id="116"] .card-desc {
+        font-size: 20px;
+        line-height: 20px;
+    }
+}
+
+//////////////////////////
+/// INFO PANEL
+
+#decks-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: "HemiHead";
+
+    .civ-deck-counter-wrapper {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: white;
+        background: #353534;
+        border: 1px solid white;
+        border-radius: 9px;
+        padding: 4px 6px;
+        box-shadow: 1px 1px 1px black;
+        position: relative;
+
+        span {
+            margin-right: 5px;
+        }
+
+        .icon-civ {
+            position: relative;
+            span {
+                position: absolute;
+                display: inline-block;
+                background: #d5d5d5;
+                top: -2px;
+                right: -6px;
+                color: #2b2b2b;
+                width: 10px;
+                border: 1px solid white;
+                font-size: 11px;
+                text-align: center;
+                border-radius: 3px;
+            }
+        }
+    }
+
+    #events-info {
+        --cardScale: 0.1;
+        display: flex;
+        border-left: 1px solid black;
+        margin: -5px 0px;
+        padding: 4px 0px 4px 7px;
+        cursor: zoom-in;
+
+        #event-deck {
+            margin-right: 4px;
+            position: relative;
+            .welcometothemoon-card {
+                position: absolute;
+            }
+
+            span {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                color: black;
+                text-stroke: 1px white;
+                -webkit-text-stroke: 1px white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                font-size: 20px;
+                text-shadow:
+                    0px 0px 10px white,
+                    0px 0px 10px white,
+                    0px 0px 10px white,
+                    0px 0px 10px white;
+            }
+        }
+    }
+}
+
+#card-overlay {
+    opacity: 0;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    z-index: 4000;
+    pointer-events: none;
+    transition: opacity 600ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --cardScale: 1;
+
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+}

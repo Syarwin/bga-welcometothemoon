@@ -1,0 +1,9 @@
+{
+  "singleQuote": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 130,
+  "editor.formatOnSave": true,
+  "plugins": ["@prettier/plugin-php"]
+}
