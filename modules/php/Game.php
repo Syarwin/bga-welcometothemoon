@@ -45,7 +45,6 @@ class Game extends \Table
             'mode' => 10, // DO NOT TOUCH, USED FOR SIMULATING DB MODIFICATION
         ]);
 
-        // Engine::boot();
         // Stats::checkExistence();
         // Notifications::resetCache();
     }
@@ -77,20 +76,13 @@ class Game extends \Table
      */
     protected function getAllDatas()
     {
-        $result = [];
+        $currentPId = (int) $this->getCurrentPlayerId();
 
-        // WARNING: We must only return information visible by the current player.
-        $current_player_id = (int) $this->getCurrentPlayerId();
+        return [
+            'players' => Players::getUiData($currentPId),
 
-        // Get information about players.
-        // NOTE: you can retrieve some extra field you added for "player" table in `dbmodel.sql` if you need it.
-        $result["players"] = $this->getCollectionFromDb(
-            "SELECT `player_id` `id`, `player_score` `score` FROM `player`"
-        );
-
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
-
-        return $result;
+            'scenario' => Globals::getScenario(),
+        ];
     }
 
 

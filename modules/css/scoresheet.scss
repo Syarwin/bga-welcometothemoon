@@ -1,0 +1,111 @@
+$scoreSheetSize: 1122px;
+$borderSize: 3px;
+
+.score-sheet-wrapper {
+    width: $scoreSheetSize + 2 * $borderSize;
+    height: $scoreSheetSize + 2 * $borderSize;
+    position: relative;
+    border-radius: 7px;
+
+    &[data-slideshow="0"] {
+        .slideshow-left,
+        .slideshow-right {
+            display: none;
+        }
+    }
+
+    .slideshow-left,
+    .slideshow-right {
+        position: absolute;
+        width: 70px;
+        z-index: 3;
+        top: $borderSize;
+        bottom: $borderSize;
+        cursor: pointer;
+
+        .arrow {
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            margin-top: -15px;
+            top: 50%;
+            display: block;
+            border-width: 5px 5px 0 0;
+            border-style: solid;
+            border-color: #fafafa;
+            opacity: 0.35;
+            outline: 0;
+            z-index: 4;
+
+            &:hover {
+                opacity: 1;
+                border-color: white;
+            }
+        }
+        &:hover .arrow {
+            opacity: 1;
+            border-color: white;
+        }
+    }
+
+    .slideshow-left {
+        left: $borderSize;
+        background: linear-gradient(90deg, rgb(40, 40, 40) 0%, rgba(255, 255, 255, 0) 100%);
+        border-top-left-radius: 7px;
+        border-bottom-left-radius: 7px;
+        .arrow {
+            left: 25px;
+            transform: rotate(-135deg);
+        }
+    }
+
+    .slideshow-right {
+        right: $borderSize;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgb(40, 40, 40) 100%);
+        border-top-right-radius: 7px;
+        border-bottom-right-radius: 7px;
+        .arrow {
+            right: 25px;
+            transform: rotate(45deg);
+        }
+    }
+
+    .score-sheet-holder {
+        width: $scoreSheetSize + 2 * $borderSize;
+        height: $scoreSheetSize + 2 * $borderSize;
+        position: relative;
+        // overflow: hidden;
+        transform-origin: top left;
+
+        .score-sheet {
+            width: $scoreSheetSize;
+            height: $scoreSheetSize;
+            background-size: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: $borderSize solid black;
+            border-radius: 7px;
+            box-shadow: 1px 1px 3px black;
+            &:not(.active) {
+                display: none;
+            }
+
+            /////////// CITY NAME ////////////
+            .player-name {
+                position: absolute;
+                width: 150px;
+                height: 50px;
+                word-break: break-all;
+                @include handwritten;
+                @include centered;
+                font-size: 28px;
+                background: rgba(255, 255, 255, 0.7);
+                border: 2px solid black;
+                border-radius: 7px;
+                box-shadow: 1px 1px 2px #202020;
+            }
+        }
+    }
+}
+@import "scenario-1";

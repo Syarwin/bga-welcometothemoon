@@ -1,8 +1,6 @@
 :root {
-    --planetUnknownBoardScale: 1;
-    --tileScale: 0.577;
-    --overlayOpacity: 0.25;
 }
 
-$tileWidths: 492px, 369px, 123px, 246px, 369px, 369px, 246px, 369px, 123px, 492px, 246px, 369px;
-$tileHeights: 246px, 369px, 369px, 246px, 246px, 246px, 369px, 246px, 246px, 123px, 246px, 369px;
+$cardWidth: 200px;
+$cardHeight: 520px * $cardWidth / 343px;
+$cardMargin: 5px;

@@ -14,69 +14,54 @@
  */
 
 html {
-  background-image: url("img/background.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center center;
+  // background-image: url("img/background.jpg");
+  // background-size: cover;
+  // background-attachment: fixed;
+  // background-position: center center;
+}
+
+@font-face {
+  font-family: "Caveat";
+  src:
+    url("img/fonts/Caveat-Regular.woff2") format("woff2"),
+    url("img/fonts/Caveat-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bebas";
+  src:
+    url("img/fonts/BebasNeue-Regular.woff2") format("woff2"),
+    url("img/fonts/BebasNeue-Regular.woff") format("woff"),
+    url("img/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@mixin handwritten {
+  font-size: x-large;
+  font-family: "Caveat";
+}
+
+@mixin centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 @import "modules/css/nouislider";
 @import "modules/css/variables";
 @import "modules/css/cards";
 @import "modules/css/icons";
-@import "modules/css/meeples";
-@import "modules/css/susan";
-@import "modules/css/player-board";
+@import "modules/css/central-board";
+@import "modules/css/scoresheet";
 @import "modules/css/player-panel";
-@import "modules/css/tiles";
 @import "modules/css/settings";
 @import "modules/css/modals";
-
-@import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
-@import url(https://fonts.googleapis.com/css?family=Caveat);
-
-@font-face {
-  font-family: "HemiHead";
-  src:
-    url("img/fonts/HemiHeadRg-BoldItalic.woff2") format("woff2"),
-    url("img/fonts/HemiHeadRg-BoldItalic.woff") format("woff"),
-    url("img/fonts/HemiHeadRg-BoldItalic.ttf") format("truetype");
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
-
-.dijitTooltipContainer .midSizeDialog h4 {
-  margin-top: 5px;
-}
-
-// Changing size of columns
-// #left-side {
-//   margin-right: 355px !important;
-// }
-// .mobile_version #left-side {
-//   margin-right: 2px !important;
-// }
-
-#right-side {
-  margin-top: 5px;
-  width: 350px;
-}
-
-.logs_on_additional_column {
-  #right-side {
-    grid-template-columns: 350px 240px;
-    width: 600px;
-  }
-
-  #right-side-first-part {
-    width: 350px;
-  }
-}
-
-.mobile_version #player_boards {
-  grid-template-columns: minmax(350px, 1fr) repeat(auto-fit, minmax(240px, 1fr));
-}
 
 ////////////////////////////
 
@@ -184,19 +169,6 @@ html {
   text-align: center;
 }
 
-#btnRotateClockwise,
-#btnFlip,
-#btnRotateCClockwise {
-  color: white;
-  font-size: 28px;
-}
-#btnRotateClockwise {
-  margin-right: 10px;
-}
-#btnRotateCClockwise {
-  margin: 0px 5px 0px 20px;
-}
-
 #customActions .bgabutton.disabled {
   opacity: 0.5;
   background: linear-gradient(rgba(189, 189, 189, 0.59), rgba(166, 165, 165, 0.45));
@@ -214,11 +186,6 @@ html {
   }
 }
 
-#flux-selection {
-  display: inline-block;
-  padding-left: 10px;
-}
-
 #maintitlebar_content {
   .action-button ~ .action-button {
     margin-left: 15px;
@@ -228,30 +195,6 @@ html {
 #btnConfirmChoice {
   margin-left: 30px;
   background: #d7ab29;
-}
-
-.event-alert {
-  display: inline-block;
-  text-transform: uppercase;
-  font-family: "HemiHead";
-  border: 1px solid black;
-  padding: 2px 7px;
-
-  &.alert-green {
-    border-color: green;
-    color: green;
-    background: #b2f2dd;
-  }
-  &.alert-orange {
-    border-color: #80570d;
-    color: #80570d;
-    background: orange;
-  }
-  &.alert-red {
-    border-color: #730909;
-    color: #730909;
-    background: #df9292;
-  }
 }
 
 #ebd-body.help-mode {

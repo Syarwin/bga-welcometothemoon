@@ -1,0 +1,16 @@
+.score-sheet[data-board="1"] {
+  background-image: url("img/scenario-1.jpg");
+
+  .player-name {
+    left: 125px;
+    top: 10px;
+  }
+
+  .house {
+    position: absolute;
+    width: 70px;
+    height: 86px;
+    box-sizing: border-box;
+    clip-path: polygon(0 0, 100% 0, 100% 70px, 45px 70px, 45px 86px, 11px 86px, 11px 70px, 0 70px);
+  }
+}

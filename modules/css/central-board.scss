@@ -1,0 +1,243 @@
+/********************
+* HORIZONTAL LAYOUT *
+********************/
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+#overall-content {
+  overflow: initial !important;
+  max-width: 100vw;
+
+  &[data-mode="1"] {
+    overflow: hidden !important;
+  }
+}
+
+#welcometo-container {
+  display: flex;
+  flex-flow: row;
+
+  #construction-cards-container {
+    position: relative;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    z-index: 10;
+
+    #construction-cards-container-sticky {
+      position: sticky;
+      top: 60px;
+
+      #construction-cards-container-resizable {
+        transform-origin: top left;
+        display: flex;
+        flex-flow: column;
+        flex-grow: 1;
+        justify-content: space-around;
+
+        .construction-cards-stack {
+          display: flex;
+          flex-flow: row;
+          border: 4px solid transparent;
+          border-radius: 4px;
+          width: $cardWidth;
+          height: $cardHeight;
+          position: relative;
+          margin-bottom: 10px;
+
+          &.unselectable {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
+          &.selectable {
+            cursor: pointer;
+            &:hover {
+              transform: scale(1.02);
+              border-color: red;
+            }
+          }
+
+          &.selected {
+            border-color: red;
+            &.unselectable {
+              opacity: 1;
+              cursor: default;
+            }
+          }
+
+          &.flipped .construction-card-holder {
+            transform: rotateY(180deg);
+          }
+        }
+
+        /* Standard mode : changing display for nice flip animation */
+        &.standard {
+          .construction-cards-stack {
+            width: 2 * $cardWidth + $cardMargin;
+          }
+          .construction-card-holder {
+            transform-origin: ($cardWidth + $cardMargin / 2) / $cardWidth * 100% 0%;
+          }
+        }
+
+        .construction-card-holder {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: $cardWidth;
+          height: $cardHeight;
+          transition:
+            transform 0.5s ease-in-out,
+            left 0.6s ease-in-out,
+            opacity 0.6s ease-in-out;
+          transform-origin: 50% 50%;
+          transform-style: preserve-3d;
+          &.flipped {
+            transform: rotateY(180deg);
+          }
+        }
+      }
+    }
+  }
+
+  #player-score-sheets-container-resizable {
+    transform-origin: top left;
+  }
+
+  #plan-cards-container {
+    margin-left: 10px;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+
+    #plan-cards-container-sticky {
+      position: sticky;
+      top: 60px;
+      #plan-cards-container-resizable {
+        transform-origin: top left;
+        display: flex;
+        flex-flow: column;
+        flex-grow: 1;
+        justify-content: space-around;
+
+        .plan-card-holder {
+          margin-bottom: 10px;
+          width: $cardWidth;
+          height: $cardHeight;
+          border: 4px solid transparent;
+          border-radius: 4px;
+
+          &.unselectable {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
+          &.selectable {
+            cursor: pointer;
+            animation: borderBlink 0.9s infinite;
+            border-width: 4px;
+            &:hover {
+              transform: scale(1.02);
+              border-color: red;
+              animation: none;
+            }
+          }
+
+          &.selected {
+            border-color: red;
+            &.unselectable {
+              opacity: 1;
+              cursor: default;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/******************
+* VERTICAL LAYOUT *
+******************/
+#welcometo-container[data-mode="1"] {
+  #construction-cards-container {
+    #construction-cards-container-sticky {
+      position: initial;
+
+      #construction-cards-container-resizable {
+        transform-origin: top left;
+        display: flex;
+        flex-flow: row;
+      }
+    }
+  }
+
+  #plan-cards-container {
+    #plan-cards-container-sticky {
+      position: initial;
+
+      #plan-cards-container-resizable {
+        transform-origin: top left;
+        display: flex;
+        flex-flow: row;
+      }
+    }
+  }
+
+  //// MERGED ////
+  &[data-merged="0"] {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    #construction-cards-container {
+      grid-row: 1;
+      grid-column: 1 / span 1;
+      margin: 0;
+
+      #construction-cards-container-sticky #construction-cards-container-resizable .construction-cards-stack {
+        margin-right: 10px;
+      }
+    }
+
+    #player-score-sheets-container {
+      grid-row: 2;
+      grid-column: 1 / span 2;
+      transform-origin: top left;
+    }
+
+    #plan-cards-container {
+      margin: 0;
+      position: relative;
+      grid-row: 1;
+      grid-column: 2 / span 1;
+      #plan-cards-container-sticky #plan-cards-container-resizable .plan-card-holder {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  //// STACKED ////
+  &[data-merged="1"],
+  &[data-merged="2"] {
+    display: flex;
+    flex-flow: column;
+
+    #plan-cards-container {
+      display: flex;
+      justify-content: space-around;
+      margin-left: 0px;
+    }
+  }
+
+  &[data-merged="1"] {
+    #plan-cards-container {
+      order: 2;
+    }
+
+    #player-score-sheets-container {
+      order: 3;
+    }
+  }
+}

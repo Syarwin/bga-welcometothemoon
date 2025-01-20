@@ -24,15 +24,15 @@ define([
   'ebg/core/gamegui',
   'ebg/counter',
   g_gamethemeurl + 'modules/js/Core/game.js',
-  /*
   g_gamethemeurl + 'modules/js/Core/modal.js',
   g_gamethemeurl + 'modules/js/Players.js',
+  /*
   g_gamethemeurl + 'modules/js/Meeples.js',
   g_gamethemeurl + 'modules/js/Cards.js',
   */
 ], function (dojo, declare) {
   //  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players, welcometothemoon.meeples, welcometothemoon.cards], {
-  return declare('bgagame.welcometothemoon', [customgame.game], {
+  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players], {
     constructor() {
       this._activeStates = [];
       this._notifications = [];
@@ -101,74 +101,63 @@ define([
       this.inherited(arguments);
       // Create a new div for "anytime" buttons
       dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
+
+      // Central area
+      $('game_play_area').insertAdjacentHTML(
+        'beforeend',
+        `
+      <div id="welcometo-container">
+        <div id="construction-cards-container">
+          <div id="construction-cards-container-sticky">
+            <div id="construction-cards-container-resizable">
+              <div id="construction-cards-stack-0" class="construction-cards-stack"></div>
+              <div id="construction-cards-stack-1" class="construction-cards-stack"></div>
+              <div id="construction-cards-stack-2" class="construction-cards-stack"></div>
+            </div>
+          </div>
+        </div>
+      
+        <div id="player-score-sheets-container">
+          <div id="player-score-sheets-container-resizable">
+            <div id="score-sheet-wrapper" class="score-sheet-wrapper">
+              <div class='slideshow-left'>
+                <div class="arrow"></div>
+              </div>
+              <div id="score-sheet-holder" class="score-sheet-holder"></div>
+              <div class='slideshow-right'>
+                <div class="arrow"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div id="plan-cards-container">
+          <div id="plan-cards-container-sticky">
+            <div id="plan-cards-container-resizable">
+            </div>
+          </div>
+        </div>
+      </div>
+      `
+      );
+
+      this.setupPlayers();
+      if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
     },
 
-    onLoadingComplete() {
-      this.updateLayout();
-      this.inherited(arguments);
+    setupScenario(scenario) {
+      this.empty('score-sheet-holder');
+      this.gamedatas.scenario = scenario;
+      this.setupScoreSheets();
     },
 
-    onScreenWidthChange() {
-      if (this.settings) this.updateLayout();
-    },
-
-    onAddingNewUndoableStepToLog(notif) {
-      if (!$(`log_${notif.logId}`)) return;
-      let stepId = notif.msg.args.stepId;
-      $(`log_${notif.logId}`).dataset.step = stepId;
-      if ($(`dockedlog_${notif.mobileLogId}`)) $(`dockedlog_${notif.mobileLogId}`).dataset.step = stepId;
-
-      if (this.gamedatas && this.gamedatas.gamestate) {
-        let state = this.gamedatas.gamestate;
-        if (state.private_state) state = state.private_state;
-
-        if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
-          this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
-
-          if ($(`dockedlog_${notif.mobileLogId}`))
-            this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
-        }
-      }
-    },
-
-    undoToStep(stepId) {
-      this.stopActionTimer();
-      this.checkAction('actRestart');
-      this.takeAction('actUndoToStep', { stepId }, false);
-    },
-
-    notif_clearTurn(n) {
-      debug('Notif: restarting turn', n);
-      this.cancelLogs(n.args.notifIds);
-    },
-
-    notif_refreshUI(n) {
-      debug('Notif: refreshing UI', n);
-      // this.clearPossible();
-      // ['cards', 'meeples', 'players', 'tiles'].forEach((value) => {
-      //   this.gamedatas[value] = n.args.datas[value];
-      // });
-      // this.setupMeeples();
-      // this.setupTiles();
-      // this.updatePlayersScores();
-      // this.rotateSusan();
-      // this.updateSusanCounters();
-      // this.updatePlayersCounters();
-      // this.updateHand();
-      // this.updateCivCounters();
-
-      // this.forEachPlayer((player) => {
-      //   this._scoreCounters[player.id].toValue(player.newScore);
-      //   this._playerCounters[player.id]['income'].toValue(player.income);
-      // });
-    },
-
-    onUpdateActionButtons(stateName, args) {
-      //        this.addPrimaryActionButton('test', 'test', () => this.testNotif());
-      this.inherited(arguments);
-    },
-
-    testNotif() {},
+    /////////////////////////////////////////////////////////////////
+    //  _____       _             ___
+    // | ____|_ __ | |_ ___ _ __ / / |    ___  __ ___   _____
+    // |  _| | '_ \| __/ _ \ '__/ /| |   / _ \/ _` \ \ / / _ \
+    // | |___| | | | ||  __/ | / / | |__|  __/ (_| |\ V /  __/
+    // |_____|_| |_|\__\___|_|/_/  |_____\___|\__,_| \_/ \___|
+    /////////////////////////////////////////////////////////////////
 
     clearPossible() {
       dojo.empty('pagesubtitle');
@@ -180,6 +169,13 @@ define([
 
       this.inherited(arguments);
     },
+
+    onUpdateActionButtons(stateName, args) {
+      //        this.addPrimaryActionButton('test', 'test', () => this.testNotif());
+      this.inherited(arguments);
+    },
+
+    testNotif() {},
 
     onEnteringState(stateName, args) {
       debug('Entering state: ' + stateName, args);
@@ -267,6 +263,65 @@ define([
       var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
       if (this[methodName] !== undefined) this[methodName](args.args);
         */
+    },
+
+    /////////////////////////////
+    //  _   _           _
+    // | | | |_ __   __| | ___
+    // | | | | '_ \ / _` |/ _ \
+    // | |_| | | | | (_| | (_) |
+    //  \___/|_| |_|\__,_|\___/
+    /////////////////////////////
+
+    onAddingNewUndoableStepToLog(notif) {
+      if (!$(`log_${notif.logId}`)) return;
+      let stepId = notif.msg.args.stepId;
+      $(`log_${notif.logId}`).dataset.step = stepId;
+      if ($(`dockedlog_${notif.mobileLogId}`)) $(`dockedlog_${notif.mobileLogId}`).dataset.step = stepId;
+
+      if (this.gamedatas && this.gamedatas.gamestate) {
+        let state = this.gamedatas.gamestate;
+        if (state.private_state) state = state.private_state;
+
+        if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
+          this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
+
+          if ($(`dockedlog_${notif.mobileLogId}`))
+            this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
+        }
+      }
+    },
+
+    undoToStep(stepId) {
+      this.stopActionTimer();
+      this.checkAction('actRestart');
+      this.takeAction('actUndoToStep', { stepId }, false);
+    },
+
+    notif_clearTurn(n) {
+      debug('Notif: restarting turn', n);
+      this.cancelLogs(n.args.notifIds);
+    },
+
+    notif_refreshUI(n) {
+      debug('Notif: refreshing UI', n);
+      // this.clearPossible();
+      // ['cards', 'meeples', 'players', 'tiles'].forEach((value) => {
+      //   this.gamedatas[value] = n.args.datas[value];
+      // });
+      // this.setupMeeples();
+      // this.setupTiles();
+      // this.updatePlayersScores();
+      // this.rotateSusan();
+      // this.updateSusanCounters();
+      // this.updatePlayersCounters();
+      // this.updateHand();
+      // this.updateCivCounters();
+
+      // this.forEachPlayer((player) => {
+      //   this._scoreCounters[player.id].toValue(player.newScore);
+      //   this._playerCounters[player.id]['income'].toValue(player.income);
+      // });
     },
 
     ////////////////////////////////////////
@@ -507,6 +562,15 @@ define([
 
     onChangeBoardSizesSetting(val) {
       this.updateLayout();
+    },
+
+    onLoadingComplete() {
+      this.updateLayout();
+      this.inherited(arguments);
+    },
+
+    onScreenWidthChange() {
+      if (this.settings) this.updateLayout();
     },
 
     updateLayout() {

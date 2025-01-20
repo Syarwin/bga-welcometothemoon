@@ -23,6 +23,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     setupPlayers() {
+      this.setupChangeScoreSheetArrows();
+
       // Change No so that it fits the current player order view
       let currentNo = this.getPlayers().reduce((carry, player) => (player.id == this.player_id ? player.no : carry), 1);
       let nPlayers = Object.keys(this.gamedatas.players).length;
@@ -31,75 +33,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       // Add player board and player panel
       this.orderedPlayers.forEach((player, i) => {
-        this.place('tplPlayerBoard', player, 'welcometothemoon-main-container');
-        this.setupChangeBoardArrows(player.id);
-        $(`overall_player_board_${player.id}`).addEventListener('click', () => this.goToPlayerBoard(player.id));
-
-        // Susan indicators
-        if (player.no == currentNo) {
-          this._baseRotation = -player.position;
-        }
-        this.place('tplSusanIndicator', player, `indicator-${(player.position + this._baseRotation + 6) % 6}`);
         // Panels
-        this.place('tplPlayerPanel', player, `overall_player_board_${player.id}`);
+        //        this.place('tplPlayerPanel', player, `overall_player_board_${player.id}`);
         $(`overall_player_board_${player.id}`).addEventListener('click', () => this.goToPlayerBoard(player.id));
-
-        if (player.id == this.player_id) {
-          $(`player-board-planet-${this.player_id}`).addEventListener('mouseover', (evt) => {
-            if (evt.target.classList.contains('planet-grid-cell') && this.onHoverCell) {
-              this.onHoverCell(evt.target);
-            }
-          });
-          $(`player-board-planet-${this.player_id}`).addEventListener('click', (evt) => {
-            if (!this.onClickCell) return;
-            // Go up in the DOM tree until a zoo-map-cell is found
-            let elt = evt.target;
-            while (!elt.classList.contains('planet-grid-cell') && elt.id != `player-board-planet-${this.player_id}`) {
-              elt = elt.parentNode;
-            }
-
-            if (elt.classList.contains('planet-grid-cell')) {
-              this.onClickCell(elt);
-            }
-          });
-        }
       });
 
-      this.rotateSusan();
-      this.setupPlayersCounters();
-    },
-
-    onChangeHandLocationSetting(v) {
-      let hand = $(`hand-${this.player_id}`);
-      let scoringHand = $(`scoring-hand-${this.player_id}`);
-      if (hand) {
-        let container = this.isFloatingHand() ? 'floating-hand' : `player-board-cards-${this.player_id}`;
-        $(container).insertAdjacentElement('beforeend', hand);
-        $(container).insertAdjacentElement('beforeend', scoringHand);
-        $('floating-hand-wrapper').classList.toggle('active', this.isFloatingHand());
-        hand.style.order = v == 1 ? 1 : 4;
-
-        if (v == 3) {
-          this.openHand();
-        }
-      }
-
-      this.ensureNoSortableHandOnTouchDevice();
-    },
-
-    updateHandCards() {
-      if (this.isSpectator) return;
-      this.empty(`hand-${this.player_id}`);
-      let hand = this.gamedatas.players[this.player_id].hand;
-      hand.forEach((card) => {
-        this.addZooCard(card);
-      });
-
-      this.empty(`scoring-hand-${this.player_id}`);
-      let scoringHand = this.gamedatas.players[this.player_id].scoringHand;
-      scoringHand.forEach((card) => {
-        this.addZooCard(card);
-      });
+      //      this.setupPlayersCounters();
     },
 
     onChangePlayerBoardsLayoutSetting(v) {
@@ -113,25 +52,25 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     goToPlayerBoard(pId, evt = null) {
       if (evt) evt.stopPropagation();
 
-      let v = this.settings.playerBoardsLayout;
+      let v = 0; // TODO this.settings.playerBoardsLayout;
       if (v == 0) {
         // Tabbed view
         this._focusedPlayer = pId;
-        [...$('welcometothemoon-main-container').querySelectorAll('.pu-player-board-wrapper')].forEach((board) =>
-          board.classList.toggle('active', board.id == `player-board-${pId}`)
+        [...$('score-sheet-holder').querySelectorAll('.score-sheet')].forEach((board) =>
+          board.classList.toggle('active', board.id == `score-sheet-${pId}`)
         );
       } else if (v == 1) {
         // Multiple view
         this._focusedPlayer = null;
-        window.scrollTo(0, $(`player-board-${pId}`).getBoundingClientRect()['top'] - 30);
+        window.scrollTo(0, $(`score-sheet-${pId}`).getBoundingClientRect()['top'] - 30);
       }
     },
 
-    setupChangeBoardArrows(pId) {
-      let leftArrow = $(`player-board-${pId}`).querySelector('.prev-player-board');
+    setupChangeScoreSheetArrows() {
+      let leftArrow = $(`score-sheet-wrapper`).querySelector('.slideshow-left');
       if (leftArrow) leftArrow.addEventListener('click', () => this.switchPlayerBoard(-1));
 
-      let rightArrow = $(`player-board-${pId}`).querySelector('.next-player-board');
+      let rightArrow = $(`score-sheet-wrapper`).querySelector('.slideshow-right');
       if (rightArrow) rightArrow.addEventListener('click', () => this.switchPlayerBoard(1));
     },
 
@@ -150,15 +89,27 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.goToPlayerBoard(pId);
     },
 
-    getPlanetCell(pId, x, y) {
-      return $(`planet-${pId}`).querySelector(`.planet-grid-cell[data-x="${x}"][data-y="${y}"]`);
-    },
+    /////////////////////////////////////////////////////////////
+    //  ____                     ____  _               _
+    // / ___|  ___ ___  _ __ ___/ ___|| |__   ___  ___| |_
+    // \___ \ / __/ _ \| '__/ _ \___ \| '_ \ / _ \/ _ \ __|
+    //  ___) | (_| (_) | | |  __/___) | | | |  __/  __/ |_
+    // |____/ \___\___/|_|  \___|____/|_| |_|\___|\___|\__|
+    /////////////////////////////////////////////////////////////
 
-    getSideCell(planetId, x, y) {
-      let planet = PLANETS_DATA[planetId];
-      let side = 0;
-      if (planet.sides && planet.sides[y] && planet.sides[y][x] && planet.sides[y][x] == 1) side = 1;
-      return side;
+    setupScoreSheets() {
+      this.forEachPlayer((player) => {
+        let pId = player.id;
+        $('score-sheet-holder').insertAdjacentHTML(
+          'beforeend',
+          `<div id="score-sheet-${pId}" class="score-sheet" data-board="${this.gamedatas.scenario}" style="border-color:#${player.color}">
+            <div class='player-name' style="color:#${player.color}; border-color:#${player.color}">${player.name}</class>
+            <div class="scoresheet-overlay"></div>
+          </div>`
+        );
+      });
+
+      this.goToPlayerBoard(this.orderedPlayers[0].id);
     },
 
     tplPlanet(planet, player = null) {
@@ -190,42 +141,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       </div>`;
       this.registerCustomTooltip(`<h4>${_(planet.name)}</h4><p>${_(planet.desc)}</p>`, `planet-${pId}-ability`);
 
-      return content;
-    },
-
-    tplCorporation(corpo, player = null) {
-      let pId = player == null ? 0 : player.id;
-
-      // Create cells
-      let grid = `<div class='corporation-columns'>`;
-      ['civ', 'water', 'biomass', 'rover', 'tech'].forEach((track) => {
-        grid += `<div class="corporation-column column-${track}">`;
-        for (let y = 15; y >= 0; y--) {
-          grid += `<div class='corpo-cell' id='corporation-${pId}-${track}-${y}'></div>`;
-        }
-        if (track == 'rover') {
-          grid += `<div class='corpo-cell max-rover' id='corporation-${pId}-${track}-16'></div>`;
-        }
-        grid += '</div>';
-      });
-      grid += '<div class="tech-descs">';
-      let maxY = Math.max(...Object.keys(corpo.techBonuses));
-      for (let y = maxY; y > 0; y--) {
-        grid += `<div class='tech-desc-container' id='corporation-${pId}-tech-nb-${y}'>${_(corpo.techBonuses[y].text)}</div>`;
-        this.registerCustomTooltip(_(corpo.techBonuses[y].text), `corporation-${pId}-tech-nb-${y}`);
-      }
-      grid += '</div></div>';
-
-      let content = `<div class='corporation' data-id='${corpo.id}' id='corporation-${pId}'>
-        ${grid}
-        <div class='rover-reserve' id='rover-reserve-${pId}'></div>
-        <div class='meteor-reserve' id='meteor-reserve-${pId}'></div>
-        <div class='lifepod-reserve' id='lifepod-reserve-${pId}'></div>
-        <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
-        <div class='corporation-desc' id='corporation-${pId}-desc'>${_(corpo.desc)}</div>
-        <div class='per-meteor-text'>${_('/ 3 Meteorites')}</div>
-      </div>`;
-      this.registerCustomTooltip(`<h4>${_(corpo.name)}</h4><p>${_(corpo.desc)}</p>`, `corporation-${pId}-desc`);
       return content;
     },
 
