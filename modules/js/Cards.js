@@ -1,361 +1,288 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
+  var isDebug = window.location.host == 'studio.boardgamearena.com' || window.location.hash.indexOf('debug') > -1;
+  var debug = isDebug ? console.info.bind(window.console) : function () {};
+
   function isVisible(elem) {
     return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
   }
 
   return declare('welcometothemoon.cards', null, {
-    setupCards() {
-      let neighbourObjectives = this.gamedatas.cards.NOCards;
-      Object.keys(neighbourObjectives).forEach((cardId) => {
-        let card = neighbourObjectives[cardId];
-        this.addCard(card);
+    ////////////////////////////////////////////////////////////////////
+    //   ____                _                   _   _
+    //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_(_) ___  _ __
+    // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __| |/ _ \| '_ \
+    // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_| | (_) | | | |
+    //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|_|\___/|_| |_|
+    ////////////////////////////////////////////////////////////////////
 
-        if (card.pId && card.pId2) {
-          // Switch pid1 and pid2 and create again
-          card.uid = card.id + 'd';
-          let tmp = card.pId2;
-          card.pId2 = card.pId;
-          card.pId = tmp;
-          this.addCard(card);
+    /*****************************************
+     ********* Constructions cards ***********
+     *****************************************
+     * create the layout for the cards
+     * handle the clicks event to ask user to select card
+     * animate cards at the beggining of a new turn
+     */
+
+    setupConstructionCards() {
+      let gamedatas = this.gamedatas;
+      this._isStandard = gamedatas.standard; // Standard = playing with three stack
+      debug('Seting up the construction cards', this._isStandard ? 'Standard mode' : 'Only one card by stack');
+
+      // Adjust stack size for flip animation
+      if (this._isStandard) dojo.addClass('construction-cards-container-resizable', 'standard');
+
+      gamedatas.constructionCards.forEach((stack, i) => {
+        stack.forEach((card, j) => {
+          $(`construction-cards-stack-${i}`).insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+          let oCard = $(`construction-card-${card.id}`);
+          oCard.style.zIndex = 100;
+
+          // Flip first card
+          if (j == 0 && this._isStandard) {
+            this.flipCard(oCard, 1);
+          }
+        });
+      });
+    },
+
+    tplConstructionCard(card) {
+      return `<div id="construction-card-${card.id}" class="construction-card-holder" data-action="${card.action}" data-number="${card.number}">
+  <div class="construction-card-back">
+    <div class="action"></div>
+  </div>
+  <div class="construction-card-front">
+    <div class="top-right-corner"></div>
+    <div class="bottom-left-corner"></div>
+    <div class="number"></div>
+  </div>
+</div>`;
+    },
+
+    // // Clear everything
+    // clearPossible() {
+    //   this._callback = null;
+    //   this._possibleChoices = null;
+    //   this._selectableStacks = null;
+    //   this._highlighted = null;
+    //   dojo.query('.construction-cards-stack').removeClass('unselectable selectable');
+    // },
+
+    // // Hightlight selected stack(s)
+    // highlight(stack, callback) {
+    //   this._callback = callback;
+    //   this._highlighted = stack;
+    //   dojo.query('.construction-cards-stack').addClass('unselectable');
+    //   if (this._isStandard) {
+    //     dojo.addClass('construction-cards-stack-' + stack, 'selected');
+    //   } else {
+    //     dojo.addClass('construction-cards-stack-' + stack[0], 'selected');
+    //     dojo.addClass('construction-cards-stack-' + stack[1], 'selected flipped');
+    //   }
+    // },
+
+    // Flip card and add tooltip
+    flipCard(card, turn) {
+      card.classList.add('flipped');
+      setTimeout(() => {
+        card.style.zIndex = turn;
+
+        let action = card.dataset.action;
+        let tooltipContent = [
+          '',
+          _('Build a fence between two houses on the same streets to create housing estates'),
+          _('Promotes and increase the value of completed housing estates'),
+          _('Build a park in the same street that the house number is written'),
+          _('If the number is written in a house with a planned pool, you may build that pool'),
+          _(
+            'Allow you to add or substract 1 or 2 to the house number, and cross one box from the Temp Agency column (majority scoring)'
+          ),
+          _(
+            "Allow you to write a second house number by duplicating an already existing number next to it. Cross one space in the 'bis' column (negative scoring)"
+          ),
+        ];
+        this.addCustomTooltip(card, tooltipContent[action]);
+      }, 1000);
+    },
+
+    ////////////////////////////////////
+    ////////  Selecting a stack ////////
+    ////////////////////////////////////
+    promptPlayer(possibleChoices, callback) {
+      this._callback = callback;
+      this._possibleChoices = possibleChoices;
+      this.initSelectableStacks();
+    },
+
+    initSelectableStacks() {
+      this._selectedStackForNonStandard = null;
+      let stacks = this._possibleChoices.map((choice) => (this._isStandard ? choice : choice[0]));
+      this.makeStacksSelectable(stacks);
+    },
+
+    makeStacksSelectable(stacks, flipped) {
+      dojo.query('.construction-cards-stack').removeClass('selected flipped'); // TODO : add in the clearPossible function instead ?
+      dojo.query('.construction-cards-stack').addClass('unselectable');
+      this._selectableStacks = stacks;
+      stacks.forEach((stackId) =>
+        dojo
+          .query('#construction-cards-stack-' + stackId)
+          .removeClass('unselectable')
+          .addClass('selectable' + (flipped ? ' flipped' : ''))
+      );
+    },
+
+    onClickStack(stackId) {
+      debug('Clicked on a stack', stackId);
+      // Check if selectable
+      if (
+        (!this._selectableStacks || !this._selectableStacks.includes(stackId)) &&
+        this._selectedStackForNonStandard != stackId
+      ) {
+        // Clicked on a selected card => callback to restart turn
+        if (
+          this._highlighted != null &&
+          this._callback != null &&
+          ((this._isStandard && this._highlighted == stackId) || (!this._isStandard && this._highlighted.includes(stackId)))
+        )
+          this._callback();
+        return;
+      }
+
+      // Standard mode => return stack id
+      if (this._isStandard) this._callback(stackId);
+      else this.onClickStackNonStandard(stackId);
+    },
+
+    //////////////////////////////////////
+    /////////////  New turn  /////////////
+    //////////////////////////////////////
+    newTurn(cards, turn) {
+      // Clear everything
+      dojo.query('.construction-cards-stack').removeClass('selected selectable unselectable');
+
+      // Marks ?
+      let markedStack = Math.floor(Math.random() * 3);
+      debug(markedStack, marks[turn]);
+      cards.forEach((card) => {
+        // Add small mark
+        card.mark = card.stackId == markedStack ? marks[turn] : 0;
+
+        let cardsInStack = dojo.query('#construction-cards-stack-' + card.stackId + ' .construction-card-holder:last-of-type');
+        // NULL only happens in EXPERT MODE
+        let oldCard = cardsInStack.length == 0 ? null : cardsInStack[0];
+
+        //// STANDARD MODE : FLIP CARD ////
+        if (this._isStandard) {
+          // Flip card animation
+          if (oldCard) this.flipCard(oldCard, turn);
+
+          // New card
+          if ($('construction-card-' + card.id)) dojo.destroy('construction-card-' + card.id);
+          var newCard = dojo.place(this.format_block('jstpl_constructionCard', card), 'construction-cards-stack-' + card.stackId);
+          dojo.style('construction-card-' + card.id, 'z-index', 100 - turn);
+
+          // First card in this stack ? => slide from left
+          if (!oldCard) this.slideFromLeft(newCard);
+        }
+        //// NON STANDARD MODE : SLIDE LEFT ////
+        else {
+          // Compute x position to make it slide out the left border of window
+          let stack = $('construction-cards-stack-' + card.stackId);
+          this.slideToLeftAndDestroy(oldCard);
+
+          setTimeout(() => {
+            // Remove flipped class if needed
+            dojo.addClass(stack, 'notransition');
+            dojo.removeClass(stack, 'flipped');
+            stack.offsetHeight;
+            dojo.removeClass(stack, 'notransition');
+
+            // Create a new card and put it to the left (hidden)
+            var newCard = dojo.place(this.format_block('jstpl_constructionCard', card), stack);
+            dojo.style(newCard, 'z-index', 100 - turn);
+            this.slideFromLeft(newCard);
+          }, 800);
         }
       });
-
-      let eventCard = this.gamedatas.cards.event;
-      if (eventCard) {
-        this.addCard(eventCard);
-      }
-
-      this._fakeCardCounter = -2;
-      this._handModals = {};
-      this.orderedPlayers.forEach((player, i) => {
-        this._handModals[player.id] = new customgame.modal('showCards' + player.id, {
-          class: 'welcometothemoon_popin_cards',
-          closeIcon: 'fa-times',
-          title: _('Cards of ') + `<span style='color:#${player.color}'>${player.name}</span>`,
-          closeAction: 'hide',
-          verticalAlign: 'flex-start',
-          contentsTpl: `<div class='modal-cards-holder' id='cards-${player.id}'></div>`,
-        });
-        this.onClick(`civ-cards-indicator-${player.id}`, () => this._handModals[player.id].show(), false);
-
-        Object.values(player.playedCiv).forEach((card) => {
-          this.addCard(card, `cards-${player.id}`);
-        });
-
-        Object.values(player.handCiv).forEach((card) => {
-          this.addCard(card, `cards-${player.id}`);
-        });
-
-        Object.values(player.playedObj).forEach((card) => {
-          this.addCard(card, `private-objectives-${player.id}`);
-        });
-
-        Object.values(player.handObj).forEach((card) => {
-          this.addCard(card, `private-objectives-${player.id}`);
-        });
-      });
-
-      this._civDeckCounters = {};
-      for (let i = 1; i <= 4; i++) {
-        let v = this.gamedatas.cards[`deck_civ_${i}`];
-        this._civDeckCounters[i] = this.createCounter(`civ-deck-counter-${i}`, v);
-      }
-
-      this._eventDeckCounter = null;
-      if ($('counter-deck-event')) {
-        this._eventDeckCounter = this.createCounter('counter-deck-event', this.gamedatas.cards.deck_event);
-      }
     },
 
-    updateCivCounters() {
-      for (let i = 1; i <= 4; i++) {
-        let v = this.gamedatas.cards[`deck_civ_${i}`];
-        this._civDeckCounters[i].toValue(v);
-      }
-      if (this._eventDeckCounter) {
-        this._eventDeckCounter.toValue(this.gamedatas.cards.deck_event);
-      }
+    slideFromLeft(elem) {
+      let stack = elem.parentNode;
+      let x = elem.offsetWidth + stack.offsetWidth + stack.offsetLeft + 30;
+      dojo.addClass(elem, 'notransition');
+      dojo.style(elem, 'opacity', '0');
+      dojo.style(elem, 'left', -x + 'px');
+      elem.offsetHeight;
+      dojo.removeClass(elem, 'notransition');
+
+      dojo.style(elem, 'opacity', '1');
+      dojo.style(elem, 'left', '0px');
     },
 
-    notif_newCards(n) {
-      debug('Notif: newCards (event)');
+    slideToLeftAndDestroy(elem) {
+      if (elem == null) return;
 
-      // Gaining new objective
-      if (n.args.card) {
-        let card = n.args.card;
-        this.addCard(card, this.getVisibleTitleContainer());
-        this.slide(`card-${card.id}`, `private-objectives-${this.player_id}`);
+      let stack = elem.parentNode;
+      let x = elem.offsetWidth + stack.offsetWidth + stack.offsetLeft + 30;
+
+      dojo.style(elem, 'left', -x + 'px');
+      setTimeout(() => {
+        dojo.destroy(elem);
+      }, 800);
+    },
+
+    discard() {
+      dojo.query('.construction-card-holder').forEach((elem) => this.slideToLeftAndDestroy(elem));
+    },
+
+    giveCard(stack, pId) {
+      let oldCard = dojo.query('#construction-cards-stack-' + stack + ' .construction-card-holder:last-of-type')[0];
+      dojo.addClass(oldCard, 'notransition');
+      this.slideToObjectAndDestroy(oldCard, 'overall_player_board_' + pId, 1000);
+    },
+
+    ////////////////////////////////////////////////////////
+    ////////  Non-standard mode : select two stacks ////////
+    ////////////////////////////////////////////////////////
+
+    /*
+     * Expert/solo mode => need two stacks
+     */
+    onClickStackNonStandard(stackId) {
+      // Click again on same card => unselect
+      if (this._selectedStackForNonStandard == stackId) {
+        this.unselectFirstStack();
+        return;
       }
-      // Adding/removing CIV cards
+
+      // First stack => ask for a second one
+      if (this._selectedStackForNonStandard == null) {
+        this._selectedStackForNonStandard = stackId;
+        // Compute new possible choices for stacks
+        this.makeStacksSelectable(this.getSelectableSecondStacks(stackId), true);
+        this.addActionButton('buttonUnselect', _('Unselect'), () => this.unselectFirstStack(), null, false, 'gray');
+        dojo.addClass('construction-cards-stack-' + stackId, 'selected');
+      }
+
+      // Second stack => return both stacks
       else {
-        for (let i = 1; i <= 4; i++) {
-          let deck = `deck_civ_${i}`;
-          this.gamedatas.cards[deck] = n.args[deck];
-        }
-        this.updateCivCounters();
+        this._callback([this._selectedStackForNonStandard, stackId]);
       }
     },
 
-    updateHand() {
-      let pId = this.player_id;
-      let player = this.gamedatas.players[pId];
-      this.empty(`cards-${pId}`);
-      Object.values(player.playedCiv).forEach((card) => {
-        this.addCard(card, `cards-${player.id}`);
-      });
-
-      Object.values(player.handCiv).forEach((card) => {
-        this.addCard(card, `cards-${player.id}`);
-      });
+    // Get the available choices for second stack depending on the first stack selected
+    getSelectableSecondStacks(stackId) {
+      return this._possibleChoices.reduce((stacks, choice) => {
+        if (choice[0] == stackId) stacks.push(choice[1]);
+        return stacks;
+      }, []);
     },
 
-    addCard(card, location = null) {
-      card.uid = card.uid || card.id;
-      if (card.uid == -1) card.uid = this._fakeCardCounter--;
-
-      if ($('card-' + card.uid)) return;
-
-      let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
-      let tooltipDesc = this.getCardTooltip(card);
-      if (tooltipDesc != null) {
-        this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
-      }
-
-      return o;
-    },
-
-    getCardTooltip(card) {
-      if (card.id < 0) {
-        if (card.type == 'civCard') {
-          return [this.fsr(_('Civ Card of level ${lvl}'), { lvl: card.level })];
-        }
-        return [_('TODO')];
-      }
-
-      return [`<h4>${_(card.title)}</h4>${_(card.desc)}`];
-    },
-
-    tplCard(card) {
-      let uid = card.uid || card.id;
-
-      // CIV CARD
-      if (card.type == 'civCard') {
-        let effect = '';
-        if (card.id >= 0) {
-          effect = card.effectType == 'immediate' ? _('Immediate') : _('End Game');
-        }
-        return `<div id="card-${uid}" data-type="${card.type}" class="welcometothemoon-card ${card.id < 0 ? 'fake' : ''}">
-          <div class='card-inner' data-id="${card.id}" data-level="${card.level}">
-            <div class='card-title'>${_(card.title || '')}</div>
-            <div class='card-desc'>${_(card.desc || '')}</div>
-            <div class='card-effect'>${effect}</div>
-          </div>
-        </div>`;
-      }
-      // EVENT CARD
-      else if (card.type == 'EventCard') {
-        return `<div id="card-${uid}" data-type="${card.type}" class="welcometothemoon-card">
-          <div class='card-inner' data-id="${card.id}">
-            <div class='card-title'>${_(card.title)}</div>
-            <div class='card-desc'>${_(card.desc)}</div>
-          </div>
-        </div>`;
-      }
-      // Neighbour objectives
-      else if (card.type == 'NOCard') {
-        let pId1 = card.pId,
-          pId2 = card.pId2;
-        if (pId1 && pId2) {
-          return `<div id="card-${uid}" class="nocard-wrapper">
-            <div class='nocard-indicator'>
-              <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
-                pId1
-              )}"></span>
-              <span class='welcometothemoon-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
-            </div>
-            <div data-type="${card.type}" class="welcometothemoon-card icon-only">
-              <div class='card-inner' data-id="${card.id}"></div>
-            </div>
-            <div class='nocard-indicator'>
-              <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(
-                pId2
-              )}"></span>
-              <span class='welcometothemoon-icon icon-medal' id='card-${uid}-${pId2}-medal'></span>
-            </div>
-          </div>`;
-        } else {
-          return (
-            `<div id="card-${uid}" class="nocard-wrapper">
-                <div data-type="${card.type}" class="welcometothemoon-card">
-                  <div class='card-inner' data-id="${card.id}"></div>
-                </div>
-                ` +
-            this.orderedPlayers
-              .map(
-                (player) => `
-                <div class='nocard-indicator'>
-                <span class='nocard-indicator-value' id='card-${uid}-${player.id}-value' style="color:#${this.getPlayerColor(
-                  player.id
-                )}"></span>
-                <span class='welcometothemoon-icon icon-medal' id='card-${uid}-${player.id}-medal'></span>
-              </div>`
-              )
-              .join('') +
-            `
-            </div>`
-          );
-        }
-      }
-      // Private objectives
-      else if (card.type == 'POCard') {
-        let pId1 = card.pId;
-        return `<div id="card-${uid}" class="pocard-wrapper">
-          <div class='pocard-indicator'>
-            <span class='pocard-indicator-value' id='card-${uid}-${pId1}-value'></span>
-            <span class='welcometothemoon-icon icon-medal' id='card-${uid}-${pId1}-medal'>0</span>
-          </div>
-          <div data-type="${card.type}" class="welcometothemoon-card">
-            <div class='card-inner' data-id="${card.id}"></div>
-          </div>
-        </div>`;
-      }
-    },
-
-    getCardContainer(card) {
-      let t = card.location.split('_');
-      if (card.location == 'trash') {
-        return this.getVisibleTitleContainer();
-      }
-      if (card.type == 'NOCard' && card.location == 'NOCards') {
-        let pId1 = card.pId,
-          pId2 = card.pId2;
-
-        if (!pId1 && !pId2) {
-          return $('shared-obj');
-        }
-
-        // pId2 is sitting at the right of pId1
-        if (this.getDeltaPlayer(pId1, 1) == pId2) {
-          return $(`next-objectives-${pId1}`);
-        } else {
-          return $(`prev-objectives-${pId1}`);
-        }
-      }
-      if (card.type == 'EventCard') {
-        return $('event-card-holder');
-      }
-      if (card.location == 'tochoose_obj') {
-        return $('pending-cards');
-      }
-
-      console.error('Trying to get container of a card', card);
-      return 'game_play_area';
-    },
-
-    notif_takeCivCard(n) {
-      debug('Notif: take civ card', n);
-      if ($('welcometothemoon-choose-card-footer')) $('welcometothemoon-choose-card-footer').remove();
-
-      let pId = n.args.player_id;
-      let card = n.args.card;
-
-      let oCard = null;
-      // Private notif
-      if (card.id < 0) {
-        this.addCard(card, 'welcometothemoon-main-container');
-        oCard = $(`card-${card.uid}`);
-      }
-      // Public notif
-      else {
-        if (!$(`card-${card.id}`)) this.addCard(card, 'welcometothemoon-main-container');
-        oCard = $(`card-${card.id}`);
-      }
-
-      this._civDeckCounters[card.level].incValue(-1);
-      this.slide(oCard, `civ-cards-indicator-${pId}`).then(() => {
-        dojo.place(oCard, `cards-${pId}`);
-        let counter = card.location == 'playedCivCards' ? 'immediateCiv' : 'endgameCiv';
-        this.gamedatas.players[pId][counter]++;
-        this._playerCounters[pId][counter].incValue(1);
-      });
-    },
-
-    notif_destroyCard(n) {
-      debug('Notif: destroying a private objective card', n);
-      this.slide(`card-${n.args.cardId}`, this.getVisibleTitleContainer(), {
-        destroy: true,
-      });
-    },
-
-    notif_revealCards(n) {
-      debug('Notif: revealing cards', n);
-      this.gamedatas.players = n.args.playersData;
-      this.forEachPlayer((player) => {
-        this.empty(`cards-${player.id}`);
-        Object.values(player.playedCiv).forEach((card) => {
-          this.addCard(card, `cards-${player.id}`);
-        });
-
-        Object.values(player.playedObj).forEach((card) => {
-          this.addCard(card, `private-objectives-${player.id}`);
-        });
-      });
-
-      this.updatePlayersCounters();
-    },
-
-    notif_newEventCard(n) {
-      debug('Notif: revealing new event card', n);
-      let card = n.args.card;
-      this.empty('event-card-holder');
-      this.addCard(card);
-      this._eventDeckCounter.incValue(-1);
-      this.gamedatas.cards.deck_event--;
-      this.zoomOnEventCard(true);
-    },
-
-    notif_peekNextEvent(n) {
-      debug('Notif: peeking next event card', n);
-      if (this.isFastMode()) return;
-
-      let card = n.args.card;
-      this.addCard(card);
-      let oCard = $(`card-${card.id}`);
-      this.zoomOnEventCard(true, oCard);
-      this.wait(200).then(oCard.remove());
-    },
-
-    zoomOnEventCard(autoClose = false, oCard = null) {
-      oCard = oCard || $('event-card-holder').querySelector('.welcometothemoon-card');
-      if (!oCard) return;
-
-      dojo.place("<div id='card-overlay'></div>", 'ebd-body');
-      let duplicate = oCard.cloneNode(true);
-      duplicate.id = duplicate.id + 'duplicate';
-      $('card-overlay').appendChild(duplicate);
-      $('card-overlay').offsetHeight;
-      $('card-overlay').classList.add('active');
-
-      let close = () => {
-        $('card-overlay').classList.remove('active');
-        this.wait(700).then(() => $('card-overlay').remove());
-      };
-
-      if (autoClose) this.wait(2500).then(close);
-      else $('card-overlay').addEventListener('click', close);
-    },
-
-    notif_newObjectiveCard(n) {
-      debug('Notif: adding new common objective card', n);
-
-      let card = n.args.card;
-      if (!$(`card-${card.id}`)) {
-        this.addCard(card, this.getVisibleTitleContainer());
-      }
-
-      this.slide(`card-${card.id}`, 'shared-obj').then(() => {
-        $('pending-cards').innerHTML = '';
-      });
+    // Unselect first stack
+    unselectFirstStack() {
+      dojo.destroy('buttonUnselect');
+      dojo.removeClass('construction-cards-stack-' + this._selectedStackForNonStandard, 'selected');
+      this.initSelectableStacks();
     },
   });
 });

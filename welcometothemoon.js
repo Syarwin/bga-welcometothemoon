@@ -26,13 +26,13 @@ define([
   g_gamethemeurl + 'modules/js/Core/game.js',
   g_gamethemeurl + 'modules/js/Core/modal.js',
   g_gamethemeurl + 'modules/js/Players.js',
+  g_gamethemeurl + 'modules/js/Cards.js',
   /*
   g_gamethemeurl + 'modules/js/Meeples.js',
-  g_gamethemeurl + 'modules/js/Cards.js',
   */
 ], function (dojo, declare) {
   //  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players, welcometothemoon.meeples, welcometothemoon.cards], {
-  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players], {
+  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players, welcometothemoon.cards], {
     constructor() {
       this._activeStates = [];
       this._notifications = [];
@@ -142,6 +142,7 @@ define([
       );
 
       this.setupPlayers();
+      this.setupConstructionCards();
       if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
     },
 

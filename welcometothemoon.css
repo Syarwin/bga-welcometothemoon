@@ -289,893 +289,146 @@
   top: auto;
   right: 28px; }
 
-:root {
-  --cardScale: 0.6; }
-
-.welcometothemoon-card {
-  box-sizing: border-box; }
-  .welcometothemoon-card.selectable {
-    cursor: pointer; }
-    .welcometothemoon-card.selectable:hover {
-      transform: scale(1.05); }
-  .welcometothemoon-card.selected {
-    outline: 4px solid #1caf1c;
-    border-radius: 7px;
-    box-shadow: 2px 2px 6px -1px black; }
-  .welcometothemoon-card .card-inner {
-    transform: scale(var(--cardScale));
-    transform-origin: top left;
-    border-radius: 7px;
-    box-sizing: border-box; }
-
-.welcometothemoon-card[data-type="civCard"] {
-  width: calc(var(--cardScale) * 316px);
-  height: calc(var(--cardScale) * 208px); }
-
-.welcometothemoon-card[data-type="civCard"] .card-inner {
-  width: 316px;
-  height: 208px;
-  background-image: url("img/civ.jpg");
-  background-size: 500% 800%;
-  position: relative; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="1"] {
-    background-position-x: 0%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="2"] {
-    background-position-x: 25%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="3"] {
-    background-position-x: 50%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="4"] {
-    background-position-x: 75%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="5"] {
-    background-position-x: 100%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="6"] {
-    background-position-x: 0%;
-    background-position-y: 14.2857142857%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="7"] {
-    background-position-x: 25%;
-    background-position-y: 14.2857142857%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="8"] {
-    background-position-x: 50%;
-    background-position-y: 14.2857142857%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="9"] {
-    background-position-x: 75%;
-    background-position-y: 14.2857142857%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="10"] {
-    background-position-x: 100%;
-    background-position-y: 14.2857142857%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="11"] {
-    background-position-x: 0%;
-    background-position-y: 28.5714285714%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="12"] {
-    background-position-x: 25%;
-    background-position-y: 28.5714285714%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="13"] {
-    background-position-x: 50%;
-    background-position-y: 28.5714285714%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="14"] {
-    background-position-x: 75%;
-    background-position-y: 28.5714285714%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="15"] {
-    background-position-x: 100%;
-    background-position-y: 28.5714285714%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="16"] {
-    background-position-x: 0%;
-    background-position-y: 42.8571428571%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="17"] {
-    background-position-x: 25%;
-    background-position-y: 42.8571428571%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="18"] {
-    background-position-x: 50%;
-    background-position-y: 42.8571428571%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="19"] {
-    background-position-x: 75%;
-    background-position-y: 42.8571428571%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="20"] {
-    background-position-x: 100%;
-    background-position-y: 42.8571428571%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="21"] {
-    background-position-x: 0%;
-    background-position-y: 57.1428571429%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="22"] {
-    background-position-x: 25%;
-    background-position-y: 57.1428571429%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="23"] {
-    background-position-x: 50%;
-    background-position-y: 57.1428571429%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="24"] {
-    background-position-x: 75%;
-    background-position-y: 57.1428571429%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="25"] {
-    background-position-x: 100%;
-    background-position-y: 57.1428571429%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="26"] {
-    background-position-x: 0%;
-    background-position-y: 71.4285714286%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="27"] {
-    background-position-x: 25%;
-    background-position-y: 71.4285714286%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="28"] {
-    background-position-x: 50%;
-    background-position-y: 71.4285714286%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="29"] {
-    background-position-x: 75%;
-    background-position-y: 71.4285714286%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="30"] {
-    background-position-x: 100%;
-    background-position-y: 71.4285714286%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="31"] {
-    background-position-x: 0%;
-    background-position-y: 85.7142857143%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="32"] {
-    background-position-x: 25%;
-    background-position-y: 85.7142857143%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="33"] {
-    background-position-x: 50%;
-    background-position-y: 85.7142857143%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="34"] {
-    background-position-x: 75%;
-    background-position-y: 85.7142857143%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="35"] {
-    background-position-x: 100%;
-    background-position-y: 85.7142857143%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="36"] {
-    background-position-x: 0%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="37"] {
-    background-position-x: 25%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="38"] {
-    background-position-x: 50%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="39"] {
-    background-position-x: 75%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="40"] {
-    background-position-x: 100%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="1"] {
-    background-position: 25% 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="2"] {
-    background-position: 50% 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="3"] {
-    background-position: 75% 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="4"] {
-    background-position: 100% 100%; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner .card-title {
+/*****************************
+******************************
+******** CONSTRUCTIONS *******
+******************************
+*****************************/
+.construction-card-holder {
+  width: 200px;
+  height: 303.2069970845px;
+  transition: transform 0.5s ease-in-out, left 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  border-radius: 7px; }
+  .construction-card-holder.flipped {
+    transform: rotateY(180deg); }
+    .construction-card-holder.flipped .construction-card-front {
+      box-shadow: none; }
+    .construction-card-holder.flipped .construction-card-back {
+      box-shadow: 2px 2px 3px #1c1c1c; }
+  .construction-card-holder .construction-card-back,
+  .construction-card-holder .construction-card-front {
     position: absolute;
-    top: 122px;
-    left: 15px;
-    width: 124px;
-    height: 40px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    font-size: 11px;
-    color: #b9b9b9;
-    padding: 2px 5px;
-    box-sizing: border-box; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner .card-desc {
-    position: absolute;
-    font-family: "HemiHead";
-    top: 30px;
-    left: 25px;
-    width: 160px;
-    font-size: 15px;
-    color: white;
-    height: 78px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner .card-effect {
-    position: absolute;
-    font-family: "HemiHead";
-    top: 181px;
-    left: 62px;
-    width: 160px;
-    font-size: 11px;
-    color: white;
-    height: 78px; }
-  .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="29"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="30"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="31"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="32"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="33"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="34"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="35"] .card-desc, .welcometothemoon-card[data-type="civCard"] .card-inner[data-id="36"] .card-desc {
-    width: 265px;
-    top: 2px; }
-
-.nocard-wrapper {
-  display: flex;
-  border-left: 1px solid black;
-  padding: 0px 5px;
-  font-family: "HemiHead"; }
-  .nocard-wrapper .nocard-indicator {
-    padding: 0px 3px;
-    margin-top: -3px; }
-  .nocard-wrapper .nocard-indicator-value {
-    font-weight: bold;
-    font-size: 20px; }
-  .nocard-wrapper .icon-medal {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    color: white;
-    margin-top: 7px;
-    transform: translateY(11px);
-    font-size: 15px;
-    line-height: 19px;
-    text-indent: 5px; }
-
-#pending-cards {
-  flex-wrap: wrap; }
-  #pending-cards .nocard-wrapper {
-    border-left: none; }
-    #pending-cards .nocard-wrapper .nocard-indicator {
-      display: none; }
-
-.prev-objectives .nocard-wrapper {
-  border-left: none;
-  border-right: 1px solid black;
-  flex-flow: row-reverse; }
-
-.welcometothemoon-card[data-type="NOCard"] {
-  width: calc(var(--cardScale) * 396px);
-  height: calc(var(--cardScale) * 260px); }
-
-.welcometothemoon-card[data-type="NOCard"] .card-inner {
-  width: 396px;
-  height: 260px;
-  background-image: url("img/neighbour-objectives.jpg");
-  background-size: 400% 700%;
-  border-radius: 7px;
-  box-shadow: 2px 2px 6px -1px black;
-  box-sizing: border-box; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="37"] {
-    background-position-x: 0%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="38"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="39"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="40"] {
-    background-position-x: 100%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="41"] {
-    background-position-x: 0%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="42"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="43"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="44"] {
-    background-position-x: 100%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="45"] {
-    background-position-x: 0%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="46"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="47"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="48"] {
-    background-position-x: 100%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="49"] {
-    background-position-x: 0%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="50"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="51"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="52"] {
-    background-position-x: 100%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="53"] {
-    background-position-x: 0%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="54"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="55"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="56"] {
-    background-position-x: 100%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="57"] {
-    background-position-x: 0%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="58"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="59"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="60"] {
-    background-position-x: 100%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="61"] {
-    background-position-x: 0%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="62"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="63"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="NOCard"] .card-inner[data-id="64"] {
-    background-position-x: 100%;
-    background-position-y: 100%; }
-
-.welcometothemoon-card.icon-only[data-type="NOCard"] {
-  width: calc(var(--cardScale) * 275px);
-  height: calc(var(--cardScale) * 100px);
-  overflow: hidden; }
-
-.welcometothemoon-card.icon-only[data-type="NOCard"] .card-inner {
-  margin-top: -53px;
-  margin-left: -46px; }
-  .welcometothemoon-card.icon-only[data-type="NOCard"] .card-inner[data-id="60"] {
-    margin-top: -28px; }
-
-#player_config #shared-obj {
-  --cardScale: 0.4;
-  padding: 0px;
-  border-bottom: none; }
-  #player_config #shared-obj:not(:empty) {
-    border-top: 1px solid #80502e;
-    padding-top: 10px;
-    margin-top: 10px; }
-  #player_config #shared-obj .nocard-wrapper {
-    border-left: none;
+    top: 0;
+    left: 0;
     width: 100%;
-    justify-content: space-between; }
-  #player_config #shared-obj .welcometothemoon-card[data-type="NOCard"] {
-    width: calc(var(--cardScale) * 275px);
-    height: calc(var(--cardScale) * 100px);
-    overflow: hidden; }
-  #player_config #shared-obj .welcometothemoon-card[data-type="NOCard"] .card-inner {
-    margin-top: -53px;
-    margin-left: -46px; }
-
-.welcometothemoon-card[data-type="POCard"] {
-  width: calc(var(--cardScale) * 260px);
-  height: calc(var(--cardScale) * 396px); }
-
-.welcometothemoon-card[data-type="POCard"] .card-inner {
-  width: 260px;
-  height: 396px;
-  background-image: url("img/private-objectives.jpg");
-  background-size: 700% 400%;
-  border-radius: 7px;
-  box-shadow: 2px 2px 6px -1px black;
-  box-sizing: border-box; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="37"] {
-    background-position-x: 0%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="38"] {
-    background-position-x: 16.6666666667%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="39"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="40"] {
-    background-position-x: 50%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="41"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="42"] {
-    background-position-x: 83.3333333333%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="43"] {
-    background-position-x: 100%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="44"] {
-    background-position-x: 0%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="45"] {
-    background-position-x: 16.6666666667%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="46"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="47"] {
-    background-position-x: 50%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="48"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="49"] {
-    background-position-x: 83.3333333333%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="50"] {
-    background-position-x: 100%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="51"] {
-    background-position-x: 0%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="52"] {
-    background-position-x: 16.6666666667%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="53"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="54"] {
-    background-position-x: 50%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="55"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="56"] {
-    background-position-x: 83.3333333333%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="57"] {
-    background-position-x: 100%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="58"] {
-    background-position-x: 0%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="59"] {
-    background-position-x: 16.6666666667%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="60"] {
-    background-position-x: 33.3333333333%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="61"] {
-    background-position-x: 50%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="62"] {
-    background-position-x: 66.6666666667%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="63"] {
-    background-position-x: 83.3333333333%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="POCard"] .card-inner[data-id="64"] {
-    background-position-x: 100%;
-    background-position-y: 100%; }
-
-.pocard-wrapper.selectable {
-  cursor: pointer; }
-  .pocard-wrapper.selectable:hover {
-    transform: scale(1.1); }
-  .pocard-wrapper.selectable.selectedToDiscard .card-inner {
-    filter: grayscale(1);
-    -webkit-transform: translateZ(0) scale(var(--cardScale));
-    -webkit-perspective: 1000;
+    height: 100%;
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    position: relative; }
-    .pocard-wrapper.selectable.selectedToDiscard .card-inner::before {
-      content: "\f1f8";
+    border-radius: 7px; }
+  .construction-card-holder .construction-card-back {
+    background-image: url("img/construction-cards-back.jpg");
+    background-size: 500% 200%;
+    transform: rotateY(180deg);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; }
+  .construction-card-holder .construction-card-front {
+    background-image: url("img/construction-cards-front.jpg");
+    background-size: 600% 400%;
+    position: relative;
+    box-shadow: 2px 2px 3px #1c1c1c; }
+    .construction-card-holder .construction-card-front .top-right-corner,
+    .construction-card-holder .construction-card-front .bottom-left-corner {
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background: #d1d1d1be;
-      z-index: 10;
-      font: normal normal normal 14px/1 FontAwesome;
-      font-size: 140px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 7px; }
-
-.pocard-indicator {
-  display: none; }
-
-.private-objectives {
-  --cardScale: 0.3; }
-  .private-objectives .pocard-wrapper {
-    display: flex;
-    border: 2px solid #2d2c2c;
-    padding: 0px 5px;
-    font-family: "HemiHead";
-    border-radius: 9px;
-    height: 36px;
-    box-shadow: 2px 2px 3px #3c3b3b;
-    background: #e4dacc; }
-    .private-objectives .pocard-wrapper .pocard-indicator {
-      display: block;
-      padding: 0px 6px 0px 3px;
-      margin-top: -3px; }
-    .private-objectives .pocard-wrapper .pocard-indicator-value {
-      font-weight: bold;
-      font-size: 20px; }
-      .private-objectives .pocard-wrapper .pocard-indicator-value::before {
-        position: absolute;
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: 16px;
-        text-rendering: auto;
-        text-stroke: 1px white;
-        -webkit-text-stroke: 1px white;
-        margin-top: 3px;
-        margin-left: -4px;
-        content: "\f00d";
-        color: red; }
-      .private-objectives .pocard-wrapper .pocard-indicator-value.ok::before {
-        content: "\f00c";
-        color: #00d900; }
-    .private-objectives .pocard-wrapper .icon-medal {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      color: white;
-      margin-top: 7px;
-      transform: translateY(11px);
-      font-size: 15px;
-      line-height: 19px;
-      text-indent: 5px; }
-  .private-objectives .welcometothemoon-card[data-type="POCard"] {
-    width: calc(var(--cardScale) * 210px);
-    height: 36px;
-    overflow: hidden;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px; }
-  .private-objectives .welcometothemoon-card[data-type="POCard"] .card-inner {
-    margin-top: -70px;
-    margin-left: -12px; }
-
-.next-objectives .private-objectives {
-  display: flex; }
-  .next-objectives .private-objectives .pocard-wrapper {
-    display: flex;
-    border: none;
-    border-left: 1px solid black;
-    border-radius: 0;
-    height: 40px;
-    box-shadow: none;
-    background: #f9e5cf; }
-    .next-objectives .private-objectives .pocard-wrapper.selectable {
-      cursor: pointer; }
-      .next-objectives .private-objectives .pocard-wrapper.selectable:hover {
-        transform: scale(1.1); }
-    .next-objectives .private-objectives .pocard-wrapper.selected, .next-objectives .private-objectives .pocard-wrapper.selected:hover {
-      border: 1px solid green;
-      box-shadow: 0px 0px 3px green;
-      margin-top: -1px;
-      margin-right: -1px;
-      background: #d4f9cfcf; }
-
-#pending-cards {
-  --cardScale: 0.6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%; }
-  #pending-cards .welcometothemoon-card {
-    margin: 1px 5px 7px; }
-  #pending-cards .nocard-wrapper.selectable {
-    border: none;
-    cursor: pointer; }
-    #pending-cards .nocard-wrapper.selectable:hover {
-      transform: scale(1.1); }
-    #pending-cards .nocard-wrapper.selectable.selected .card-inner {
-      box-shadow: 0px 0px 15px 3px #01ce01; }
-
-.welcometothemoon-card[data-type="EventCard"] {
-  width: calc(var(--cardScale) * 260px);
-  height: calc(var(--cardScale) * 396px);
-  border-radius: 14px;
-  box-shadow: 2px 2px 2px -1px black; }
-
-.welcometothemoon-card[data-type="EventCard"] .card-inner {
-  width: 260px;
-  height: 396px;
-  background-image: url("img/events.jpg");
-  background-size: 900% 700%;
-  border-radius: 15px;
-  box-sizing: border-box; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="65"] {
+      width: 55px;
+      height: 55px;
+      background: red;
+      clip-path: polygon(0 2%, 0 0, 100% 0, 100% 100%, 98% 100%); }
+    .construction-card-holder .construction-card-front .top-right-corner {
+      top: 17px;
+      left: 128px; }
+    .construction-card-holder .construction-card-front .bottom-left-corner {
+      transform: rotate(180deg);
+      bottom: 16px;
+      left: 17px; }
+  .construction-card-holder[data-action="1"] .action {
+    background-position: 0% center; }
+  .construction-card-holder[data-action="1"] .top-right-corner, .construction-card-holder[data-action="1"] .bottom-left-corner {
+    background-position: 0% center; }
+  .construction-card-holder[data-action="2"] .action {
+    background-position: 20% center; }
+  .construction-card-holder[data-action="2"] .top-right-corner, .construction-card-holder[data-action="2"] .bottom-left-corner {
+    background-position: 20% center; }
+  .construction-card-holder[data-action="3"] .action {
+    background-position: 40% center; }
+  .construction-card-holder[data-action="3"] .top-right-corner, .construction-card-holder[data-action="3"] .bottom-left-corner {
+    background-position: 40% center; }
+  .construction-card-holder[data-action="4"] .action {
+    background-position: 60% center; }
+  .construction-card-holder[data-action="4"] .top-right-corner, .construction-card-holder[data-action="4"] .bottom-left-corner {
+    background-position: 60% center; }
+  .construction-card-holder[data-action="5"] .action {
+    background-position: 80% center; }
+  .construction-card-holder[data-action="5"] .top-right-corner, .construction-card-holder[data-action="5"] .bottom-left-corner {
+    background-position: 80% center; }
+  .construction-card-holder[data-action="6"] .action {
+    background-position: 100% center; }
+  .construction-card-holder[data-action="6"] .top-right-corner, .construction-card-holder[data-action="6"] .bottom-left-corner {
+    background-position: 100% center; }
+  .construction-card-holder[data-number="0"] .construction-card-front {
     background-position-x: 0%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="66"] {
-    background-position-x: 12.5%;
+  .construction-card-holder[data-number="1"] .construction-card-front {
+    background-position-x: 20%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="67"] {
-    background-position-x: 25%;
+  .construction-card-holder[data-number="2"] .construction-card-front {
+    background-position-x: 40%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="68"] {
-    background-position-x: 37.5%;
+  .construction-card-holder[data-number="3"] .construction-card-front {
+    background-position-x: 60%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="69"] {
-    background-position-x: 50%;
+  .construction-card-holder[data-number="4"] .construction-card-front {
+    background-position-x: 80%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="70"] {
-    background-position-x: 62.5%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="71"] {
-    background-position-x: 75%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="72"] {
-    background-position-x: 87.5%;
-    background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="73"] {
+  .construction-card-holder[data-number="5"] .construction-card-front {
     background-position-x: 100%;
     background-position-y: 0%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="74"] {
-    background-position-x: 0%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="75"] {
-    background-position-x: 12.5%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="76"] {
-    background-position-x: 25%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="77"] {
-    background-position-x: 37.5%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="78"] {
-    background-position-x: 50%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="79"] {
-    background-position-x: 62.5%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="80"] {
-    background-position-x: 75%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="81"] {
-    background-position-x: 87.5%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="82"] {
-    background-position-x: 100%;
-    background-position-y: 16.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="83"] {
+  .construction-card-holder[data-number="6"] .construction-card-front {
     background-position-x: 0%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="84"] {
-    background-position-x: 12.5%;
+  .construction-card-holder[data-number="7"] .construction-card-front {
+    background-position-x: 20%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="85"] {
-    background-position-x: 25%;
+  .construction-card-holder[data-number="8"] .construction-card-front {
+    background-position-x: 40%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="86"] {
-    background-position-x: 37.5%;
+  .construction-card-holder[data-number="9"] .construction-card-front {
+    background-position-x: 60%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="87"] {
-    background-position-x: 50%;
+  .construction-card-holder[data-number="10"] .construction-card-front {
+    background-position-x: 80%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="88"] {
-    background-position-x: 62.5%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="89"] {
-    background-position-x: 75%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="90"] {
-    background-position-x: 87.5%;
-    background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="91"] {
+  .construction-card-holder[data-number="11"] .construction-card-front {
     background-position-x: 100%;
     background-position-y: 33.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="92"] {
-    background-position-x: 0%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="93"] {
-    background-position-x: 12.5%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="94"] {
-    background-position-x: 25%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="95"] {
-    background-position-x: 37.5%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="96"] {
-    background-position-x: 50%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="97"] {
-    background-position-x: 62.5%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="98"] {
-    background-position-x: 75%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="99"] {
-    background-position-x: 87.5%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="100"] {
-    background-position-x: 100%;
-    background-position-y: 50%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="101"] {
+  .construction-card-holder[data-number="12"] .construction-card-front {
     background-position-x: 0%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="102"] {
-    background-position-x: 12.5%;
+  .construction-card-holder[data-number="13"] .construction-card-front {
+    background-position-x: 20%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="103"] {
-    background-position-x: 25%;
+  .construction-card-holder[data-number="14"] .construction-card-front {
+    background-position-x: 40%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="104"] {
-    background-position-x: 37.5%;
+  .construction-card-holder[data-number="15"] .construction-card-front {
+    background-position-x: 60%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="105"] {
-    background-position-x: 50%;
+  .construction-card-holder[data-number="16"] .construction-card-front {
+    background-position-x: 80%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="106"] {
-    background-position-x: 62.5%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="107"] {
-    background-position-x: 75%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="108"] {
-    background-position-x: 87.5%;
-    background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="109"] {
+  .construction-card-holder[data-number="17"] .construction-card-front {
     background-position-x: 100%;
     background-position-y: 66.6666666667%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="110"] {
-    background-position-x: 0%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="111"] {
-    background-position-x: 12.5%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="112"] {
-    background-position-x: 25%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="113"] {
-    background-position-x: 37.5%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="114"] {
-    background-position-x: 50%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="115"] {
-    background-position-x: 62.5%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="116"] {
-    background-position-x: 75%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="117"] {
-    background-position-x: 87.5%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="118"] {
-    background-position-x: 100%;
-    background-position-y: 83.3333333333%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="119"] {
-    background-position-x: 0%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="120"] {
-    background-position-x: 12.5%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="121"] {
-    background-position-x: 25%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="122"] {
-    background-position-x: 37.5%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="123"] {
-    background-position-x: 50%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="124"] {
-    background-position-x: 62.5%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="125"] {
-    background-position-x: 75%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="back"] {
-    background-position-x: 75%;
-    background-position-y: 100%; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner .card-title {
-    position: absolute;
-    top: 327px;
-    left: 0px;
-    width: 200px;
-    height: 50px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    color: white;
-    padding: 3px 7px;
-    box-sizing: border-box;
-    font-family: "HemiHead"; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner .card-desc {
-    position: absolute;
-    font-family: "HemiHead";
-    top: 60px;
-    left: 0px;
-    width: 262px;
-    font-size: 21px;
-    line-height: 25px;
-    color: black;
-    height: 125px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    padding: 5px 12px;
-    box-sizing: border-box; }
-  .welcometothemoon-card[data-type="EventCard"] .card-inner[data-id="116"] .card-desc {
-    font-size: 20px;
-    line-height: 20px; }
 
-#decks-info {
-  display: flex;
-  justify-content: space-between;
-  font-family: "HemiHead"; }
-  #decks-info .civ-deck-counter-wrapper {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
-    background: #353534;
-    border: 1px solid white;
-    border-radius: 9px;
-    padding: 4px 6px;
-    box-shadow: 1px 1px 1px black;
-    position: relative; }
-    #decks-info .civ-deck-counter-wrapper span {
-      margin-right: 5px; }
-    #decks-info .civ-deck-counter-wrapper .icon-civ {
-      position: relative; }
-      #decks-info .civ-deck-counter-wrapper .icon-civ span {
-        position: absolute;
-        display: inline-block;
-        background: #d5d5d5;
-        top: -2px;
-        right: -6px;
-        color: #2b2b2b;
-        width: 10px;
-        border: 1px solid white;
-        font-size: 11px;
-        text-align: center;
-        border-radius: 3px; }
-  #decks-info #events-info {
-    --cardScale: 0.1;
-    display: flex;
-    border-left: 1px solid black;
-    margin: -5px 0px;
-    padding: 4px 0px 4px 7px;
-    cursor: zoom-in; }
-    #decks-info #events-info #event-deck {
-      margin-right: 4px;
-      position: relative; }
-      #decks-info #events-info #event-deck .welcometothemoon-card {
-        position: absolute; }
-      #decks-info #events-info #event-deck span {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        color: black;
-        text-stroke: 1px white;
-        -webkit-text-stroke: 1px white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 20px;
-        text-shadow: 0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white; }
-
-#card-overlay {
-  opacity: 0;
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  top: 0;
-  left: 0;
-  z-index: 4000;
-  pointer-events: none;
-  transition: opacity 600ms;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  --cardScale: 1; }
-  #card-overlay.active {
-    opacity: 1;
-    pointer-events: all; }
-
+/*****************************
+******************************
+*********** PLANS ************
+******************************
+*****************************/
 .welcometothemoon-icon {
   background: url("img/icons.png");
   background-repeat: no-repeat; }
