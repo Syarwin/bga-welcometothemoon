@@ -319,7 +319,7 @@
     border-radius: 7px; }
   .construction-card-holder .construction-card-back {
     background-image: url("img/construction-cards-back.jpg");
-    background-size: 500% 200%;
+    background-size: 500% 300%;
     transform: rotateY(180deg);
     z-index: 2;
     display: flex;
@@ -334,41 +334,58 @@
     .construction-card-holder .construction-card-front .top-right-corner,
     .construction-card-holder .construction-card-front .bottom-left-corner {
       position: absolute;
-      width: 55px;
-      height: 55px;
-      background: red;
-      clip-path: polygon(0 2%, 0 0, 100% 0, 100% 100%, 98% 100%); }
+      width: 44px;
+      height: 44px;
+      background-image: url("img/construction-cards-actions.png");
+      background-size: 500% 300%;
+      clip-path: polygon(0 26%, 0 0, 100% 0, 100% 100%, 74% 100%); }
     .construction-card-holder .construction-card-front .top-right-corner {
       top: 17px;
-      left: 128px; }
+      left: 138px; }
     .construction-card-holder .construction-card-front .bottom-left-corner {
       transform: rotate(180deg);
       bottom: 16px;
       left: 17px; }
-  .construction-card-holder[data-action="1"] .action {
-    background-position: 0% center; }
-  .construction-card-holder[data-action="1"] .top-right-corner, .construction-card-holder[data-action="1"] .bottom-left-corner {
-    background-position: 0% center; }
-  .construction-card-holder[data-action="2"] .action {
-    background-position: 20% center; }
-  .construction-card-holder[data-action="2"] .top-right-corner, .construction-card-holder[data-action="2"] .bottom-left-corner {
-    background-position: 20% center; }
-  .construction-card-holder[data-action="3"] .action {
-    background-position: 40% center; }
-  .construction-card-holder[data-action="3"] .top-right-corner, .construction-card-holder[data-action="3"] .bottom-left-corner {
-    background-position: 40% center; }
-  .construction-card-holder[data-action="4"] .action {
-    background-position: 60% center; }
-  .construction-card-holder[data-action="4"] .top-right-corner, .construction-card-holder[data-action="4"] .bottom-left-corner {
-    background-position: 60% center; }
-  .construction-card-holder[data-action="5"] .action {
-    background-position: 80% center; }
-  .construction-card-holder[data-action="5"] .top-right-corner, .construction-card-holder[data-action="5"] .bottom-left-corner {
-    background-position: 80% center; }
-  .construction-card-holder[data-action="6"] .action {
-    background-position: 100% center; }
-  .construction-card-holder[data-action="6"] .top-right-corner, .construction-card-holder[data-action="6"] .bottom-left-corner {
-    background-position: 100% center; }
+  .construction-card-holder[data-action="robot"] .construction-card-back,
+  .construction-card-holder[data-action="robot"] .top-right-corner,
+  .construction-card-holder[data-action="robot"] .bottom-left-corner {
+    background-position: 0% 0%; }
+  .construction-card-holder[data-action="energy"] .construction-card-back,
+  .construction-card-holder[data-action="energy"] .top-right-corner,
+  .construction-card-holder[data-action="energy"] .bottom-left-corner {
+    background-position: 25% 0%; }
+  .construction-card-holder[data-action="plant"] .construction-card-back,
+  .construction-card-holder[data-action="plant"] .top-right-corner,
+  .construction-card-holder[data-action="plant"] .bottom-left-corner {
+    background-position: 50% 0%; }
+  .construction-card-holder[data-action="water"] .construction-card-back,
+  .construction-card-holder[data-action="water"] .top-right-corner,
+  .construction-card-holder[data-action="water"] .bottom-left-corner {
+    background-position: 75% 0%; }
+  .construction-card-holder[data-action="energy-water"] .construction-card-back,
+  .construction-card-holder[data-action="energy-water"] .top-right-corner,
+  .construction-card-holder[data-action="energy-water"] .bottom-left-corner {
+    background-position: 100% 0%; }
+  .construction-card-holder[data-action="astronaut-plant"] .construction-card-back,
+  .construction-card-holder[data-action="astronaut-plant"] .top-right-corner,
+  .construction-card-holder[data-action="astronaut-plant"] .bottom-left-corner {
+    background-position: 0% 50%; }
+  .construction-card-holder[data-action="robot-planning"] .construction-card-back,
+  .construction-card-holder[data-action="robot-planning"] .top-right-corner,
+  .construction-card-holder[data-action="robot-planning"] .bottom-left-corner {
+    background-position: 25% 50%; }
+  .construction-card-holder[data-action="astronaut"] .construction-card-back,
+  .construction-card-holder[data-action="astronaut"] .top-right-corner,
+  .construction-card-holder[data-action="astronaut"] .bottom-left-corner {
+    background-position: 50% 50%; }
+  .construction-card-holder[data-action="joker"] .construction-card-back,
+  .construction-card-holder[data-action="joker"] .top-right-corner,
+  .construction-card-holder[data-action="joker"] .bottom-left-corner {
+    background-position: 75% 50%; }
+  .construction-card-holder[data-action="planning"] .construction-card-back,
+  .construction-card-holder[data-action="planning"] .top-right-corner,
+  .construction-card-holder[data-action="planning"] .bottom-left-corner {
+    background-position: 100% 50%; }
   .construction-card-holder[data-number="0"] .construction-card-front {
     background-position-x: 0%;
     background-position-y: 0%; }

@@ -87,20 +87,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         card.style.zIndex = turn;
 
         let action = card.dataset.action;
-        let tooltipContent = [
-          '',
-          _('Build a fence between two houses on the same streets to create housing estates'),
-          _('Promotes and increase the value of completed housing estates'),
-          _('Build a park in the same street that the house number is written'),
-          _('If the number is written in a house with a planned pool, you may build that pool'),
-          _(
-            'Allow you to add or substract 1 or 2 to the house number, and cross one box from the Temp Agency column (majority scoring)'
-          ),
-          _(
-            "Allow you to write a second house number by duplicating an already existing number next to it. Cross one space in the 'bis' column (negative scoring)"
-          ),
-        ];
-        this.addCustomTooltip(card, tooltipContent[action]);
+        this.addCustomTooltip(card.id, 'TODO: tooltip ' + action);
       }, 1000);
     },
 

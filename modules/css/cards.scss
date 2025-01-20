@@ -44,7 +44,7 @@ $cardBorderRadius: 7px;
 
     .construction-card-back {
         background-image: url("img/construction-cards-back.jpg");
-        background-size: 500% 200%;
+        background-size: 500% 300%;
         transform: rotateY(180deg);
         z-index: 2;
         @include centered;
@@ -62,17 +62,16 @@ $cardBorderRadius: 7px;
         .top-right-corner,
         .bottom-left-corner {
             position: absolute;
-            width: 55px;
-            height: 55px;
-            // background-image: url("img/actions.png");
-            // background-size: cover;
-            background: red;
-            clip-path: polygon(0 2%, 0 0, 100% 0, 100% 100%, 98% 100%);
+            width: 44px;
+            height: 44px;
+            background-image: url("img/construction-cards-actions.png");
+            background-size: 500% 300%;
+            clip-path: polygon(0 26%, 0 0, 100% 0, 100% 100%, 74% 100%);
         }
 
         .top-right-corner {
             top: 17px;
-            left: 128px;
+            left: 138px;
         }
 
         .bottom-left-corner {
@@ -82,13 +81,19 @@ $cardBorderRadius: 7px;
         }
     }
 
-    @for $i from 1 through 6 {
-        &[data-action="#{$i}"] .action {
-            background-position: ($i - 1) * 100%/5 center;
-        }
-        &[data-action="#{$i}"] .top-right-corner,
-        &[data-action="#{$i}"] .bottom-left-corner {
-            background-position: ($i - 1) * 100%/5 center;
+    $actions: "robot" "energy" "plant" "water" "energy-water" "astronaut-plant" "robot-planning" "astronaut" "joker"
+        "planning";
+    @each $action in $actions {
+        $i: index($actions, $action) - 1;
+        $col: $i % 5;
+        $row: ($i - $col) / 5;
+
+        &[data-action="#{$action}"] {
+            .construction-card-back,
+            .top-right-corner,
+            .bottom-left-corner {
+                background-position: $col * 100%/4 $row * 50%;
+            }
         }
     }
 
