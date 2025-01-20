@@ -68,7 +68,7 @@ trait EngineTrait
       return;
     }
     $player = Players::get($pId);
-    $actions = $player->corporation()->getAnytimeActions();
+    $actions = [];
 
     // Keep only doable actions
     $anytimeActions = [];

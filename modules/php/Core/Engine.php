@@ -5,8 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Core;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Actions;
 use Bga\Games\WelcomeToTheMoon\Helpers\Log;
-use Bga\Games\WelcomeToTheMoon\Helpers\QueryBuilder;
-use Bga\Games\WelcomeToTheMoon\Helpers\UserException;
+use Bga\Games\WelcomeToTheMoon\Game;
 
 /*
  * Engine: a class that allows to handle complex flow

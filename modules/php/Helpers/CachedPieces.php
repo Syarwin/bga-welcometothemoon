@@ -29,21 +29,19 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 
 class CachedPieces extends DB_Manager
 {
-  protected static $table = null;
-  protected static $cast = null;
+  protected static string $table = "";
 
-  protected static $prefix = 'piece_';
-  protected static $autoIncrement = true;
-  protected static $maxIndex = 0;
-  protected static $primary;
-  protected static $autoremovePrefix = true;
-  protected static $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
+  protected static string $prefix = 'piece_';
+  protected static bool $autoIncrement = true;
+  protected static string $primary;
+  protected static bool $autoremovePrefix = true;
+  protected static bool $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
   protected static $autoreshuffleListener = null; // Callback to a method called when an autoreshuffle occurs
   // autoreshuffleListener = array( 'obj' => object, 'method' => method_name )
   // If defined, tell the name of the deck and what is the corresponding discard (ex : "mydeck" => "mydiscard")
-  protected static $autoreshuffleCustom = [];
-  protected static $customFields = [];
-  protected static $datas = null;
+  protected static array $autoreshuffleCustom = [];
+  protected static array $customFields = [];
+  protected static ?Collection $datas = null;
 
   public static function DB($table = null)
   {

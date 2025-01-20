@@ -2,9 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Core;
 
-use Bga\Games\WelcomeToTheMoon\Core\Game;
-use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Game;
 
 /*
  * PGlobals: private globals => reduce potential deadlock
@@ -12,8 +10,8 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 
 class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 {
-  protected static $initialized = false;
-  protected static $variables = [
+  protected static bool $initialized = false;
+  protected static array $variables = [
     'state' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
     'engine' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
     'engineChoices' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
@@ -21,8 +19,8 @@ class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
   ];
 
-  protected static $table = 'pglobal_variables';
-  protected static $primary = 'name'; // Name is actually name-pId
+  protected static string $table = 'pglobal_variables';
+  protected static string $primary = 'name'; // Name is actually name-pId
   protected static function cast($row)
   {
     list($name, $pId) = explode('-', $row['name']);

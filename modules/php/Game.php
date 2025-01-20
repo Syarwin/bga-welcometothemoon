@@ -27,11 +27,13 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\States\EngineTrait;
 use Bga\Games\WelcomeToTheMoon\States\SetupTrait;
 use Bga\Games\WelcomeToTheMoon\DebugTrait;
+use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 
 class Game extends \Table
 {
     use SetupTrait;
     use DebugTrait;
+    use TurnTrait;
     use EngineTrait;
 
     public static $instance = null;

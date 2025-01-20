@@ -3,14 +3,9 @@
 namespace Bga\Games\WelcomeToTheMoon\Models;
 
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
-use Bga\Games\WelcomeToTheMoon\Core\Game;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\ZooCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Helpers\Log;
-use Bga\Games\WelcomeToTheMoon\Helpers\FlowConvertor;
-use Bga\Games\WelcomeToTheMoon\Managers\Actions;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 /*
  * Action: base class to handle atomic action
@@ -18,8 +13,8 @@ use Bga\Games\WelcomeToTheMoon\Managers\Actions;
 
 class Action
 {
-  protected $ctx = null; // Contain ctx information : current node of flow tree
-  protected $description = '';
+  protected object $ctx; // Contain ctx information : current node of flow tree
+  protected string $description = '';
   public function __construct(&$ctx)
   {
     $this->ctx = $ctx;
@@ -30,51 +25,51 @@ class Action
     return $this->ctx;
   }
 
-  public function isDoable($player)
+  public function isDoable(Player $player): bool
   {
     return true;
   }
 
-  public function isOptional()
+  public function isOptional(): bool
   {
     return !$this->isDoable($this->getPlayer());
   }
 
-  public function isIndependent($player = null)
+  public function isIndependent(?Player $player = null): bool
   {
     return false;
   }
 
-  public function isAutomatic($player = null)
+  public function isAutomatic(?Player $player = null): bool
   {
     return false;
   }
 
-  public function isIrreversible($player = null)
+  public function isIrreversible(?Player $player = null): bool
   {
     return false;
   }
 
-  public function getDescription()
+  public function getDescription(): string|array
   {
     return $this->description;
   }
 
-  public function getPlayer()
+  public function getPlayer(): Player
   {
     $pId = $this->ctx->getRoot()->getPId();
     return Players::get($pId);
   }
 
-  public function getState()
+  public function getState(): int
   {
-    return null;
+    return 0;
   }
 
   /**
    * Syntaxic sugar
    */
-  public function getCtxArgs()
+  public function getCtxArgs(): array
   {
     if ($this->ctx == null) {
       return [];
@@ -84,7 +79,7 @@ class Action
       return $this->ctx->getArgs() ?? [];
     }
   }
-  public function getCtxArg($v)
+  public function getCtxArg(string $v): mixed
   {
     return $this->getCtxArgs()[$v] ?? null;
   }
@@ -92,7 +87,7 @@ class Action
   /**
    * Insert flow as child of current node
    */
-  public function insertAsChild($flow)
+  public function insertAsChild(array $flow): void
   {
     if (Globals::getMode() == \MODE_PRIVATE) {
       Engine::insertAsChild($flow, $this->ctx);
@@ -102,19 +97,19 @@ class Action
   /**
    * Insert childs as parallel node childs
    */
-  public function pushParallelChild($node)
+  public function pushParallelChild($node): void
   {
     $this->pushParallelChilds([$node]);
   }
 
-  public function pushParallelChilds($childs)
+  public function pushParallelChilds(array $childs): void
   {
     if (Globals::getMode() == \MODE_PRIVATE) {
       Engine::insertOrUpdateParallelChilds($childs, $this->ctx);
     }
   }
 
-  public function getClassName()
+  public function getClassName(): string
   {
     $classname = get_class($this);
     if ($pos = strrpos($classname, '\\')) {

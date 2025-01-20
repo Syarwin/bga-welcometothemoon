@@ -34,6 +34,9 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
         if ($field[1] == 'int') {
           $this->$attribute = (int) $this->$attribute;
         }
+        if ($field[1] == 'float') {
+          $this->$attribute = (float) $this->$attribute;
+        }
         if ($field[1] == 'bool') {
           $this->$attribute = (bool) $this->$attribute;
         }

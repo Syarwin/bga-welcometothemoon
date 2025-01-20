@@ -13,7 +13,19 @@ use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
 
 class Notifications
 {
+  public static function setupScenario($scenario)
+  {
+    self::notifyAll('message', clienttranslate('Starting scenario ${n}: ${name}'), [
+      'n' => $scenario,
+      'name' => 'TODO',
+      'i18n' => ['name'],
+    ]);
+  }
 
+  public static function newCards(array $cards)
+  {
+    // TODO
+  }
 
   /*************************
    **** GENERIC METHODS ****
@@ -31,7 +43,6 @@ class Notifications
     Game::get()->notifyPlayer($pId, $name, $msg, $data);
   }
 
-  // TODO : make the notif either private or public depending on some flag
   protected static function pnotify($player, $name, $msg, $data)
   {
     $mode = Globals::getMode();

@@ -113,7 +113,6 @@ $machinestates = [
     'name' => 'setupEngine',
     'type' => 'multipleactiveplayer',
     'description' => clienttranslate('Waiting for everyone to confirm their moves'),
-    'descriptionCivCard' => clienttranslate('Waiting for players to take their civ card'),
     'descriptionmyturn' => '',
     'args' => 'argsSetupEngine',
     'initialprivate' => ST_INIT_PRIVATE_ENGINE,
@@ -165,9 +164,9 @@ $machinestates = [
 
   ST_IMPOSSIBLE_MANDATORY_ACTION => [
     'name' => 'impossibleAction',
-    'description' => clienttranslate('${actplayer} can\'t take the mandatory action and must restart his turn or exchange/cook'),
+    'description' => clienttranslate('${actplayer} can\'t take the mandatory action and must restart his turn'),
     'descriptionmyturn' => clienttranslate(
-      '${you} can\'t take the mandatory action. Restart your turn or exchange/cook to make it possible'
+      '${you} can\'t take the mandatory action. Restart your turn'
     ),
     'type' => 'private',
     'args' => 'argsImpossibleAction',
@@ -183,24 +182,17 @@ $machinestates = [
   //
   ////////////////////////////////////////////////////////////////////////////
 
-  // ST_PLACE_TILE => [
-  //   'name' => 'placeTile',
-  //   'descriptionmyturn' => clienttranslate('${you} must place a tile'),
-  //   'descriptionmyturnimpossible' => clienttranslate('${you} can\'t place a tile. Choose one to keep for your last round'),
-  //   'descriptionmyturnskippablebiomass' => clienttranslate(
-  //     '${you} may place your biomass patch or keep it for the end of the game'
-  //   ),
-  //   'type' => 'private',
-  //   'args' => 'argsAtomicAction',
-  //   'action' => 'stAtomicAction',
-  //   'possibleactions' => [
-  //     'actPlaceTile',
-  //     'actKeepBiomassPatch',
-  //     'actPlaceTileNoPlacement',
-  //     'actRestart',
-  //     'actPassOptionalAction',
-  //   ],
-  // ],
+  ST_WRITE_NUMBER => [
+    'name' => 'writeNumber',
+    'descriptionmyturn' => clienttranslate('${you} must choose a combination'),
+    'descriptionmyturnimpossible' => clienttranslate('${you} can\'t write any number. You must cross off one System Error box.'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => [
+      'actWriteNumber',
+    ],
+  ],
 
 
   //////////////////////////////////////////////////////////////////

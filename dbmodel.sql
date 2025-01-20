@@ -10,13 +10,13 @@
 -- dbmodel.sql
 
 CREATE TABLE IF NOT EXISTS `construction_cards` (
-  `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `card_id` int(10) unsigned NOT NULL,
   `card_location` varchar(16) NOT NULL,
   `card_state` int(11) NOT NULL,
-  `number` int(11) NOT NULL,
-  `action` int(11) NOT NULL,
+  `number` float(11) NOT NULL,
+  `action` varchar(30) NOT NULL,
   PRIMARY KEY (`card_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS `plan_cards` (

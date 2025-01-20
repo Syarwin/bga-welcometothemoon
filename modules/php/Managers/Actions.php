@@ -15,7 +15,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 class Actions
 {
   static $classes = [
-    PLACE_TILE,
+    WRITE_NUMBER,
   ];
 
   public static function get($actionId, &$ctx = null)

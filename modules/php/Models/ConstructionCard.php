@@ -10,12 +10,12 @@ class ConstructionCard extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     'id' => ['card_id', 'int'],
     'location' => 'card_location',
     'state' => ['card_state', 'int'],
-    'number' => ['number', 'int'],
-    'action' => ['action', 'int'],
+    'number' => ['number', 'float'],
+    'action' => 'action',
   ];
   protected int $id;
   protected string $location;
   protected int $state;
-  protected int $number;
-  protected int $action;
+  protected float $number;
+  protected string $action;
 }
