@@ -182,18 +182,22 @@ $machinestates = [
   //
   ////////////////////////////////////////////////////////////////////////////
 
-  ST_WRITE_NUMBER => [
-    'name' => 'writeNumber',
-    'descriptionmyturn' => clienttranslate('${you} must choose a combination'),
+  ST_CHOOSE_CARDS => [
+    'name' => 'chooseCards',
+    'descriptionmyturn' => clienttranslate('${you} must pick a pair of construction cards'),
     'descriptionmyturnimpossible' => clienttranslate('${you} can\'t write any number. You must cross off one System Error box.'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'action' => 'stAtomicAction',
-    'possibleactions' => [
-      'actWriteNumber',
-    ],
+    'possibleactions' => ['actChooseCards', 'actRefusal', 'actRestart'],
   ],
 
+  ST_WRITE_NUMBER => [
+    'name' => 'writeNumber',
+    'descriptionmyturn' => clienttranslate('${you} must write the number on your scoresheet'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actWriteNumber', 'actRefusal', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

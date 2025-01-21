@@ -15,6 +15,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 class Actions
 {
   static $classes = [
+    CHOOSE_CARDS,
     WRITE_NUMBER,
   ];
 
@@ -53,9 +54,7 @@ class Actions
   public static function getArgs($actionId, $ctx)
   {
     $action = self::get($actionId, $ctx);
-    $methodName = 'args' . $action->getClassName();
-    $args = \method_exists($action, $methodName) ? $action->$methodName() : [];
-    return array_merge($args, ['optionalAction' => $ctx->isOptional()]);
+    return array_merge($action->getArgs(), ['optionalAction' => $ctx->isOptional()]);
   }
 
   public static function takeAction($actionId, $actionName, $args, &$ctx, $automatic = false)

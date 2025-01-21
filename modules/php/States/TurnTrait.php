@@ -37,13 +37,10 @@ trait TurnTrait
   function stStartTurnEngine()
   {
     $players = Players::getAll();
-
     $flows = [];
-    $endOfGameTriggered = false;
-
     foreach ($players as $pId => $player) {
       $flows[$pId] = [
-        'action' => WRITE_NUMBER,
+        'action' => CHOOSE_CARDS,
       ];
     }
 

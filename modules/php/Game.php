@@ -30,6 +30,7 @@ use Bga\Games\WelcomeToTheMoon\DebugTrait;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
+use Bga\Games\WelcomeToTheMoon\Core\Engine;
 
 class Game extends \Table
 {
@@ -56,10 +57,10 @@ class Game extends \Table
         return self::$instance;
     }
 
-    // protected function initTable()
-    // {
-    //   Engine::boot();
-    // }
+    protected function initTable(): void
+    {
+        Engine::boot();
+    }
 
 
     protected function getGameName()
@@ -76,7 +77,7 @@ class Game extends \Table
      * - when the game starts
      * - when a player refreshes the game page (F5)
      */
-    protected function getAllDatas()
+    public function getAllDatas()
     {
         $currentPId = (int) $this->getCurrentPlayerId();
 
@@ -85,7 +86,7 @@ class Game extends \Table
             'constructionCards' => ConstructionCards::getUiData(),
             'planCards' => PlanCards::getUiData(),
 
-            'standard' => !Globals::isSolo(),
+            'standard' => Globals::isStandard(),
             'scenario' => Globals::getScenario(),
         ];
     }

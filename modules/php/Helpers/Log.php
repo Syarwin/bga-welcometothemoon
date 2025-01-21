@@ -2,7 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Helpers;
 
-use Bga\Games\WelcomeToTheMoon\Core\Game;
+use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
@@ -12,6 +12,8 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
 use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
 use Bga\Games\WelcomeToTheMoon\Managers\Cards;
+use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -32,9 +34,8 @@ class Log extends \APP_DbObject
     Globals::fetch();
     PGlobals::fetch();
     Players::invalidate();
-    Tiles::invalidate();
-    Meeples::invalidate();
-    Cards::invalidate();
+    PlanCards::invalidate();
+    ConstructionCards::invalidate();
     // Stats::invalidate();
 
     if ($invalidateEngine) {

@@ -94,51 +94,72 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////
     ////////  Selecting a stack ////////
     ////////////////////////////////////
-    promptPlayer(possibleChoices, callback) {
-      this._callback = callback;
-      this._possibleChoices = possibleChoices;
-      this.initSelectableStacks();
+
+    onEnteringStateChooseCards(args) {
+      // Clear previous coic
+      document.querySelectorAll('.construction-cards-stack').forEach((o) => {
+        o.classList.remove('selected', 'flipped');
+        o.classList.add('unselectable');
+      });
+
+      // Make them selectable
+      let stacks = args.stacks.map((choice) => (this._isStandard ? choice : choice[0]));
+      stacks.forEach((stackId) => {
+        let o = $(`construction-cards-stack-${stackId}`);
+        o.classList.remove('unselectable');
+        this.onClick(o, () => {
+          // Standard mode => return stack id
+          if (this._isStandard) this.takeAtomicAction('actChooseCards', [stackId]);
+          else {
+            console.log('TODO: solo choose cards');
+          }
+        });
+      });
     },
 
-    initSelectableStacks() {
-      this._selectedStackForNonStandard = null;
-      let stacks = this._possibleChoices.map((choice) => (this._isStandard ? choice : choice[0]));
-      this.makeStacksSelectable(stacks);
-    },
+    ////////////////////////////////////////////////////////
+    ////////  Non-standard mode : select two stacks ////////
+    ////////////////////////////////////////////////////////
 
-    makeStacksSelectable(stacks, flipped) {
-      dojo.query('.construction-cards-stack').removeClass('selected flipped'); // TODO : add in the clearPossible function instead ?
-      dojo.query('.construction-cards-stack').addClass('unselectable');
-      this._selectableStacks = stacks;
-      stacks.forEach((stackId) =>
-        dojo
-          .query('#construction-cards-stack-' + stackId)
-          .removeClass('unselectable')
-          .addClass('selectable' + (flipped ? ' flipped' : ''))
-      );
-    },
+    // /*
+    //  * Expert/solo mode => need two stacks
+    //  */
+    // onClickStackNonStandard(stackId) {
+    //   // Click again on same card => unselect
+    //   if (this._selectedStackForNonStandard == stackId) {
+    //     this.unselectFirstStack();
+    //     return;
+    //   }
 
-    onClickStack(stackId) {
-      debug('Clicked on a stack', stackId);
-      // Check if selectable
-      if (
-        (!this._selectableStacks || !this._selectableStacks.includes(stackId)) &&
-        this._selectedStackForNonStandard != stackId
-      ) {
-        // Clicked on a selected card => callback to restart turn
-        if (
-          this._highlighted != null &&
-          this._callback != null &&
-          ((this._isStandard && this._highlighted == stackId) || (!this._isStandard && this._highlighted.includes(stackId)))
-        )
-          this._callback();
-        return;
-      }
+    //   // First stack => ask for a second one
+    //   if (this._selectedStackForNonStandard == null) {
+    //     this._selectedStackForNonStandard = stackId;
+    //     // Compute new possible choices for stacks
+    //     this.makeStacksSelectable(this.getSelectableSecondStacks(stackId), true);
+    //     this.addActionButton('buttonUnselect', _('Unselect'), () => this.unselectFirstStack(), null, false, 'gray');
+    //     dojo.addClass('construction-cards-stack-' + stackId, 'selected');
+    //   }
 
-      // Standard mode => return stack id
-      if (this._isStandard) this._callback(stackId);
-      else this.onClickStackNonStandard(stackId);
-    },
+    //   // Second stack => return both stacks
+    //   else {
+    //     this._callback([this._selectedStackForNonStandard, stackId]);
+    //   }
+    // },
+
+    // // Get the available choices for second stack depending on the first stack selected
+    // getSelectableSecondStacks(stackId) {
+    //   return this._possibleChoices.reduce((stacks, choice) => {
+    //     if (choice[0] == stackId) stacks.push(choice[1]);
+    //     return stacks;
+    //   }, []);
+    // },
+
+    // // Unselect first stack
+    // unselectFirstStack() {
+    //   dojo.destroy('buttonUnselect');
+    //   dojo.removeClass('construction-cards-stack-' + this._selectedStackForNonStandard, 'selected');
+    //   this.initSelectableStacks();
+    // },
 
     //////////////////////////////////////
     /////////////  New turn  /////////////
@@ -226,50 +247,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let oldCard = dojo.query('#construction-cards-stack-' + stack + ' .construction-card-holder:last-of-type')[0];
       dojo.addClass(oldCard, 'notransition');
       this.slideToObjectAndDestroy(oldCard, 'overall_player_board_' + pId, 1000);
-    },
-
-    ////////////////////////////////////////////////////////
-    ////////  Non-standard mode : select two stacks ////////
-    ////////////////////////////////////////////////////////
-
-    /*
-     * Expert/solo mode => need two stacks
-     */
-    onClickStackNonStandard(stackId) {
-      // Click again on same card => unselect
-      if (this._selectedStackForNonStandard == stackId) {
-        this.unselectFirstStack();
-        return;
-      }
-
-      // First stack => ask for a second one
-      if (this._selectedStackForNonStandard == null) {
-        this._selectedStackForNonStandard = stackId;
-        // Compute new possible choices for stacks
-        this.makeStacksSelectable(this.getSelectableSecondStacks(stackId), true);
-        this.addActionButton('buttonUnselect', _('Unselect'), () => this.unselectFirstStack(), null, false, 'gray');
-        dojo.addClass('construction-cards-stack-' + stackId, 'selected');
-      }
-
-      // Second stack => return both stacks
-      else {
-        this._callback([this._selectedStackForNonStandard, stackId]);
-      }
-    },
-
-    // Get the available choices for second stack depending on the first stack selected
-    getSelectableSecondStacks(stackId) {
-      return this._possibleChoices.reduce((stacks, choice) => {
-        if (choice[0] == stackId) stacks.push(choice[1]);
-        return stacks;
-      }, []);
-    },
-
-    // Unselect first stack
-    unselectFirstStack() {
-      dojo.destroy('buttonUnselect');
-      dojo.removeClass('construction-cards-stack-' + this._selectedStackForNonStandard, 'selected');
-      this.initSelectableStacks();
     },
 
     ////////////////////////////////

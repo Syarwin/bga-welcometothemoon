@@ -165,8 +165,8 @@ class ConstructionCards extends CachedPieces
       self::move($cardIds, "deck-$deckNumber");
     }
 
-    // Non-solo => populate one card per stack
-    if (!Globals::isSolo()) {
+    // Standard-mode => populate one card per stack
+    if (Globals::isStandard()) {
       self::newTurn();
     }
   }
@@ -214,56 +214,57 @@ class ConstructionCards extends CachedPieces
     return $cards;
   }
 
-  // /*
-  //  * Get all the possible combinations
-  //  */
-  // public function getPossibleCombinations($pId)
-  // {
-  //   $stacks = self::getForPlayer($pId);
-  //   $result = [];
-  //   if(Globals::isStandard()){
-  //     for($i = 0; $i < 3; $i++){
-  //       array_push($result, [
-  //         'stacks' => $i,
-  //         'action' => $stacks[$i][0]['action'],
-  //         'number' => $stacks[$i][1]['number'],
-  //       ]);
-  //     }
-  //   } else {
-  //     for($i = 0; $i < 3; $i++){
-  //       for($j = 0; $j < 3; $j++){
-  //         if($i == $j) continue;
+  /*
+   * Get all the possible combinations
+   */
+  public static function getPossibleCombinations()
+  {
+    $stacks = self::getUiData();
+    $result = [];
 
-  //         array_push($result, [
-  //           'stacks' => [$i, $j],
-  //           'number' => $stacks[$i][0]['number'],
-  //           'action' => $stacks[$j][0]['action'],
-  //         ]);
-  //       }
-  //     }
-  //   }
+    // Standard mode => on each stack, first card is for the action, second is the number
+    if (Globals::isStandard()) {
+      for ($i = 0; $i < 3; $i++) {
+        $result[] = [
+          'stacks' => $i,
+          'action' => $stacks[$i][0]->getAction(),
+          'number' => $stacks[$i][1]->getNumber(),
+        ];
+      }
+    }
+    // Solo mode => can pick any pair of cards
+    else {
+      for ($i = 0; $i < 3; $i++) {
+        for ($j = 0; $j < 3; $j++) {
+          if ($i == $j) continue;
 
-  //   return $result;
-  // }
+          $result[] = [
+            'stacks' => [$i, $j],
+            'number' => $stacks[$i][0]->getNumber(),
+            'action' => $stacks[$j][0]->getAction(),
+          ];
+        }
+      }
+    }
 
+    return $result;
+  }
 
+  /*
+   * Get the combination corresponding to the stack(s) selection
+   */
+  public function getCombination($stack)
+  {
+    $stacks = self::getUiData();
+    $data = [];
+    if (Globals::isStandard()) {
+      $data['action'] = $stacks[$stack][0]->getAction();
+      $data['number'] = $stacks[$stack][1]->getNumber();
+    } else {
+      $data['number'] = $stacks[$stack[0]][0]->getNumber();
+      $data['action'] = $stacks[$stack[1]][0]->getAction();
+    }
 
-  // /*
-  //  * Get the combination corresponding to the stack(s) selection
-  //  */
-  // public function getCombination($pId, $stack)
-  // {
-  //   $stacks = self::getForPlayer($pId);
-  //   $data = [];
-  //   if(Globals::isStandard()){
-  //     $data['action'] = $stacks[$stack][0]['action'];
-  //     $data['number'] = $stacks[$stack][1]['number'];
-  //   } else {
-  //     $data['number'] = $stacks[$stack[0]][0]['number'];
-  //     $data['action'] = $stacks[$stack[1]][0]['action'];
-  //   }
-
-  //   return $data;
-  // }
-
+    return $data;
+  }
 }

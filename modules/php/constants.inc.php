@@ -42,7 +42,8 @@ const ST_CHOOSE_ROTATION = 21;
 const ST_START_TURN_ENGINE = 22;
 
 // Atomic actions
-const ST_WRITE_NUMBER = 30;
+const ST_CHOOSE_CARDS = 30;
+const ST_WRITE_NUMBER = 31;
 
 // Engine state
 const ST_PRE_END_GAME_TURN = 80;
@@ -78,6 +79,7 @@ const PASS = 99;
  * Atomic action
  */
 
+const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
 
 /*

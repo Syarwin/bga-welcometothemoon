@@ -116,17 +116,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       } else if (data.lock === false) {
         delete data.lock;
       }
-      return new Promise((resolve, reject) => {
-        this.ajaxcall(
-          '/' + this.game_name + '/' + this.game_name + '/' + action + '.html',
-          data,
-          this,
-          (data) => resolve(data),
-          (isError, message, code) => {
-            if (isError) reject(message, code);
-          }
-        );
-      });
+      return this.bgaPerformAction(action, data, { checkAction: check });
     },
 
     /*
@@ -226,57 +216,68 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
 
     setupNotifications() {
-      console.log(this._notifications);
-      this._notifications.forEach((notif) => {
-        var functionName = 'notif_' + notif[0];
-
-        let wrapper = (args) => {
-          let msg = this.formatString(this.format_string_recursive(args.log, args.args));
+      this.bgaSetupPromiseNotifications({
+        minDuration: 1200,
+        logger: debug,
+        onStart: (notifName, msg, args) => {
+          msg = this.formatString(msg);
           if (msg != '') {
             this.clearTitleBar();
             $('gameaction_status').innerHTML = msg;
             $('pagemaintitletext').innerHTML = msg;
           }
-          let timing = this[functionName](args);
-          if (args.args.scores) {
-            Object.keys(args.args.scores).forEach((pId) => {
-              this.gamedatas.scores[pId] = args.args.scores[pId];
-              this.updatePlayerScores(pId);
-            });
-          }
-          if (timing === undefined) {
-            if (notif[1] === undefined) {
-              console.error("A notification don't have default timing and didn't send a timing as return value : " + notif[0]);
-              return;
-            }
-
-            // Override default timing by 1 in case of fast replay mode
-            timing = this.isFastMode() ? 0 : notif[1];
-          }
-
-          if (timing !== null) {
-            this.notifqueue.setSynchronousDuration(timing);
-          }
-        };
-
-        dojo.subscribe(notif[0], this, wrapper);
-
-        if (notif[2] != undefined) {
-          this.notifqueue.setIgnoreNotificationCheck(notif[0], notif[2]);
-          this.notifqueue.setSynchronous(notif[0], notif[1]); // Ignorable notif must have a default timing
-        } else {
-          this.notifqueue.setSynchronous(notif[0]);
-        }
-
-        this.notifqueue.setIgnoreNotificationCheck(notif[0], (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
+          $('pagemaintitletext').innerHTML = msg;
+        },
+        onEnd: (notifName, msg, args) => ($('pagemaintitletext').innerHTML = ''),
       });
+      //   console.log(this._notifications);
+      //   this._notifications.forEach((notif) => {
+      //     var functionName = 'notif_' + notif[0];
 
-      // Load production bug report handler
-      dojo.subscribe('loadBug', this, (n) => this.notif_loadBug(n));
+      //     let wrapper = (args) => {
+      //       let msg = this.formatString(this.format_string_recursive(args.log, args.args));
+      //       if (msg != '') {
+      //         this.clearTitleBar();
+      //         $('gameaction_status').innerHTML = msg;
+      //         $('pagemaintitletext').innerHTML = msg;
+      //       }
+      //       let timing = this[functionName](args);
+      //       if (args.args.scores) {
+      //         Object.keys(args.args.scores).forEach((pId) => {
+      //           this.gamedatas.scores[pId] = args.args.scores[pId];
+      //           this.updatePlayerScores(pId);
+      //         });
+      //       }
+      //       if (timing === undefined) {
+      //         if (notif[1] === undefined) {
+      //           console.error("A notification don't have default timing and didn't send a timing as return value : " + notif[0]);
+      //           return;
+      //         }
 
-      this.notifqueue.setSynchronousDuration = (duration) => {
-        setTimeout(() => dojo.publish('notifEnd', null), duration);
-      };
+      //         // Override default timing by 1 in case of fast replay mode
+      //         timing = this.isFastMode() ? 0 : notif[1];
+      //       }
+
+      //       if (timing !== null) {
+      //         this.notifqueue.setSynchronousDuration(timing);
+      //       }
+      //     };
+
+      //     dojo.subscribe(notif[0], this, wrapper);
+
+      //     if (notif[2] != undefined) {
+      //       this.notifqueue.setIgnoreNotificationCheck(notif[0], notif[2]);
+      //       this.notifqueue.setSynchronous(notif[0], notif[1]); // Ignorable notif must have a default timing
+      //     } else {
+      //       this.notifqueue.setSynchronous(notif[0]);
+      //     }
+
+      //     this.notifqueue.setIgnoreNotificationCheck(notif[0], (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
+      //   });
+
+      //   this.notifqueue.setSynchronousDuration = (duration) => {
+      //     setTimeout(() => dojo.publish('notifEnd', null), duration);
+      //   };
     },
 
     /**

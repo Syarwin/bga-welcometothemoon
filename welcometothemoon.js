@@ -244,7 +244,6 @@ define([
 
     onEnteringState(stateName, args) {
       debug('Entering state: ' + stateName, args);
-      /*
       if (this.isFastMode() && ![].includes(stateName)) return;
 
       if (this._focusedPlayer != null && this._focusedPlayer != this.player_id && !this.isSpectator) {
@@ -304,30 +303,27 @@ define([
 
       if (this.isCurrentPlayerActive() && args.args) {
         // Anytime buttons
-        if (args.args.anytimeActions) {
-          args.args.anytimeActions.forEach((action, i) => {
-            let msg = action.desc;
-            msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
-            msg = this.formatString(msg);
-
-            // if (action.source && action.source != '') {
-            //   msg += ' (' + _(action.source) + ')';
-            // }
-
-            this.addPrimaryActionButton(
-              'btnAnytimeAction' + i,
-              msg,
-              () => this.askConfirmation(action.irreversibleAction, () => this.takeAction('actAnytimeAction', { id: i }, false)),
-              'anytimeActions'
-            );
-          });
-        }
+        // if (args.args.anytimeActions) {
+        //   args.args.anytimeActions.forEach((action, i) => {
+        //     let msg = action.desc;
+        //     msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
+        //     msg = this.formatString(msg);
+        //     // if (action.source && action.source != '') {
+        //     //   msg += ' (' + _(action.source) + ')';
+        //     // }
+        //     this.addPrimaryActionButton(
+        //       'btnAnytimeAction' + i,
+        //       msg,
+        //       () => this.askConfirmation(action.irreversibleAction, () => this.takeAction('actAnytimeAction', { id: i }, false)),
+        //       'anytimeActions'
+        //     );
+        //   });
+        // }
       }
 
       // Call appropriate method
       var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
       if (this[methodName] !== undefined) this[methodName](args.args);
-        */
     },
 
     /////////////////////////////
@@ -363,10 +359,12 @@ define([
       this.takeAction('actUndoToStep', { stepId }, false);
     },
 
-    notif_clearTurn(n) {
-      debug('Notif: restarting turn', n);
-      this.cancelLogs(n.args.notifIds);
+    notif_clearTurn(args) {
+      // debug('Notif: restarting turn', n);
+      this.cancelLogs(args.notifIds);
     },
+
+    notif_mediumMessage(args) {},
 
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);

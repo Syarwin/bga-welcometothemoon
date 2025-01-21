@@ -20,6 +20,16 @@ class Action
     $this->ctx = $ctx;
   }
 
+  protected ?array $args = null;
+  public function getArgs()
+  {
+    if (is_null($this->args)) {
+      $methodName = 'args' . $this->getClassName();
+      $this->args = \method_exists($this, $methodName) ? $this->$methodName() : [];
+    }
+    return $this->args;
+  }
+
   public function getCtx()
   {
     return $this->ctx;

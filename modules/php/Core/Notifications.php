@@ -27,6 +27,28 @@ class Notifications
     // TODO
   }
 
+
+  public static function chooseCards($player)
+  {
+    // $combination = $player->getCombination();
+    // $names = [
+    //   SURVEYOR => clienttranslate('Surveyor'),
+    //   ESTATE => clienttranslate('Real Estate Agent'),
+    //   PARK => clienttranslate('Landscaper'),
+    //   POOL => clienttranslate('Pool Manufacturer'),
+    //   TEMP => clienttranslate('Temp agency'),
+    //   BIS => clienttranslate('Bis'),
+    // ];
+    static::pnotify($player, 'mediumMessage', clienttranslate('${player_name} chooses the combination : ${number} & ${action}.'), [
+      'player' => $player,
+      'i18n' => ['action'],
+      'action' => "TODO",
+      'number' => "TODO",
+      // 'action' => $names[$combination['action']],
+      // 'number' => $combination['number'],
+    ]);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
@@ -104,20 +126,7 @@ class Notifications
     // // Keep only the thing that matters
     $fDatas = [
       'players' => $datas['players'],
-      'tiles' => $datas['tiles'],
-      'meeples' => $datas['meeples'],
-      'susan' => $datas['susan'],
-      'scores' => $datas['scores'],
-      'cards' => $datas['cards'],
     ];
-
-    //TODOTissac
-    // foreach ($fDatas['cards'] as $i => $card) {
-    //   $fDatas['cards'][$i] = self::filterCardDatas($card);
-    // }
-    foreach ($fDatas['players'] as &$player) {
-      $player['hand'] = []; // Hide hand !
-    }
 
     self::notify($pId, 'refreshUI', '', [
       'datas' => $fDatas,

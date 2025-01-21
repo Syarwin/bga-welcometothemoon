@@ -2,6 +2,8 @@
 
 namespace Bga\Games\WelcomeToTheMoon\States;
 
+use \Bga\GameFramework\Actions\CheckAction;
+use \Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
@@ -118,13 +120,14 @@ trait EngineTrait
   /**
    * Pass the argument of the action to the atomic action
    */
-  function actTakeAtomicAction($actionName, $args)
+  #[CheckAction(false)]
+  function actTakeAtomicAction(string $actionName, #[JsonParam] array $actionArgs)
   {
     self::checkAction($actionName);
     $pId = Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
     $ctx = Engine::getNextUnresolved($pId);
-    Actions::takeAction($action, $actionName, $args, $ctx);
+    Actions::takeAction($action, $actionName, $actionArgs, $ctx);
   }
 
   /**
@@ -232,9 +235,9 @@ trait EngineTrait
     Engine::confirm($pId);
   }
 
+  #[CheckAction(false)]
   public function actRestart()
   {
-    self::checkAction('actRestart');
     $pId = Players::getCurrentId();
     if (PGlobals::getEngineChoices($pId) < 1) {
       throw new \BgaVisibleSystemException('No choice to undo');
@@ -242,13 +245,14 @@ trait EngineTrait
     Engine::restart($pId);
   }
 
-  public function actUndoToStep($stepId)
+  #[CheckAction(false)]
+  public function actUndoToStep(int $stepId)
   {
-    self::checkAction('actRestart');
     $pId = Players::getCurrentId();
     Engine::undoToStep($pId, $stepId);
   }
 
+  #[CheckAction(false)]
   public function actCancelEngine()
   {
     $pId = Players::getCurrentId();

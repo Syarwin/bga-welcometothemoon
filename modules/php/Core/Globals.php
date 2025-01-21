@@ -205,4 +205,9 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     static::setSolo($isSolo);
     static::setFirstPlayer(array_keys($players)[0]);
   }
+
+  public static function isStandard()
+  {
+    return !self::isSolo();
+  }
 }
