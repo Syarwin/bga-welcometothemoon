@@ -26,7 +26,7 @@ trait SetupTrait
     $this->activeNextPlayer();
   }
 
-  // SETUP BRANCH : finish setup for first game or go to advanced setup to choose corpo/planet/private objectives
+  // SETUP BRANCH : might be useful for later and can be used for debugging launch
   public function stSetupBranch()
   {
     $debug = false;
@@ -50,7 +50,7 @@ trait SetupTrait
   {
     $scenario = Globals::getScenario();
     ConstructionCards::setupScenario();
-    // PlanCards::setupScenario();
+    PlanCards::setupScenario($scenario);
     Notifications::setupScenario($scenario);
 
     $this->gamestate->jumpToState(ST_START_TURN);

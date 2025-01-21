@@ -201,6 +201,7 @@ define([
 
       this.setupPlayers();
       this.setupConstructionCards();
+      this.setupPlanCards();
       if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
 
       this.setupInfoPanel();

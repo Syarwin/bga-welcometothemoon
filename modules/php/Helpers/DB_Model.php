@@ -14,12 +14,12 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
   /**
    * This associative array will link class attributes to db fields
    */
-  protected $attributes = [];
+  protected array $attributes = [];
 
   /**
    * This array will contains class attributes that does not depends on the DB (static info), they can only be accessed, not modified
    */
-  protected $staticAttributes = [];
+  protected array $staticAttributes = [];
 
   /**
    * Fill in class attributes based on DB entry
@@ -155,7 +155,7 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
   /**
    * Return an array of attributes
    */
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     $data = [];
     foreach ($this->attributes as $attribute => $field) {

@@ -120,176 +120,121 @@ $cardBorderRadius: 7px;
 //         flex-grow: 1;
 //         justify-content: space-around;
 
-//         .plan-card-holder {
-//             width: $cardWidth;
-//             height: $cardHeight;
-//             border: 4px solid transparent;
-//             border-radius: 4px;
+.plan-card-holder {
+    width: $cardWidth;
+    height: $cardHeight;
+    border: 4px solid transparent;
+    border-radius: $cardBorderRadius;
 
-//             &.unselectable {
-//                 opacity: 0.6;
-//                 cursor: not-allowed;
-//             }
+    &.unselectable {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 
-//             &.selectable {
-//                 cursor: pointer;
-//                 animation: borderBlink 0.9s infinite;
-//                 border-width: 4px;
-//                 &:hover {
-//                     transform: scale(1.02);
-//                     border-color: red;
-//                     animation: none;
-//                 }
-//             }
+    &.selectable {
+        cursor: pointer;
+        animation: borderBlink 0.9s infinite;
+        border-width: 4px;
+        &:hover {
+            transform: scale(1.02);
+            border-color: red;
+            animation: none;
+        }
+    }
 
-//             &.selected {
-//                 border-color: red;
-//                 &.unselectable {
-//                     opacity: 1;
-//                     cursor: default;
-//                 }
-//             }
+    &.selected {
+        border-color: red;
+        &.unselectable {
+            opacity: 1;
+            cursor: default;
+        }
+    }
 
-//             .plan-card-front {
-//                 position: relative;
-//                 width: 100%;
-//                 height: 100%;
-//                 background-image: url("img/plans.jpg");
-//                 @media (max-width: $breakpoint) {
-//                     background-image: url("img/plans_low.jpg");
-//                 }
-//                 background-size: cover;
+    .plan-card-front {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-image: url("img/objectives.jpg");
+        background-size: 600% 200%;
+        border-radius: $cardBorderRadius;
+        box-shadow: 1px 1px 3px #0f0f0f;
 
-//                 .plan-validation {
-//                     position: absolute;
-//                     width: 130px;
-//                     height: 130px;
-//                     top: 90px;
-//                     left: 40px;
-//                 }
+        // @media (max-width: $breakpoint) {
+        //     background-image: url("img/plans_low.jpg");
+        // }
 
-//                 .plan-validation-0,
-//                 .plan-validation-1 {
-//                     position: absolute;
-//                     width: 65px;
-//                     height: 65px;
+        .plan-validation {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            top: 90px;
+            left: 40px;
+        }
 
-//                     &::before {
-//                         content: "";
-//                         position: absolute;
-//                         width: 80%;
-//                         height: 80%;
-//                         top: 10%;
-//                         left: 10%;
-//                     }
+        .plan-validation-0,
+        .plan-validation-1 {
+            position: absolute;
+            width: 65px;
+            height: 65px;
 
-//                     .stamp {
-//                         display: none;
-//                         position: absolute;
-//                         top: 0%;
-//                         left: -18%;
-//                         width: 120%;
-//                         height: 100%;
-//                         background-image: url("img/stamp.png");
-//                         background-size: contain;
-//                         background-repeat: no-repeat;
-//                         background-position: center center;
-//                     }
-//                 }
+            &::before {
+                content: "";
+                position: absolute;
+                width: 80%;
+                height: 80%;
+                top: 10%;
+                left: 10%;
+            }
 
-//                 .plan-validation-0 {
-//                     top: 227px;
-//                     left: 23px;
-//                 }
+            .stamp {
+                display: none;
+                position: absolute;
+                top: 0%;
+                left: -18%;
+                width: 120%;
+                height: 100%;
+                background-image: url("img/stamp.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+        }
 
-//                 .plan-validation-1 {
-//                     top: 227px;
-//                     left: 115px;
-//                 }
-//             }
+        .plan-validation-0 {
+            top: 227px;
+            left: 23px;
+        }
 
-//             &[data-validation="0"] .plan-validation-1 {
-//                 &::before {
-//                     background: #ece1cd;
-//                 }
-//                 .stamp {
-//                     display: block;
-//                 }
-//             }
-//             &[data-validation="1"] .plan-validation-0 {
-//                 &::before {
-//                     background: #ece1cd;
-//                 }
-//                 .stamp {
-//                     display: block;
-//                 }
-//             }
+        .plan-validation-1 {
+            top: 227px;
+            left: 115px;
+        }
+    }
 
-//             @for $i from 0 through 27 {
-//                 &[data-id="#{$i}"] .plan-card-front {
-//                     background-position: $i * 100%/27 center;
-//                 }
-//             }
+    &[data-validation="0"] .plan-validation-1 {
+        &::before {
+            background: #ece1cd;
+        }
+        .stamp {
+            display: block;
+        }
+    }
+    &[data-validation="1"] .plan-validation-0 {
+        &::before {
+            background: #ece1cd;
+        }
+        .stamp {
+            display: block;
+        }
+    }
 
-//             ////// ICE CREAM EXPANSION ///////
-//             &[data-id="28"],
-//             &[data-id="29"],
-//             &[data-id="30"] {
-//                 .plan-card-front {
-//                     background-image: url("img/expansions/plans_icecream.jpg");
-//                     background-size: 300% 100%;
-//                 }
-//             }
-
-//             &[data-id="28"] .plan-card-front {
-//                 background-position: 0% center;
-//             }
-//             &[data-id="29"] .plan-card-front {
-//                 background-position: 50% center;
-//             }
-//             &[data-id="30"] .plan-card-front {
-//                 background-position: 100% center;
-//             }
-
-//             ////// CHRISTMAS EXPANSION ///////
-//             &[data-id="31"],
-//             &[data-id="32"],
-//             &[data-id="33"] {
-//                 .plan-card-front {
-//                     background-image: url("img/expansions/plans_christmas.jpg");
-//                     background-size: 300% 100%;
-//                 }
-//             }
-
-//             &[data-id="31"] .plan-card-front {
-//                 background-position: 0% center;
-//             }
-//             &[data-id="32"] .plan-card-front {
-//                 background-position: 50% center;
-//             }
-//             &[data-id="33"] .plan-card-front {
-//                 background-position: 100% center;
-//             }
-
-//             ////// EASTER EGG EXPANSION ///////
-//             &[data-id="34"],
-//             &[data-id="35"],
-//             &[data-id="36"] {
-//                 .plan-card-front {
-//                     background-image: url("img/expansions/plans_easter.jpg");
-//                     background-size: 300% 100%;
-//                 }
-//             }
-
-//             &[data-id="34"] .plan-card-front {
-//                 background-position: 0% center;
-//             }
-//             &[data-id="35"] .plan-card-front {
-//                 background-position: 50% center;
-//             }
-//             &[data-id="36"] .plan-card-front {
-//                 background-position: 100% center;
-//             }
-//         }
+    @for $i from 64 through 75 {
+        &[data-id="#{$i}"] .plan-card-front {
+            $col: ($i - 64) % 6;
+            $row: ($i - 64 - $col) / 6;
+            background-position: $col * 100%/5 $row * 100%/1;
+        }
+    }
+}
 //     }
 // }

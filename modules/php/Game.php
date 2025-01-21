@@ -28,6 +28,7 @@ use Bga\Games\WelcomeToTheMoon\States\EngineTrait;
 use Bga\Games\WelcomeToTheMoon\States\SetupTrait;
 use Bga\Games\WelcomeToTheMoon\DebugTrait;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 
 class Game extends \Table
@@ -81,9 +82,10 @@ class Game extends \Table
 
         return [
             'players' => Players::getUiData($currentPId),
+            'constructionCards' => ConstructionCards::getUiData(),
+            'planCards' => PlanCards::getUiData(),
 
             'standard' => !Globals::isSolo(),
-            'constructionCards' => ConstructionCards::getUiData(),
             'scenario' => Globals::getScenario(),
         ];
     }

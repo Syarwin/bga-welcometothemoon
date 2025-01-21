@@ -14,7 +14,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 {
   protected $table = 'player';
   protected $primary = 'player_id';
-  protected $attributes = [
+  protected array $attributes = [
     'id' => ['player_id', 'int'],
     'no' => ['player_no', 'int'],
     'name' => 'player_name',
