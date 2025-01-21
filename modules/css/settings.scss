@@ -153,9 +153,6 @@
 //   position: fixed !important;
 // }
 
-/*
- * Controls in the top bar
- */
 #settings-controls-container {
     position: relative;
     text-align: center;
@@ -267,7 +264,25 @@
             }
         }
 
-        [data-two-columns="1"] &[data-id="columnSizes"] {
+        // Horizontal
+        [data-single-column="0"] &[data-id="mergedRow"] {
+            display: none;
+        }
+        [data-single-column="0"] &[data-id="cardsOrder"] {
+            display: none;
+        }
+        [data-fitwidth="1"] &[data-id="scoresheetZoom"] {
+            display: none;
+        }
+        // Vertical
+        [data-single-column="1"] & {
+            &[data-id="ratio"],
+            &[data-id="fitToWidth"],
+            &[data-id="scoresheetZoom"] {
+                display: none;
+            }
+        }
+        [data-merged="1"] &[data-id="cardsOrder"] {
             display: none;
         }
     }

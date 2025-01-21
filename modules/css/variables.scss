@@ -1,6 +1,13 @@
 :root {
+    --scoresheetScale: 1;
+    --cardsScale: 1;
+    --planScale: 1;
 }
 
 $cardWidth: 200px;
 $cardHeight: 520px * $cardWidth / 343px;
 $cardMargin: 5px;
+
+$scoreSheetSize: 1122px;
+$borderSize: 3px;
+$scoreSheetWidth: $scoreSheetSize + 2 * $borderSize;

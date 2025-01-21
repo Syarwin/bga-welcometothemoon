@@ -55,6 +55,68 @@ define([
       return {
         ////////////////////
         ///    LAYOUT    ///
+        singleColumn: {
+          default: (isMobile) => (isMobile ? 1 : 0),
+          name: _('Single column layout'),
+          attribute: 'single-column',
+          type: 'switch',
+          section: 'layout',
+        },
+
+        mergedRow: {
+          default: (isMobile) => (isMobile ? 1 : 0),
+          name: _('Single row for cards'),
+          attribute: 'merged',
+          type: 'switch',
+          section: 'layout',
+        },
+
+        ratio: {
+          default: [20, 90],
+          name: _('Size ratios'),
+          type: 'multislider',
+          sliderConfig: {
+            step: 1,
+            margin: 40,
+            padding: 5,
+            range: {
+              min: [0],
+              max: [100],
+            },
+          },
+          section: 'layout',
+        },
+
+        fitToWidth: {
+          default: 1,
+          name: _('Fit to width'),
+          type: 'switch',
+          section: 'layout',
+          attribute: 'fitwidth',
+        },
+
+        scoresheetZoom: {
+          default: 100,
+          name: _('Scoresheet scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 1,
+            padding: 5,
+            range: {
+              min: [0],
+              max: [105],
+            },
+          },
+          section: 'layout',
+        },
+
+        cardsOrder: {
+          default: 1,
+          name: _('Plans at bottom'),
+          type: 'switch',
+          section: 'layout',
+          attribute: 'cardsOrder',
+        },
 
         //////////////////////
         /// BOARD / PANELS ///
@@ -98,10 +160,6 @@ define([
       // Create a new div for "subtitle"
       dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
 
-      this.inherited(arguments);
-      // Create a new div for "anytime" buttons
-      dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
-
       // Central area
       $('game_play_area').insertAdjacentHTML(
         'beforeend',
@@ -144,6 +202,11 @@ define([
       this.setupPlayers();
       this.setupConstructionCards();
       if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
+
+      this.setupInfoPanel();
+      this.inherited(arguments);
+      // Create a new div for "anytime" buttons
+      dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
     },
 
     setupScenario(scenario) {
@@ -561,7 +624,19 @@ define([
    `;
     },
 
-    onChangeBoardSizesSetting(val) {
+    onChangeSingleColumnSetting(val) {
+      this.updateLayout();
+    },
+    onChangeMergedRowSetting(val) {
+      this.updateLayout();
+    },
+    onChangeRatioSetting(val) {
+      this.updateLayout();
+    },
+    onChangeScoresheetZoomSetting(val) {
+      this.updateLayout();
+    },
+    onChangeFitToWidthSetting(val) {
       this.updateLayout();
     },
 
@@ -575,16 +650,91 @@ define([
     },
 
     updateLayout() {
-      // if (!this.settings) return;
-      // const ROOT = document.documentElement;
-      // const WIDTH =
-      //     $("welcometothemoon-main-container").getBoundingClientRect()[
-      //         "width"
-      //     ] - 5;
-      // const BOARD_WIDTH = 1510;
-      // const BOARD_SIZE = (WIDTH * this.settings.boardSizes) / 100;
-      // let boardScale = BOARD_SIZE / BOARD_WIDTH;
-      // ROOT.style.setProperty("--planetUnknownBoardScale", boardScale);
+      if (!this.settings || !this.settings.ratio) return;
+
+      if (this.settings.singleColumn == 0) {
+        this.resizeHorizontal();
+      } else {
+        this.resizeVertical();
+      }
+    },
+
+    resizeHorizontal() {
+      const box = $('welcometo-container').getBoundingClientRect();
+      const ratio = this.settings.ratio;
+      const firstHandle = this._isStandard ? ratio[0] : 0.6 * ratio[0];
+
+      const sheetWidth = 1128;
+      const sheetZoom = this.settings.fitToWidth == 1 ? 1 : this.settings.scoresheetZoom / 100;
+      const sheetRatio = (ratio[1] - firstHandle) / 100;
+      const newSheetWidth = sheetZoom * sheetRatio * box['width'];
+      const sheetScale = newSheetWidth / sheetWidth;
+      $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
+      $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
+      $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+
+      const cardsWidth = this._isStandard ? 433 : 208;
+      const cardsHeight = 963;
+      const cardsRatio = firstHandle / 100;
+      const newCardsWidth = cardsRatio * box['width'] - 30;
+      const cardsScale = newCardsWidth / cardsWidth;
+      $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
+      $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
+      $('construction-cards-container-sticky').style.height = `${cardsHeight * cardsScale}px`;
+      $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
+      $('construction-cards-container').style.width = `${newCardsWidth}px`;
+
+      const plansWidth = 236;
+      const plansHeight = 964;
+      const plansRatio = 1 - sheetRatio - cardsRatio;
+      const newPlansWidth = plansRatio * box['width'] - 10;
+      const plansScale = newPlansWidth / plansWidth;
+      $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
+      $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
+      $('plan-cards-container-sticky').style.height = `${plansHeight * plansScale}px`;
+      $('plan-cards-container').style.width = `${newPlansWidth - 20}px`;
+    },
+
+    resizeVertical() {
+      const box = $('welcometo-container').getBoundingClientRect();
+
+      const sheetWidth = 1128;
+      const sheetScale = box['width'] / sheetWidth;
+      const newSheetWidth = box['width'];
+      $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
+      $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
+      $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+
+      const cardsWidth = this._isStandard ? 1289 : 900;
+      const plansWidth = 654;
+      const cardsHeight = 312;
+
+      let cardsScale = 1,
+        plansScale = 1;
+      if (this.settings.mergedRow == 1) {
+        const totalWidth = cardsWidth + plansWidth;
+        cardsScale = (box['width'] - 40) / totalWidth;
+        plansScale = cardsScale;
+      } else {
+        cardsScale = (box['width'] - 20) / cardsWidth;
+        plansScale = (0.7 * (box['width'] - 20)) / plansWidth;
+      }
+
+      const newCardsWidth = cardsWidth * cardsScale;
+      const newCardsHeight = cardsHeight * cardsScale;
+      $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
+      $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
+      $('construction-cards-container-sticky').style.height = `${newCardsHeight}px`;
+      $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
+      $('construction-cards-container').style.width = `${newCardsWidth}px`;
+
+      const newPlansWidth = plansWidth * plansScale;
+      const newPlansHeight = cardsHeight * plansScale;
+      $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
+      $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
+      $('plan-cards-container-sticky').style.height = `${newPlansHeight}px`;
+      $('plan-cards-container-sticky').style.width = `${newPlansWidth}px`;
+      $('plan-cards-container').style.width = this.settings.mergedRow == 0 ? `${box['width'] - 20}px` : `${newPlansWidth}px`;
     },
 
     ///////////////////////////////////////////////////////////

@@ -1,6 +1,3 @@
-$scoreSheetSize: 1122px;
-$borderSize: 3px;
-
 .score-sheet-wrapper {
     width: $scoreSheetSize + 2 * $borderSize;
     height: $scoreSheetSize + 2 * $borderSize;
@@ -81,6 +78,7 @@ $borderSize: 3px;
             width: $scoreSheetSize;
             height: $scoreSheetSize;
             background-size: 100%;
+            background-repeat: no-repeat;
             position: absolute;
             top: 0;
             left: 0;
