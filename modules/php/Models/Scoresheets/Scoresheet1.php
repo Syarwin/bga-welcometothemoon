@@ -10,6 +10,111 @@ class Scoresheet1 extends Scoresheet
   protected int $scenario = 1;
 
 
+  protected array $quarters = [
+    // ASTRONAUT
+    [
+      'slots' => [1, 2, 3],
+      'bonus' => []
+    ],
+    [
+      'slots' => [4, 5, 6],
+      'bonus' => []
+    ],
+    // WATER
+    [
+      'slots' => [8, 9],
+      'bonus' => []
+    ],
+    [
+      'slots' => [10, 11, 12],
+      'bonus' => []
+    ],
+    // ROBOT
+    [
+      'slots' => [13, 14],
+      'bonus' => []
+    ],
+    [
+      'slots' => [15, 16, 17],
+      'bonus' => []
+    ],
+    [
+      'slots' => [18, 19, 20, 21, 22],
+      'bonus' => []
+    ],
+    // PLANNING
+    [
+      'slots' => [23, 24, 25, 26, 27, 28],
+      'bonus' => []
+    ],
+    // ENERGY
+    [
+      'slots' => [29, 30, 31, 32, 33],
+      'bonus' => []
+    ],
+    [
+      'slots' => [34, 35],
+      'bonus' => []
+    ],
+    [
+      'slots' => [36, 37, 38],
+      'bonus' => []
+    ],
+    // PLANT
+    [
+      'slots' => [39, 40],
+      'bonus' => []
+    ],
+    [
+      'slots' => [41, 42],
+      'bonus' => []
+    ],
+    [
+      'slots' => [43, 44],
+      'bonus' => []
+    ],
+    [
+      'slots' => [45, 46],
+      'bonus' => []
+    ],
+    // JOKER
+    [
+      'slots' => [47, 48],
+      'bonus' => []
+    ],
+    [
+      'slots' => [49, 50],
+      'bonus' => []
+    ],
+    [
+      'slots' => [51, 52],
+      'bonus' => []
+    ],
+    [
+      'slots' => [53, 54],
+      'bonus' => []
+    ],
+  ];
+
+  protected array $increasingConstraints = [
+    // ASTRONAUT
+    [1, 2, 3],
+    [4, 5, 6],
+    // WATER
+    [8, 9, 10, 11, 12],
+    // ROBOT
+    [13, 14, 15, 16, 17],
+    [18, 19, 20, 21, 22],
+    // PLANNING
+    [23, 24, 25, 26, 27, 28],
+    // ENERGY
+    [29, 30, 31, 32, 33, 34, 35, 36, 37, 38],
+    // PLANT
+    [39, 40, 41, 42, 43, 44, 45, 46],
+    // JOKER
+    [47, 48, 49, 50, 51, 52, 53, 54]
+  ];
+
   /////////////////////////////
   //  ____        _        
   // |  _ \  __ _| |_ __ _ 
@@ -59,11 +164,6 @@ class Scoresheet1 extends Scoresheet
             "id" => 6,
             "x"  => 477,
             "y"  => 241
-          ],
-          [
-            "id" => 7,
-            "x"  => 305,
-            "y"  => 344
           ],
           [
             "id" => 8,

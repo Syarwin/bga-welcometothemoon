@@ -228,7 +228,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             $('pagemaintitletext').innerHTML = msg;
           }
 
-          await Promise.all([this[functionName](args.args), this.wait(1200)]);
+          await this[functionName](args.args);
           // if (args.args.scores) {
           //   Object.keys(args.args.scores).forEach((pId) => {
           //     this.gamedatas.scores[pId] = args.args.scores[pId];
@@ -242,52 +242,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         this.notifqueue.setSynchronous(notif);
         this.notifqueue.setIgnoreNotificationCheck(notif, (n) => n.args.ignore && n.args.ignore == this.player_id);
       });
-    },
-
-    /**
-     * Load production bug report handler
-     */
-    notif_loadBug(n) {
-      let self = this;
-      function fetchNextUrl() {
-        var url = n.args.urls.shift();
-        console.log('Fetching URL', url, '...');
-        // all the calls have to be made with ajaxcall in order to add the csrf token, otherwise you'll get "Invalid session information for this action. Please try reloading the page or logging in again"
-        self.ajaxcall(
-          url,
-          {
-            lock: true,
-          },
-          self,
-          function (success) {
-            console.log('=> Success ', success);
-
-            if (n.args.urls.length > 1) {
-              fetchNextUrl();
-            } else if (n.args.urls.length > 0) {
-              //except the last one, clearing php cache
-              url = n.args.urls.shift();
-              dojo.xhrGet({
-                url: url,
-                load: function (success) {
-                  console.log('Success for URL', url, success);
-                  console.log('Done, reloading page');
-                  window.location.reload();
-                },
-                handleAs: 'text',
-                error: function (error) {
-                  console.log('Error while loading : ', error);
-                },
-              });
-            }
-          },
-          function (error) {
-            if (error) console.log('=> Error ', error);
-          }
-        );
-      }
-      console.log('Notif: load bug', n.args);
-      fetchNextUrl();
     },
 
     /*

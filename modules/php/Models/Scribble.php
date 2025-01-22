@@ -15,6 +15,7 @@ class Scribble extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     'turn' => ['turn', 'int'],
   ];
   protected string $id;
+  protected string $location;
 
   public function getPId()
   {
@@ -24,5 +25,15 @@ class Scribble extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   public function getIndex()
   {
     return (int) explode("-", $this->id)[1];
+  }
+
+  public function getSlot()
+  {
+    return explode('-', $this->location)[1];
+  }
+
+  public function getNumber()
+  {
+    return $this->type;
   }
 }

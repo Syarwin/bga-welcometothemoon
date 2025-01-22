@@ -79,6 +79,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_chooseCards(args) {
       debug('Notif: choose cards', args);
+      return this.wait(800);
     },
 
     // Flip card and add tooltip

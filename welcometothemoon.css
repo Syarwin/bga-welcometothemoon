@@ -900,6 +900,7 @@ body {
           width: 46px;
           height: 46px;
           border-radius: 50%;
+          border: 1px solid transparent;
           display: flex;
           justify-content: center;
           align-items: center;

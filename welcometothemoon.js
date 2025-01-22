@@ -37,7 +37,7 @@ define([
     {
       constructor() {
         this._activeStates = [];
-        this._notifications = ['chooseCards', 'addScribble', 'newTurn'];
+        this._notifications = ['chooseCards', 'addScribble', 'newTurn', 'clearTurn', 'refreshUI'];
 
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
@@ -377,7 +377,7 @@ define([
       },
 
       notif_mediumMessage(args) {
-        return true;
+        return this.wait(1200);
       },
 
       notif_refreshUI(args) {
@@ -727,7 +727,7 @@ define([
         $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
         $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
 
-        const cardsWidth = this._isStandard ? 433 : 208;
+        const cardsWidth = this._isStandard ? 420 : 208;
         const cardsHeight = 963;
         const cardsRatio = firstHandle / 100;
         const newCardsWidth = cardsRatio * box['width'] - 30;
