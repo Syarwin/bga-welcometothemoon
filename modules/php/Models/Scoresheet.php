@@ -32,7 +32,7 @@ class Scoresheet
     $this->scribbles = Scribbles::getOfPlayer($this->player);
     $this->scribblesBySlots = [];
     foreach ($this->scribbles as $scribble) {
-      $this->scribblesBySlots[$scribble->getSlot()] = $scribble;
+      $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
     }
   }
 
@@ -43,7 +43,7 @@ class Scoresheet
       'location' => "slot-$location",
     ]);
     $this->scribbles[$scribble->getId()] = $scribble;
-    $this->scribblesBySlots[$scribble->getSlot()] = $scribble;
+    $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
     return $scribble;
   }
 
@@ -72,7 +72,7 @@ class Scoresheet
       $curr = [];
       $previous = -1;
       foreach ($slotSequence as $i => $slotId) {
-        $scribble = $this->scribblesBySlots[$slotId] ?? null;
+        $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
         } else {

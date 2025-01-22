@@ -215,7 +215,7 @@ body {
 }
 
 #left-bar {
-    flex-grow: 1;
+    width: 200px;
     background: grey;
     display: flex;
     flex-flow: column;
@@ -314,6 +314,33 @@ textarea {
     height: 200px;
 }
 
+#right-column {
+    flex-grow: 1;
+}
+#right-column button {
+    padding: 4px 8px;
+    border: 0;
+    border-bottom: 1px solid black;
+    background: #3396ff;
+    cursor: pointer;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+}
+#right-column button.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: initial;
+}
+
+#right-column textarea {
+    width: 100%;
+    height: calc(100% - 70px);
+}
+.CodeMirror {
+    height: calc(100vh - 34px) !important;
+}
+
 #editor-main-part {
     display: flex;
     width: 100vw;
@@ -329,7 +356,7 @@ textarea {
 }
 
 #main-frame {
-    width: 1650px;
+    width: 1122px;
     position: relative;
 }
 
@@ -409,14 +436,6 @@ textarea {
 .fa-close {
     background-image: url("img/close.svg");
 }
-.fa-weather {
-    background-image: url("img/weather.svg");
-}
-.fa-podium {
-    background-image: url("img/podium.svg");
-}
-.fa-change-image,
-#top-bar .fa-change-image {
-    width: 2.2em;
-    background-image: url("img/change-image.svg");
+.fa-plus {
+    background-image: url("img/plus.svg");
 }

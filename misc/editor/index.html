@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.css" />
     <title>Welcome To The Moon Scenario Editor</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/lint/json-lint.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css"></link>
   </head>
 
   <body>
@@ -64,18 +69,21 @@
       </div>
       <div id="editor-main-part">
         <div id="left-bar">
-          <div id="cell-indicator">Cell: <span id="cell-indicator-counter">----</span></div>
+          <div id="cell-indicator">Slot: <span id="cell-indicator-counter">----</span></div>
 
           <button id="add-section">Add section</button>
           <div id="filler"></div>
           <button style="display: none" id="force-refresh">Force refresh</button>
-          <textarea id="data"></textarea>
         </div>
         <div id="main-frame-wrapper">
           <div id="main-frame">
             <div id="hover-indicator"></div>
             <div id="board"></div>
           </div>
+        </div>
+        <div id="right-column">
+          <button id="save-changes">Save changes</button>
+          <textarea id="data" autocomplete="off"></textarea>
         </div>
       </div>
     </div>
