@@ -22,9 +22,12 @@ class Notifications
     ]);
   }
 
-  public static function newCards(array $cards)
+  public static function newTurn(int $turn, array $cards)
   {
-    // TODO
+    self::notifyAll('newTurn', clienttranslate('Turn ${turn}'), [
+      'turn' => $turn,
+      'cards' => $cards,
+    ]);
   }
 
 
@@ -39,7 +42,7 @@ class Notifications
     //   TEMP => clienttranslate('Temp agency'),
     //   BIS => clienttranslate('Bis'),
     // ];
-    static::pnotify($player, 'mediumMessage', clienttranslate('${player_name} chooses the combination : ${number} & ${action}.'), [
+    static::pnotify($player, 'chooseCards', clienttranslate('${player_name} chooses the combination : ${number} & ${action}.'), [
       'player' => $player,
       'i18n' => ['action'],
       'action' => "TODO",
@@ -137,6 +140,11 @@ class Notifications
   public static function flush()
   {
     self::notifyAll('flush', '', []);
+  }
+
+  public static function scores()
+  {
+    // TODO
   }
 
   ///////////////////////////////////////////////////////////////

@@ -48,7 +48,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     notif_addScribble(args) {
-      debug('test');
+      debug('Notif: add scribble', args);
       this.addScribble(args.scribble, true);
       return this.wait(800);
     },

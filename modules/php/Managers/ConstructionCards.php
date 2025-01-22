@@ -164,10 +164,14 @@ class ConstructionCards extends CachedPieces
     foreach ($decks as $deckNumber => $cardIds) {
       self::move($cardIds, "deck-$deckNumber");
     }
+    for ($i = 0; $i < 3; $i++) {
+      self::shuffle("deck-$i");
+    }
 
     // Standard-mode => populate one card per stack
     if (Globals::isStandard()) {
       self::newTurn();
+      self::endOfTurn();
     }
   }
 
@@ -189,16 +193,33 @@ class ConstructionCards extends CachedPieces
     // Standard mode => draw 1 card from each deck
     $drawnCards = [];
     for ($i = 0; $i < 3; $i++) {
-      $drawnCard = self::pickOneForLocation("deck-$i", "stack-$i");
+      $drawnCard = self::pickOneForLocation("deck-$i", "stack-$i", 0);
       $drawnCards[$i] = $drawnCard;
     }
 
-    Notifications::newCards($drawnCards);
+    return $drawnCards;
   }
 
   public static function newTurnSolo()
   {
     die("TODO: newTurnSolo in ConstructionCards");
+  }
+
+  public static function endOfTurn()
+  {
+    for ($i = 0; $i < 3; $i++) {
+      $stack = "stack-$i";
+
+      if (Globals::isStandard()) {
+        // Standard mode : Discard last flipped card if any, flip the current construction card if any, draw a new card
+        self::moveAllInLocation($stack, 'discard', 1);
+        self::moveAllInLocation($stack, $stack, 0, 1);
+      } else {
+        // Discard all previously drawn cards
+        die("TODO: end of turn for solo");
+        self::moveAllInLocation($stack, 'discard', 0);
+      }
+    }
   }
 
   /*

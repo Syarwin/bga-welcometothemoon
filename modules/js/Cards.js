@@ -77,15 +77,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
     },
 
-    // Flip card and add tooltip
-    flipCard(card, turn) {
-      card.classList.add('flipped');
-      setTimeout(() => {
-        card.style.zIndex = turn;
+    notif_chooseCards(args) {
+      debug('Notif: choose cards', args);
+    },
 
-        let action = card.dataset.action;
-        this.addCustomTooltip(card.id, 'TODO: tooltip ' + action);
-      }, 1000);
+    // Flip card and add tooltip
+    async flipCard(card, turn) {
+      // Flip animation
+      card.classList.add('flipped');
+      await this.wait(1000);
+      card.style.zIndex = turn;
+
+      // Add tooltip
+      let action = card.dataset.action;
+      this.addCustomTooltip(card.id, 'TODO: tooltip ' + action);
     },
 
     ////////////////////////////////////
@@ -161,33 +166,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     //////////////////////////////////////
     /////////////  New turn  /////////////
     //////////////////////////////////////
-    newTurn(cards, turn) {
-      // Clear everything
-      dojo.query('.construction-cards-stack').removeClass('selected selectable unselectable');
+    async notif_newTurn(args) {
+      debug('Notif: new turn', args);
 
-      // Marks ?
-      let markedStack = Math.floor(Math.random() * 3);
-      debug(markedStack, marks[turn]);
-      cards.forEach((card) => {
-        // Add small mark
-        card.mark = card.stackId == markedStack ? marks[turn] : 0;
-
-        let cardsInStack = dojo.query('#construction-cards-stack-' + card.stackId + ' .construction-card-holder:last-of-type');
-        // NULL only happens in EXPERT MODE
-        let oldCard = cardsInStack.length == 0 ? null : cardsInStack[0];
+      await args.cards.forEach(async (card) => {
+        card.stackId = card.location.split('-')[1];
+        let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector('.construction-card-holder:last-of-type');
+        let oldCard = cardsInStack;
 
         //// STANDARD MODE : FLIP CARD ////
         if (this._isStandard) {
-          // Flip card animation
-          if (oldCard) this.flipCard(oldCard, turn);
-
           // New card
-          if ($('construction-card-' + card.id)) dojo.destroy('construction-card-' + card.id);
-          var newCard = dojo.place(this.format_block('jstpl_constructionCard', card), 'construction-cards-stack-' + card.stackId);
-          dojo.style('construction-card-' + card.id, 'z-index', 100 - turn);
+          let o = $(`construction-card-${card.id}`);
+          if (o) o.remove();
+          $(`construction-cards-stack-${card.stackId}`).insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+          $(`construction-card-${card.id}`).style.zIndex = 100 - args.turn;
+
+          // Flip card animation
+          if (oldCard) await this.flipCard(oldCard, args.turn);
 
           // First card in this stack ? => slide from left
-          if (!oldCard) this.slideFromLeft(newCard);
+          if (!oldCard) await this.slideFromLeft(newCard);
         }
         //// NON STANDARD MODE : SLIDE LEFT ////
         else {
@@ -222,6 +221,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       dojo.style(elem, 'opacity', '1');
       dojo.style(elem, 'left', '0px');
+
+      return this.wait(800);
     },
 
     slideToLeftAndDestroy(elem) {

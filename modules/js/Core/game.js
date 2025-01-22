@@ -215,33 +215,34 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       }
     },
 
-    // setupNotifications() {
-    //   console.log(this._notifications);
-    //   this._notifications.forEach((notif) => {
-    //     var functionName = 'notif_' + notif;
+    setupNotifications() {
+      console.log(this._notifications);
+      this._notifications.forEach((notif) => {
+        var functionName = 'notif_' + notif;
 
-    //     let wrapper = async (args) => {
-    //       let msg = this.formatString(this.format_string_recursive(args.log, args.args));
-    //       if (msg != '') {
-    //         this.clearTitleBar();
-    //         $('gameaction_status').innerHTML = msg;
-    //         $('pagemaintitletext').innerHTML = msg;
-    //       }
-    //       await this[functionName](args.args);
-    //       // if (args.args.scores) {
-    //       //   Object.keys(args.args.scores).forEach((pId) => {
-    //       //     this.gamedatas.scores[pId] = args.args.scores[pId];
-    //       //     this.updatePlayerScores(pId);
-    //       //   });
-    //       // }
-    //       return true;
-    //     };
+        let wrapper = async (args) => {
+          let msg = this.formatString(this.format_string_recursive(args.log, args.args));
+          if (msg != '') {
+            this.clearTitleBar();
+            $('gameaction_status').innerHTML = msg;
+            $('pagemaintitletext').innerHTML = msg;
+          }
 
-    //     dojo.subscribe(notif, this, wrapper);
-    //     this.notifqueue.setSynchronous(notif);
-    //     this.notifqueue.setIgnoreNotificationCheck(notif, (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
-    //   });
-    // },
+          await Promise.all([this[functionName](args.args), this.wait(1200)]);
+          // if (args.args.scores) {
+          //   Object.keys(args.args.scores).forEach((pId) => {
+          //     this.gamedatas.scores[pId] = args.args.scores[pId];
+          //     this.updatePlayerScores(pId);
+          //   });
+          // }
+          dojo.publish('notifEnd', null);
+        };
+
+        dojo.subscribe(notif, this, wrapper);
+        this.notifqueue.setSynchronous(notif);
+        this.notifqueue.setIgnoreNotificationCheck(notif, (n) => n.args.ignore && n.args.ignore == this.player_id);
+      });
+    },
 
     /**
      * Load production bug report handler

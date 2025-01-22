@@ -37,6 +37,7 @@ define([
     {
       constructor() {
         this._activeStates = [];
+        this._notifications = ['chooseCards', 'addScribble', 'newTurn'];
 
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
@@ -218,28 +219,6 @@ define([
         this.setupScoreSheets();
       },
 
-      setupNotifications() {
-        this.bgaSetupPromiseNotifications({
-          minDuration: 1000,
-          logger: debug,
-          handlers: [this],
-          onStart: (notifName, msg, args) => {
-            msg = this.formatString(msg);
-            if (msg != '') {
-              this.clearTitleBar();
-              $('gameaction_status').innerHTML = msg;
-              $('pagemaintitletext').innerHTML = msg;
-            }
-            $('pagemaintitletext').innerHTML = msg;
-          },
-          onEnd: (notifName, msg, args) => ($('pagemaintitletext').innerHTML = ''),
-        });
-      },
-
-      notif_addScribble() {
-        this.inherited(arguments);
-      },
-
       /////////////////////////////////////////////////////////////////
       //  _____       _             ___
       // | ____|_ __ | |_ ___ _ __ / / |    ___  __ ___   _____
@@ -397,7 +376,9 @@ define([
         this.cancelLogs(args.notifIds);
       },
 
-      notif_mediumMessage(args) {},
+      notif_mediumMessage(args) {
+        return true;
+      },
 
       notif_refreshUI(args) {
         this.clearPossible();

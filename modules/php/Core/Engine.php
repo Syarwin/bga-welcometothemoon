@@ -52,8 +52,6 @@ class Engine
     Log::clearCache(false);
     Globals::setMode(MODE_APPLY);
     foreach (self::$trees as $pId => $t) {
-      $player = Players::get($pId);
-      $player->planet()->invalidateCachedDatas();
       $t->replay();
       PGlobals::setEngine($pId, []);
       Game::get()->sendNotifications();

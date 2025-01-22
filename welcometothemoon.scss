@@ -125,6 +125,18 @@ html {
   }
 }
 
+#logs .log.notif_newTurn .roundedbox,
+.chatwindowlogs_zone .log.notif_newTurn.roundedbox {
+  background: #425978;
+  text-align: center;
+  color: #fff;
+  border: 1px solid black;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 2px 3px;
+  font-family: Bebas;
+}
+
 // * {
 //   box-shadow: none !important;
 //   filter: none !important;
