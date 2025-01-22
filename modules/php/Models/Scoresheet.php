@@ -54,7 +54,7 @@ class Scoresheet
    *  - considering increasing sequence constraint
    */
   protected array $increasingConstraints = [];
-  public function getAvailableSlotsForNumber($number)
+  public function getAvailableSlotsForNumber(int $number, string $action)
   {
     $allSlots = $this->slotsBySection['numbers'];
 

@@ -57,7 +57,7 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
     // For each number, compute list of houses where we can write the number
     $result = [];
     foreach ($numbers as $number) {
-      $slots = $player->scoresheet()->getAvailableSlotsForNumber($number);
+      $slots = $player->scoresheet()->getAvailableSlotsForNumber($number, $combination['action']);
       if (!empty($slots)) {
         $result[$number] = $slots;
       }

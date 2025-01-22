@@ -10,6 +10,50 @@ class Scoresheet1 extends Scoresheet
   protected int $scenario = 1;
 
 
+
+  protected array $increasingConstraints = [
+    // ASTRONAUT
+    [1, 2, 3],
+    [4, 5, 6],
+    // WATER
+    [8, 9, 10, 11, 12],
+    // ROBOT
+    [13, 14, 15, 16, 17],
+    [18, 19, 20, 21, 22],
+    // PLANNING
+    [23, 24, 25, 26, 27, 28],
+    // ENERGY
+    [29, 30, 31, 32, 33, 34, 35, 36, 37, 38],
+    // PLANT
+    [39, 40, 41, 42, 43, 44, 45, 46],
+    // JOKER
+    [47, 48, 49, 50, 51, 52, 53, 54]
+  ];
+  public function getAvailableSlotsForNumber(int $number, string $action)
+  {
+    $allSlots = parent::getAvailableSlotsForNumber($number, $action);
+    if ($action == JOKER) return $allSlots;
+
+    // Row for each action (corresponding to increasing constraint)
+    $mapping = [
+      ASTRONAUT => [0, 1, 8],
+      WATER => [2, 8],
+      ROBOT => [3, 4, 8],
+      PLANNING => [5, 8],
+      ENERGY => [6, 8],
+      PLANT => [7, 8],
+    ];
+    // Merge these slots
+    $availableSlots = [];
+    foreach ($mapping[$action] as $rowIndex) {
+      $availableSlots = array_merge($availableSlots, $this->increasingConstraints[$rowIndex]);
+    }
+    // Take the intersection
+    $allSlots = array_values(array_intersect($allSlots, $availableSlots));
+    return $allSlots;
+  }
+
+
   protected array $quarters = [
     // ASTRONAUT
     [
@@ -96,24 +140,6 @@ class Scoresheet1 extends Scoresheet
     ],
   ];
 
-  protected array $increasingConstraints = [
-    // ASTRONAUT
-    [1, 2, 3],
-    [4, 5, 6],
-    // WATER
-    [8, 9, 10, 11, 12],
-    // ROBOT
-    [13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22],
-    // PLANNING
-    [23, 24, 25, 26, 27, 28],
-    // ENERGY
-    [29, 30, 31, 32, 33, 34, 35, 36, 37, 38],
-    // PLANT
-    [39, 40, 41, 42, 43, 44, 45, 46],
-    // JOKER
-    [47, 48, 49, 50, 51, 52, 53, 54]
-  ];
 
   /////////////////////////////
   //  ____        _        
