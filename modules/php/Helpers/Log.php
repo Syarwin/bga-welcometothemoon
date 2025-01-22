@@ -9,11 +9,9 @@ use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
-use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
-use Bga\Games\WelcomeToTheMoon\Managers\Cards;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
+use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -36,6 +34,7 @@ class Log extends \APP_DbObject
     Players::invalidate();
     PlanCards::invalidate();
     ConstructionCards::invalidate();
+    Scribbles::invalidate();
     // Stats::invalidate();
 
     if ($invalidateEngine) {
@@ -216,16 +215,10 @@ class Log extends \APP_DbObject
     // Cancel the game notifications
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     if (!empty($moveIds)) {
-      $minPacketId = $query->where('gamelog_move_id', '<', min($moveIds))->max('gamelog_packet_id');
-
-      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
-      $query
-        ->update(['cancel' => 1])
-        ->where('gamelog_player', $pId)
-        ->where('gamelog_packet_id', '>', $minPacketId)
-        ->whereIn('gamelog_move_id', $moveIds, true)
-        ->run();
-      $notifIds = self::getCanceledNotifIds();
+      $notifications = $query
+        ->whereIn('gamelog_move_id', $moveIds)
+        ->get();
+      $notifIds = self::extractNotifIds($notifications);
       Notifications::clearTurn(Players::get($pId), $notifIds);
     }
 
@@ -235,8 +228,6 @@ class Log extends \APP_DbObject
     // Notify
     $datas = Game::get()->getAllDatas();
     Notifications::refreshUI($pId, $datas);
-    // $player = Players::getCurrent();
-    // Notifications::refreshHand($player, $player->getHand()->ui());
 
     // Force notif flush to be able to delete "restart turn" notif
     Game::get()->sendNotifications();
@@ -247,7 +238,6 @@ class Log extends \APP_DbObject
         ->delete()
         ->where('gamelog_player', $pId)
         ->where('gamelog_move_id', '>=', min($moveIds), true)
-        ->where('gamelog_packet_id', '>', $minPacketId)
         ->run();
     }
 
@@ -269,11 +259,6 @@ class Log extends \APP_DbObject
     return $notificationUIds;
   }
 
-  public static function getCanceledNotifIds()
-  {
-    $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
-    return self::extractNotifIds($query->where('cancel', 1)->get());
-  }
 
   /**
    * clearUndoableStepNotifications : extract and remove all notifications of type 'newUndoableStep' in the gamelog

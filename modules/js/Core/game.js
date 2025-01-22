@@ -215,70 +215,33 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       }
     },
 
-    setupNotifications() {
-      this.bgaSetupPromiseNotifications({
-        minDuration: 1200,
-        logger: debug,
-        onStart: (notifName, msg, args) => {
-          msg = this.formatString(msg);
-          if (msg != '') {
-            this.clearTitleBar();
-            $('gameaction_status').innerHTML = msg;
-            $('pagemaintitletext').innerHTML = msg;
-          }
-          $('pagemaintitletext').innerHTML = msg;
-        },
-        onEnd: (notifName, msg, args) => ($('pagemaintitletext').innerHTML = ''),
-      });
-      //   console.log(this._notifications);
-      //   this._notifications.forEach((notif) => {
-      //     var functionName = 'notif_' + notif[0];
+    // setupNotifications() {
+    //   console.log(this._notifications);
+    //   this._notifications.forEach((notif) => {
+    //     var functionName = 'notif_' + notif;
 
-      //     let wrapper = (args) => {
-      //       let msg = this.formatString(this.format_string_recursive(args.log, args.args));
-      //       if (msg != '') {
-      //         this.clearTitleBar();
-      //         $('gameaction_status').innerHTML = msg;
-      //         $('pagemaintitletext').innerHTML = msg;
-      //       }
-      //       let timing = this[functionName](args);
-      //       if (args.args.scores) {
-      //         Object.keys(args.args.scores).forEach((pId) => {
-      //           this.gamedatas.scores[pId] = args.args.scores[pId];
-      //           this.updatePlayerScores(pId);
-      //         });
-      //       }
-      //       if (timing === undefined) {
-      //         if (notif[1] === undefined) {
-      //           console.error("A notification don't have default timing and didn't send a timing as return value : " + notif[0]);
-      //           return;
-      //         }
+    //     let wrapper = async (args) => {
+    //       let msg = this.formatString(this.format_string_recursive(args.log, args.args));
+    //       if (msg != '') {
+    //         this.clearTitleBar();
+    //         $('gameaction_status').innerHTML = msg;
+    //         $('pagemaintitletext').innerHTML = msg;
+    //       }
+    //       await this[functionName](args.args);
+    //       // if (args.args.scores) {
+    //       //   Object.keys(args.args.scores).forEach((pId) => {
+    //       //     this.gamedatas.scores[pId] = args.args.scores[pId];
+    //       //     this.updatePlayerScores(pId);
+    //       //   });
+    //       // }
+    //       return true;
+    //     };
 
-      //         // Override default timing by 1 in case of fast replay mode
-      //         timing = this.isFastMode() ? 0 : notif[1];
-      //       }
-
-      //       if (timing !== null) {
-      //         this.notifqueue.setSynchronousDuration(timing);
-      //       }
-      //     };
-
-      //     dojo.subscribe(notif[0], this, wrapper);
-
-      //     if (notif[2] != undefined) {
-      //       this.notifqueue.setIgnoreNotificationCheck(notif[0], notif[2]);
-      //       this.notifqueue.setSynchronous(notif[0], notif[1]); // Ignorable notif must have a default timing
-      //     } else {
-      //       this.notifqueue.setSynchronous(notif[0]);
-      //     }
-
-      //     this.notifqueue.setIgnoreNotificationCheck(notif[0], (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
-      //   });
-
-      //   this.notifqueue.setSynchronousDuration = (duration) => {
-      //     setTimeout(() => dojo.publish('notifEnd', null), duration);
-      //   };
-    },
+    //     dojo.subscribe(notif, this, wrapper);
+    //     this.notifqueue.setSynchronous(notif);
+    //     this.notifqueue.setIgnoreNotificationCheck(notif, (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
+    //   });
+    // },
 
     /**
      * Load production bug report handler

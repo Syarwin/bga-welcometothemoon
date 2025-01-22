@@ -899,7 +899,11 @@ body {
         .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number {
           width: 46px;
           height: 46px;
-          border-radius: 50%; }
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center; }
           .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable {
             background-color: rgba(255, 255, 255, 0.4);
             box-shadow: 1px 1px 3px black;
@@ -907,6 +911,19 @@ body {
             cursor: pointer; }
             .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable:hover {
               background-color: rgba(255, 255, 255, 0.8); }
+          .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number .scribble-number {
+            height: 100%;
+            width: 100%;
+            font-size: x-large;
+            font-family: "Caveat";
+            font-weight: bold;
+            font-size: 37px;
+            text-align: center;
+            line-height: 43px;
+            text-indent: -7px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid black; }
 
 .score-sheet[data-board="1"] {
   background-image: url("img/scenario-1.jpg"); }

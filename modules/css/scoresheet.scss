@@ -112,6 +112,7 @@
                     width: 46px;
                     height: 46px;
                     border-radius: 50%;
+                    @include centered;
 
                     &.selectable {
                         background-color: rgba(255, 255, 255, 0.4);
@@ -122,6 +123,21 @@
                         &:hover {
                             background-color: rgba(255, 255, 255, 0.8);
                         }
+                    }
+
+                    .scribble-number {
+                        height: 100%;
+                        width: 100%;
+                        @include handwritten;
+                        font-weight: bold;
+                        font-size: 37px;
+                        text-align: center;
+                        line-height: 43px;
+                        text-indent: -7px;
+
+                        border-radius: 50%;
+                        background-color: rgba(255, 255, 255, 0.6);
+                        border: 1px solid black;
                     }
                 }
             }

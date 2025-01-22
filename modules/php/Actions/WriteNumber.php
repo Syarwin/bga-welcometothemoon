@@ -83,6 +83,6 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
       'location' => "slot-$slotId",
     ]);
 
-    // TODO : notify
+    Notifications::writeNumber($player, $number, $scribble);
   }
 }

@@ -28,143 +28,143 @@ define([
   g_gamethemeurl + 'modules/js/Players.js',
   g_gamethemeurl + 'modules/js/Cards.js',
   g_gamethemeurl + 'modules/js/data.js',
-  /*
-  g_gamethemeurl + 'modules/js/Meeples.js',
-  */
+  g_gamethemeurl + 'modules/js/Scribbles.js',
 ], function (dojo, declare) {
   //  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players, welcometothemoon.meeples, welcometothemoon.cards], {
-  return declare('bgagame.welcometothemoon', [customgame.game, welcometothemoon.players, welcometothemoon.cards], {
-    constructor() {
-      this._activeStates = [];
-      this._notifications = [];
+  return declare(
+    'bgagame.welcometothemoon',
+    [customgame.game, welcometothemoon.players, welcometothemoon.cards, welcometothemoon.scribbles],
+    {
+      constructor() {
+        this._activeStates = [];
 
-      // Fix mobile viewport (remove CSS zoom)
-      this.default_viewport = 'width=740';
-      this.cardStatuses = {};
-    },
+        // Fix mobile viewport (remove CSS zoom)
+        this.default_viewport = 'width=740';
+        this.cardStatuses = {};
+      },
 
-    getSettingsSections() {
-      return {
-        layout: _('Layout'),
-        playerBoard: _('Player Board/Panel'),
-        gameFlow: _('Game Flow'),
-        other: _('Other'),
-      };
-    },
+      getSettingsSections() {
+        return {
+          layout: _('Layout'),
+          playerBoard: _('Player Board/Panel'),
+          gameFlow: _('Game Flow'),
+          other: _('Other'),
+        };
+      },
 
-    getSettingsConfig() {
-      return {
-        ////////////////////
-        ///    LAYOUT    ///
-        singleColumn: {
-          default: (isMobile) => (isMobile ? 1 : 0),
-          name: _('Single column layout'),
-          attribute: 'single-column',
-          type: 'switch',
-          section: 'layout',
-        },
+      getSettingsConfig() {
+        return {
+          ////////////////////
+          ///    LAYOUT    ///
+          singleColumn: {
+            default: (isMobile) => (isMobile ? 1 : 0),
+            name: _('Single column layout'),
+            attribute: 'single-column',
+            type: 'switch',
+            section: 'layout',
+          },
 
-        mergedRow: {
-          default: (isMobile) => (isMobile ? 1 : 0),
-          name: _('Single row for cards'),
-          attribute: 'merged',
-          type: 'switch',
-          section: 'layout',
-        },
+          mergedRow: {
+            default: (isMobile) => (isMobile ? 1 : 0),
+            name: _('Single row for cards'),
+            attribute: 'merged',
+            type: 'switch',
+            section: 'layout',
+          },
 
-        ratio: {
-          default: [20, 90],
-          name: _('Size ratios'),
-          type: 'multislider',
-          sliderConfig: {
-            step: 1,
-            margin: 40,
-            padding: 5,
-            range: {
-              min: [0],
-              max: [100],
+          ratio: {
+            default: [20, 90],
+            name: _('Size ratios'),
+            type: 'multislider',
+            sliderConfig: {
+              step: 1,
+              margin: 40,
+              padding: 5,
+              range: {
+                min: [0],
+                max: [100],
+              },
             },
+            section: 'layout',
           },
-          section: 'layout',
-        },
 
-        fitToWidth: {
-          default: 1,
-          name: _('Fit to width'),
-          type: 'switch',
-          section: 'layout',
-          attribute: 'fitwidth',
-        },
+          fitToWidth: {
+            default: 1,
+            name: _('Fit to width'),
+            type: 'switch',
+            section: 'layout',
+            attribute: 'fitwidth',
+          },
 
-        scoresheetZoom: {
-          default: 100,
-          name: _('Scoresheet scale'),
-          type: 'slider',
-          sliderConfig: {
-            step: 1,
-            padding: 5,
-            range: {
-              min: [0],
-              max: [105],
+          scoresheetZoom: {
+            default: 100,
+            name: _('Scoresheet scale'),
+            type: 'slider',
+            sliderConfig: {
+              step: 1,
+              padding: 5,
+              range: {
+                min: [0],
+                max: [105],
+              },
             },
+            section: 'layout',
           },
-          section: 'layout',
-        },
 
-        cardsOrder: {
-          default: 1,
-          name: _('Plans at bottom'),
-          type: 'switch',
-          section: 'layout',
-          attribute: 'cardsOrder',
-        },
-
-        //////////////////////
-        /// BOARD / PANELS ///
-
-        //////////////////////
-        ///// GAME FLOW //////
-        confirmMode: { type: 'pref', prefId: 103, section: 'gameFlow' },
-        confirmUndoableMode: {
-          type: 'pref',
-          prefId: 104,
-          section: 'gameFlow',
-        },
-        restartButtons: {
-          default: 1,
-          name: _('Restart turn buttons'),
-          type: 'select',
-          attribute: 'undoButtons',
-          values: {
-            0: _('Only "Restart turn" button'),
-            1: _('"Restart turn" and "Undo last step" buttons'),
-            2: _('Only "Undo last step" button'),
+          cardsOrder: {
+            default: 1,
+            name: _('Plans at bottom'),
+            type: 'switch',
+            section: 'layout',
+            attribute: 'cardsOrder',
           },
-          section: 'gameFlow',
-        },
 
-        //////////////////////
-        /////// OTHER ////////
-      };
-    },
+          //////////////////////
+          /// BOARD / PANELS ///
 
-    /**
-     * Setup:
-     *	This method set up the game user interface according to current game situation specified in parameters
-     *	The method is called each time the game interface is displayed to a player, ie: when the game starts and when a player refreshes the game page (F5)
-     *
-     * Params :
-     *	- mixed gamedatas : contains all datas retrieved by the getAllDatas PHP method.
-     */
-    setup(gamedatas) {
-      debug('SETUP', gamedatas);
-      // Create a new div for "subtitle"
-      dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
+          //////////////////////
+          ///// GAME FLOW //////
+          confirmMode: { type: 'pref', prefId: 103, section: 'gameFlow' },
+          confirmUndoableMode: {
+            type: 'pref',
+            prefId: 104,
+            section: 'gameFlow',
+          },
+          restartButtons: {
+            default: 1,
+            name: _('Restart turn buttons'),
+            type: 'select',
+            attribute: 'undoButtons',
+            values: {
+              0: _('Only "Restart turn" button'),
+              1: _('"Restart turn" and "Undo last step" buttons'),
+              2: _('Only "Undo last step" button'),
+            },
+            section: 'gameFlow',
+          },
 
-      // Central area
-      $('game_play_area').insertAdjacentHTML(
-        'beforeend',
-        `
+          //////////////////////
+          /////// OTHER ////////
+        };
+      },
+
+      /**
+       * Setup:
+       *	This method set up the game user interface according to current game situation specified in parameters
+       *	The method is called each time the game interface is displayed to a player, ie: when the game starts and when a player refreshes the game page (F5)
+       *
+       * Params :
+       *	- mixed gamedatas : contains all datas retrieved by the getAllDatas PHP method.
+       */
+      setup(gamedatas) {
+        debug('SETUP', gamedatas);
+        // Create a new div for "subtitle"
+        dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
+
+        // Central area
+        $('game_play_area').insertAdjacentHTML(
+          'beforeend',
+          `
       <div id="welcometo-container">
         <div id="construction-cards-container">
           <div id="construction-cards-container-sticky">
@@ -198,453 +198,472 @@ define([
         </div>
       </div>
       `
-      );
-
-      this.setupPlayers();
-      this.setupConstructionCards();
-      this.setupPlanCards();
-      if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
-
-      this.setupInfoPanel();
-      this.inherited(arguments);
-      // Create a new div for "anytime" buttons
-      dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
-    },
-
-    setupScenario(scenario) {
-      this.empty('score-sheet-holder');
-      this.gamedatas.scenario = scenario;
-      this.setupScoreSheets();
-    },
-
-    /////////////////////////////////////////////////////////////////
-    //  _____       _             ___
-    // | ____|_ __ | |_ ___ _ __ / / |    ___  __ ___   _____
-    // |  _| | '_ \| __/ _ \ '__/ /| |   / _ \/ _` \ \ / / _ \
-    // | |___| | | | ||  __/ | / / | |__|  __/ (_| |\ V /  __/
-    // |_____|_| |_|\__\___|_|/_/  |_____\___|\__,_| \_/ \___|
-    /////////////////////////////////////////////////////////////////
-
-    clearPossible() {
-      dojo.empty('pagesubtitle');
-
-      let toRemove = [];
-      toRemove.forEach((eltId) => {
-        if ($(eltId)) $(eltId).remove();
-      });
-
-      this.inherited(arguments);
-    },
-
-    onUpdateActionButtons(stateName, args) {
-      //        this.addPrimaryActionButton('test', 'test', () => this.testNotif());
-      this.inherited(arguments);
-    },
-
-    testNotif() {},
-
-    onEnteringState(stateName, args) {
-      debug('Entering state: ' + stateName, args);
-      if (this.isFastMode() && ![].includes(stateName)) return;
-
-      if (this._focusedPlayer != null && this._focusedPlayer != this.player_id && !this.isSpectator) {
-        this.goToPlayerBoard(this.player_id);
-      }
-
-      if (args.args && args.args.descSuffix) {
-        this.changePageTitle(args.args.descSuffix);
-      }
-
-      if (args.args && args.args.optionalAction) {
-        let base = args.args.descSuffix ? args.args.descSuffix : '';
-        this.changePageTitle(base + 'skippable');
-      }
-
-      if (this._activeStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
-
-      if (args.args && args.args.optionalAction && !args.args.automaticAction) {
-        this.addSecondaryActionButton(
-          'btnPassAction',
-          _('Pass'),
-          () => this.takeAction('actPassOptionalAction'),
-          'restartAction'
         );
-      }
 
-      // Undo last steps
-      if (args.args && args.args.previousSteps) {
-        args.args.previousSteps.forEach((stepId) => {
-          let logEntry = $('logs').querySelector(`.log.notif_newUndoableStep[data-step="${stepId}"]`);
-          if (logEntry) this.onClick(logEntry, () => this.undoToStep(stepId));
+        this.setupPlayers();
+        this.setupConstructionCards();
+        this.setupPlanCards();
+        if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
+        this.setupScribbles();
 
-          logEntry = document.querySelector(`.chatwindowlogs_zone .log.notif_newUndoableStep[data-step="${stepId}"]`);
-          if (logEntry) this.onClick(logEntry, () => this.undoToStep(stepId));
-        });
-      }
+        this.setupInfoPanel();
+        this.inherited(arguments);
+        // Create a new div for "anytime" buttons
+        dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
+      },
 
-      // Restart turn button
-      if (args.args && args.args.previousEngineChoices && args.args.previousEngineChoices >= 1 && !args.args.automaticAction) {
-        if (args.args && args.args.previousSteps) {
-          let lastStep = Math.max(...args.args.previousSteps);
-          if (lastStep > 0)
-            this.addDangerActionButton('btnUndoLastStep', _('Undo last step'), () => this.undoToStep(lastStep), 'restartAction');
-        }
+      setupScenario(scenario) {
+        this.empty('score-sheet-holder');
+        this.gamedatas.scenario = scenario;
+        this.setupScoreSheets();
+      },
 
-        // Restart whole turn
-        this.addDangerActionButton(
-          'btnRestartTurn',
-          _('Restart turn'),
-          () => {
-            this.stopActionTimer();
-            this.takeAction('actRestart');
-          },
-          'restartAction'
-        );
-      }
-
-      // Highlight stacks
-      if (args.args && args.args.selectedStack) {
-        this.highlightStacks(args.args.selectedStack[0]);
-      }
-
-      if (this.isCurrentPlayerActive() && args.args) {
-        // Anytime buttons
-        // if (args.args.anytimeActions) {
-        //   args.args.anytimeActions.forEach((action, i) => {
-        //     let msg = action.desc;
-        //     msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
-        //     msg = this.formatString(msg);
-        //     // if (action.source && action.source != '') {
-        //     //   msg += ' (' + _(action.source) + ')';
-        //     // }
-        //     this.addPrimaryActionButton(
-        //       'btnAnytimeAction' + i,
-        //       msg,
-        //       () => this.askConfirmation(action.irreversibleAction, () => this.takeAction('actAnytimeAction', { id: i }, false)),
-        //       'anytimeActions'
-        //     );
-        //   });
-        // }
-      }
-
-      // Call appropriate method
-      var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
-      if (this[methodName] !== undefined) this[methodName](args.args);
-    },
-
-    /////////////////////////////
-    //  _   _           _
-    // | | | |_ __   __| | ___
-    // | | | | '_ \ / _` |/ _ \
-    // | |_| | | | | (_| | (_) |
-    //  \___/|_| |_|\__,_|\___/
-    /////////////////////////////
-
-    onAddingNewUndoableStepToLog(notif) {
-      if (!$(`log_${notif.logId}`)) return;
-      let stepId = notif.msg.args.stepId;
-      $(`log_${notif.logId}`).dataset.step = stepId;
-      if ($(`dockedlog_${notif.mobileLogId}`)) $(`dockedlog_${notif.mobileLogId}`).dataset.step = stepId;
-
-      if (this.gamedatas && this.gamedatas.gamestate) {
-        let state = this.gamedatas.gamestate;
-        if (state.private_state) state = state.private_state;
-
-        if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
-          this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
-
-          if ($(`dockedlog_${notif.mobileLogId}`))
-            this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
-        }
-      }
-    },
-
-    undoToStep(stepId) {
-      this.stopActionTimer();
-      this.checkAction('actRestart');
-      this.takeAction('actUndoToStep', { stepId }, false);
-    },
-
-    notif_clearTurn(args) {
-      // debug('Notif: restarting turn', n);
-      this.cancelLogs(args.notifIds);
-    },
-
-    notif_mediumMessage(args) {},
-
-    notif_refreshUI(n) {
-      debug('Notif: refreshing UI', n);
-      // this.clearPossible();
-      // ['cards', 'meeples', 'players', 'tiles'].forEach((value) => {
-      //   this.gamedatas[value] = n.args.datas[value];
-      // });
-      // this.setupMeeples();
-      // this.setupTiles();
-      // this.updatePlayersScores();
-      // this.rotateSusan();
-      // this.updateSusanCounters();
-      // this.updatePlayersCounters();
-      // this.updateHand();
-      // this.updateCivCounters();
-
-      // this.forEachPlayer((player) => {
-      //   this._scoreCounters[player.id].toValue(player.newScore);
-      //   this._playerCounters[player.id]['income'].toValue(player.income);
-      // });
-    },
-
-    ////////////////////////////////////////
-    //  _____             _
-    // | ____|_ __   __ _(_)_ __   ___
-    // |  _| | '_ \ / _` | | '_ \ / _ \
-    // | |___| | | | (_| | | | | |  __/
-    // |_____|_| |_|\__, |_|_| |_|\___|
-    //              |___/
-    ////////////////////////////////////////
-    onEnteringStateSetupEngine(args) {
-      if (!this.isCurrentPlayerActive() && !this.isSpectator) {
-        this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
-      }
-    },
-
-    onUpdateActivitySetupEngine(args, status) {
-      if (status) {
-        if ($('btnCancel')) $('btnCancel').remove();
-      } else {
-        this.clearPossible();
-        this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
-      }
-    },
-
-    addActionChoiceBtn(choice, disabled = false) {
-      if ($('btnChoice' + choice.id)) return;
-
-      let desc = this.translate(choice.description);
-      desc = this.formatString(desc);
-
-      // Add source if any
-      let source = _(choice.source ? choice.source : '');
-      if (source != '') {
-        desc += ` (${source})`;
-      }
-
-      this.addSecondaryActionButton(
-        'btnChoice' + choice.id,
-        desc,
-        disabled
-          ? () => {}
-          : () => {
-              this.askConfirmation(choice.irreversibleAction, () =>
-                this.takeAction('actChooseAction', {
-                  id: choice.id,
-                })
-              );
+      setupNotifications() {
+        this.bgaSetupPromiseNotifications({
+          minDuration: 1000,
+          logger: debug,
+          handlers: [this],
+          onStart: (notifName, msg, args) => {
+            msg = this.formatString(msg);
+            if (msg != '') {
+              this.clearTitleBar();
+              $('gameaction_status').innerHTML = msg;
+              $('pagemaintitletext').innerHTML = msg;
             }
-      );
-      if (disabled) {
-        $(`btnChoice${choice.id}`).classList.add('disabled');
-      }
-      if (choice.description.args && choice.description.args.bonus_pentagon) {
-        $(`btnChoice${choice.id}`).classList.add('withbonus');
-      }
-    },
-
-    onEnteringStateResolveChoice(args) {
-      Object.values(args.choices).forEach((choice) => this.addActionChoiceBtn(choice, false));
-      Object.values(args.allChoices).forEach((choice) => this.addActionChoiceBtn(choice, true));
-    },
-
-    onEnteringStateImpossibleAction(args) {
-      this.addActionChoiceBtn(
-        {
-          choiceId: 0,
-          description: args.desc,
-        },
-        true
-      );
-    },
-
-    addConfirmTurn(args, action) {
-      this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
-        this.stopActionTimer();
-        this.takeAction(action);
-      });
-
-      const OPTION_CONFIRM = 103;
-      let n = args.previousEngineChoices;
-      let timer = Math.min(10 + 2 * n, 20);
-      this.startActionTimer('btnConfirmTurn', timer, this.prefs[OPTION_CONFIRM].value);
-    },
-
-    onEnteringStateConfirmTurn(args) {
-      this.addConfirmTurn(args, 'actConfirmTurn');
-    },
-
-    askConfirmation(warning, callback) {
-      if (warning === false || this.prefs[104].value == 0) {
-        callback();
-      } else {
-        let msg =
-          warning === true
-            ? _(
-                "If you take this action, you won't be able to undo past this step because you will either draw card(s) from the deck or the discard, or someone else is going to make a choice"
-              )
-            : warning;
-        this.confirmationDialog(msg, () => {
-          callback();
+            $('pagemaintitletext').innerHTML = msg;
+          },
+          onEnd: (notifName, msg, args) => ($('pagemaintitletext').innerHTML = ''),
         });
-      }
-    },
+      },
 
-    // Generic call for Atomic Action that encode args as a JSON to be decoded by backend
-    takeAtomicAction(action, args, warning = false) {
-      if (!this.checkAction(action)) return false;
+      notif_addScribble() {
+        this.inherited(arguments);
+      },
 
-      this.askConfirmation(warning, () =>
-        this.takeAction('actTakeAtomicAction', { actionName: action, actionArgs: JSON.stringify(args) }, false)
-      );
-    },
+      /////////////////////////////////////////////////////////////////
+      //  _____       _             ___
+      // | ____|_ __ | |_ ___ _ __ / / |    ___  __ ___   _____
+      // |  _| | '_ \| __/ _ \ '__/ /| |   / _ \/ _` \ \ / / _ \
+      // | |___| | | | ||  __/ | / / | |__|  __/ (_| |\ V /  __/
+      // |_____|_| |_|\__\___|_|/_/  |_____\___|\__,_| \_/ \___|
+      /////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////
-    //  _____  __  __           _
-    // | ____|/ _|/ _| ___  ___| |_ ___
-    // |  _| | |_| |_ / _ \/ __| __/ __|
-    // | |___|  _|  _|  __/ (__| |_\__ \
-    // |_____|_| |_|  \___|\___|\__|___/
-    ///////////////////////////////////////
+      clearPossible() {
+        dojo.empty('pagesubtitle');
 
-    onEnteringStateWriteNumber(args) {
-      let numbersBySlots = {};
+        let toRemove = [];
+        toRemove.forEach((eltId) => {
+          if ($(eltId)) $(eltId).remove();
+        });
 
-      Object.entries(args.numbers).forEach(([number, slots]) => {
-        slots.forEach((slotId) => {
-          // Init click listener
-          if (!numbersBySlots[slotId]) {
-            numbersBySlots[slotId] = [];
-            this.onClick(`slot-${this.player_id}-${slotId}`, () => {
-              const numbers = numbersBySlots[slotId];
+        this.inherited(arguments);
+      },
 
-              //  Only one choice possible => take action
-              if (numbers.length == 1) {
-                // Only one number, we can call the callback directly
-                this.takeAtomicAction('actWriteNumber', [slotId, numbers[0]]);
-              }
-              // Several numbers possible => modal
-              else {
-                console.log('TODO: multiple numbers');
-                // // Open a modal to ask the number to write
-                // var dial = new customgame.modal('chooseNumber', {
-                //   class: 'welcometo_popin',
-                //   closeIcon: 'fa-times',
-                //   title: _('Choose the number you want to write'),
-                //   openAnimation: true,
-                //   openAnimationTarget: `${house.pId}_house_${house.x}_${house.y}`,
-                // });
+      onUpdateActionButtons(stateName, args) {
+        //        this.addPrimaryActionButton('test', 'test', () => this.testNotif());
+        this.inherited(arguments);
+      },
 
-                // numbers.forEach((number) => {
-                //   var div = dojo.place(
-                //     `<div class='number-choice' data-number='${number}'></div>`,
-                //     'popin_chooseNumber_contents',
-                //   );
-                //   dojo.connect(div, 'onclick', () => {
-                //     dial.destroy();
-                //     this._callbackHouse(number, house.x, house.y);
-                //   });
-                // });
-                // dial.show();
-              }
-            });
+      testNotif() {},
+
+      onEnteringState(stateName, args) {
+        debug('Entering state: ' + stateName, args);
+        if (this.isFastMode() && ![].includes(stateName)) return;
+
+        if (this._focusedPlayer != null && this._focusedPlayer != this.player_id && !this.isSpectator) {
+          this.goToPlayerBoard(this.player_id);
+        }
+
+        if (args.args && args.args.descSuffix) {
+          this.changePageTitle(args.args.descSuffix);
+        }
+
+        if (args.args && args.args.optionalAction) {
+          let base = args.args.descSuffix ? args.args.descSuffix : '';
+          this.changePageTitle(base + 'skippable');
+        }
+
+        if (this._activeStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
+
+        if (args.args && args.args.optionalAction && !args.args.automaticAction) {
+          this.addSecondaryActionButton(
+            'btnPassAction',
+            _('Pass'),
+            () => this.takeAction('actPassOptionalAction'),
+            'restartAction'
+          );
+        }
+
+        // Undo last steps
+        if (args.args && args.args.previousSteps) {
+          args.args.previousSteps.forEach((stepId) => {
+            let logEntry = $('logs').querySelector(`.log.notif_newUndoableStep[data-step="${stepId}"]`);
+            if (logEntry) this.onClick(logEntry, () => this.undoToStep(stepId));
+
+            logEntry = document.querySelector(`.chatwindowlogs_zone .log.notif_newUndoableStep[data-step="${stepId}"]`);
+            if (logEntry) this.onClick(logEntry, () => this.undoToStep(stepId));
+          });
+        }
+
+        // Restart turn button
+        if (args.args && args.args.previousEngineChoices && args.args.previousEngineChoices >= 1 && !args.args.automaticAction) {
+          if (args.args && args.args.previousSteps) {
+            let lastStep = Math.max(...args.args.previousSteps);
+            if (lastStep > 0)
+              this.addDangerActionButton(
+                'btnUndoLastStep',
+                _('Undo last step'),
+                () => this.undoToStep(lastStep),
+                'restartAction'
+              );
           }
 
-          // Add that number as a possibility for that slot
-          numbersBySlots[slotId].push(number);
+          // Restart whole turn
+          this.addDangerActionButton(
+            'btnRestartTurn',
+            _('Restart turn'),
+            () => {
+              this.stopActionTimer();
+              this.takeAction('actRestart');
+            },
+            'restartAction'
+          );
+        }
+
+        // Highlight stacks
+        if (args.args && args.args.selectedStack) {
+          this.highlightStacks(args.args.selectedStack[0]);
+        }
+
+        if (this.isCurrentPlayerActive() && args.args) {
+          // Anytime buttons
+          // if (args.args.anytimeActions) {
+          //   args.args.anytimeActions.forEach((action, i) => {
+          //     let msg = action.desc;
+          //     msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
+          //     msg = this.formatString(msg);
+          //     // if (action.source && action.source != '') {
+          //     //   msg += ' (' + _(action.source) + ')';
+          //     // }
+          //     this.addPrimaryActionButton(
+          //       'btnAnytimeAction' + i,
+          //       msg,
+          //       () => this.askConfirmation(action.irreversibleAction, () => this.takeAction('actAnytimeAction', { id: i }, false)),
+          //       'anytimeActions'
+          //     );
+          //   });
+          // }
+        }
+
+        // Call appropriate method
+        var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+        if (this[methodName] !== undefined) this[methodName](args.args);
+      },
+
+      /////////////////////////////
+      //  _   _           _
+      // | | | |_ __   __| | ___
+      // | | | | '_ \ / _` |/ _ \
+      // | |_| | | | | (_| | (_) |
+      //  \___/|_| |_|\__,_|\___/
+      /////////////////////////////
+
+      onAddingNewUndoableStepToLog(notif) {
+        if (!$(`log_${notif.logId}`)) return;
+        let stepId = notif.msg.args.stepId;
+        $(`log_${notif.logId}`).dataset.step = stepId;
+        if ($(`dockedlog_${notif.mobileLogId}`)) $(`dockedlog_${notif.mobileLogId}`).dataset.step = stepId;
+
+        if (this.gamedatas && this.gamedatas.gamestate) {
+          let state = this.gamedatas.gamestate;
+          if (state.private_state) state = state.private_state;
+
+          if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
+            this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
+
+            if ($(`dockedlog_${notif.mobileLogId}`))
+              this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
+          }
+        }
+      },
+
+      undoToStep(stepId) {
+        this.stopActionTimer();
+        this.checkAction('actRestart');
+        this.takeAction('actUndoToStep', { stepId }, false);
+      },
+
+      notif_clearTurn(args) {
+        this.cancelLogs(args.notifIds);
+      },
+
+      notif_mediumMessage(args) {},
+
+      notif_refreshUI(args) {
+        this.clearPossible();
+        ['scribbles', 'players'].forEach((value) => {
+          this.gamedatas[value] = args.datas[value];
         });
-      });
-    },
+        this.setupScribbles();
 
-    ////////////////////////////////////////////////////////////
-    // _____                          _   _   _
-    // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
-    // | |_ / _ \| '__| '_ ` _ \ / _` | __| __| | '_ \ / _` |
-    // |  _| (_) | |  | | | | | | (_| | |_| |_| | | | | (_| |
-    // |_|  \___/|_|  |_| |_| |_|\__,_|\__|\__|_|_| |_|\__, |
-    //                                                 |___/
-    ////////////////////////////////////////////////////////////
+        // this.forEachPlayer((player) => {
+        //   this._scoreCounters[player.id].toValue(player.newScore);
+        //   this._playerCounters[player.id]['income'].toValue(player.income);
+        // });
+      },
 
-    /**
-     * Replace some expressions by corresponding html formating
-     */
-    formatIcon(name, n = null, lowerCase = true) {
-      let type = lowerCase ? name.toLowerCase() : name;
-      const NO_TEXT_ICONS = ['xtoken', 'Clever', 'take-in-range'];
-      let noText = NO_TEXT_ICONS.includes(name);
-      let text = n == null ? '' : `<span>${n}</span>`;
-      return `${noText ? text : ''}<div class="icon-container icon-container-${type}">
+      ////////////////////////////////////////
+      //  _____             _
+      // | ____|_ __   __ _(_)_ __   ___
+      // |  _| | '_ \ / _` | | '_ \ / _ \
+      // | |___| | | | (_| | | | | |  __/
+      // |_____|_| |_|\__, |_|_| |_|\___|
+      //              |___/
+      ////////////////////////////////////////
+      onEnteringStateSetupEngine(args) {
+        if (!this.isCurrentPlayerActive() && !this.isSpectator) {
+          this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
+        }
+      },
+
+      onUpdateActivitySetupEngine(args, status) {
+        if (status) {
+          if ($('btnCancel')) $('btnCancel').remove();
+        } else {
+          this.clearPossible();
+          this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
+        }
+      },
+
+      addActionChoiceBtn(choice, disabled = false) {
+        if ($('btnChoice' + choice.id)) return;
+
+        let desc = this.translate(choice.description);
+        desc = this.formatString(desc);
+
+        // Add source if any
+        let source = _(choice.source ? choice.source : '');
+        if (source != '') {
+          desc += ` (${source})`;
+        }
+
+        this.addSecondaryActionButton(
+          'btnChoice' + choice.id,
+          desc,
+          disabled
+            ? () => {}
+            : () => {
+                this.askConfirmation(choice.irreversibleAction, () =>
+                  this.takeAction('actChooseAction', {
+                    id: choice.id,
+                  })
+                );
+              }
+        );
+        if (disabled) {
+          $(`btnChoice${choice.id}`).classList.add('disabled');
+        }
+        if (choice.description.args && choice.description.args.bonus_pentagon) {
+          $(`btnChoice${choice.id}`).classList.add('withbonus');
+        }
+      },
+
+      onEnteringStateResolveChoice(args) {
+        Object.values(args.choices).forEach((choice) => this.addActionChoiceBtn(choice, false));
+        Object.values(args.allChoices).forEach((choice) => this.addActionChoiceBtn(choice, true));
+      },
+
+      onEnteringStateImpossibleAction(args) {
+        this.addActionChoiceBtn(
+          {
+            choiceId: 0,
+            description: args.desc,
+          },
+          true
+        );
+      },
+
+      addConfirmTurn(args, action) {
+        this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
+          this.stopActionTimer();
+          this.takeAction(action);
+        });
+
+        const OPTION_CONFIRM = 103;
+        let n = args.previousEngineChoices;
+        let timer = Math.min(10 + 2 * n, 20);
+        this.startActionTimer('btnConfirmTurn', timer, this.prefs[OPTION_CONFIRM].value);
+      },
+
+      onEnteringStateConfirmTurn(args) {
+        this.addConfirmTurn(args, 'actConfirmTurn');
+      },
+
+      askConfirmation(warning, callback) {
+        if (warning === false || this.prefs[104].value == 0) {
+          callback();
+        } else {
+          let msg =
+            warning === true
+              ? _(
+                  "If you take this action, you won't be able to undo past this step because you will either draw card(s) from the deck or the discard, or someone else is going to make a choice"
+                )
+              : warning;
+          this.confirmationDialog(msg, () => {
+            callback();
+          });
+        }
+      },
+
+      // Generic call for Atomic Action that encode args as a JSON to be decoded by backend
+      takeAtomicAction(action, args, warning = false) {
+        if (!this.checkAction(action)) return false;
+
+        this.askConfirmation(warning, () =>
+          this.takeAction('actTakeAtomicAction', { actionName: action, actionArgs: JSON.stringify(args) }, false)
+        );
+      },
+
+      ///////////////////////////////////////
+      //  _____  __  __           _
+      // | ____|/ _|/ _| ___  ___| |_ ___
+      // |  _| | |_| |_ / _ \/ __| __/ __|
+      // | |___|  _|  _|  __/ (__| |_\__ \
+      // |_____|_| |_|  \___|\___|\__|___/
+      ///////////////////////////////////////
+
+      onEnteringStateWriteNumber(args) {
+        let numbersBySlots = {};
+
+        Object.entries(args.numbers).forEach(([number, slots]) => {
+          slots.forEach((slotId) => {
+            // Init click listener
+            if (!numbersBySlots[slotId]) {
+              numbersBySlots[slotId] = [];
+              this.onClick(`slot-${this.player_id}-${slotId}`, () => {
+                const numbers = numbersBySlots[slotId];
+
+                //  Only one choice possible => take action
+                if (numbers.length == 1) {
+                  // Only one number, we can call the callback directly
+                  this.takeAtomicAction('actWriteNumber', [slotId, numbers[0]]);
+                }
+                // Several numbers possible => modal
+                else {
+                  console.log('TODO: multiple numbers');
+                  // // Open a modal to ask the number to write
+                  // var dial = new customgame.modal('chooseNumber', {
+                  //   class: 'welcometo_popin',
+                  //   closeIcon: 'fa-times',
+                  //   title: _('Choose the number you want to write'),
+                  //   openAnimation: true,
+                  //   openAnimationTarget: `${house.pId}_house_${house.x}_${house.y}`,
+                  // });
+
+                  // numbers.forEach((number) => {
+                  //   var div = dojo.place(
+                  //     `<div class='number-choice' data-number='${number}'></div>`,
+                  //     'popin_chooseNumber_contents',
+                  //   );
+                  //   dojo.connect(div, 'onclick', () => {
+                  //     dial.destroy();
+                  //     this._callbackHouse(number, house.x, house.y);
+                  //   });
+                  // });
+                  // dial.show();
+                }
+              });
+            }
+
+            // Add that number as a possibility for that slot
+            numbersBySlots[slotId].push(number);
+          });
+        });
+      },
+
+      ////////////////////////////////////////////////////////////
+      // _____                          _   _   _
+      // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
+      // | |_ / _ \| '__| '_ ` _ \ / _` | __| __| | '_ \ / _` |
+      // |  _| (_) | |  | | | | | | (_| | |_| |_| | | | | (_| |
+      // |_|  \___/|_|  |_| |_| |_|\__,_|\__|\__|_|_| |_|\__, |
+      //                                                 |___/
+      ////////////////////////////////////////////////////////////
+
+      /**
+       * Replace some expressions by corresponding html formating
+       */
+      formatIcon(name, n = null, lowerCase = true) {
+        let type = lowerCase ? name.toLowerCase() : name;
+        const NO_TEXT_ICONS = ['xtoken', 'Clever', 'take-in-range'];
+        let noText = NO_TEXT_ICONS.includes(name);
+        let text = n == null ? '' : `<span>${n}</span>`;
+        return `${noText ? text : ''}<div class="icon-container icon-container-${type}">
             <div class="welcometothemoon-icon icon-${type}">${noText ? '' : text}</div>
           </div>`;
-    },
+      },
 
-    formatString(str) {
-      const ICONS = [];
+      formatString(str) {
+        const ICONS = [];
 
-      ICONS.forEach((name) => {
-        const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
-        str = str.replaceAll(regex, this.formatIcon(name, '<span>$1</span>'));
-        str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
-      });
-      str = str.replace(/__([^_]+)__/g, '<span class="action-card-name-reference">$1</span>');
-      str = str.replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>');
+        ICONS.forEach((name) => {
+          const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
+          str = str.replaceAll(regex, this.formatIcon(name, '<span>$1</span>'));
+          str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
+        });
+        str = str.replace(/__([^_]+)__/g, '<span class="action-card-name-reference">$1</span>');
+        str = str.replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>');
 
-      return str;
-    },
+        return str;
+      },
 
-    /**
-     * Format log strings
-     *  @Override
-     */
-    format_string_recursive(log, args) {
-      try {
-        if (log && args && !args.processed) {
-          args.processed = true;
+      /**
+       * Format log strings
+       *  @Override
+       */
+      format_string_recursive(log, args) {
+        try {
+          if (log && args && !args.processed) {
+            args.processed = true;
 
-          log = this.formatString(_(log));
+            log = this.formatString(_(log));
+          }
+        } catch (e) {
+          console.error(log, args, 'Exception thrown', e.stack);
         }
-      } catch (e) {
-        console.error(log, args, 'Exception thrown', e.stack);
-      }
 
-      return this.inherited(arguments);
-    },
+        return this.inherited(arguments);
+      },
 
-    //////////////////////////////////////////////////////
-    //  ___        __         ____                  _
-    // |_ _|_ __  / _| ___   |  _ \ __ _ _ __   ___| |
-    //  | || '_ \| |_ / _ \  | |_) / _` | '_ \ / _ \ |
-    //  | || | | |  _| (_) | |  __/ (_| | | | |  __/ |
-    // |___|_| |_|_|  \___/  |_|   \__,_|_| |_|\___|_|
-    //////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////
+      //  ___        __         ____                  _
+      // |_ _|_ __  / _| ___   |  _ \ __ _ _ __   ___| |
+      //  | || '_ \| |_ / _ \  | |_) / _` | '_ \ / _ \ |
+      //  | || | | |  _| (_) | |  __/ (_| | | | |  __/ |
+      // |___|_| |_|_|  \___/  |_|   \__,_|_| |_|\___|_|
+      //////////////////////////////////////////////////////
 
-    setupInfoPanel() {
-      dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
-      let chk = $('help-mode-chk');
-      dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
-      this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
+      setupInfoPanel() {
+        dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
+        let chk = $('help-mode-chk');
+        dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
+        this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
 
-      this._settingsModal = new customgame.modal('showSettings', {
-        class: 'welcometothemoon_popin',
-        closeIcon: 'fa-times',
-        title: _('Settings'),
-        closeAction: 'hide',
-        verticalAlign: 'flex-start',
-        contentsTpl: `<div id='welcometothemoon-settings'>
+        this._settingsModal = new customgame.modal('showSettings', {
+          class: 'welcometothemoon_popin',
+          closeIcon: 'fa-times',
+          title: _('Settings'),
+          closeAction: 'hide',
+          verticalAlign: 'flex-start',
+          contentsTpl: `<div id='welcometothemoon-settings'>
              <div id='welcometothemoon-settings-header'></div>
              <div id="settings-controls-container"></div>
            </div>`,
-      });
-    },
+        });
+      },
 
-    tplInfoPanel() {
-      return `
+      tplInfoPanel() {
+        return `
   <div class='player-board' id="player_board_config">
     <div id="player_config" class="player_board_content">
       <div class="player_config_row">
@@ -676,141 +695,142 @@ define([
     </div>
   </div>
    `;
-    },
+      },
 
-    onChangeSingleColumnSetting(val) {
-      this.updateLayout();
-    },
-    onChangeMergedRowSetting(val) {
-      this.updateLayout();
-    },
-    onChangeRatioSetting(val) {
-      this.updateLayout();
-    },
-    onChangeScoresheetZoomSetting(val) {
-      this.updateLayout();
-    },
-    onChangeFitToWidthSetting(val) {
-      this.updateLayout();
-    },
+      onChangeSingleColumnSetting(val) {
+        this.updateLayout();
+      },
+      onChangeMergedRowSetting(val) {
+        this.updateLayout();
+      },
+      onChangeRatioSetting(val) {
+        this.updateLayout();
+      },
+      onChangeScoresheetZoomSetting(val) {
+        this.updateLayout();
+      },
+      onChangeFitToWidthSetting(val) {
+        this.updateLayout();
+      },
 
-    onLoadingComplete() {
-      this.updateLayout();
-      this.inherited(arguments);
-    },
+      onLoadingComplete() {
+        this.updateLayout();
+        this.inherited(arguments);
+      },
 
-    onScreenWidthChange() {
-      if (this.settings) this.updateLayout();
-    },
+      onScreenWidthChange() {
+        if (this.settings) this.updateLayout();
+      },
 
-    updateLayout() {
-      if (!this.settings || !this.settings.ratio) return;
+      updateLayout() {
+        if (!this.settings || !this.settings.ratio) return;
 
-      if (this.settings.singleColumn == 0) {
-        this.resizeHorizontal();
-      } else {
-        this.resizeVertical();
-      }
-    },
+        if (this.settings.singleColumn == 0) {
+          this.resizeHorizontal();
+        } else {
+          this.resizeVertical();
+        }
+      },
 
-    resizeHorizontal() {
-      const box = $('welcometo-container').getBoundingClientRect();
-      const ratio = this.settings.ratio;
-      const firstHandle = this._isStandard ? ratio[0] : 0.6 * ratio[0];
+      resizeHorizontal() {
+        const box = $('welcometo-container').getBoundingClientRect();
+        const ratio = this.settings.ratio;
+        const firstHandle = this._isStandard ? ratio[0] : 0.6 * ratio[0];
 
-      const sheetWidth = 1128;
-      const sheetZoom = this.settings.fitToWidth == 1 ? 1 : this.settings.scoresheetZoom / 100;
-      const sheetRatio = (ratio[1] - firstHandle) / 100;
-      const newSheetWidth = sheetZoom * sheetRatio * box['width'];
-      const sheetScale = newSheetWidth / sheetWidth;
-      $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
-      $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-      $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+        const sheetWidth = 1128;
+        const sheetZoom = this.settings.fitToWidth == 1 ? 1 : this.settings.scoresheetZoom / 100;
+        const sheetRatio = (ratio[1] - firstHandle) / 100;
+        const newSheetWidth = sheetZoom * sheetRatio * box['width'];
+        const sheetScale = newSheetWidth / sheetWidth;
+        $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
+        $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
+        $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
 
-      const cardsWidth = this._isStandard ? 433 : 208;
-      const cardsHeight = 963;
-      const cardsRatio = firstHandle / 100;
-      const newCardsWidth = cardsRatio * box['width'] - 30;
-      const cardsScale = newCardsWidth / cardsWidth;
-      $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
-      $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
-      $('construction-cards-container-sticky').style.height = `${cardsHeight * cardsScale}px`;
-      $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
-      $('construction-cards-container').style.width = `${newCardsWidth}px`;
+        const cardsWidth = this._isStandard ? 433 : 208;
+        const cardsHeight = 963;
+        const cardsRatio = firstHandle / 100;
+        const newCardsWidth = cardsRatio * box['width'] - 30;
+        const cardsScale = newCardsWidth / cardsWidth;
+        $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
+        $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
+        $('construction-cards-container-sticky').style.height = `${cardsHeight * cardsScale}px`;
+        $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
+        $('construction-cards-container').style.width = `${newCardsWidth}px`;
 
-      const plansWidth = 236;
-      const plansHeight = 964;
-      const plansRatio = 1 - sheetRatio - cardsRatio;
-      const newPlansWidth = plansRatio * box['width'] - 10;
-      const plansScale = newPlansWidth / plansWidth;
-      $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
-      $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
-      $('plan-cards-container-sticky').style.height = `${plansHeight * plansScale}px`;
-      $('plan-cards-container').style.width = `${newPlansWidth - 20}px`;
-    },
+        const plansWidth = 236;
+        const plansHeight = 964;
+        const plansRatio = 1 - sheetRatio - cardsRatio;
+        const newPlansWidth = plansRatio * box['width'] - 10;
+        const plansScale = newPlansWidth / plansWidth;
+        $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
+        $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
+        $('plan-cards-container-sticky').style.height = `${plansHeight * plansScale}px`;
+        $('plan-cards-container').style.width = `${newPlansWidth - 20}px`;
+      },
 
-    resizeVertical() {
-      const box = $('welcometo-container').getBoundingClientRect();
+      resizeVertical() {
+        const box = $('welcometo-container').getBoundingClientRect();
 
-      const sheetWidth = 1128;
-      const sheetScale = box['width'] / sheetWidth;
-      const newSheetWidth = box['width'];
-      $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
-      $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-      $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+        const sheetWidth = 1128;
+        const sheetScale = box['width'] / sheetWidth;
+        const newSheetWidth = box['width'];
+        $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
+        $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
+        $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
 
-      const cardsWidth = this._isStandard ? 1289 : 900;
-      const plansWidth = 654;
-      const cardsHeight = 312;
+        const cardsWidth = this._isStandard ? 1289 : 900;
+        const plansWidth = 654;
+        const cardsHeight = 312;
 
-      let cardsScale = 1,
-        plansScale = 1;
-      if (this.settings.mergedRow == 1) {
-        const totalWidth = cardsWidth + plansWidth;
-        cardsScale = (box['width'] - 40) / totalWidth;
-        plansScale = cardsScale;
-      } else {
-        cardsScale = (box['width'] - 20) / cardsWidth;
-        plansScale = (0.7 * (box['width'] - 20)) / plansWidth;
-      }
+        let cardsScale = 1,
+          plansScale = 1;
+        if (this.settings.mergedRow == 1) {
+          const totalWidth = cardsWidth + plansWidth;
+          cardsScale = (box['width'] - 40) / totalWidth;
+          plansScale = cardsScale;
+        } else {
+          cardsScale = (box['width'] - 20) / cardsWidth;
+          plansScale = (0.7 * (box['width'] - 20)) / plansWidth;
+        }
 
-      const newCardsWidth = cardsWidth * cardsScale;
-      const newCardsHeight = cardsHeight * cardsScale;
-      $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
-      $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
-      $('construction-cards-container-sticky').style.height = `${newCardsHeight}px`;
-      $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
-      $('construction-cards-container').style.width = `${newCardsWidth}px`;
+        const newCardsWidth = cardsWidth * cardsScale;
+        const newCardsHeight = cardsHeight * cardsScale;
+        $('construction-cards-container-resizable').style.transform = `scale(${cardsScale})`;
+        $('construction-cards-container-resizable').style.width = `${cardsWidth}px`;
+        $('construction-cards-container-sticky').style.height = `${newCardsHeight}px`;
+        $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
+        $('construction-cards-container').style.width = `${newCardsWidth}px`;
 
-      const newPlansWidth = plansWidth * plansScale;
-      const newPlansHeight = cardsHeight * plansScale;
-      $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
-      $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
-      $('plan-cards-container-sticky').style.height = `${newPlansHeight}px`;
-      $('plan-cards-container-sticky').style.width = `${newPlansWidth}px`;
-      $('plan-cards-container').style.width = this.settings.mergedRow == 0 ? `${box['width'] - 20}px` : `${newPlansWidth}px`;
-    },
+        const newPlansWidth = plansWidth * plansScale;
+        const newPlansHeight = cardsHeight * plansScale;
+        $('plan-cards-container-resizable').style.transform = `scale(${plansScale})`;
+        $('plan-cards-container-resizable').style.width = `${plansWidth}px`;
+        $('plan-cards-container-sticky').style.height = `${newPlansHeight}px`;
+        $('plan-cards-container-sticky').style.width = `${newPlansWidth}px`;
+        $('plan-cards-container').style.width = this.settings.mergedRow == 0 ? `${box['width'] - 20}px` : `${newPlansWidth}px`;
+      },
 
-    ///////////////////////////////////////////////////////////
-    //  ____                     _                         _
-    // / ___|  ___ ___  _ __ ___| |__   ___   __ _ _ __ __| |
-    // \___ \ / __/ _ \| '__/ _ \ '_ \ / _ \ / _` | '__/ _` |
-    //  ___) | (_| (_) | | |  __/ |_) | (_) | (_| | | | (_| |
-    // |____/ \___\___/|_|  \___|_.__/ \___/ \__,_|_|  \__,_|
-    ///////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////
+      //  ____                     _                         _
+      // / ___|  ___ ___  _ __ ___| |__   ___   __ _ _ __ __| |
+      // \___ \ / __/ _ \| '__/ _ \ '_ \ / _ \ / _` | '__/ _` |
+      //  ___) | (_| (_) | | |  __/ |_) | (_) | (_| | | | (_| |
+      // |____/ \___\___/|_|  \___|_.__/ \___/ \__,_|_|  \__,_|
+      ///////////////////////////////////////////////////////////
 
-    setupScoreBoard() {
-      this._scoreboardModal = new customgame.modal('showScoreboard', {
-        class: 'welcometothemoon_popin',
-        closeIcon: 'fa-times',
-        closeAction: 'hide',
-        verticalAlign: 'flex-start',
-        contentsTpl: ``,
-        scale: 0.95,
-        breakpoint: 1400,
-      });
+      setupScoreBoard() {
+        this._scoreboardModal = new customgame.modal('showScoreboard', {
+          class: 'welcometothemoon_popin',
+          closeIcon: 'fa-times',
+          closeAction: 'hide',
+          verticalAlign: 'flex-start',
+          contentsTpl: ``,
+          scale: 0.95,
+          breakpoint: 1400,
+        });
 
-      $('open-scoreboard').addEventListener('click', () => this._scoreboardModal.show());
-    },
-  });
+        $('open-scoreboard').addEventListener('click', () => this._scoreboardModal.show());
+      },
+    }
+  );
 });

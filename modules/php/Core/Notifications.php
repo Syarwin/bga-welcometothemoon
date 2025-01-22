@@ -49,6 +49,15 @@ class Notifications
     ]);
   }
 
+  public static function writeNumber($player, $number, $scribble)
+  {
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} writes ${number} on his scoresheet'), [
+      'player' => $player,
+      'number' => $number,
+      'scribble' => $scribble,
+    ]);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
@@ -112,35 +121,16 @@ class Notifications
     ]);
   }
 
-  // Remove extra information from cards
-  protected static function filterCardDatas($card)
-  {
-    return [
-      'id' => $card['id'],
-      'location' => $card['location'],
-      'pId' => $card['pId'],
-    ];
-  }
   public static function refreshUI($pId, $datas)
   {
     // // Keep only the thing that matters
     $fDatas = [
       'players' => $datas['players'],
+      'scribbles' => $datas['scribbles'],
     ];
 
     self::notify($pId, 'refreshUI', '', [
       'datas' => $fDatas,
-    ]);
-  }
-
-  public static function refreshHand($player, $hand)
-  {
-    foreach ($hand as &$card) {
-      $card = self::filterCardDatas($card);
-    }
-    self::notify($player, 'refreshHand', '', [
-      'player' => $player,
-      'hand' => $hand,
     ]);
   }
 
