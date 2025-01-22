@@ -98,97 +98,48 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     /////////////////////////////////////////////////////////////
 
     setupScoreSheets() {
+      const scenarioId = this.gamedatas.scenario;
+      const data = SCENARIOS_DATA[scenarioId];
+
       this.forEachPlayer((player) => {
         let pId = player.id;
+        // Global wrapper
         $('score-sheet-holder').insertAdjacentHTML(
           'beforeend',
-          `<div id="score-sheet-${pId}" class="score-sheet" data-board="${this.gamedatas.scenario}" style="border-color:#${player.color}">
+          `<div id="score-sheet-${pId}" class="score-sheet" data-board="${scenarioId}" style="border-color:#${player.color}">
             <div class='player-name' style="color:#${player.color}; border-color:#${player.color}">${player.name}</class>
             <div class="scoresheet-overlay"></div>
           </div>`
         );
+
+        // Slots
+        data.sections.forEach((section) => {
+          let className = section.eltClass;
+          section.elts.forEach((elt) => {
+            $(`score-sheet-${pId}`).insertAdjacentHTML(
+              'beforeend',
+              `<div class='wttm-slot ${className}' id='slot-${pId}-${elt.id}' data-id='${elt.id}' style="left:${elt.x}px; top:${elt.y}px"></div>`
+            );
+          });
+        });
       });
 
       this.goToPlayerBoard(this.orderedPlayers[0].id);
     },
 
-    tplPlanet(planet, player = null) {
-      let pId = player == null ? 0 : player.id;
-
-      // Create cells
-      let planetGrid = `<div class='planet-grid'>`;
-      for (let y = -1; y < 12; y++) {
-        for (let x = -1; x < 12; x++) {
-          let uid = x + '_' + y;
-          let className = this.getSideCell(planet.id, x, y) == 1 ? ' chiasm-right' : '';
-          let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
-          planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
-
-          // White overlay
-          if (planet.terrains[y] && planet.terrains[y][x] && planet.terrains[y][x] != 'nothing')
-            planetGrid += `<div class='planet-grid-cell-overlay ${className}' style='${style}'></div>`;
-        }
-      }
-      planetGrid += `<div class='planet-ability' id='planet-${pId}-ability'>
-        <h4 class='player-name'>${_(planet.name)}</h4>
-        <div class='planet-desc'>${_(planet.desc)}</div>
-      </div>`;
-      planetGrid += '</div>';
-
-      let content = `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>
-        <div class='pending-tiles'></div>
-        ${planetGrid}
-      </div>`;
-      this.registerCustomTooltip(`<h4>${_(planet.name)}</h4><p>${_(planet.desc)}</p>`, `planet-${pId}-ability`);
-
-      return content;
-    },
-
-    tplPlayerBoard(player) {
-      let planet = player.planetId ? this.tplPlanet(PLANETS_DATA[player.planetId], player) : '';
-      let corporation = player.corporationId ? this.tplCorporation(CORPOS_DATA[player.corporationId], player) : '';
-
-      let arrows = player.name;
-      if (player != null && !this.isSolo()) {
-        arrows = `<div class='prev-player-board'><i class="fa fa-long-arrow-left"></i></div>${player.name}<div class='next-player-board'><i class="fa fa-long-arrow-right"></i></div>`;
-      }
-
-      return `<div id='player-board-${player.id}' class='pu-player-board-wrapper' style='border-color:#${player.color}'>
-        <div class='pu-player-board-top'>
-          <div class='prev-objectives' id='prev-objectives-${player.id}'></div>
-          <div class='player-board-name' style='color:#${player.color}'>
-            ${arrows}
-          </div>
-          <div class='next-objectives' id='next-objectives-${player.id}'>
-          ${this.isSolo() ? `<div class="private-objectives" id="private-objectives-${player.id}"></div>` : ''}
-          </div>
-        </div>
-        <div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
-          <div class='pu-player-board-fixed-size'>
-            <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
-              ${planet}
-            </div>
-            <div class="pu-player-board-corporation" id='player-board-corporation-${player.id}'>
-              ${corporation}
-            </div>
-          </div>
-        </div>
-      </div>`;
-    },
-
-    tplPlayerPanel(player) {
-      return `<div class="welcometothemoon-first-player-holder" id="firstPlayer-${player.id}"></div>
-      <div class='player-info'>
-        <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
-          <span id='counter-${player.id}-immediateCiv'>0</span>!
-          +
-          <span id='counter-${player.id}-endgameCiv'>0</span>
-          •
-          ${this.formatIcon('civ')}
-        </div>
-        ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
-      </div>`;
-    },
+    // tplPlayerPanel(player) {
+    //   return `<div class="welcometothemoon-first-player-holder" id="firstPlayer-${player.id}"></div>
+    //   <div class='player-info'>
+    //     <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
+    //       <span id='counter-${player.id}-immediateCiv'>0</span>!
+    //       +
+    //       <span id='counter-${player.id}-endgameCiv'>0</span>
+    //       •
+    //       ${this.formatIcon('civ')}
+    //     </div>
+    //     ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
+    //   </div>`;
+    // },
 
     ////////////////////////////////////////////////////
     //   ____                  _

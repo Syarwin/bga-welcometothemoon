@@ -31,6 +31,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
+use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 
 class Game extends \Table
 {
@@ -85,6 +86,7 @@ class Game extends \Table
             'players' => Players::getUiData($currentPId),
             'constructionCards' => ConstructionCards::getUiData(),
             'planCards' => PlanCards::getUiData(),
+            'scribbles' => Scribbles::getUiData(),
 
             'standard' => Globals::isStandard(),
             'scenario' => Globals::getScenario(),

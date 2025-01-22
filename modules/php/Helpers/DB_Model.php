@@ -8,8 +8,8 @@ use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 
 abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 {
-  protected $table = null;
-  protected $primary = null;
+  protected string $table = "";
+  protected string $primary = "";
   protected $log = null;
   /**
    * This associative array will link class attributes to db fields

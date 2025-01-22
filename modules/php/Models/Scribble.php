@@ -4,14 +4,25 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 
 class Scribble extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 {
-  protected $table = 'meeples';
-  protected $primary = 'meeple_id';
-  protected $attributes = [
+  protected string $table = 'meeples';
+  protected string $primary = 'meeple_id';
+  protected array $attributes = [
     'id' => 'scribble_id',
-    'location' => 'meeple_location',
-    'state' => 'meeple_state',
+    'location' => 'scribble_location',
+    'state' => 'scribble_state',
     'type' => ['type', 'int'],
     'typeArg' => 'type_arg',
     'turn' => ['turn', 'int'],
   ];
+  protected string $id;
+
+  public function getPId()
+  {
+    return (int) explode("-", $this->id)[0];
+  }
+
+  public function getIndex()
+  {
+    return (int) explode("-", $this->id)[1];
+  }
 }

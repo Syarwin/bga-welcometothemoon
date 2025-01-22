@@ -14,38 +14,6 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return ST_CHOOSE_CARDS;
   }
 
-  /*
-   * Given a number/action combination (as assoc array), compute the set of writtable numbers on the sheet
-   */
-  public function getAvailableNumbersOfCombination($player, $combination)
-  {
-    // Unless the action is temporary agent, a combination is uniquely associated to a number
-    $numbers = [$combination['number']];
-
-    // For astronaut, we can do -2, -1, +1, +2 EXCEPT for first scenario
-    if ($combination['action'] == ASTRONAUT && Globals::getScenario() != 1) {
-      $modifiers = [-2, -1, 1, 2];
-      foreach ($modifiers as $dx) {
-        $n = $combination['number'] + $dx;
-        if ($n < 0 || $n > 17) {
-          continue;
-        }
-
-        array_push($numbers, $n);
-      }
-    }
-
-    // For each number, compute list of houses where we can write the number
-    $result = [];
-    foreach ($numbers as $number) {
-      $result[$number] = [];
-      // $houses = $player->scoresheet()->getAvailableHousesForNumber($number);
-      // if (!empty($houses)) {
-      //   $result[$number] = $houses;
-      // }
-    }
-    return $result;
-  }
 
 
   /*
@@ -56,7 +24,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $combinations = ConstructionCards::getPossibleCombinations();
     $result = [];
     foreach ($combinations as $combination) {
-      if (!empty($this->getAvailableNumbersOfCombination($player, $combination))) {
+      if (!empty(WriteNumber::getAvailableNumbersOfCombination($player, $combination))) {
         array_push($result, $combination['stacks']);
       }
     }

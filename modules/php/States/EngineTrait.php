@@ -27,6 +27,11 @@ trait EngineTrait
 
   function addCommonArgs($pId, &$args)
   {
+    $stack = PGlobals::getStack($pId);
+    if (!empty($stack)) {
+      $args['selectedStack'] = $stack;
+    }
+
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);
     $args['previousSteps'] = Log::getUndoableSteps($pId);
   }

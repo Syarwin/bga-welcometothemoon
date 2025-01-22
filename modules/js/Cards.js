@@ -67,18 +67,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     //   dojo.query('.construction-cards-stack').removeClass('unselectable selectable');
     // },
 
-    // // Hightlight selected stack(s)
-    // highlight(stack, callback) {
-    //   this._callback = callback;
-    //   this._highlighted = stack;
-    //   dojo.query('.construction-cards-stack').addClass('unselectable');
-    //   if (this._isStandard) {
-    //     dojo.addClass('construction-cards-stack-' + stack, 'selected');
-    //   } else {
-    //     dojo.addClass('construction-cards-stack-' + stack[0], 'selected');
-    //     dojo.addClass('construction-cards-stack-' + stack[1], 'selected flipped');
-    //   }
-    // },
+    // Hightlight selected stack(s)
+    highlightStacks(stack) {
+      if (this._isStandard) {
+        $(`construction-cards-stack-${stack}`).classList.add('selected');
+      } else {
+        $(`construction-cards-stack-${stack[0]}`).classList.add('selected');
+        $(`construction-cards-stack-${stack[1]}`).classList.add('selected');
+      }
+    },
 
     // Flip card and add tooltip
     flipCard(card, turn) {

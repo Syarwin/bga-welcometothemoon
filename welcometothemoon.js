@@ -27,6 +27,7 @@ define([
   g_gamethemeurl + 'modules/js/Core/modal.js',
   g_gamethemeurl + 'modules/js/Players.js',
   g_gamethemeurl + 'modules/js/Cards.js',
+  g_gamethemeurl + 'modules/js/data.js',
   /*
   g_gamethemeurl + 'modules/js/Meeples.js',
   */
@@ -301,6 +302,11 @@ define([
         );
       }
 
+      // Highlight stacks
+      if (args.args && args.args.selectedStack) {
+        this.highlightStacks(args.args.selectedStack[0]);
+      }
+
       if (this.isCurrentPlayerActive() && args.args) {
         // Anytime buttons
         // if (args.args.anytimeActions) {
@@ -506,6 +512,55 @@ define([
     // | |___|  _|  _|  __/ (__| |_\__ \
     // |_____|_| |_|  \___|\___|\__|___/
     ///////////////////////////////////////
+
+    onEnteringStateWriteNumber(args) {
+      let numbersBySlots = {};
+
+      Object.entries(args.numbers).forEach(([number, slots]) => {
+        slots.forEach((slotId) => {
+          // Init click listener
+          if (!numbersBySlots[slotId]) {
+            numbersBySlots[slotId] = [];
+            this.onClick(`slot-${this.player_id}-${slotId}`, () => {
+              const numbers = numbersBySlots[slotId];
+
+              //  Only one choice possible => take action
+              if (numbers.length == 1) {
+                // Only one number, we can call the callback directly
+                this.takeAtomicAction('actWriteNumber', [slotId, numbers[0]]);
+              }
+              // Several numbers possible => modal
+              else {
+                console.log('TODO: multiple numbers');
+                // // Open a modal to ask the number to write
+                // var dial = new customgame.modal('chooseNumber', {
+                //   class: 'welcometo_popin',
+                //   closeIcon: 'fa-times',
+                //   title: _('Choose the number you want to write'),
+                //   openAnimation: true,
+                //   openAnimationTarget: `${house.pId}_house_${house.x}_${house.y}`,
+                // });
+
+                // numbers.forEach((number) => {
+                //   var div = dojo.place(
+                //     `<div class='number-choice' data-number='${number}'></div>`,
+                //     'popin_chooseNumber_contents',
+                //   );
+                //   dojo.connect(div, 'onclick', () => {
+                //     dial.destroy();
+                //     this._callbackHouse(number, house.x, house.y);
+                //   });
+                // });
+                // dial.show();
+              }
+            });
+          }
+
+          // Add that number as a possibility for that slot
+          numbersBySlots[slotId].push(number);
+        });
+      });
+    },
 
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _

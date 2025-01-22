@@ -103,6 +103,28 @@
                 border-radius: 7px;
                 box-shadow: 1px 1px 2px #202020;
             }
+
+            .wttm-slot {
+                position: absolute;
+                display: block;
+
+                &.slot-number {
+                    width: 46px;
+                    height: 46px;
+                    border-radius: 50%;
+
+                    &.selectable {
+                        background-color: rgba(255, 255, 255, 0.4);
+                        box-shadow: 1px 1px 3px black;
+                        border: 1px solid black;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.8);
+                        }
+                    }
+                }
+            }
         }
     }
 }

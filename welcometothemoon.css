@@ -893,6 +893,20 @@ body {
         border: 2px solid black;
         border-radius: 7px;
         box-shadow: 1px 1px 2px #202020; }
+      .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot {
+        position: absolute;
+        display: block; }
+        .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%; }
+          .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 1px 1px 3px black;
+            border: 1px solid black;
+            cursor: pointer; }
+            .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable:hover {
+              background-color: rgba(255, 255, 255, 0.8); }
 
 .score-sheet[data-board="1"] {
   background-image: url("img/scenario-1.jpg"); }

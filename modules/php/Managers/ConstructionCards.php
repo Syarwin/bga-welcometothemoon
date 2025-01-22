@@ -253,7 +253,7 @@ class ConstructionCards extends CachedPieces
   /*
    * Get the combination corresponding to the stack(s) selection
    */
-  public function getCombination($stack)
+  public static function getCombination($stack)
   {
     $stacks = self::getUiData();
     $data = [];

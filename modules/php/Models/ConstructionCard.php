@@ -4,8 +4,8 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 
 class ConstructionCard extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 {
-  protected $table = 'construction_cards';
-  protected $primary = 'card_id';
+  protected string $table = 'construction_cards';
+  protected string $primary = 'card_id';
   protected array $attributes = [
     'id' => ['card_id', 'int'],
     'location' => 'card_location',
