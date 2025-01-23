@@ -441,10 +441,23 @@ $('add-section').addEventListener('click', () => {
   if (id == '') return;
 
   DATAS.sections.push({
-    id,
+    id: id,
     name: id,
     modes: ['show', 'add'],
+    eltClass: '',
     elts: [],
+  });
+  saveScenario();
+  window.location.reload();
+});
+
+// Re-index
+$('re-index').addEventListener('click', () => {
+  if (!confirm('Are you sure?')) return;
+
+  let id = 1;
+  DATAS.sections.forEach((section) => {
+    section.elts.forEach((elt) => (elt.id = id++));
   });
   saveScenario();
   window.location.reload();

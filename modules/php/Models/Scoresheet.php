@@ -14,6 +14,7 @@ class Scoresheet
 
   public function __construct(?Player $player)
   {
+    if (is_null($player)) return; // Used to extract datas
     $this->player = $player;
     $this->fetch();
 

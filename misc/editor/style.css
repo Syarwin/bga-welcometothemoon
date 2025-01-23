@@ -175,6 +175,7 @@ body {
                             */
 
 #editor {
+    height: 100vh;
 }
 
 #top-bar {
@@ -338,12 +339,13 @@ textarea {
     height: calc(100% - 70px);
 }
 .CodeMirror {
-    height: calc(100vh - 34px) !important;
+    height: calc(100% - 30px) !important;
 }
 
 #editor-main-part {
     display: flex;
     width: 100vw;
+    height: calc(100% - 31px);
 }
 
 #main-frame-wrapper {
@@ -375,20 +377,6 @@ textarea {
     border-radius: 50%;
     border: 4px solid black;
     pointer-events: none;
-}
-
-/** NUMBERS **/
-#main-frame.add-numbers .slot-number,
-#main-frame.show-numbers .slot-number,
-#main-frame.add-numbers #hover-indicator {
-    display: block;
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    background-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 1px 1px 3px black;
-    border: 1px solid black;
-    border-radius: 50%;
 }
 
 .fa-icon {
@@ -438,4 +426,109 @@ textarea {
 }
 .fa-plus {
     background-image: url("img/plus.svg");
+}
+
+/* ____  _       _       
+/ ___|| | ___ | |_ ___ 
+\___ \| |/ _ \| __/ __|
+ ___) | | (_) | |_\__ \
+|____/|_|\___/ \__|___/
+                        */
+
+/** NUMBERS **/
+#main-frame.add-numbers .slot-number,
+#main-frame.show-numbers .slot-number,
+#main-frame.add-numbers #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 1px 1px 3px black;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+/** BONUSES **/
+#main-frame.add-bonuses .slot-bonus,
+#main-frame.show-bonuses .slot-bonus,
+#main-frame.add-bonuses #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    background: url("img/scribble.png");
+    background-size: 100%;
+    border-radius: 0px;
+    border: none;
+}
+
+/** ROCKETS **/
+#main-frame.add-rockets .slot-rocket,
+#main-frame.show-rockets .slot-rocket,
+#main-frame.add-rockets #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: url("img/scribble.png");
+    background-size: 100%;
+    border-radius: 0px;
+    border: none;
+}
+
+/** SCORES **/
+#main-frame.add-scores .slot-score,
+#main-frame.show-scores .slot-score,
+#main-frame.add-scores #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 1px 1px 3px black;
+    border: 1px solid black;
+    border-radius: 1px;
+}
+
+/** SCORES **/
+#main-frame.add-arrows .slot-arrow,
+#main-frame.show-arrows .slot-arrow,
+#main-frame.add-arrows #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background-color: #553544;
+    clip-path: polygon(12% 3%, 35% 40%, 68% 7%, 97% 41%, 58% 70%, 88% 98%, 7% 92%);
+    border-radius: 0;
+    border: none;
+}
+
+/** ERRORS **/
+#main-frame.add-errors .slot-error,
+#main-frame.show-errors .slot-error,
+#main-frame.add-errors #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    box-shadow: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+/** PLAN **/
+#main-frame.add-plans .slot-plan,
+#main-frame.show-plans .slot-plan,
+#main-frame.add-plans #hover-indicator {
+    display: block;
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    border: 1px solid black;
+    box-shadow: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
 }
