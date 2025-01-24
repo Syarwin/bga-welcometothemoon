@@ -17,6 +17,9 @@ class Actions
   static $classes = [
     CHOOSE_CARDS,
     WRITE_NUMBER,
+
+    // Scenario 1
+    CROSS_ROCKETS,
   ];
 
   public static function get($actionId, &$ctx = null)

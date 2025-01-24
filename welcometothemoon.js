@@ -436,7 +436,7 @@ define([
             : () => {
                 this.askConfirmation(choice.irreversibleAction, () =>
                   this.takeAction('actChooseAction', {
-                    id: choice.id,
+                    choiceId: choice.id,
                   })
                 );
               }
@@ -450,6 +450,8 @@ define([
       },
 
       onEnteringStateResolveChoice(args) {
+        if (args.noNode) return;
+
         Object.values(args.choices).forEach((choice) => this.addActionChoiceBtn(choice, false));
         Object.values(args.allChoices).forEach((choice) => this.addActionChoiceBtn(choice, true));
       },
@@ -608,6 +610,10 @@ define([
             args.processed = true;
 
             log = this.formatString(_(log));
+
+            if (args.action) {
+              args.action_icon = this.formatIcon(args.action);
+            }
           }
         } catch (e) {
           console.error(log, args, 'Exception thrown', e.stack);

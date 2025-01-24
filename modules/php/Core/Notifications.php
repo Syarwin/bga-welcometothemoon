@@ -10,6 +10,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Managers\Cards;
 use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
 use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class Notifications
 {
@@ -31,24 +32,24 @@ class Notifications
   }
 
 
-  public static function chooseCards($player)
+  public static function chooseCards(Player $player, array $combination)
   {
-    // $combination = $player->getCombination();
-    // $names = [
-    //   SURVEYOR => clienttranslate('Surveyor'),
-    //   ESTATE => clienttranslate('Real Estate Agent'),
-    //   PARK => clienttranslate('Landscaper'),
-    //   POOL => clienttranslate('Pool Manufacturer'),
-    //   TEMP => clienttranslate('Temp agency'),
-    //   BIS => clienttranslate('Bis'),
-    // ];
-    static::pnotify($player, 'chooseCards', clienttranslate('${player_name} chooses the combination : ${number} & ${action}.'), [
+    $names = [
+      ASTRONAUT => clienttranslate('Astronaut'),
+      ROBOT => clienttranslate('Robot'),
+      PLANT => clienttranslate('Plant'),
+      WATER => clienttranslate('Water'),
+      PLANNING => clienttranslate('Planning'),
+      ENERGY => clienttranslate('Energy'),
+      JOKER => clienttranslate('Joker'),
+    ];
+
+    static::pnotify($player, 'chooseCards', clienttranslate('${player_name} chooses the combination ${number} ${action}${action_icon}.'), [
       'player' => $player,
       'i18n' => ['action'],
-      'action' => "TODO",
-      'number' => "TODO",
-      // 'action' => $names[$combination['action']],
-      // 'number' => $combination['number'],
+      'action' => $names[$combination['action']],
+      'action_icon' => "",
+      'number' => $combination['number'],
     ]);
   }
 

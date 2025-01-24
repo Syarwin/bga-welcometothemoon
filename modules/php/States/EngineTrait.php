@@ -59,6 +59,11 @@ trait EngineTrait
     $action = $this->getCurrentAtomicAction($pId);
     $args = Actions::getArgs($action, $node);
     $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
+    if ($args['automaticAction']) {
+      $args['_no_notify'] = true;
+      return $args;
+    }
+
     $this->addCommonArgs($pId, $args);
     $this->addArgsAnytimeAction($pId, $args, $action);
 
@@ -168,6 +173,10 @@ trait EngineTrait
   {
     $player = Players::get($pId);
     $node = Engine::getNextUnresolved($pId);
+    if (is_null($node)) {
+      return ['noNode' => true];
+    }
+
     $args = array_merge($node->getArgs() ?? [], [
       'choices' => Engine::getNextChoice($player),
       'allChoices' => Engine::getNextChoice($player, true),
@@ -185,7 +194,7 @@ trait EngineTrait
     return $args;
   }
 
-  function actChooseAction($choiceId)
+  function actChooseAction(int $choiceId)
   {
     $player = Players::getCurrent();
     Engine::chooseNode($player, $choiceId);

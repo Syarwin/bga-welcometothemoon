@@ -550,97 +550,39 @@
   .plan-card-holder[data-id="75"] .plan-card-front {
     background-position: 100% 100%; }
 
-.welcometothemoon-icon {
-  background: url("img/icons.png");
-  background-repeat: no-repeat; }
-  .welcometothemoon-icon.icon-biomass {
-    background-position: 68.83745963401508% 34.77218225419664%;
-    background-size: 1077.8947368421052%; }
-  .welcometothemoon-icon.icon-biomass-patch {
-    background-position: 57.87506673785371% 35.1089588377724%;
-    background-size: 1170.2857142857142%; }
-  .welcometothemoon-icon.icon-civ {
-    background-position: 61.386138613861384% 2.518891687657431%;
-    background-size: 890.4347826086956%; }
-  .welcometothemoon-icon.icon-energy {
-    background-position: 47.052280311457174% 2.5839793281653747%;
-    background-size: 819.2%; }
-  .welcometothemoon-icon.icon-first-player {
-    background-position: 85.9203693017888% 33.295063145809415%;
-    background-size: 650.1587301587301%; }
-  .welcometothemoon-icon.icon-flux {
-    background-position: 12.570260602963721% 60.342979635584136%;
-    background-size: 2250.5494505494507%; }
-  .welcometothemoon-icon.icon-lifepod {
-    background-position: 72.0844327176781% 2.484472049689441%;
-    background-size: 1338.562091503268%; }
-  .welcometothemoon-icon.icon-medal {
-    background-position: 1.0230179028132993% 60.537634408602145%;
-    background-size: 2202.150537634409%; }
-  .welcometothemoon-icon.icon-medal-nb {
-    background-position: 6.803069053708439% 60.537634408602145%;
-    background-size: 2202.150537634409%; }
-  .welcometothemoon-icon.icon-meteor {
-    background-position: 94.50777202072538% 32.25806451612903%;
-    background-size: 1735.593220338983%; }
-  .welcometothemoon-icon.icon-rover {
-    background-position: 46.22950819672131% 35.98014888337469%;
-    background-size: 939.4495412844037%; }
-  .welcometothemoon-icon.icon-rover-meeple {
-    background-position: 1.610305958132045% 3.992015968063872%;
-    background-size: 254.09429280397023%; }
-  .welcometothemoon-icon.icon-tech {
-    background-position: 97.21159103335157% 2.484472049689441%;
-    background-size: 935.1598173515981%; }
-  .welcometothemoon-icon.icon-tracker-biomass {
-    background-position: 98.1% 29.713114754098363%;
-    background-size: 4266.666666666666%; }
-  .welcometothemoon-icon.icon-tracker-civ {
-    background-position: 98.1% 36.68032786885246%;
-    background-size: 4266.666666666666%; }
-  .welcometothemoon-icon.icon-tracker-rover {
-    background-position: 17.849999999999998% 57.684426229508205%;
-    background-size: 4266.666666666666%; }
-  .welcometothemoon-icon.icon-tracker-tech {
-    background-position: 21.25% 57.684426229508205%;
-    background-size: 4266.666666666666%; }
-  .welcometothemoon-icon.icon-tracker-water {
-    background-position: 24.65% 57.684426229508205%;
-    background-size: 4266.666666666666%; }
-  .welcometothemoon-icon.icon-water {
-    background-position: 84.14434117003827% 2.484472049689441%;
-    background-size: 935.1598173515981%; }
-
 .icon-container {
   display: inline-block;
   vertical-align: middle; }
+  .icon-container .icon-robot,
+  .icon-container .icon-astronaut,
   .icon-container .icon-water,
-  .icon-container .icon-tech,
-  .icon-container .icon-rover,
-  .icon-container .icon-civ,
-  .icon-container .icon-biomass,
+  .icon-container .icon-plant,
+  .icon-container .icon-planning,
+  .icon-container .icon-energy,
+  .icon-container .icon-bonus {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/icon-robot.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #4c483e;
+    border-radius: 25%;
+    margin-left: 2px; }
+  .icon-container .icon-robot {
+    background-image: url("img/icon-robot.png"); }
+  .icon-container .icon-astronaut {
+    background-image: url("img/icon-astronaut.png"); }
+  .icon-container .icon-water {
+    background-image: url("img/icon-water.png"); }
+  .icon-container .icon-plant {
+    background-image: url("img/icon-planet.png"); }
+  .icon-container .icon-planning {
+    background-image: url("img/icon-planning.png"); }
   .icon-container .icon-energy {
-    width: 1.9em;
-    height: 1.9em;
-    border-radius: 15%; }
-  .icon-container .icon-flux {
-    width: 1.9em;
-    height: 1.9em; }
-  .icon-container .icon-biomass-patch {
-    width: 1.6em;
-    height: 1.9em; }
-
-.action-button .icon-container-water,
-.action-button .icon-container-tech,
-.action-button .icon-container-rover,
-.action-button .icon-container-civ,
-.action-button .icon-container-biomass,
-.action-button .icon-container-energy,
-.action-button .icon-container-flux {
-  margin: -5px 0px -5px; }
-.action-button#btnciv, .action-button#btntech, .action-button#btnwater, .action-button#btnrover, .action-button#btnbiomass {
-  padding: 9px 7px;
-  margin: -10px 0px -10px 15px !important; }
+    background-image: url("img/icon-energy.png"); }
+  .icon-container .icon-bonus {
+    background-image: url("img/icon-bonus.png"); }
 
 /********************
 * HORIZONTAL LAYOUT *

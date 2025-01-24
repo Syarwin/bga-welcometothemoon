@@ -1,101 +1,4 @@
 .welcometothemoon-icon {
-  background: url("img/icons.png");
-  background-repeat: no-repeat;
-
-  &.icon-biomass {
-    background-position: 68.83745963401508% 34.77218225419664%;
-    background-size: 1077.8947368421052%;
-  }
-
-  &.icon-biomass-patch {
-    background-position: 57.87506673785371% 35.1089588377724%;
-    background-size: 1170.2857142857142%;
-  }
-
-  &.icon-civ {
-    background-position: 61.386138613861384% 2.518891687657431%;
-    background-size: 890.4347826086956%;
-  }
-
-  &.icon-energy {
-    background-position: 47.052280311457174% 2.5839793281653747%;
-    background-size: 819.2%;
-  }
-
-  &.icon-first-player {
-    background-position: 85.9203693017888% 33.295063145809415%;
-    background-size: 650.1587301587301%;
-  }
-
-  &.icon-flux {
-    background-position: 12.570260602963721% 60.342979635584136%;
-    background-size: 2250.5494505494507%;
-  }
-
-  &.icon-lifepod {
-    background-position: 72.0844327176781% 2.484472049689441%;
-    background-size: 1338.562091503268%;
-  }
-
-  &.icon-medal {
-    background-position: 1.0230179028132993% 60.537634408602145%;
-    background-size: 2202.150537634409%;
-  }
-
-  &.icon-medal-nb {
-    background-position: 6.803069053708439% 60.537634408602145%;
-    background-size: 2202.150537634409%;
-  }
-
-  &.icon-meteor {
-    background-position: 94.50777202072538% 32.25806451612903%;
-    background-size: 1735.593220338983%;
-  }
-
-  &.icon-rover {
-    background-position: 46.22950819672131% 35.98014888337469%;
-    background-size: 939.4495412844037%;
-  }
-
-  &.icon-rover-meeple {
-    background-position: 1.610305958132045% 3.992015968063872%;
-    background-size: 254.09429280397023%;
-  }
-
-  &.icon-tech {
-    background-position: 97.21159103335157% 2.484472049689441%;
-    background-size: 935.1598173515981%;
-  }
-
-  &.icon-tracker-biomass {
-    background-position: 98.1% 29.713114754098363%;
-    background-size: 4266.666666666666%;
-  }
-
-  &.icon-tracker-civ {
-    background-position: 98.1% 36.68032786885246%;
-    background-size: 4266.666666666666%;
-  }
-
-  &.icon-tracker-rover {
-    background-position: 17.849999999999998% 57.684426229508205%;
-    background-size: 4266.666666666666%;
-  }
-
-  &.icon-tracker-tech {
-    background-position: 21.25% 57.684426229508205%;
-    background-size: 4266.666666666666%;
-  }
-
-  &.icon-tracker-water {
-    background-position: 24.65% 57.684426229508205%;
-    background-size: 4266.666666666666%;
-  }
-
-  &.icon-water {
-    background-position: 84.14434117003827% 2.484472049689441%;
-    background-size: 935.1598173515981%;
-  }
 }
 
 /////////////////////////////////////////////////////////
@@ -107,45 +10,64 @@
   display: inline-block;
   vertical-align: middle;
 
+  .icon-robot,
+  .icon-astronaut,
   .icon-water,
-  .icon-tech,
-  .icon-rover,
-  .icon-civ,
-  .icon-biomass,
+  .icon-plant,
+  .icon-planning,
+  .icon-energy,
+  .icon-bonus {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/icon-robot.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #4c483e;
+    border-radius: 25%;
+    margin-left: 2px;
+  }
+
+  .icon-robot {
+    background-image: url("img/icon-robot.png");
+  }
+  .icon-astronaut {
+    background-image: url("img/icon-astronaut.png");
+  }
+  .icon-water {
+    background-image: url("img/icon-water.png");
+  }
+  .icon-plant {
+    background-image: url("img/icon-planet.png");
+  }
+  .icon-planning {
+    background-image: url("img/icon-planning.png");
+  }
   .icon-energy {
-    width: 1.9em;
-    height: 1.9em;
-    border-radius: 15%;
+    background-image: url("img/icon-energy.png");
   }
-
-  .icon-flux {
-    width: 1.9em;
-    height: 1.9em;
-  }
-
-  .icon-biomass-patch {
-    width: 1.6em;
-    height: 1.9em;
+  .icon-bonus {
+    background-image: url("img/icon-bonus.png");
   }
 }
 
-.action-button {
-  .icon-container-water,
-  .icon-container-tech,
-  .icon-container-rover,
-  .icon-container-civ,
-  .icon-container-biomass,
-  .icon-container-energy,
-  .icon-container-flux {
-    margin: -5px 0px -5px;
-  }
+// .action-button {
+//   .icon-container-water,
+//   .icon-container-tech,
+//   .icon-container-rover,
+//   .icon-container-civ,
+//   .icon-container-biomass,
+//   .icon-container-energy,
+//   .icon-container-flux {
+//     margin: -5px 0px -5px;
+//   }
 
-  &#btnciv,
-  &#btntech,
-  &#btnwater,
-  &#btnrover,
-  &#btnbiomass {
-    padding: 9px 7px;
-    margin: -10px 0px -10px 15px !important;
-  }
-}
+//   &#btnciv,
+//   &#btntech,
+//   &#btnwater,
+//   &#btnrover,
+//   &#btnbiomass {
+//     padding: 9px 7px;
+//     margin: -10px 0px -10px 15px !important;
+//   }
+// }

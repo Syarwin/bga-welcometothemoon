@@ -57,7 +57,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     PGlobals::setStack($player->getId(), [$stack]);
-    Notifications::chooseCards($player);
+    Notifications::chooseCards($player, $player->getCombination());
 
     $this->insertAsChild([
       'action' => WRITE_NUMBER,

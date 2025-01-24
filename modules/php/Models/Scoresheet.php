@@ -27,7 +27,7 @@ class Scoresheet
     }
   }
 
-  public function fetch()
+  public function fetch(): void
   {
     // Fetch scribbles
     $this->scribbles = Scribbles::getOfPlayer($this->player);
@@ -37,7 +37,12 @@ class Scoresheet
     }
   }
 
-  public function addScribble($location, $type)
+  public function hasScribbledSlot(int $slot): bool
+  {
+    return !is_null($this->scribblesBySlots[$slot][0] ?? null);
+  }
+
+  public function addScribble($location, $type): Scribble
   {
     $scribble = Scribbles::add($this->player, [
       'type' => $type,
@@ -48,6 +53,10 @@ class Scoresheet
     return $scribble;
   }
 
+  public function getScribbleReactions(Scribble $scribble): array
+  {
+    return [];
+  }
 
   /**
    * getAvailableSlotsForNumber : where can I put a given number
@@ -55,6 +64,10 @@ class Scoresheet
    *  - considering increasing sequence constraint
    */
   protected array $increasingConstraints = [];
+  protected function getIncreasingSequences()
+  {
+    return $this->increasingConstraints;
+  }
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
     $allSlots = $this->slotsBySection['numbers'];
@@ -69,7 +82,7 @@ class Scoresheet
 
     // Check each constraints
     $forbiddenSlots = [];
-    foreach ($this->increasingConstraints as $slotSequence) {
+    foreach ($this->getIncreasingSequences() as $slotSequence) {
       $curr = [];
       $previous = -1;
       foreach ($slotSequence as $i => $slotId) {
@@ -77,7 +90,7 @@ class Scoresheet
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
         } else {
-          if ($scribble->getNumber() < $number) {
+          if ($scribble->getNumber() < $number || $previous >= $number) {
             $forbiddenSlots = array_merge($forbiddenSlots, $curr);
           }
           $curr = [];

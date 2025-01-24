@@ -28,8 +28,9 @@ class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     if (!isset(self::$variables[$name])) {
       return null;
     }
+    $val = stripslashes(str_replace('\\\\', '\\\\\\\\', $row['value']));
+    $val = json_decode($val, true, 512, JSON_UNESCAPED_SLASHES);
 
-    $val = json_decode(\stripslashes($row['value']), true);
     return self::$variables[$name] == 'int' ? ((int) $val) : $val;
   }
 
@@ -149,7 +150,7 @@ class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
         self::$datas[$pId][$name] = $value;
         if (Globals::getMode() == MODE_APPLY || in_array($name, ['state', 'engine', 'engineChoices'])) {
-          self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
+          self::DB()->update(['value' => \addslashes(\json_encode($value, JSON_UNESCAPED_SLASHES))], $name . '-' . $pId);
         }
 
         return $value;

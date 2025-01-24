@@ -16,23 +16,24 @@ class Scribble extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   ];
   protected string $id;
   protected string $location;
+  protected int $type;
 
-  public function getPId()
+  public function getPId(): int
   {
     return (int) explode("-", $this->id)[0];
   }
 
-  public function getIndex()
+  public function getIndex(): int
   {
     return (int) explode("-", $this->id)[1];
   }
 
-  public function getSlot()
+  public function getSlot(): int
   {
-    return explode('-', $this->location)[1];
+    return (int) explode('-', $this->location)[1];
   }
 
-  public function getNumber()
+  public function getNumber(): int
   {
     return $this->type;
   }

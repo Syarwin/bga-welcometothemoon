@@ -6,6 +6,8 @@ use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario1.php";
 
+const ROCKET = 'rocket';
+
 class Scoresheet1 extends Scoresheet
 {
   protected int $scenario = 1;
@@ -29,7 +31,7 @@ class Scoresheet1 extends Scoresheet
     // JOKER
     [46, 47, 48, 49, 50, 51, 52, 53]
   ];
-  public function getAvailableSlotsForNumber(int $number, string $action)
+  public function getAvailableSlotsForNumber(int $number, string $action): array
   {
     $allSlots = parent::getAvailableSlotsForNumber($number, $action);
     if ($action == JOKER) return $allSlots;
@@ -53,90 +55,143 @@ class Scoresheet1 extends Scoresheet
     return $allSlots;
   }
 
+  public function getScribbleReactions($scribble): array
+  {
+    $slot = $scribble->getSlot();
+
+    // Number => check quarters
+    if (1 <= $slot && $slot <= 53) {
+      foreach ($this->quarters as $quarter) {
+        if ($this->hasFilledQuarter($quarter['slots'], $slot)) {
+          return $this->convertQuarterBonuses($quarter);
+        }
+      }
+    }
+
+    return [];
+  }
+
+
+  /**
+   * Is quarter filled-up now thanks to scribble in slot $slot ??
+   */
+  protected function hasFilledQuarter($slots, $slot)
+  {
+    $inQuarter = false;
+    foreach ($slots as $slot2) {
+      if (!$this->hasScribbledSlot($slot2)) {
+        return false;
+      }
+
+      if ($slot2 == $slot) $inQuarter = true;
+    }
+
+    return $inQuarter;
+  }
+
+  protected function convertQuarterBonuses($quarter)
+  {
+    $actions = [];
+    foreach ($quarter['bonuses'] as $bonus => $n) {
+      $flow = null;
+      if ($bonus == ROCKET) {
+        $flow = [
+          'action' => CROSS_ROCKETS,
+          'args' => ['n' => $n]
+        ];
+      }
+
+      if (!is_null($flow)) {
+        $actions[] = $flow;
+      }
+    }
+
+    return $actions;
+  }
 
   protected array $quarters = [
     // ASTRONAUT
     [
       'slots' => [1, 2, 3],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [4, 5, 6],
-      'bonus' => []
+      'bonuses' => []
     ],
     // WATER
     [
       'slots' => [7, 8],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [9, 10, 11],
-      'bonus' => []
+      'bonuses' => []
     ],
     // ROBOT
     [
       'slots' => [12, 13],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [14, 15, 16],
-      'bonus' => []
+      'bonuses' => [ROCKET => 3,]
     ],
     [
       'slots' => [17, 18, 19, 20, 21],
-      'bonus' => []
+      'bonuses' => []
     ],
     // PLANNING
     [
       'slots' => [22, 23, 24, 25, 26, 27],
-      'bonus' => []
+      'bonuses' => []
     ],
     // ENERGY
     [
       'slots' => [28, 29, 30, 31, 32],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [33, 34],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [35, 36, 37],
-      'bonus' => []
+      'bonuses' => []
     ],
     // PLANT
     [
       'slots' => [38, 39],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [40, 41],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [42, 43],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [44, 45],
-      'bonus' => []
+      'bonuses' => []
     ],
     // JOKER
     [
       'slots' => [46, 47],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [48, 49],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [50, 51],
-      'bonus' => []
+      'bonuses' => []
     ],
     [
       'slots' => [52, 53],
-      'bonus' => []
+      'bonuses' => []
     ],
   ];
 }

@@ -50,6 +50,7 @@ const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
 const ST_POST_END_GAME_TURN = 82;
 
+const ST_GENERIC_AUTOMATIC = 88;
 const ST_SETUP_PRIVATE_ENGINE = 89;
 const ST_RESOLVE_STACK = 90;
 const ST_RESOLVE_CHOICE = 91;
@@ -81,6 +82,9 @@ const PASS = 99;
 
 const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
+
+// SCENARIO 1
+const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 
 /*
  * Actions
