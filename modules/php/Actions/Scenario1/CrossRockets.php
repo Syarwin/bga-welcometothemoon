@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario1;
 
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
@@ -23,11 +24,74 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function getDescription(): string|array
   {
-    return "CROSS ROCKETS";
+    return [
+      'log' => clienttranslate('Cross ${n} rockets'),
+      'args' => [
+        'n' => $this->getCtxArg('n'),
+      ]
+    ];
   }
 
   public function stCrossRockets()
   {
-    die("test");
+    return [];
+  }
+
+
+  protected array $rows = [
+    139 => [100, 101, 102, 103, 104],
+    140 => [105, 106, 107, 108],
+    141 => [109, 110, 111],
+    142 => [112, 113, 114],
+    143 => [115, 116, 117],
+    144 => [118, 119, 120],
+    145 => [121, 122, 123],
+    146 => [124, 125, 126],
+    147 => [127, 128],
+    148 => [129, 130],
+
+    200 => SYSTEM_ERROR,
+    201 => [131, 132, 133, 134, 135, 136, 137, 138]
+  ];
+
+
+  public function actCrossRockets()
+  {
+    $player = $this->getPlayer();
+    $scoresheet = $player->scoresheet();
+    $n = $this->getCtxArg("n");
+
+    $scribbles = [];
+    $m = 0;
+    foreach ($this->rows as $scoreslot => $slots) {
+      // System errors row
+      if ($slots == SYSTEM_ERROR) {
+        die("TODO: cross rocket system errors");
+      }
+      // Other rows
+      else {
+        foreach ($slots as $i => $slot) {
+          if ($scoresheet->hasScribbledSlot($slot)) continue;
+
+          // Empty rocket found => scribble it
+          $scribbles[] = $scoresheet->addScribble($slot);
+          $m++;
+          // End of row slot
+          if ($i == count($slots) - 1) {
+            $scribbles[] = $scoresheet->addScribble($scoreslot);
+          }
+
+          if ($m == $n) {
+            break;
+          }
+        }
+      }
+
+      if ($m == $n) {
+        break;
+      }
+    }
+
+    Notifications::crossRockets($player, $n, $scribbles);
   }
 }

@@ -19,6 +19,7 @@ class Actions
     WRITE_NUMBER,
 
     // Scenario 1
+    TAKE_BONUS,
     CROSS_ROCKETS,
   ];
 

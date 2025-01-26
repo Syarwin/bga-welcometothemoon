@@ -6,7 +6,6 @@ use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario1.php";
 
-const ROCKET = 'rocket';
 
 class Scoresheet1 extends Scoresheet
 {
@@ -92,18 +91,14 @@ class Scoresheet1 extends Scoresheet
   protected function convertQuarterBonuses($quarter)
   {
     $actions = [];
-    foreach ($quarter['bonuses'] as $bonus => $n) {
-      $flow = null;
-      if ($bonus == ROCKET) {
-        $flow = [
-          'action' => CROSS_ROCKETS,
-          'args' => ['n' => $n]
-        ];
-      }
-
-      if (!is_null($flow)) {
-        $actions[] = $flow;
-      }
+    foreach ($quarter['bonuses'] as $slot => $bonus) {
+      $actions[] = [
+        'action' => TAKE_BONUS,
+        'args' => [
+          'slot' => $slot,
+          'bonus' => $bonus,
+        ]
+      ];
     }
 
     return $actions;
@@ -135,7 +130,10 @@ class Scoresheet1 extends Scoresheet
     ],
     [
       'slots' => [14, 15, 16],
-      'bonuses' => [ROCKET => 3,]
+      'bonuses' => [
+        71 => [ROCKET => 3],
+        //        72 => []
+      ]
     ],
     [
       'slots' => [17, 18, 19, 20, 21],

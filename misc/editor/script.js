@@ -477,6 +477,21 @@ $('save-changes').addEventListener('click', () => {
   }
 });
 
+// Check duplicates
+$('check-duplicates').addEventListener('click', () => {
+  DATAS.sections.forEach((section) => {
+    section.elts.forEach((elt) => {
+      DATAS.sections.forEach((section2) => {
+        section2.elts.forEach((elt2) => {
+          if (elt.id < elt2.id && Math.abs(elt.x - elt2.x) + Math.abs(elt.y - elt2.y) < 3) {
+            console.log('Probable duplicate: ' + elt.id + ' / ' + elt2.id);
+          }
+        });
+      });
+    });
+  });
+});
+
 ////////////////////////
 //  _   _ _   _ _
 // | | | | |_(_) |___

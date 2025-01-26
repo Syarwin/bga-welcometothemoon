@@ -42,7 +42,7 @@ class Scoresheet
     return !is_null($this->scribblesBySlots[$slot][0] ?? null);
   }
 
-  public function addScribble($location, $type): Scribble
+  public function addScribble($location, $type = SCRIBBLE): Scribble
   {
     $scribble = Scribbles::add($this->player, [
       'type' => $type,

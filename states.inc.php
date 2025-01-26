@@ -177,6 +177,7 @@ $machinestates = [
     'name' => "genericAutomatic",
     'descriptionmyturn' => "",
     'type' => "private",
+    'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction'
   ],
 

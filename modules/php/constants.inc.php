@@ -84,13 +84,12 @@ const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
 
 // SCENARIO 1
+const TAKE_BONUS = 'Scenario1\TakeBonus';
 const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 
 /*
  * Actions
  */
-const NUMBER_X = 100;
-const NUMBER_6_9 = 200;
 
 const ROBOT = 'robot';
 const WATER = 'water';
@@ -114,7 +113,12 @@ const MODE_APPLY = 0;
 const MODE_PRIVATE = 1;
 const MODE_REPLAY = 2;
 
+const ROCKET = 'rocket';
+const SYSTEM_ERROR = 'error';
 
+const NUMBER_X = 100;
+const NUMBER_6_9 = 200;
+const SCRIBBLE = 300;
 
 /******************
  ****** STATS ******

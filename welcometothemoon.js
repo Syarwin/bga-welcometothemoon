@@ -37,7 +37,7 @@ define([
     {
       constructor() {
         this._activeStates = [];
-        this._notifications = ['chooseCards', 'addScribble', 'newTurn', 'clearTurn', 'refreshUI'];
+        this._notifications = ['chooseCards', 'addScribble', 'addScribbles', 'newTurn', 'clearTurn', 'refreshUI'];
 
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';

@@ -62,6 +62,24 @@ class Notifications
     ]);
   }
 
+  public static function takeBonus($player, $scribble)
+  {
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} takes quarter bonus'), [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
+  public static function crossRockets($player, $n, $scribbles)
+  {
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets'), [
+      'player' => $player,
+      'n' => $n,
+      'scribbles' => $scribbles,
+    ]);
+  }
+
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

@@ -49,7 +49,7 @@ class Log extends \APP_DbObject
   public static function addEntry($entry)
   {
     if (isset($entry['affected'])) {
-      $entry['affected'] = \json_encode($entry['affected']);
+      $entry['affected'] = \json_encode($entry['affected'], JSON_UNESCAPED_SLASHES);
     }
     if (!isset($entry['table'])) {
       $entry['table'] = '';
@@ -175,7 +175,8 @@ class Log extends \APP_DbObject
         continue;
       }
 
-      $log['affected'] = json_decode($log['affected'], true);
+      $log['affected'] = str_replace('\\\\', '\\\\\\\\', $log['affected']);
+      $log['affected'] = json_decode($log['affected'], true, 512, JSON_UNESCAPED_SLASHES);
       $moveIds[] = intval($log['move_id']);
 
       foreach ($log['affected'] as $row) {
@@ -184,7 +185,9 @@ class Log extends \APP_DbObject
         if ($log['type'] != 'create') {
           foreach ($row as $key => $val) {
             if (isset($row[$key])) {
-              $row[$key] = str_replace("'", "\\'", \stripcslashes($val));
+              $val = str_replace('\\', '\\\\', $val);
+              $val = str_replace("'", "\\'", \stripcslashes($val));
+              $row[$key] = $val;
             }
           }
         }

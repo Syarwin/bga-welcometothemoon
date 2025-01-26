@@ -53,6 +53,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return this.wait(800);
     },
 
+    notif_addScribbles(args) {
+      debug('Notif: add scribbles', args);
+      args.scribbles.forEach((scribble) => {
+        this.addScribble(scribble, true);
+      });
+      return this.wait(1000);
+    },
+
     getScribbleContainer(scribble) {
       let t = scribble.location.split('-');
       let pId = scribble.id.split('-')[0];
