@@ -108,88 +108,150 @@ class Scoresheet1 extends Scoresheet
     // ASTRONAUT
     [
       'slots' => [1, 2, 3],
-      'bonuses' => []
+      'bonuses' => [
+        54 => [ROCKET => 3],
+        55 => [ACTIVATION => 1],
+        56 => [NUMBER_X => 1],
+      ],
     ],
     [
       'slots' => [4, 5, 6],
-      'bonuses' => []
+      'bonuses' => [
+        57 => [ROCKET => 2],
+        58 => [ROCKET => 2, 'check' => 152],
+        59 => [SABOTAGE => 1],
+      ],
     ],
     // WATER
     [
       'slots' => [7, 8],
-      'bonuses' => []
+      'bonuses' => [
+        60 => [ROCKET => 2],
+        61 => [SABOTAGE => 1],
+      ],
     ],
     [
       'slots' => [9, 10, 11],
-      'bonuses' => []
+      'bonuses' => [
+        62 => [ROCKET => 3],
+        63 => [ROCKET => 3, 'check' => 153],
+      ],
     ],
     // ROBOT
     [
       'slots' => [12, 13],
-      'bonuses' => []
+      'bonuses' => [
+        64 => [ACTIVATION => 1],
+        65 => [NUMBER_X => 1],
+      ],
     ],
     [
       'slots' => [14, 15, 16],
       'bonuses' => [
         66 => [ROCKET => 3],
-        //        72 => []
-      ]
+        67 => [ACTIVATION => 1],
+      ],
     ],
     [
       'slots' => [17, 18, 19, 20, 21],
-      'bonuses' => []
+      'bonuses' => [
+        69 => [ROCKET => 3],
+        69 => [ROCKET => 3, 'check' => 154],
+        70 => [SABOTAGE => 1],
+        71 => [SABOTAGE => 1],
+      ],
     ],
     // PLANNING
     [
       'slots' => [22, 23, 24, 25, 26, 27],
-      'bonuses' => []
+      'bonuses' => [
+        72 => [ROCKET => 4],
+        73 => [ROCKET => 4, 'check' => 155],
+        74 => [NUMBER_X => 1],
+        75 => [SABOTAGE => 1],
+      ]
     ],
     // ENERGY
     [
       'slots' => [28, 29, 30, 31, 32],
-      'bonuses' => []
+      'bonuses' => [
+        76 => [ROCKET => 4],
+        77 => [ROCKET => 4, 'check' => 156],
+        78 => [SABOTAGE => 1],
+        79 => [SABOTAGE => 1],
+      ],
     ],
     [
       'slots' => [33, 34],
-      'bonuses' => []
+      'bonuses' => [
+        80 => [ROCKET => 3]
+      ]
     ],
     [
       'slots' => [35, 36, 37],
-      'bonuses' => []
+      'bonuses' => [
+        81 => [ROCKET => 2],
+        82 => [ACTIVATION => 1],
+        83 => [NUMBER_X => 1],
+      ]
     ],
     // PLANT
     [
       'slots' => [38, 39],
-      'bonuses' => []
+      'bonuses' => [
+        84 => [ROCKET => 2],
+        85 => [ROCKET => 2, 'check' => 157],
+      ]
     ],
     [
       'slots' => [40, 41],
-      'bonuses' => []
+      'bonuses' => [
+        86 => [ROCKET => 2],
+        87 => [ACTIVATION => 1],
+      ]
     ],
     [
       'slots' => [42, 43],
-      'bonuses' => []
+      'bonuses' => [
+        88 => [ROCKET => 2],
+        89 => [ROCKET => 2, 'check' => 158],
+      ]
     ],
     [
       'slots' => [44, 45],
-      'bonuses' => []
+      'bonuses' => [
+        90 => [NUMBER_X => 1],
+        91 => [SABOTAGE => 1],
+      ]
     ],
     // JOKER
     [
       'slots' => [46, 47],
-      'bonuses' => []
+      'bonuses' => [
+        92 => [ROCKET => 2],
+        93 => [NUMBER_X => 1],
+      ]
     ],
     [
       'slots' => [48, 49],
-      'bonuses' => []
+      'bonuses' => [
+        94 => [ROCKET => 2],
+        95 => [NUMBER_X => 1],
+      ]
     ],
     [
       'slots' => [50, 51],
-      'bonuses' => []
+      'bonuses' => [
+        96 => [ROCKET => 2],
+        97 => [NUMBER_X => 1],
+      ]
     ],
     [
       'slots' => [52, 53],
-      'bonuses' => []
+      'bonuses' => [
+        98 => [ROCKET => 2],
+        99 => [NUMBER_X => 1],
+      ]
     ],
   ];
 }

@@ -86,6 +86,7 @@ const WRITE_NUMBER = 'WriteNumber';
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
 const CROSS_ROCKETS = 'Scenario1\CrossRockets';
+const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
 
 /*
  * Actions
@@ -114,7 +115,9 @@ const MODE_PRIVATE = 1;
 const MODE_REPLAY = 2;
 
 const ROCKET = 'rocket';
+const ACTIVATION = 'activation';
 const SYSTEM_ERROR = 'error';
+const SABOTAGE = 'sabotage';
 
 const NUMBER_X = 100;
 const NUMBER_6_9 = 200;
