@@ -205,6 +205,7 @@ define([
         this.setupConstructionCards();
         this.setupPlanCards();
         if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
+        this.addScribbleClipPaths();
         this.setupScribbles();
 
         this.setupInfoPanel();

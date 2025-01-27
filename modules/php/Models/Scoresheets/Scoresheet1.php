@@ -131,7 +131,7 @@ class Scoresheet1 extends Scoresheet
     [
       'slots' => [14, 15, 16],
       'bonuses' => [
-        71 => [ROCKET => 3],
+        66 => [ROCKET => 3],
         //        72 => []
       ]
     ],
