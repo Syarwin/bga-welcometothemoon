@@ -67,7 +67,11 @@ class Action
 
   public function getPlayer(): Player
   {
-    $pId = $this->ctx->getRoot()->getPId();
+    $root = $this->ctx->getRoot();
+    $pId = $root->getPId();
+    if (is_null($pId)) {
+      die("No PID at root for following tree : " . var_export($root->toArray(), true));
+    }
     return Players::get($pId);
   }
 

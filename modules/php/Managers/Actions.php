@@ -21,6 +21,7 @@ class Actions
     // Scenario 1
     TAKE_BONUS,
     CROSS_ROCKETS,
+    WRITE_X,
   ];
 
   public static function get($actionId, &$ctx = null)

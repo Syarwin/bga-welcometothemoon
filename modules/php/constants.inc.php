@@ -44,6 +44,7 @@ const ST_START_TURN_ENGINE = 22;
 // Atomic actions
 const ST_CHOOSE_CARDS = 30;
 const ST_WRITE_NUMBER = 31;
+const ST_WRITE_X = 32;
 
 // Engine state
 const ST_PRE_END_GAME_TURN = 80;
@@ -87,6 +88,7 @@ const WRITE_NUMBER = 'WriteNumber';
 const TAKE_BONUS = 'Scenario1\TakeBonus';
 const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
+const WRITE_X = 'Scenario1\WriteX';
 
 /*
  * Actions

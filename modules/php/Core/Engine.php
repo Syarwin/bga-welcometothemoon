@@ -36,11 +36,13 @@ class Engine
       $flowTree = self::buildTree($t);
       self::$trees[$pId] = $flowTree;
 
+
+      // if ($cPId == $pId && !static::$replayed) {
       if ($cPId == $pId && !static::$replayed && Globals::getMode() != MODE_APPLY) {
+        static::$replayed = true;
         Globals::setReplayMode();
         $flowTree->replay();
         Globals::unsetReplayMode();
-        static::$replayed = true;
       }
     }
   }

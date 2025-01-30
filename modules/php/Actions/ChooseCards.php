@@ -15,7 +15,6 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   }
 
 
-
   /*
    * Return the stack combinations that leads to at least one writtable number
    */

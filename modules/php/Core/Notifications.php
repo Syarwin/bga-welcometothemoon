@@ -55,7 +55,12 @@ class Notifications
 
   public static function writeNumber($player, $number, $scribble)
   {
-    static::pnotify($player, 'addScribble', clienttranslate('${player_name} writes ${number} on his scoresheet'), [
+    $msg = clienttranslate('${player_name} writes ${number} on his scoresheet');
+    if ($number == NUMBER_X) {
+      $msg = clienttranslate('${player_name} writes an X on his scoresheet');
+    }
+
+    static::pnotify($player, 'addScribble', $msg, [
       'player' => $player,
       'number' => $number,
       'scribble' => $scribble,

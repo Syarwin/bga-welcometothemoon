@@ -83,7 +83,7 @@ class Game extends \Table
     {
         $currentPId = (int) $this->getCurrentPlayerId();
 
-        return [
+        $datas =  [
             'players' => Players::getUiData($currentPId),
             'constructionCards' => ConstructionCards::getUiData(),
             'planCards' => PlanCards::getUiData(),
@@ -92,6 +92,8 @@ class Game extends \Table
             'standard' => Globals::isStandard(),
             'scenario' => Globals::getScenario(),
         ];
+
+        return $datas;
     }
 
 

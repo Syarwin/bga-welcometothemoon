@@ -23,7 +23,17 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
           'action' => CROSS_ROCKETS,
           'args' => ['n' => $n]
         ];
+      } else if ($type == NUMBER_X) {
+        $flow = [
+          'action' => WRITE_X,
+        ];
       }
+    }
+
+    if (is_null($flow)) {
+      die("Unrecognized bonus: " . var_dump($this->getCtxArg('bonus')));
+    } else {
+      $flow['pId'] = $player->getId();
     }
 
     return $flow;

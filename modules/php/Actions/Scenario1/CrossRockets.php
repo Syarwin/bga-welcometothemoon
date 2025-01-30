@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario1;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
@@ -17,10 +18,11 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return true;
   }
 
-  public function isOptional(): bool
+  public function isDoable(Player $player): bool
   {
     return true;
   }
+
 
   public function getDescription(): string|array
   {

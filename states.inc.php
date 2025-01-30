@@ -3,7 +3,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Planet Unknown implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel Albisser <emmanuel.albisser@gmail.com>
+ * Welcome To The Moon implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Vincent Toper <vincent.toper@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -11,9 +11,11 @@
  *
  * states.inc.php
  *
- * Planet Unknown game states description
+ * WTTM game states description
  *
  */
+
+include_once "modules/php/constants.inc.php";
 
 $machinestates = [
   // The initial state. Please do not modify.
@@ -206,6 +208,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'possibleactions' => ['actWriteNumber', 'actRefusal', 'actRestart'],
   ],
+
+  ST_WRITE_X => [
+    'name' => 'writeX',
+    'descriptionmyturn' => clienttranslate('${you} must write an X on your scoresheet'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actWriteX', 'actRestart'],
+  ],
+
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

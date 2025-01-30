@@ -1,7 +1,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Planet Unknown implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel Albisser <emmanuel.albisser@gmail.com>
+ * Welcome To The Moon implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Vincent Toper <vincent.toper@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -9,7 +9,7 @@
  *
  * welcometothemoon.js
  *
- * Planet Unknown user interface script
+ * Welcome To The Moon user interface script
  *
  * In this file, you are describing the logic of your user interface, in Javascript language.
  *
@@ -561,6 +561,14 @@ define([
 
             // Add that number as a possibility for that slot
             numbersBySlots[slotId].push(number);
+          });
+        });
+      },
+
+      onEnteringStateWriteX(args) {
+        args.slots.forEach((slotId) => {
+          this.onClick(`slot-${this.player_id}-${slotId}`, () => {
+            this.takeAtomicAction('actWriteX', [slotId]);
           });
         });
       },

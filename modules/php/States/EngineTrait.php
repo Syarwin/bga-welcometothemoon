@@ -48,7 +48,7 @@ trait EngineTrait
   /**
    * Ask the corresponding atomic action for its args
    */
-  function argsAtomicAction($pId)
+  function argsAtomicAction($pId, $state)
   {
     $player = Players::get($pId);
     $node = Engine::getNextUnresolved($pId);
