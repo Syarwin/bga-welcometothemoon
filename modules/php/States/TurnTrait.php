@@ -16,8 +16,9 @@ trait TurnTrait
   public function stStartTurn()
   {
     Stats::incTurns(1);
+    Globals::incTurn();
     $cards = ConstructionCards::newTurn();
-    Notifications::newTurn(Stats::getTurns(), $cards);
+    Notifications::newTurn(Globals::getTurn(), $cards);
 
     $this->gamestate->setAllPlayersMultiactive();
     $this->gamestate->jumpToState(ST_START_TURN_ENGINE);

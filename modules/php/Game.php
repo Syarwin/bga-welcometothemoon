@@ -31,6 +31,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 
 class Game extends \Table
@@ -91,6 +92,7 @@ class Game extends \Table
 
             'standard' => Globals::isStandard(),
             'scenario' => Globals::getScenario(),
+            'turn' => Globals::getTurn(),
         ];
 
         return $datas;

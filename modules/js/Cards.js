@@ -169,6 +169,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     //////////////////////////////////////
     async notif_newTurn(args) {
       debug('Notif: new turn', args);
+      $('game_play_area').dataset.turn = args.turn;
 
       await args.cards.forEach(async (card) => {
         card.stackId = card.location.split('-')[1];

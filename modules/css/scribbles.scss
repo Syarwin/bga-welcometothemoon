@@ -1,19 +1,15 @@
 /********************************
 *** Hightlight recent actions ***
 ********************************/
-// @for $t from 1 through 33 {
-//   #game_play_area[data-turn="#{$t}"] .house-number[data-turn="#{$t}"] {
-//     color: red;
-//   }
+@for $t from 1 through 33 {
+  #game_play_area[data-turn="#{$t}"] .scribble-number[data-turn="#{$t}"] {
+    color: red;
+  }
 
-//   #game_play_area[data-turn="#{$t}"] [data-turn="#{$t}"] .scribble-path {
-//     stroke: red;
-//   }
-//   #game_play_area[data-turn="#{$t}"] [data-turn="#{$t}"] .roundabout-dot,
-//   #game_play_area[data-turn="#{$t}"] .scribble-egg[data-turn="#{$t}"] .scribble-path {
-//     fill: red;
-//   }
-// }
+  #game_play_area[data-turn="#{$t}"] .wttm-scribble[data-turn="#{$t}"] .scribble-path {
+    stroke: red;
+  }
+}
 
 /****************************
 *****************************
@@ -23,6 +19,10 @@
 .wttm-scribble {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
   .scribble-path {
     stroke: black;
     fill: none;

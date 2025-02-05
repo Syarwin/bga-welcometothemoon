@@ -79,7 +79,6 @@ class Scoresheet1 extends Scoresheet
   public function getAvailableSlotsForNumber(int $number, string $action): array
   {
     $allSlots = parent::getAvailableSlotsForNumber($number, $action);
-    return $allSlots;;
 
     if ($action == JOKER) return $allSlots;
 

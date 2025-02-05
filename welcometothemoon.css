@@ -634,6 +634,7 @@
   font-variant: normal;
   text-transform: none;
   vertical-align: bottom;
+  font-size: 1.2em;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
@@ -1257,6 +1258,204 @@ body {
 /********************************
 *** Hightlight recent actions ***
 ********************************/
+#game_play_area[data-turn="1"] .scribble-number[data-turn="1"] {
+  color: red; }
+
+#game_play_area[data-turn="1"] .wttm-scribble[data-turn="1"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="2"] .scribble-number[data-turn="2"] {
+  color: red; }
+
+#game_play_area[data-turn="2"] .wttm-scribble[data-turn="2"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="3"] .scribble-number[data-turn="3"] {
+  color: red; }
+
+#game_play_area[data-turn="3"] .wttm-scribble[data-turn="3"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="4"] .scribble-number[data-turn="4"] {
+  color: red; }
+
+#game_play_area[data-turn="4"] .wttm-scribble[data-turn="4"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="5"] .scribble-number[data-turn="5"] {
+  color: red; }
+
+#game_play_area[data-turn="5"] .wttm-scribble[data-turn="5"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="6"] .scribble-number[data-turn="6"] {
+  color: red; }
+
+#game_play_area[data-turn="6"] .wttm-scribble[data-turn="6"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="7"] .scribble-number[data-turn="7"] {
+  color: red; }
+
+#game_play_area[data-turn="7"] .wttm-scribble[data-turn="7"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="8"] .scribble-number[data-turn="8"] {
+  color: red; }
+
+#game_play_area[data-turn="8"] .wttm-scribble[data-turn="8"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="9"] .scribble-number[data-turn="9"] {
+  color: red; }
+
+#game_play_area[data-turn="9"] .wttm-scribble[data-turn="9"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="10"] .scribble-number[data-turn="10"] {
+  color: red; }
+
+#game_play_area[data-turn="10"] .wttm-scribble[data-turn="10"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="11"] .scribble-number[data-turn="11"] {
+  color: red; }
+
+#game_play_area[data-turn="11"] .wttm-scribble[data-turn="11"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="12"] .scribble-number[data-turn="12"] {
+  color: red; }
+
+#game_play_area[data-turn="12"] .wttm-scribble[data-turn="12"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="13"] .scribble-number[data-turn="13"] {
+  color: red; }
+
+#game_play_area[data-turn="13"] .wttm-scribble[data-turn="13"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="14"] .scribble-number[data-turn="14"] {
+  color: red; }
+
+#game_play_area[data-turn="14"] .wttm-scribble[data-turn="14"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="15"] .scribble-number[data-turn="15"] {
+  color: red; }
+
+#game_play_area[data-turn="15"] .wttm-scribble[data-turn="15"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="16"] .scribble-number[data-turn="16"] {
+  color: red; }
+
+#game_play_area[data-turn="16"] .wttm-scribble[data-turn="16"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="17"] .scribble-number[data-turn="17"] {
+  color: red; }
+
+#game_play_area[data-turn="17"] .wttm-scribble[data-turn="17"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="18"] .scribble-number[data-turn="18"] {
+  color: red; }
+
+#game_play_area[data-turn="18"] .wttm-scribble[data-turn="18"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="19"] .scribble-number[data-turn="19"] {
+  color: red; }
+
+#game_play_area[data-turn="19"] .wttm-scribble[data-turn="19"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="20"] .scribble-number[data-turn="20"] {
+  color: red; }
+
+#game_play_area[data-turn="20"] .wttm-scribble[data-turn="20"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="21"] .scribble-number[data-turn="21"] {
+  color: red; }
+
+#game_play_area[data-turn="21"] .wttm-scribble[data-turn="21"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="22"] .scribble-number[data-turn="22"] {
+  color: red; }
+
+#game_play_area[data-turn="22"] .wttm-scribble[data-turn="22"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="23"] .scribble-number[data-turn="23"] {
+  color: red; }
+
+#game_play_area[data-turn="23"] .wttm-scribble[data-turn="23"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="24"] .scribble-number[data-turn="24"] {
+  color: red; }
+
+#game_play_area[data-turn="24"] .wttm-scribble[data-turn="24"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="25"] .scribble-number[data-turn="25"] {
+  color: red; }
+
+#game_play_area[data-turn="25"] .wttm-scribble[data-turn="25"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="26"] .scribble-number[data-turn="26"] {
+  color: red; }
+
+#game_play_area[data-turn="26"] .wttm-scribble[data-turn="26"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="27"] .scribble-number[data-turn="27"] {
+  color: red; }
+
+#game_play_area[data-turn="27"] .wttm-scribble[data-turn="27"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="28"] .scribble-number[data-turn="28"] {
+  color: red; }
+
+#game_play_area[data-turn="28"] .wttm-scribble[data-turn="28"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="29"] .scribble-number[data-turn="29"] {
+  color: red; }
+
+#game_play_area[data-turn="29"] .wttm-scribble[data-turn="29"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="30"] .scribble-number[data-turn="30"] {
+  color: red; }
+
+#game_play_area[data-turn="30"] .wttm-scribble[data-turn="30"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="31"] .scribble-number[data-turn="31"] {
+  color: red; }
+
+#game_play_area[data-turn="31"] .wttm-scribble[data-turn="31"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="32"] .scribble-number[data-turn="32"] {
+  color: red; }
+
+#game_play_area[data-turn="32"] .wttm-scribble[data-turn="32"] .scribble-path {
+  stroke: red; }
+
+#game_play_area[data-turn="33"] .scribble-number[data-turn="33"] {
+  color: red; }
+
+#game_play_area[data-turn="33"] .wttm-scribble[data-turn="33"] .scribble-path {
+  stroke: red; }
+
 /****************************
 *****************************
 ********* SCRIBBLE  *********
@@ -1264,7 +1463,10 @@ body {
 ****************************/
 .wttm-scribble {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px; }
   .wttm-scribble .scribble-path {
     stroke: black;
     fill: none;

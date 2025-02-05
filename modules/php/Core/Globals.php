@@ -57,6 +57,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
     'gameEndTriggered' => 'bool',
     'firstPlayer' => 'int',
+    'turn' => 'int',
 
     // Setup
     'scenario' => 'int',

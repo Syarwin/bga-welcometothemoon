@@ -9,7 +9,12 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 
 trait DebugTrait
 {
-  function tp() {}
+  function tp()
+  {
+    Globals::setMode(MODE_APPLY);
+    Globals::setTurn(14);
+    Globals::setMode(MODE_PRIVATE);
+  }
 
 
   function getMode()

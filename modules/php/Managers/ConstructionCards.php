@@ -15,6 +15,14 @@ class ConstructionCards extends CachedPieces
   protected static array $customFields = ['number', 'action'];
   protected static bool $autoremovePrefix = false;
   protected static bool $autoIncrement = false;
+  protected static array $autoreshuffleCustom = [
+    'deck' => 'discard',
+    'deck-0' => 'discard-0',
+    'deck-1' => 'discard-1',
+    'deck-2' => 'discard-2',
+  ];
+  protected static bool $autoreshuffle = true;
+  protected static ?array $autoreshuffleListener = ['obj' => 'Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards', 'method' => 'onReshuffle'];
 
   protected static function cast($row): ConstructionCard
   {
@@ -111,6 +119,13 @@ class ConstructionCards extends CachedPieces
     157 => [12, JOKER],
   ];
 
+
+  public static function onReshuffle($fromLocation)
+  {
+    if ($fromLocation == 'deck-0') {
+      Notifications::midMessage(clienttranslate("Reshuffling decks of construction cards"));
+    }
+  }
 
   ////////////////////////////////////
   //  ____       _
@@ -212,7 +227,7 @@ class ConstructionCards extends CachedPieces
 
       if (Globals::isStandard()) {
         // Standard mode : Discard last flipped card if any, flip the current construction card if any, draw a new card
-        self::moveAllInLocation($stack, 'discard', 1);
+        self::moveAllInLocation($stack, "discard-$i", 1);
         self::moveAllInLocation($stack, $stack, 0, 1);
       } else {
         // Discard all previously drawn cards

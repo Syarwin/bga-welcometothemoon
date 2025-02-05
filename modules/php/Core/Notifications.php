@@ -166,6 +166,11 @@ class Notifications
     self::notifyAll('message', $txt, $args);
   }
 
+  public static function midMessage($txt, $args = [])
+  {
+    self::notifyAll('midMessage', $txt, $args);
+  }
+
   public static function messageTo($player, $txt, $args = [])
   {
     $pId = is_int($player) ? $player : $player->getId();

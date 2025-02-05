@@ -36,7 +36,7 @@ class CachedPieces extends DB_Manager
   protected static string $primary;
   protected static bool $autoremovePrefix = true;
   protected static bool $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
-  protected static $autoreshuffleListener = null; // Callback to a method called when an autoreshuffle occurs
+  protected static ?array $autoreshuffleListener = null; // Callback to a method called when an autoreshuffle occurs
   // autoreshuffleListener = array( 'obj' => object, 'method' => method_name )
   // If defined, tell the name of the deck and what is the corresponding discard (ex : "mydeck" => "mydiscard")
   protected static array $autoreshuffleCustom = [];
@@ -408,7 +408,7 @@ class CachedPieces extends DB_Manager
     if (static::$autoreshuffleListener) {
       $obj = static::$autoreshuffleListener['obj'];
       $method = static::$autoreshuffleListener['method'];
-      $obj->$method($fromLocation);
+      call_user_func([$obj, $method], $fromLocation);
     }
   }
 

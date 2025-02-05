@@ -45,11 +45,15 @@ define([
           'newTurn',
           'clearTurn',
           'refreshUI',
+          'midMessage',
         ];
 
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
         this.cardStatuses = {};
+      },
+      notif_midMessage() {
+        return this.wait(1000);
       },
 
       getSettingsSections() {
@@ -208,6 +212,8 @@ define([
       </div>
       `
         );
+
+        $('game_play_area').dataset.turn = gamedatas.turn;
 
         this.setupPlayers();
         this.setupConstructionCards();
