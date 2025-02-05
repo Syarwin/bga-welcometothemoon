@@ -2,6 +2,9 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario1.php";
@@ -12,6 +15,49 @@ class Scoresheet1 extends Scoresheet
   protected int $scenario = 1;
   protected array $datas = DATAS;
 
+  // PHASE 5
+  public static function phase5Check()
+  {
+    $sabotages = array_unique(Globals::getTriggeredSabotages());
+    $players = Players::getAll();
+
+    // For each targeted sabotage
+    foreach ($sabotages as $slot) {
+      $scribbles = [];
+      $affectedPlayers = [];
+
+      // Find corresponding quarter name
+      $name = '';
+      foreach (self::getQuarters() as $quarter) {
+        if (isset($quarter['bonuses'][$slot])) {
+          $name = $quarter['name'];
+          break;
+        }
+      }
+
+      // Check each player
+      foreach ($players as $player) {
+        // Scribble the sabotage bonus (with a squiggle)
+        $scribbles[] = $player->scoresheet()->addScribble($slot);
+
+        // Is the player going to suffer the negative effect ?
+        if (!$player->scoresheet()->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
+          $systemErrorSlot = $player->scoresheet()->getFreeSystemErrorSlot();
+          if (!is_null($systemErrorSlot)) {
+            $affectedPlayers[] = $player;
+            $scribbles[] = $player->scoresheet()->addScribble($systemErrorSlot, SCRIBBLE_CIRCLE);
+          }
+        }
+      }
+
+      Notifications::resolveSabotage($affectedPlayers, $scribbles, $name);
+    }
+
+    Globals::setTriggeredSabotages([]);
+  }
+
+
+  // WRITE NUMBER
   protected array $increasingConstraints = [
     // ASTRONAUT
     [1, 2, 3],
@@ -33,6 +79,8 @@ class Scoresheet1 extends Scoresheet
   public function getAvailableSlotsForNumber(int $number, string $action): array
   {
     $allSlots = parent::getAvailableSlotsForNumber($number, $action);
+    return $allSlots;;
+
     if ($action == JOKER) return $allSlots;
 
     // Row for each action (corresponding to increasing constraint)
@@ -54,6 +102,7 @@ class Scoresheet1 extends Scoresheet
     return $allSlots;
   }
 
+  // QUARTER BONUSES
   public function getScribbleReactions($scribble): array
   {
     $slot = $scribble->getSlot();
@@ -105,7 +154,7 @@ class Scoresheet1 extends Scoresheet
     return $actions;
   }
 
-  protected function getQuarters()
+  protected static function getQuarters()
   {
     return [
       // ASTRONAUT

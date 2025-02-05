@@ -387,7 +387,9 @@ class AbstractNode
           'source' => $child->getSource(),
           'sourceId' => $child->getSourceId(),
         ];
-        $choices[$id] = $choice;
+        if ($choice['description'] != '') {
+          $choices[$id] = $choice;
+        }
       }
     }
 

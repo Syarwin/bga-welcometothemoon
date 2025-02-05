@@ -9,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 
 trait TurnTrait
 {
@@ -62,7 +63,10 @@ trait TurnTrait
    */
   function stEndTurnEngine()
   {
-    // TODO
+    // PHASE 5 CHECK
+    if (Globals::getScenario() == 1) {
+      Scoresheet1::phase5Check();
+    }
 
     $this->stEndTurn();
   }

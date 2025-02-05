@@ -64,7 +64,7 @@ class Notifications
     ];
 
     if ($number == NUMBER_X) {
-      $msg = clienttranslate('${player_name} writes an X on his scoresheet (${source})');
+      $msg = clienttranslate('${player_name} writes an <X> on his scoresheet (${source})');
       $data['source'] = $source;
       $data['i18n'][] = 'source';
     }
@@ -85,7 +85,7 @@ class Notifications
 
   public static function crossRockets(Player $player, int $n, array $scribbles, string $source)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets (${source})'), [
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets <ROCKET> (${source})'), [
       'player' => $player,
       'n' => $n,
       'scribbles' => $scribbles,
@@ -96,7 +96,7 @@ class Notifications
 
   public static function activateRocket(Player $player, array $scribbles, string $source)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} activate an Inactivate Rocket quarter bonus (${source})'), [
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} activate <ARROW> an Inactivate Rocket quarter bonus (${source})'), [
       'player' => $player,
       'scribbles' => $scribbles,
       'source' => $source,
@@ -104,6 +104,26 @@ class Notifications
     ]);
   }
 
+  public static function activateSabotage(Player $player, Scribble $scribble, string $source)
+  {
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} triggers a Sabotage <SABOTAGE> (${source})'), [
+      'player' => $player,
+      'scribble' => $scribble,
+      'source' => $source,
+      'i18n' => ['source'],
+    ]);
+  }
+
+
+  public static function resolveSabotage(array $players, array $scribbles, string $source)
+  {
+    static::notifyAll('resolveSabotage', clienttranslate('<SABOTAGE> Sabotage <SABOTAGE> : ${players_names} must circle a System Error (${source})'), [
+      'players' => $players,
+      'scribbles' => $scribbles,
+      'source' => $source,
+      'i18n' => ['source'],
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

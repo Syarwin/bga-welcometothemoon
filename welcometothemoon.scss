@@ -138,6 +138,13 @@ html {
   font-family: Bebas;
 }
 
+#logs .log.notif_resolveSabotage .roundedbox,
+.chatwindowlogs_zone .log.notif_resolveSabotage.roundedbox {
+  background: #fda9a9;
+  font-weight: bold;
+  border: 1px solid black;
+}
+
 // * {
 //   box-shadow: none !important;
 //   filter: none !important;

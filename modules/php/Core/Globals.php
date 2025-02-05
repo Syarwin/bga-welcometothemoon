@@ -63,6 +63,9 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
     // Game options
     'solo' => 'bool',
+
+    // Scenario 1
+    'triggeredSabotages' => 'obj',
   ];
 
   protected static string $table = 'global_variables';

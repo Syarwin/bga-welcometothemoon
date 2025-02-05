@@ -1,6 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const NUMBER_X = 100;
   const SCRIBBLE_ARROW = 301;
+  const SCRIBBLE_CIRCLE = 302;
 
   const BGA_URL = dojoConfig.packages.reduce((r, p) => (p.name == 'bgagame' ? p.location : r), null);
   return declare('welcometothemoon.scribbles', null, {
@@ -40,8 +41,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         scribbleTpl = 'tplScribbleNumber';
       }
       if (scribble.type == SCRIBBLE_ARROW) scribbleTpl = 'tplScribbleArrow';
-      // if (scribble.type == 'estate-fence') scribbleTpl = 'scribbleLine';
-      // if (scribble.type == 'top-fence') scribbleTpl = 'scribbleLineHor';
+      if (scribble.type == SCRIBBLE_CIRCLE) scribbleTpl = 'tplScribbleCircle';
 
       this.place(scribbleTpl, scribble, container);
       if (animation) {
@@ -64,6 +64,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.addScribble(scribble, true);
       });
       return this.wait(1200);
+    },
+
+    notif_resolveSabotage(args) {
+      return this.notif_addScribbles(args);
     },
 
     getScribbleContainer(scribble) {

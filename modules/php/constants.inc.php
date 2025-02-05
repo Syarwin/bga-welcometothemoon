@@ -90,6 +90,7 @@ const TAKE_BONUS = 'Scenario1\TakeBonus';
 const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
 const WRITE_X = 'Scenario1\WriteX';
+const ACTIVATE_SABOTAGE = 'Scenario1\ActivateSabotage';
 
 /*
  * Actions
@@ -126,6 +127,7 @@ const NUMBER_X = 100;
 const NUMBER_6_9 = 200;
 const SCRIBBLE = 300;
 const SCRIBBLE_ARROW = 301;
+const SCRIBBLE_CIRCLE = 302;
 
 /******************
  ****** STATS ******

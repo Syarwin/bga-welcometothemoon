@@ -54,7 +54,7 @@ class Engine
     foreach (self::$trees as $pId => $t) {
       $t->replay();
       PGlobals::setEngine($pId, []);
-      Game::get()->sendNotifications();
+      //      Game::get()->sendNotifications(); TODO : put back to avoid too big notifs
     }
     Notifications::scores();
     Log::clearUndoableStepNotifications();
@@ -219,7 +219,7 @@ class Engine
         count($choices) == 1 &&
         count($allChoices) == 1 &&
         array_keys($allChoices) == array_keys($choices) &&
-        count($node->getChilds()) == 1 &&
+        //count($node->getChilds()) == 1 && => THIS LINE TOGGLE WHETHER IT MANDATORY TO CLICK ON THE SINGLE EFFECT OR NOT
         !$choices[$id]['irreversibleAction']
       ) {
         self::chooseNode($player, $id, true);

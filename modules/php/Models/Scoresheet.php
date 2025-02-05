@@ -37,9 +37,15 @@ class Scoresheet
     }
   }
 
-  public function hasScribbledSlot(int $slot): bool
+  public function hasScribbledSlot(int $slot, ?int $type = null): bool
   {
-    return !is_null($this->scribblesBySlots[$slot][0] ?? null);
+    foreach (($this->scribblesBySlots[$slot] ?? []) as $scribble) {
+      if (is_null($type) || $scribble->getType() == $type) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble
@@ -103,6 +109,19 @@ class Scoresheet
       $allSlots = array_values(array_diff($allSlots, $forbiddenSlots));
     }
     return $allSlots;
+  }
+
+  // SYSTEM ERRORS
+  public function getFreeSystemErrorSlot(): ?int
+  {
+    $allSlots = $this->slotsBySection['errors'];
+    foreach ($allSlots as $slot) {
+      if (!$this->hasScribbledSlot($slot)) {
+        return $slot;
+      }
+    }
+
+    return null;
   }
 
   // DATAS

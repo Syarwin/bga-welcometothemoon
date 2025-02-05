@@ -37,7 +37,15 @@ define([
     {
       constructor() {
         this._activeStates = [];
-        this._notifications = ['chooseCards', 'addScribble', 'addScribbles', 'newTurn', 'clearTurn', 'refreshUI'];
+        this._notifications = [
+          'chooseCards',
+          'addScribble',
+          'addScribbles',
+          'resolveSabotage',
+          'newTurn',
+          'clearTurn',
+          'refreshUI',
+        ];
 
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
@@ -604,7 +612,27 @@ define([
        */
       formatIcon(name, n = null, lowerCase = true) {
         let type = lowerCase ? name.toLowerCase() : name;
-        const NO_TEXT_ICONS = ['xtoken', 'Clever', 'take-in-range'];
+
+        // SVG ICONS
+        const glyphs = {
+          arrow: 1,
+          rocket: 1,
+          sabotage: 1,
+          x: 1,
+        };
+        if (glyphs[type]) {
+          let icon = `<i class='svgicon-${type}'>`;
+          let nGlyphs = glyphs[type];
+          if (nGlyphs > 1) {
+            for (let i = 1; i <= nGlyphs; i++) {
+              icon += `<span class="path${i}"></span>`;
+            }
+          }
+          icon += '</i>';
+          return icon;
+        }
+
+        const NO_TEXT_ICONS = [];
         let noText = NO_TEXT_ICONS.includes(name);
         let text = n == null ? '' : `<span>${n}</span>`;
         return `${noText ? text : ''}<div class="icon-container icon-container-${type}">
@@ -613,14 +641,13 @@ define([
       },
 
       formatString(str) {
-        const ICONS = [];
+        const ICONS = ['ARROW', 'ROCKET', 'SABOTAGE', 'X'];
 
         ICONS.forEach((name) => {
           const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
           str = str.replaceAll(regex, this.formatIcon(name, '<span>$1</span>'));
           str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
         });
-        str = str.replace(/__([^_]+)__/g, '<span class="action-card-name-reference">$1</span>');
         str = str.replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>');
 
         return str;
@@ -639,6 +666,14 @@ define([
 
             if (args.action) {
               args.action_icon = this.formatIcon(args.action);
+
+              // Specific formatting of chooseCombination
+              if (args.number) {
+                args.action = '';
+                args.number = `<span class='card-number'>${args.number}</span>`;
+              }
+            } else if (args.number) {
+              args.number = `<span class='log-number'>${args.number}</span>`;
             }
           }
         } catch (e) {

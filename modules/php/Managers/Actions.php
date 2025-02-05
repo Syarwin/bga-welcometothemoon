@@ -23,6 +23,7 @@ class Actions
     CROSS_ROCKETS,
     WRITE_X,
     ROCKET_ACTIVATION,
+    ACTIVATE_SABOTAGE,
   ];
 
   public static function get($actionId, &$ctx = null)

@@ -36,6 +36,10 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
         $flow = [
           'action' => ROCKET_ACTIVATION,
         ];
+      } else if ($type == SABOTAGE) {
+        $flow = [
+          'action' => ACTIVATE_SABOTAGE,
+        ];
       }
     }
 
