@@ -39,7 +39,12 @@ class WriteX extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $number = NUMBER_X;
     $player = $this->getPlayer();
     $scribble = $player->scoresheet()->addScribble($slotId, $number);
-    Notifications::writeNumber($player, $number, $scribble);
+    $scribbles = [$scribble];
+
+    // Scribble the bonus slot
+    $source = $this->getCtxArg('source');
+    $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+    Notifications::writeNumber($player, $number, $scribbles, $source['name']);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble);
     if (!empty($reactions)) {

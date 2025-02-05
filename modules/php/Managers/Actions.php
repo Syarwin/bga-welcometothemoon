@@ -22,6 +22,7 @@ class Actions
     TAKE_BONUS,
     CROSS_ROCKETS,
     WRITE_X,
+    ROCKET_ACTIVATION,
   ];
 
   public static function get($actionId, &$ctx = null)

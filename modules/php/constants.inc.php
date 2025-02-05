@@ -45,6 +45,7 @@ const ST_START_TURN_ENGINE = 22;
 const ST_CHOOSE_CARDS = 30;
 const ST_WRITE_NUMBER = 31;
 const ST_WRITE_X = 32;
+const ST_ROCKET_ACTIVATION = 33;
 
 // Engine state
 const ST_PRE_END_GAME_TURN = 80;
@@ -124,6 +125,7 @@ const SABOTAGE = 'sabotage';
 const NUMBER_X = 100;
 const NUMBER_6_9 = 200;
 const SCRIBBLE = 300;
+const SCRIBBLE_ARROW = 301;
 
 /******************
  ****** STATS ******

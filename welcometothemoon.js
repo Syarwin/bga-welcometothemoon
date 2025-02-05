@@ -565,12 +565,29 @@ define([
         });
       },
 
-      onEnteringStateWriteX(args) {
-        args.slots.forEach((slotId) => {
+      /**
+       * launchActionOnSlotClick : make slots selectable and launch action when clicking on one
+       * @param {*} slots
+       * @param {*} action
+       */
+      launchActionOnSlotClick(slots, action, callback = null) {
+        slots.forEach((slotId) => {
           this.onClick(`slot-${this.player_id}-${slotId}`, () => {
-            this.takeAtomicAction('actWriteX', [slotId]);
+            if (action !== null) {
+              this.takeAtomicAction(action, [slotId]);
+            } else {
+              callback(slotId);
+            }
           });
         });
+      },
+
+      onEnteringStateWriteX(args) {
+        this.launchActionOnSlotClick(args.slots, 'actWriteX');
+      },
+
+      onEnteringStateRocketActivation(args) {
+        this.launchActionOnSlotClick(args.slots, 'actRocketActivation');
       },
 
       ////////////////////////////////////////////////////////////

@@ -17,15 +17,24 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function getFlow(Player $player): array
   {
     $flow = null;
-    foreach ($this->getCtxArg('bonus') as $type => $n) {
+    $bonus = $this->getCtxArg('bonus');
+    foreach ($bonus as $type => $n) {
       if ($type == ROCKET) {
         $flow = [
           'action' => CROSS_ROCKETS,
           'args' => ['n' => $n]
         ];
+        // Rocket requiring activation first
+        if (array_key_exists('check', $bonus)) {
+          $flow['args']['check'] = $bonus['check'];
+        }
       } else if ($type == NUMBER_X) {
         $flow = [
           'action' => WRITE_X,
+        ];
+      } else if ($type == ACTIVATION) {
+        $flow = [
+          'action' => ROCKET_ACTIVATION,
         ];
       }
     }
@@ -35,6 +44,14 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
     } else {
       $flow['pId'] = $player->getId();
     }
+
+    // Tag the slot and the name of quarter
+    $slot = $this->getCtxArg('slot');
+    $name = $this->getCtxArg('name');
+    $flow['args']['source'] = [
+      'slot' => $slot,
+      'name' => $name,
+    ];
 
     return $flow;
   }
@@ -48,10 +65,8 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function isOptional(): bool
   {
     $player = $this->getPlayer();
-    if (is_null($this->getFlowTree($player))) {
-      return true;
-    }
-    return $this->getFlowTree($player)->isOptional();
+    $flowTree = $this->getFlowTree($player);
+    return is_null($flowTree) ? true : $flowTree->isOptional();
   }
 
   public function isAutomatic(?Player $player = null): bool
@@ -96,13 +111,10 @@ class TakeBonus extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function actTakeBonus()
   {
     $player = $this->getPlayer();
-    $slot = $this->getCtxArg('slot');
-    $type = SCRIBBLE;
-    $scribble = Scribbles::add($player, [
-      'type' => $type,
-      "location" => "slot-$slot",
-    ]);
-    Notifications::takeBonus($player, $scribble);
+    // $slot = $this->getCtxArg('slot');
+    // $name = $this->getCtxArg('name');
+    // $scribble = $player->scoresheet()->addScribble($slot);
+    // Notifications::takeBonus($player, $scribble, $name);
     $flow = $this->getFlow($player);
     $this->insertAsChild($flow);
   }

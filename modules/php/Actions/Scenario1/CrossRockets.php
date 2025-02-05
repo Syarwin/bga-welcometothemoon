@@ -20,14 +20,23 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function isDoable(Player $player): bool
   {
+    // Conditional bonus ?
+    $slotToCheck = $this->getCtxArg('check');
+    if (!is_null($slotToCheck)) {
+      if (!$player->scoresheet()->hasScribbledSlot($slotToCheck)) {
+        return false;
+      }
+    }
+
     return true;
   }
 
 
   public function getDescription(): string|array
   {
+    $doable = $this->isDoable($this->getPlayer());
     return [
-      'log' => clienttranslate('Cross ${n} rockets'),
+      'log' => $doable ? clienttranslate('Cross ${n} rockets') : clienttranslate('Cross ${n} rockets (not activated)'),
       'args' => [
         'n' => $this->getCtxArg('n'),
       ]
@@ -94,6 +103,11 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
       }
     }
 
-    Notifications::crossRockets($player, $n, $scribbles);
+
+    // Scribble the bonus slot
+    $source = $this->getCtxArg('source');
+    $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+
+    Notifications::crossRockets($player, $n, $scribbles, $source['name']);
   }
 }

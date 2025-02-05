@@ -11,6 +11,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Cards;
 use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
 use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 class Notifications
 {
@@ -53,34 +54,53 @@ class Notifications
     ]);
   }
 
-  public static function writeNumber($player, $number, $scribble)
+  public static function writeNumber(Player $player, int $number, array $scribbles, ?string $source = null)
   {
     $msg = clienttranslate('${player_name} writes ${number} on his scoresheet');
-    if ($number == NUMBER_X) {
-      $msg = clienttranslate('${player_name} writes an X on his scoresheet');
-    }
-
-    static::pnotify($player, 'addScribble', $msg, [
+    $data = [
       'player' => $player,
       'number' => $number,
-      'scribble' => $scribble,
-    ]);
+      'scribbles' => $scribbles,
+    ];
+
+    if ($number == NUMBER_X) {
+      $msg = clienttranslate('${player_name} writes an X on his scoresheet (${source})');
+      $data['source'] = $source;
+      $data['i18n'][] = 'source';
+    }
+
+    static::pnotify($player, 'addScribbles', $msg, $data);
   }
 
-  public static function takeBonus($player, $scribble)
-  {
-    static::pnotify($player, 'addScribble', clienttranslate('${player_name} takes quarter bonus'), [
-      'player' => $player,
-      'scribble' => $scribble,
-    ]);
-  }
+  // public static function takeBonus($player, $scribble, $name)
+  // {
+  //   static::pnotify($player, 'addScribble', clienttranslate('${player_name} takes quarter bonus'), [
+  //     'player' => $player,
+  //     'scribble' => $scribble,
+  //     'source' => $name,
+  //     'i18n' => ['source'],
+  //     'duration' => 200,
+  //   ]);
+  // }
 
-  public static function crossRockets($player, $n, $scribbles)
+  public static function crossRockets(Player $player, int $n, array $scribbles, string $source)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets'), [
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets (${source})'), [
       'player' => $player,
       'n' => $n,
       'scribbles' => $scribbles,
+      'source' => $source,
+      'i18n' => ['source'],
+    ]);
+  }
+
+  public static function activateRocket(Player $player, array $scribbles, string $source)
+  {
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} activate an Inactivate Rocket quarter bonus (${source})'), [
+      'player' => $player,
+      'scribbles' => $scribbles,
+      'source' => $source,
+      'i18n' => ['source'],
     ]);
   }
 

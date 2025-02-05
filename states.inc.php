@@ -217,6 +217,13 @@ $machinestates = [
     'possibleactions' => ['actWriteX', 'actRestart'],
   ],
 
+  ST_ROCKET_ACTIVATION => [
+    'name' => 'rocketActivation',
+    'descriptionmyturn' => clienttranslate('${you} must activate an inactive Rocket quarter bonus on your scoresheet'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actRocketActivation', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

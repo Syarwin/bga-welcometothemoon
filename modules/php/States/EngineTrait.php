@@ -267,7 +267,7 @@ trait EngineTrait
   }
 
   #[CheckAction(false)]
-  public function actCancelEngine()
+  public function actCancel()
   {
     $pId = Players::getCurrentId();
     $this->gamestate->setPlayersMultiactive([$pId], '');
