@@ -32,6 +32,11 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function actAccomplishMission(int $planId)
   {
+    $args = $this->getArgs();
+    if (!in_array($planId, $args['plans'])) {
+      throw new \BgaUserException('You cannot accomplish this mission. Should not happen.');
+    }
+
     $player = $this->getPlayer();
     $scenarioId = Globals::getScenario();
     $scribbles = [];

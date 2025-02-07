@@ -118,6 +118,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
         });
       });
+
+      if (args.stacks.length == 0) {
+        this.addDangerActionButton('btnSystemError', _('System Error'), () => this.takeAtomicAction('actSystemError', []));
+      }
     },
 
     ////////////////////////////////////////////////////////

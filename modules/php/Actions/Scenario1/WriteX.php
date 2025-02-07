@@ -36,6 +36,11 @@ class WriteX extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function actWriteX(string $slotId)
   {
+    $args = $this->getArgs();
+    if (!in_array($slotId, $args['slots'])) {
+      throw new \BgaUserException('You cannot write an X here. Should not happen.');
+    }
+
     $number = NUMBER_X;
     $player = $this->getPlayer();
     $scribble = $player->scoresheet()->addScribble($slotId, $number);

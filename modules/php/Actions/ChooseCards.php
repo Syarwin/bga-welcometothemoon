@@ -40,9 +40,10 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     $data = [];
     $data['stacks'] = $this->getAvailableStacks($player);
-    // if (empty($data['selectableStacks'])) {
-    //   $data['zones'] = PermitRefusal::getAvailableZones($player);
-    // }
+    if (empty($data['stacks'])) {
+      $data['systemError'] = $player->scoresheet()->getFreeSystemErrorSlot();
+      $data['descSuffix'] = Globals::getScenario() == 1 ? 'impossible1' : 'impossible';
+    }
 
     return $data;
   }
@@ -64,39 +65,24 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   }
 
 
-  // // Do the action (logging the choice for rest of the turn)
-  // $player->chooseCards($stack);
-  //   /*
-  //    *  Return the set of possible number to write given current selected combination
-  //    */
-  //   // public function getAvailableNumbers()
-  //   // {
-  //   //   return $this->getAvailableNumbersOfCombination($this->getCombination());
-  //   // }
+  public function actSystemError()
+  {
+    $args = $this->getArgs();
+    if (!array_key_exists('systemError', $args)) {
+      throw new \BgaUserException('You have a valid number to place, you cannot refuse to place it. Should not happen.');
+    }
 
-  //     /*
-  //  * Return either the selected stacks (of construction cards) if any, or null
-  //  */
-  // public function getSelectedCards()
-  // {
-  //   $selectCardAction = Log::getLastAction('selectCard', $this->id);
-  //   return is_null($selectCardAction) ? null : $selectCardAction['arg'];
-  // }
+    $player = $this->getPlayer();
+    $scribbleType = Globals::getScenario() == 1 ? SCRIBBLE_CIRCLE : SCRIBBLE;
+    $scribble = $player->scoresheet()->addScribble($args['systemError'], $scribbleType);
+    Notifications::systemError($player, $scribble);
 
-  // /*
-  //  * Allow to format the selected stacks (getter defined below)
-  //  *   into a combination [number, action]
-  //  */
-  // public function getCombination()
-  // {
-  //   $selectedCards = $this->getSelectedCards();
-  //   if (is_null($selectedCards)) {
-  //     throw new \BgaVisibleSystemException(
-  //       "Trying to fetch the combination of a player who haven't choose the construction cards yet"
-  //     );
-  //   }
-
-  //   return ConstructionCards::getCombination($this->id, $selectedCards);
-  // }
-
+    $reactions = $player->scoresheet()->getScribbleReactions($scribble);
+    if (!empty($reactions)) {
+      $this->insertAsChild([
+        'type' => NODE_PARALLEL,
+        'childs' => $reactions
+      ]);
+    }
+  }
 }

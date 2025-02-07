@@ -58,6 +58,11 @@ class RocketActivation extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function actRocketActivation(int $slot)
   {
+    $args = $this->getArgs();
+    if (!in_array($slot, $args['slots'])) {
+      throw new \BgaUserException('You cannot activate this rocket bonus here. Should not happen.');
+    }
+
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE_ARROW);

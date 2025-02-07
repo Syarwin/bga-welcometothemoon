@@ -196,10 +196,11 @@ $machinestates = [
   ST_CHOOSE_CARDS => [
     'name' => 'chooseCards',
     'descriptionmyturn' => clienttranslate('${you} must pick a pair of construction cards'),
-    'descriptionmyturnimpossible' => clienttranslate('${you} can\'t write any number. You must cross off one System Error box.'),
+    'descriptionmyturnimpossible' => clienttranslate('<SYSTEM-ERROR> ${you} can\'t write any number. You must cross off one System Error box <SYSTEM-ERROR>'),
+    'descriptionmyturnimpossible1' => clienttranslate('<SYSTEM-ERROR> ${you} can\'t write any number. You must circle one System Error box <SYSTEM-ERROR>'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actChooseCards', 'actRefusal', 'actRestart'],
+    'possibleactions' => ['actChooseCards', 'actSystemError', 'actRestart'],
   ],
 
   ST_WRITE_NUMBER => [
@@ -207,7 +208,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must write the number on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actWriteNumber', 'actRefusal', 'actRestart'],
+    'possibleactions' => ['actWriteNumber', 'actSystemError', 'actRestart'],
   ],
 
   ST_ACCOMPLISH_MISSION => [

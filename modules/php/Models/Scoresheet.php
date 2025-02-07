@@ -125,7 +125,7 @@ class Scoresheet
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
         } else {
-          if ($scribble->getNumber() < $number || $previous >= $number) {
+          if ($scribble->getNumber() <= $number || $previous >= $number) {
             $forbiddenSlots = array_merge($forbiddenSlots, $curr);
           }
           $curr = [];

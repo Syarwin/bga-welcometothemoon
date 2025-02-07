@@ -1,7 +1,7 @@
 /********************************
 *** Hightlight recent actions ***
 ********************************/
-@for $t from 1 through 33 {
+@for $t from 1 through 60 {
   #game_play_area[data-turn="#{$t}"] .scribble-number[data-turn="#{$t}"] {
     color: red;
   }

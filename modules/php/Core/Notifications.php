@@ -115,7 +115,6 @@ class Notifications
     ]);
   }
 
-
   public static function resolveSabotage(array $players, array $scribbles, string $source)
   {
     static::notifyAll('resolveSabotage', clienttranslate('<SABOTAGE> Sabotage <SABOTAGE> : ${players_names} must circle a System Error (${source})'), [
@@ -138,6 +137,20 @@ class Notifications
       'planId' => $plan->getId()
     ]);
   }
+
+  public static function systemError(Player $player, Scribble $scribble)
+  {
+    $msg = Globals::getScenario() == 1 ?
+      clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must circle one System Error box <SYSTEM-ERROR>')
+      : clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must cross off one System Error box <SYSTEM-ERROR>');
+
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
+
 
   /*************************
    **** GENERIC METHODS ****

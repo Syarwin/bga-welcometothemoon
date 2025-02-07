@@ -648,7 +648,7 @@ define([
       },
 
       formatString(str) {
-        const ICONS = ['ARROW', 'ROCKET', 'SABOTAGE', 'X'];
+        const ICONS = ['ARROW', 'ROCKET', 'SABOTAGE', 'X', 'SYSTEM-ERROR'];
 
         ICONS.forEach((name) => {
           const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
