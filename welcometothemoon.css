@@ -1762,6 +1762,11 @@ body {
   font-weight: bold;
   border: 1px solid black; }
 
+#logs .log.notif_endGameTriggered .roundedbox,
+.chatwindowlogs_zone .log.notif_endGameTriggered.roundedbox {
+  background-image: linear-gradient(45deg, #f5ebeb 15.91%, #fafafa 15.91%, #fafafa 50%, #f5ebeb 50%, #f5ebeb 65.91%, #fafafa 65.91%, #fafafa 100%);
+  background-size: 31.11px 31.11px; }
+
 .phantom {
   visibility: hidden; }
 

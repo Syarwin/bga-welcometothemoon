@@ -5,6 +5,8 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 
 class Scoresheet
@@ -54,6 +56,10 @@ class Scoresheet
     foreach ($this->scribbles as $scribble) {
       $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
     }
+  }
+  public function getScribbles(): Collection
+  {
+    return $this->scribbles;
   }
 
   public function hasScribbledSlot(int $slot, ?int $type = null): bool
@@ -151,6 +157,32 @@ class Scoresheet
     }
 
     return null;
+  }
+
+  public function isEndOfGameTriggered(): bool
+  {
+    // System errors
+    if (is_null($this->getFreeSystemErrorSlot())) {
+      Notifications::endGameTriggered($this->player, 'errors');
+      return true;
+    }
+
+    // Plans
+    $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player));
+    if ($unsatisfiedPlans->empty()) {
+      Notifications::endGameTriggered($this->player, 'plans');
+      return true;
+    }
+
+    // Full scoresheet
+    $allSlots = $this->slotsBySection['numbers'];
+    $allSlots = array_values(array_diff($allSlots, array_keys($this->scribblesBySlots)));
+    if (empty($allSlots)) {
+      Notifications::endGameTriggered($this->player, 'houses');
+      return true;
+    }
+
+    return false;
   }
 
   // DATAS

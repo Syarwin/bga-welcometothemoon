@@ -44,6 +44,7 @@ define([
           'resolveSabotage',
           'accomplishMission',
           'newTurn',
+          'endGameTriggered',
           'clearTurn',
           'refreshUI',
           'midMessage',
@@ -233,6 +234,10 @@ define([
         this.empty('score-sheet-holder');
         this.gamedatas.scenario = scenario;
         this.setupScoreSheets();
+      },
+
+      notif_endGameTriggered(args) {
+        return this.wait(1000);
       },
 
       /////////////////////////////////////////////////////////////////

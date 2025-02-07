@@ -138,8 +138,14 @@ trait TurnTrait
     //   $player->emptyEndOfTurnActions();
     // }
 
-    // Game end if one depot is empty or if gameEnded flag is true (if a player couldn't play any tile or all event cards were played)
-    $nextState = Globals::isGameEndTriggered() ? ST_PRE_END_GAME_TURN : ST_START_TURN;
+    // Check end of scenario
+    $nextState = ST_START_TURN;
+    foreach (Players::getAll() as $player) {
+      if ($player->scoresheet()->isEndOfGameTriggered()) {
+        $nextState = ST_END_SCENARIO;
+      }
+    }
+
     $this->gamestate->jumpToState($nextState);
   }
 }

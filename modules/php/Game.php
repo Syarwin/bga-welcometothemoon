@@ -33,6 +33,7 @@ use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
+use Bga\Games\WelcomeToTheMoon\States\EndGameTrait;
 
 class Game extends \Table
 {
@@ -40,6 +41,7 @@ class Game extends \Table
     use DebugTrait;
     use TurnTrait;
     use EngineTrait;
+    use EndGameTrait;
 
     public static $instance = null;
     function __construct()

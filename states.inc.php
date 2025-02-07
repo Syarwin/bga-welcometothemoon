@@ -244,21 +244,13 @@ $machinestates = [
   // |_____|_| |_|\__,_|  \___/|_|    \____|\__,_|_| |_| |_|\___|
   //////////////////////////////////////////////////////////////////
 
-  ST_PRE_END_GAME_TURN => [
-    'name' => 'preEndGameTurn',
+  ST_END_SCENARIO => [
+    'name' => 'scenarioEnd',
     'description' => '',
     'type' => GAME,
-    'action' => 'stPreEndGameTurn', //reveal civ cards
-    'transitions' => [
-      '' => ST_END_GAME_TURN,
-    ],
-  ],
-
-  ST_END_GAME_TURN => [
-    'name' => 'endGameTurn',
-    'description' => '',
-    'type' => GAME,
-    'action' => 'stEndGameTurn',
+    'action' => 'stEndOfScenario',
+    //    'transitions' => ['' => ST_END_GAME_TURN],
+    'transitions' => ['' => ST_SETUP_DEBUG],
   ],
 
   ST_PRE_END_OF_GAME => [

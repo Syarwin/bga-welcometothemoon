@@ -56,6 +56,23 @@ class Scoresheet1 extends Scoresheet
     Globals::setTriggeredSabotages([]);
   }
 
+  public function isEndOfGameTriggered(): bool
+  {
+    $triggered = parent::isEndOfGameTriggered();
+    if ($triggered) return true;
+
+    // Any circled system error not crossed off?
+    $slots = $this->getSectionSlots('errors');
+    foreach ($slots as $slot) {
+      if ($this->hasScribbledSlot($slot, SCRIBBLE_CIRCLE) && !$this->hasScribbledSlot($slot)) {
+        return false;
+      }
+    }
+
+    Notifications::endGameTriggered($this->player, 'launch');
+    return true;
+  }
+
 
   // WRITE NUMBER
   protected array $increasingConstraints = [

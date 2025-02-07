@@ -158,6 +158,24 @@ class Notifications
   }
 
 
+  public static function endGameTriggered(Player $player, string $condition)
+  {
+    $msgs = [
+      'errors' => Globals::getScenario() == 1 ?
+        clienttranslate('${player_name} circled all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure')
+        : clienttranslate('${player_name} crossed off all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure'),
+
+      'plans' => clienttranslate('${player_name} accomplished all three Missions, therefore triggering the end of the adventure'),
+
+      'houses' => clienttranslate('${player_name} filled in all the spaces of the marking area, therefore triggering the end of the adventure'),
+
+      'launch' => clienttranslate('${player_name} launched his rocket successfully, therefore triggering the end of the adventure'),
+    ];
+
+    self::notifyAll('endGameTriggered', $msgs[$condition], [
+      'player' => $player
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****
