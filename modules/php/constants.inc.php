@@ -3,6 +3,7 @@
 /*
  * Game options
  */
+const OPTION_ADVENTURE = 110;
 
 
 /*

@@ -172,6 +172,7 @@ updateLoadFile();
 
 function loadScenario(datas) {
   DATAS = datas;
+  if (!DATAS.sections) DATAS.sections = [];
   // DATAS.sections = [
   //   {
   //     id: 'numbers',
@@ -242,58 +243,6 @@ function saveScenario() {
   updateStatus();
 }
 
-// //////////////////////////
-// //////////////////////////
-// ///  GENERATE JSON FILE
-// //////////////////////////
-// //////////////////////////
-
-// function exportJSON() {
-//   let dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(DATAS));
-//   let dlAnchorElem = document.getElementById('download-anchor');
-//   dlAnchorElem.setAttribute('href', dataStr);
-//   dlAnchorElem.setAttribute('download', DATAS.id + '.wttm');
-//   dlAnchorElem.click();
-// }
-// $('save-btn').addEventListener('click', () => exportJSON());
-
-// function exportCompressedJSON() {
-//   let d = {
-//     id: DATAS.id,
-//     name: DATAS.name,
-//     jpgUrl: DATAS.jpgUrl,
-//     nbrLaps: DATAS.nbrLaps || 0,
-//     stressCards: DATAS.stressCards || 0,
-//     wttmCards: DATAS.wttmCards || 0,
-//     startingCells: DATAS.startingCells || [],
-//     podium: { x: 0, y: 0, a: 0 },
-//     weatherCardPos: DATAS.weatherCardPos
-//       ? { x: parseInt(DATAS.weatherCardPos.x), y: parseInt(DATAS.weatherCardPos.y) }
-//       : { x: 0, y: 0 },
-//     corners: DATAS.corners || [],
-//     floodedSpaces: DATAS.flooded || [],
-//     cells: {},
-//   };
-
-//   forEachCell((cellId, cell) => {
-//     let infos = DATAS.cells[cellId];
-//     d.cells[parseInt(cellId)] = {
-//       lane: infos.lane,
-//       position: infos.position,
-//       x: parseInt(infos.x),
-//       y: parseInt(infos.y),
-//       a: parseInt(infos.a),
-//     };
-//   });
-
-//   let dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(d));
-//   let dlAnchorElem2 = document.getElementById('download-anchor2');
-//   dlAnchorElem2.setAttribute('href', dataStr);
-//   dlAnchorElem2.setAttribute('download', DATAS.id + '-min.wttm');
-//   dlAnchorElem2.click();
-// }
-// $('save-compressed-btn').addEventListener('click', () => exportCompressedJSON());
-
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -327,7 +276,7 @@ function toggleMode(section, mode, val = null) {
 
         modes[section2][mode2] = false;
         $('main-frame').classList.remove(`${mode2}-${section2}`);
-        $(`${mode2}-${section2}`).classList.remove('active');
+        if ($(`${mode2}-${section2}`)) $(`${mode2}-${section2}`).classList.remove('active');
       });
     });
   }

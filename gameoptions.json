@@ -1,1 +1,17 @@
-{}
+{
+  "110": {
+    "name": "Adventure",
+    "default": 1,
+    "values": {
+      "1": {
+        "name": "Adventure 1: The Launch",
+        "tmdisplay": "[1: The Launch]",
+        "firstgameonly": true
+      },
+      "2": {
+        "name": "Adventure 2: The Journey",
+        "tmdisplay": "[2: The Journey]"
+      }
+    }
+  }
+}

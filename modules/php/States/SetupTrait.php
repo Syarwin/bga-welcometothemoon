@@ -35,13 +35,12 @@ trait SetupTrait
       return;
     }
 
+    // Single scenario mode
     if (true) {
-      // TODO
-      $scenario = 1;
-      Globals::setScenario($scenario);
-
       $this->gamestate->jumpToState(ST_SETUP_SCENARIO);
-    } else {
+    }
+    // Campaign mode
+    else {
     }
   }
 
