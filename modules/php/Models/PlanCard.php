@@ -2,6 +2,8 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models;
 
+use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
+
 class PlanCard extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 {
   protected string $table = 'plan_cards';
@@ -19,4 +21,31 @@ class PlanCard extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     ['desc', 'obj']
   ];
   protected array $desc = [];
+  protected array $rewards = [];
+
+  public function isValidated(Player $player): bool
+  {
+    return in_array($this->id, PGlobals::getValidatedPlans($player->getId()));
+  }
+
+  public function canAccomplish(Player $player): bool
+  {
+    return false;
+  }
+
+  public function getStackIndex()
+  {
+    $map = [
+      'stack-A' => 0,
+      'stack-B' => 1,
+      'stack-C' => 2,
+    ];
+
+    return $map[$this->location];
+  }
+
+  public function getReward(bool $firstValidation): int
+  {
+    return $this->rewards[$firstValidation ? 0 : 1] ?? 0;
+  }
 }

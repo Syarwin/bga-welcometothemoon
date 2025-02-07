@@ -5,7 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Managers;
 use Bga\Games\WelcomeToTheMoon\Helpers\CachedPieces;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
-
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class PlanCards extends CachedPieces
 {
@@ -22,9 +22,15 @@ class PlanCards extends CachedPieces
     return new $className($row);
   }
 
+
+  public static function getCurrent()
+  {
+    return self::getInLocation('stack-%');
+  }
+
   public static function getUiData()
   {
-    return self::getInLocation('stack-%')->ui();
+    return self::getCurrent()->ui();
   }
 
   protected static $plansByScenario = [
@@ -69,5 +75,11 @@ class PlanCards extends CachedPieces
 
     $cards = self::create($ids);
     // TODO : notify
+  }
+
+
+  public static function getAccomplishablePlans(Player $player)
+  {
+    return self::getCurrent()->filter(fn($plan) => !$plan->isValidated($player) && $plan->canAccomplish($player));
   }
 }

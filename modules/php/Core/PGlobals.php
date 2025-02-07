@@ -18,6 +18,7 @@ class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     'flags' => 'obj', // Useful for flagging a "once per turn action" as flagged,
 
     'stack' => 'obj',
+    'validatedPlans' => 'obj',
   ];
 
   protected static string $table = 'pglobal_variables';

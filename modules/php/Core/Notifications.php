@@ -10,6 +10,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Managers\Cards;
 use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
 use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
+use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
@@ -122,6 +123,19 @@ class Notifications
       'scribbles' => $scribbles,
       'source' => $source,
       'i18n' => ['source'],
+    ]);
+  }
+
+  public static function accomplishMission(Player $player, PlanCard $plan, array $scribbles, bool $firstValidation)
+  {
+    $stacks = ['A', 'B', 'C'];
+    $msg = $firstValidation ? clienttranslate('${player_name} accomplishes mission ${stack}') : clienttranslate('${player_name} accomplishes mission ${stack} (first fulfillment)');
+    static::pnotify($player, 'accomplishMission', $msg, [
+      'player' => $player,
+      'scribbles' => $scribbles,
+      'stack' => $stacks[$plan->getStackIndex()],
+      'firstValidation' => $firstValidation,
+      'planId' => $plan->getId()
     ]);
   }
 

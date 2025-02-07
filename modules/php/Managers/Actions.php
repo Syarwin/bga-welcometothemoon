@@ -17,6 +17,7 @@ class Actions
   static $classes = [
     CHOOSE_CARDS,
     WRITE_NUMBER,
+    ACCOMPLISH_MISSION,
 
     // Scenario 1
     TAKE_BONUS,

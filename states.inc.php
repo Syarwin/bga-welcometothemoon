@@ -115,6 +115,7 @@ $machinestates = [
     'name' => 'setupEngine',
     'type' => 'multipleactiveplayer',
     'description' => clienttranslate('Waiting for everyone to confirm their turn'),
+    'descriptionaccomplishMission' => clienttranslate('Waiting for some players to accomplish mission(s) or pass'),
     'descriptionmyturn' => '',
     'args' => 'argsSetupEngine',
     'initialprivate' => ST_INIT_PRIVATE_ENGINE,
@@ -208,6 +209,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'possibleactions' => ['actWriteNumber', 'actRefusal', 'actRestart'],
   ],
+
+  ST_ACCOMPLISH_MISSION => [
+    'name' => 'accomplishMission',
+    'descriptionmyturn' => clienttranslate('${you} may select a mission to accomplish'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actAccomplishMission', 'actRestart'],
+  ],
+
 
   ST_WRITE_X => [
     'name' => 'writeX',

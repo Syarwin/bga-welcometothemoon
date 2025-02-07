@@ -4,6 +4,8 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 
 class Scoresheet
 {
@@ -11,6 +13,23 @@ class Scoresheet
   protected int $scenario;
   protected Collection $scribbles;
   protected array $scribblesBySlots;
+
+  // PHASE 5
+  public static function phase5Check(): void
+  {
+    switch (Globals::getScenario()) {
+      case 1:
+        Scoresheet1::phase5Check();
+        break;
+      default:
+        die("Unsupported phase 5 for this scenario");
+    }
+  }
+
+  public function getMissionSlotNumber(int $stack): int
+  {
+    return $this->slotsBySection['plans'][$stack] ?? 0;
+  }
 
   public function __construct(?Player $player)
   {
@@ -46,6 +65,16 @@ class Scoresheet
     }
 
     return false;
+  }
+
+  public function hasScribbledSlots(array $slots): bool
+  {
+    foreach ($slots as $slot2) {
+      if (!$this->hasScribbledSlot($slot2)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble

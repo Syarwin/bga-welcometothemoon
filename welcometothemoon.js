@@ -42,6 +42,7 @@ define([
           'addScribble',
           'addScribbles',
           'resolveSabotage',
+          'accomplishMission',
           'newTurn',
           'clearTurn',
           'refreshUI',
@@ -681,6 +682,10 @@ define([
             } else if (args.number) {
               args.number = `<span class='log-number'>${args.number}</span>`;
             }
+
+            if (args.stack) {
+              args.stack = `<span class='log-stack stack-${args.stack}'>${args.stack}</span>`;
+            }
           }
         } catch (e) {
           console.error(log, args, 'Exception thrown', e.stack);
@@ -811,7 +816,7 @@ define([
         $('construction-cards-container-sticky').style.width = `${newCardsWidth}px`;
         $('construction-cards-container').style.width = `${newCardsWidth}px`;
 
-        const plansWidth = 236;
+        const plansWidth = 245;
         const plansHeight = 964;
         const plansRatio = 1 - sheetRatio - cardsRatio;
         const newPlansWidth = plansRatio * box['width'] - 10;

@@ -49,7 +49,7 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
   }
 
 
-  protected array $rows = [
+  protected static array $rows = [
     139 => [100, 101, 102, 103, 104],
     140 => [105, 106, 107, 108],
     141 => [109, 110, 111],
@@ -69,12 +69,19 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function actCrossRockets()
   {
     $player = $this->getPlayer();
-    $scoresheet = $player->scoresheet();
     $n = $this->getCtxArg("n");
+    $source = $this->getCtxArg('source');
+
+    self::crossRocketAux($player, $n, $source);
+  }
+
+  public static function crossRocketAux(Player $player, int $n, array|string $source)
+  {
+    $scoresheet = $player->scoresheet();
 
     $scribbles = [];
     $m = 0;
-    foreach ($this->rows as $scoreslot => $slots) {
+    foreach (static::$rows as $scoreslot => $slots) {
       // System errors row
       if ($slots == SYSTEM_ERROR) {
         die("TODO: cross rocket system errors");
@@ -105,9 +112,12 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
 
     // Scribble the bonus slot
-    $source = $this->getCtxArg('source');
-    $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+    $sourceName = $source;
+    if (is_array($source)) {
+      $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+      $sourceName = $source['name'];
+    }
 
-    Notifications::crossRockets($player, $n, $scribbles, $source['name']);
+    Notifications::crossRockets($player, $n, $scribbles, $sourceName);
   }
 }

@@ -2,6 +2,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const NUMBER_X = 100;
   const SCRIBBLE_ARROW = 301;
   const SCRIBBLE_CIRCLE = 302;
+  const SCRIBBLE_CHECKMARK = 303;
 
   const BGA_URL = dojoConfig.packages.reduce((r, p) => (p.name == 'bgagame' ? p.location : r), null);
   return declare('welcometothemoon.scribbles', null, {
@@ -28,6 +29,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this.destroy(oScribble);
         }
       });
+      this.updatePlansValidationMarks();
     },
 
     addScribble(scribble, animation) {
@@ -42,6 +44,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
       if (scribble.type == SCRIBBLE_ARROW) scribbleTpl = 'tplScribbleArrow';
       if (scribble.type == SCRIBBLE_CIRCLE) scribbleTpl = 'tplScribbleCircle';
+      if (scribble.type == SCRIBBLE_CHECKMARK) scribbleTpl = 'tplScribbleCheckmark';
 
       this.place(scribbleTpl, scribble, container);
       if (animation) {
@@ -76,6 +79,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       if (t[0] == 'slot') {
         return $(`slot-${pId}-${t[1]}`);
+      }
+      if (t[0] == 'plan') {
+        if (pId != this.player_id) {
+          return $(`plan-card-${t[1]}`);
+        } else {
+          return $(`plan-card-${t[1]}-validation`);
+        }
       }
 
       console.error('Trying to get container of a scribble', scribble);

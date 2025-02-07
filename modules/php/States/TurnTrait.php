@@ -9,7 +9,8 @@ use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
-use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 trait TurnTrait
 {
@@ -64,9 +65,28 @@ trait TurnTrait
    */
   function stEndTurnEngine()
   {
-    // PHASE 5 CHECK
-    if (Globals::getScenario() == 1) {
-      Scoresheet1::phase5Check();
+    // SCENARIO 1 AND 6 HAVE A PHASE 5 EFFECT
+    // THAT WE MUST RESOLVE BEFORE CHECKING MISSION SATISFACTION
+    if (in_array(Globals::getScenario(), [1, 6])) {
+      // Phase 5
+      Scoresheet::phase5Check();
+
+      // Mission accomplishment
+      $players = Players::getAll();
+      $flows = [];
+      foreach ($players as $pId => $player) {
+        if (PlanCards::getAccomplishablePlans($player)->count() > 0) {
+          $flows[$pId] = [
+            'action' => ACCOMPLISH_MISSION,
+          ];
+        }
+      }
+
+      // Launch engine only if some players have plans to validate
+      if (!empty($flows)) {
+        Engine::multipleSetup($flows, ['method' => 'stEndTurn'], 'accomplishMission');
+        return;
+      }
     }
 
     $this->stEndTurn();

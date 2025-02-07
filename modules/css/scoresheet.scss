@@ -114,6 +114,8 @@
                     border-radius: 50%;
                     border: 1px solid transparent;
                     @include centered;
+                    -webkit-user-select: none;
+                    user-select: none;
 
                     &.selectable {
                         background-color: rgba(255, 255, 255, 0.4);

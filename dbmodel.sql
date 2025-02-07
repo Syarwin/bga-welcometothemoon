@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `plan_cards` (
 
 
 CREATE TABLE IF NOT EXISTS `scribbles` (
-  `scribble_id` varchar(10) NOT NULL,
+  `scribble_id` varchar(20) NOT NULL,
   `scribble_location` varchar(100) NOT NULL,
   `scribble_state` int(11) NOT NULL,
   `type` int(11) NOT NULL,

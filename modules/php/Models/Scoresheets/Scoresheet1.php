@@ -16,7 +16,7 @@ class Scoresheet1 extends Scoresheet
   protected array $datas = DATAS;
 
   // PHASE 5
-  public static function phase5Check()
+  public static function phase5Check(): void
   {
     $sabotages = array_unique(Globals::getTriggeredSabotages());
     $players = Players::getAll();
@@ -124,16 +124,7 @@ class Scoresheet1 extends Scoresheet
    */
   protected function hasFilledQuarter($slots, $slot)
   {
-    $inQuarter = false;
-    foreach ($slots as $slot2) {
-      if (!$this->hasScribbledSlot($slot2)) {
-        return false;
-      }
-
-      if ($slot2 == $slot) $inQuarter = true;
-    }
-
-    return $inQuarter;
+    return $this->hasScribbledSlots($slots) && in_array($slot, $slots);
   }
 
   protected function convertQuarterBonuses($quarter)
@@ -153,7 +144,7 @@ class Scoresheet1 extends Scoresheet
     return $actions;
   }
 
-  protected static function getQuarters()
+  public static function getQuarters()
   {
     return [
       // ASTRONAUT
@@ -212,7 +203,7 @@ class Scoresheet1 extends Scoresheet
       [
         'slots' => [17, 18, 19, 20, 21],
         'bonuses' => [
-          69 => [ROCKET => 3],
+          68 => [ROCKET => 3],
           69 => [ROCKET => 3, 'check' => 154],
           70 => [SABOTAGE => 1],
           71 => [SABOTAGE => 1],

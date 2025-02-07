@@ -46,6 +46,7 @@ const ST_CHOOSE_CARDS = 30;
 const ST_WRITE_NUMBER = 31;
 const ST_WRITE_X = 32;
 const ST_ROCKET_ACTIVATION = 33;
+const ST_ACCOMPLISH_MISSION = 34;
 
 // Engine state
 const ST_PRE_END_GAME_TURN = 80;
@@ -84,6 +85,7 @@ const PASS = 99;
 
 const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
+const ACCOMPLISH_MISSION = 'AccomplishMission';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -128,6 +130,7 @@ const NUMBER_6_9 = 200;
 const SCRIBBLE = 300;
 const SCRIBBLE_ARROW = 301;
 const SCRIBBLE_CIRCLE = 302;
+const SCRIBBLE_CHECKMARK = 303;
 
 /******************
  ****** STATS ******

@@ -12,5 +12,6 @@ class PlanCard68 extends PlanCard
     $this->desc = [
       clienttranslate('Write down 10 X with the Building effects.')
     ];
+    $this->rewards = [2, 1];
   }
 }
