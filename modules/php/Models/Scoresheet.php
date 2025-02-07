@@ -160,4 +160,8 @@ class Scoresheet
   {
     return $this->datas;
   }
+  public function getSectionSlots(string $section): array
+  {
+    return $this->slotsBySection[$section] ?? [];
+  }
 }

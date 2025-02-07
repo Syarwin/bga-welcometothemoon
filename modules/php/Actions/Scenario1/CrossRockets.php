@@ -80,11 +80,33 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $scoresheet = $player->scoresheet();
 
     $scribbles = [];
-    $m = 0;
+    $mRockets = 0;
+    $mErrors = 0;
+
+    $mCrossed = 0;
+    $mCircled = 0;
+
     foreach (static::$rows as $scoreslot => $slots) {
       // System errors row
       if ($slots == SYSTEM_ERROR) {
-        die("TODO: cross rocket system errors");
+        $slots = $scoresheet->getSectionSlots('errors');
+        foreach ($slots as $i => $slot) {
+          // Is the slot a circled one not crossed off yet?
+          if ($scoresheet->hasScribbledSlot($slot, SCRIBBLE)) {
+            $mCrossed++;
+            $mCircled++;
+            continue;
+          }
+          if (!$scoresheet->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) continue;
+
+          $mCircled++;
+          if ($mErrors + $mRockets < $n) {
+            // Scribble it
+            $scribbles[] = $scoresheet->addScribble($slot);
+            $mErrors++;
+            $mCrossed++;
+          }
+        }
       }
       // Other rows
       else {
@@ -93,19 +115,19 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
           // Empty rocket found => scribble it
           $scribbles[] = $scoresheet->addScribble($slot);
-          $m++;
+          $mRockets++;
           // End of row slot
           if ($i == count($slots) - 1) {
             $scribbles[] = $scoresheet->addScribble($scoreslot);
           }
 
-          if ($m == $n) {
+          if ($mErrors + $mRockets == $n) {
             break;
           }
         }
       }
 
-      if ($m == $n) {
+      if ($mErrors + $mRockets == $n) {
         break;
       }
     }
@@ -118,6 +140,6 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
       $sourceName = $source['name'];
     }
 
-    Notifications::crossRockets($player, $n, $scribbles, $sourceName);
+    Notifications::crossRockets($player, $mRockets, $mErrors, $scribbles, $sourceName, $mCrossed, $mCircled);
   }
 }

@@ -84,11 +84,18 @@ class Notifications
   //   ]);
   // }
 
-  public static function crossRockets(Player $player, int $n, array $scribbles, string $source)
+  public static function crossRockets(Player $player, int $mRockets, int $mErrors, array $scribbles, string $source, int $mCrossed, int $mCircled)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} crosses ${n} rockets <ROCKET> (${source})'), [
+    $msg = clienttranslate('${player_name} crosses ${mRockets} rockets <ROCKET> and ${mErrors} system errors <SYSTEM-ERROR> (${mCrossed} crossed / ${mCircled} circled) (${source})');
+    if ($mRockets == 0) $msg = clienttranslate('${player_name} crosses ${mErrors} system errors <SYSTEM-ERROR> (${mCrossed} crossed / ${mCircled} circled) (${source})');
+    if ($mErrors == 0) $msg = clienttranslate('${player_name} crosses ${mRockets} rockets <ROCKET> (${source})');
+
+    static::pnotify($player, 'addScribbles', $msg, [
       'player' => $player,
-      'n' => $n,
+      'mRockets' => $mRockets,
+      'mErrors' => $mErrors,
+      'mCrossed' => $mCrossed,
+      'mCircled' => $mCircled,
       'scribbles' => $scribbles,
       'source' => $source,
       'i18n' => ['source'],
