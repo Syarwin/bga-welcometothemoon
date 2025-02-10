@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . "/../../Material/Scenario1.php";
 class Scoresheet1 extends Scoresheet
 {
   protected int $scenario = 1;
-  protected array $datas = DATAS;
+  protected array $datas = DATAS1;
 
   // PHASE 5
   public static function phase5Check(): void

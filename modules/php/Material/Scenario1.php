@@ -1,5 +1,5 @@
 <?php
-const DATAS = [
+const DATAS1 = [
   "id"       => "scenario-1",
   "name"     => "The Launch",
   "jpgUrl"   => "./scenarios/scenario-1.jpg",
