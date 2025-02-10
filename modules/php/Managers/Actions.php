@@ -25,6 +25,10 @@ class Actions
     WRITE_X,
     ROCKET_ACTIVATION,
     ACTIVATE_SABOTAGE,
+
+    // Scenario 2
+    CIRCLE_ENERGY,
+    PLACE_ENERGY_WALL,
   ];
 
   public static function get($actionId, &$ctx = null)

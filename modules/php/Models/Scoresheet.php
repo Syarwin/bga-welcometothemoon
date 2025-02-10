@@ -73,14 +73,26 @@ class Scoresheet
     return false;
   }
 
-  public function hasScribbledSlots(array $slots): bool
+  public function hasScribbledSomeSlots(array $slots, int $target)
   {
+    $n = 0;
     foreach ($slots as $slot2) {
-      if (!$this->hasScribbledSlot($slot2)) {
-        return false;
+      if ($this->hasScribbledSlot($slot2)) {
+        $n++;
+      }
+
+      if ($n >= $target) {
+        return true;
       }
     }
-    return true;
+
+    return false;
+  }
+
+  public function hasScribbledSlots(array $slots): bool
+  {
+    $slots = array_unique($slots);
+    return $this->hasScribbledSomeSlots($slots, count($slots));
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble
@@ -97,6 +109,11 @@ class Scoresheet
   public function getScribbleReactions(Scribble $scribble): array
   {
     return [];
+  }
+
+  public function getCombinationAtomicAction(array $combination): ?array
+  {
+    return null;
   }
 
   /**
@@ -146,23 +163,11 @@ class Scoresheet
     return $allSlots;
   }
 
-  // SYSTEM ERRORS
-  public function getFreeSystemErrorSlot(): ?int
-  {
-    $allSlots = $this->slotsBySection['errors'];
-    foreach ($allSlots as $slot) {
-      if (!$this->hasScribbledSlot($slot)) {
-        return $slot;
-      }
-    }
-
-    return null;
-  }
 
   public function isEndOfGameTriggered(): bool
   {
     // System errors
-    if (is_null($this->getFreeSystemErrorSlot())) {
+    if (is_null($this->getNextFreeSystemErrorSlot())) {
       Notifications::endGameTriggered($this->player, 'errors');
       return true;
     }
@@ -185,15 +190,48 @@ class Scoresheet
     return false;
   }
 
-  // DATAS
+
+  /**
+   * DATAS
+   */
   protected array $datas = [];
   protected array $slotsBySection = [];
   public function getUiData()
   {
     return $this->datas;
   }
+
+  /**
+   * getSectionSlots : get all the slots of a given section
+   */
   public function getSectionSlots(string $section): array
   {
     return $this->slotsBySection[$section] ?? [];
+  }
+
+  /**
+   * getSectionFreeSlots : get only the non-scribbled over slots of a section
+   */
+  public function getSectionFreeSlots(string $section): array
+  {
+    $allSlots = $this->slotsBySection[$section] ?? [];
+    $freeSlots = [];
+    foreach ($allSlots as $slot) {
+      if (!$this->hasScribbledSlot($slot)) {
+        $freeSlots[] = $slot;
+      }
+    }
+
+    return $freeSlots;
+  }
+
+
+  /**
+   * getNextFreeSystemErrorSlot: return the next system Error slot available, if any
+   */
+  public function getNextFreeSystemErrorSlot(): ?int
+  {
+    $slots = $this->getSectionFreeSlots('errors');
+    return empty($slots) ? null : $slots[0];
   }
 }

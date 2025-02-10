@@ -886,6 +886,24 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
     letter-spacing: -2px; }
+  .score-sheet[data-board="2"] .wttm-slot.slot-energymarker {
+    width: 55px;
+    height: 55px; }
+  .score-sheet[data-board="2"] .wttm-slot.slot-wall {
+    width: 5px;
+    height: 60px; }
+    .score-sheet[data-board="2"] .wttm-slot.slot-wall.selectable {
+      border: 1px solid red;
+      background-color: rgba(255, 0, 0, 0.5);
+      box-shadow: 0px 0px 2px 0px red;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 3px;
+      margin: -3px; }
+      .score-sheet[data-board="2"] .wttm-slot.slot-wall.selectable:hover {
+        border: 1px solid #00ff0091;
+        background-color: #00ff0091;
+        box-shadow: 0px 0px 4px 1px #04a604; }
 
 .score-sheet-wrapper {
   width: 1128px;
@@ -977,7 +995,8 @@ body {
         box-shadow: 1px 1px 2px #202020; }
       .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot {
         position: absolute;
-        display: block; }
+        display: block;
+        z-index: 100; }
         .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number {
           width: 46px;
           height: 46px;

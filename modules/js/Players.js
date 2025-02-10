@@ -120,6 +120,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
               'beforeend',
               `<div class='wttm-slot ${className}' id='slot-${pId}-${elt.id}' data-id='${elt.id}' style="left:${elt.x}px; top:${elt.y}px"></div>`
             );
+
+            if (elt.r) {
+              $(`slot-${pId}-${elt.id}`).style.transform = `rotate(${elt.r}deg)`;
+            }
           });
         });
       });

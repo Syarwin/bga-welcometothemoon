@@ -110,6 +110,7 @@
             .wttm-slot {
                 position: absolute;
                 display: block;
+                z-index: 100;
 
                 &.slot-number {
                     width: 46px;

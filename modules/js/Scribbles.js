@@ -3,6 +3,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const SCRIBBLE_ARROW = 301;
   const SCRIBBLE_CIRCLE = 302;
   const SCRIBBLE_CHECKMARK = 303;
+  const SCRIBBLE_LINE = 304;
 
   const BGA_URL = dojoConfig.packages.reduce((r, p) => (p.name == 'bgagame' ? p.location : r), null);
   return declare('welcometothemoon.scribbles', null, {
@@ -45,6 +46,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_ARROW) scribbleTpl = 'tplScribbleArrow';
       if (scribble.type == SCRIBBLE_CIRCLE) scribbleTpl = 'tplScribbleCircle';
       if (scribble.type == SCRIBBLE_CHECKMARK) scribbleTpl = 'tplScribbleCheckmark';
+      if (scribble.type == SCRIBBLE_LINE) scribbleTpl = 'tplScribbleLine';
 
       this.place(scribbleTpl, scribble, container);
       if (animation) {

@@ -121,7 +121,7 @@
   background-color: red;
   border-radius: 0px;
   border: none;
-  transform-origin: top left;
+  transform-origin: center center;
 }
 
 /** MULTIPLIERS **/

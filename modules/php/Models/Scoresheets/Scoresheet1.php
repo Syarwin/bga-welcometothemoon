@@ -42,7 +42,7 @@ class Scoresheet1 extends Scoresheet
 
         // Is the player going to suffer the negative effect ?
         if (!$player->scoresheet()->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
-          $systemErrorSlot = $player->scoresheet()->getFreeSystemErrorSlot();
+          $systemErrorSlot = $player->scoresheet()->getNextFreeSystemErrorSlot();
           if (!is_null($systemErrorSlot)) {
             $affectedPlayers[] = $player;
             $scribbles[] = $player->scoresheet()->addScribble($systemErrorSlot, SCRIBBLE_CIRCLE);

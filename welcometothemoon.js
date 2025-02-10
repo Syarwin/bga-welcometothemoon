@@ -610,6 +610,10 @@ define([
         this.launchActionOnSlotClick(args.slots, 'actRocketActivation');
       },
 
+      onEnteringStatePlaceEnergyWall(args) {
+        this.launchActionOnSlotClick(args.slots, 'actPlaceEnergyWall');
+      },
+
       ////////////////////////////////////////////////////////////
       // _____                          _   _   _
       // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _

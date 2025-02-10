@@ -41,7 +41,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $data = [];
     $data['stacks'] = $this->getAvailableStacks($player);
     if (empty($data['stacks'])) {
-      $data['systemError'] = $player->scoresheet()->getFreeSystemErrorSlot();
+      $data['systemError'] = $player->scoresheet()->getNextFreeSystemErrorSlot();
       $data['descSuffix'] = Globals::getScenario() == 1 ? 'impossible1' : 'impossible';
     }
 

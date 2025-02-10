@@ -236,6 +236,15 @@ $machinestates = [
     'possibleactions' => ['actRocketActivation', 'actRestart'],
   ],
 
+
+  ST_PLACE_ENERGY_WALL => [
+    'name' => 'placeEnergyWall',
+    'descriptionmyturn' => clienttranslate('${you} must divide a zone on your trajectory'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actPlaceEnergyWall', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

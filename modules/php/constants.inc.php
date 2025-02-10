@@ -48,6 +48,8 @@ const ST_WRITE_NUMBER = 31;
 const ST_WRITE_X = 32;
 const ST_ROCKET_ACTIVATION = 33;
 const ST_ACCOMPLISH_MISSION = 34;
+const ST_PLACE_ENERGY_WALL = 35;
+
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -92,6 +94,10 @@ const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
 const WRITE_X = 'Scenario1\WriteX';
 const ACTIVATE_SABOTAGE = 'Scenario1\ActivateSabotage';
 
+// SCENARIO 2
+const CIRCLE_ENERGY = 'Scenario2\CircleEnergy';
+const PLACE_ENERGY_WALL = 'Scenario2\PlaceEnergyWall';
+
 /*
  * Actions
  */
@@ -129,6 +135,7 @@ const SCRIBBLE = 300;
 const SCRIBBLE_ARROW = 301;
 const SCRIBBLE_CIRCLE = 302;
 const SCRIBBLE_CHECKMARK = 303;
+const SCRIBBLE_LINE = 304;
 
 /******************
  ****** STATS ******

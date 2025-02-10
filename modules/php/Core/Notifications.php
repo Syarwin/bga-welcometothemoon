@@ -34,6 +34,26 @@ class Notifications
   }
 
 
+  public static function endGameTriggered(Player $player, string $condition)
+  {
+    $msgs = [
+      'errors' => Globals::getScenario() == 1 ?
+        clienttranslate('${player_name} circled all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure')
+        : clienttranslate('${player_name} crossed off all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure'),
+
+      'plans' => clienttranslate('${player_name} accomplished all three Missions, therefore triggering the end of the adventure'),
+
+      'houses' => clienttranslate('${player_name} filled in all the spaces of the marking area, therefore triggering the end of the adventure'),
+
+      'launch' => clienttranslate('${player_name} launched his rocket successfully, therefore triggering the end of the adventure'),
+    ];
+
+    self::notifyAll('endGameTriggered', $msgs[$condition], [
+      'player' => $player
+    ]);
+  }
+
+
   public static function chooseCards(Player $player, array $combination)
   {
     $names = [
@@ -73,16 +93,40 @@ class Notifications
     static::pnotify($player, 'addScribbles', $msg, $data);
   }
 
-  // public static function takeBonus($player, $scribble, $name)
-  // {
-  //   static::pnotify($player, 'addScribble', clienttranslate('${player_name} takes quarter bonus'), [
-  //     'player' => $player,
-  //     'scribble' => $scribble,
-  //     'source' => $name,
-  //     'i18n' => ['source'],
-  //     'duration' => 200,
-  //   ]);
-  // }
+  public static function accomplishMission(Player $player, PlanCard $plan, array $scribbles, bool $firstValidation)
+  {
+    $stacks = ['A', 'B', 'C'];
+    $msg = $firstValidation ? clienttranslate('${player_name} accomplishes mission ${stack}') : clienttranslate('${player_name} accomplishes mission ${stack} (first fulfillment)');
+    static::pnotify($player, 'accomplishMission', $msg, [
+      'player' => $player,
+      'scribbles' => $scribbles,
+      'stack' => $stacks[$plan->getStackIndex()],
+      'firstValidation' => $firstValidation,
+      'planId' => $plan->getId()
+    ]);
+  }
+
+  public static function systemError(Player $player, Scribble $scribble)
+  {
+    $msg = Globals::getScenario() == 1 ?
+      clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must circle one System Error box <SYSTEM-ERROR>')
+      : clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must cross off one System Error box <SYSTEM-ERROR>');
+
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
+
+
+  ///////////////////////////////////////////////////
+  //  ____                            _         _ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   / |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | |
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | | |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |_|
+  ///////////////////////////////////////////////////
 
   public static function crossRockets(Player $player, int $mRockets, int $mErrors, array $scribbles, string $source, int $mCrossed, int $mCircled)
   {
@@ -132,24 +176,19 @@ class Notifications
     ]);
   }
 
-  public static function accomplishMission(Player $player, PlanCard $plan, array $scribbles, bool $firstValidation)
-  {
-    $stacks = ['A', 'B', 'C'];
-    $msg = $firstValidation ? clienttranslate('${player_name} accomplishes mission ${stack}') : clienttranslate('${player_name} accomplishes mission ${stack} (first fulfillment)');
-    static::pnotify($player, 'accomplishMission', $msg, [
-      'player' => $player,
-      'scribbles' => $scribbles,
-      'stack' => $stacks[$plan->getStackIndex()],
-      'firstValidation' => $firstValidation,
-      'planId' => $plan->getId()
-    ]);
-  }
+  /////////////////////////////////////////////////////////
+  //  ____                            _         ____  
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ \ 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \    __) |
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  / __/ 
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |_____|
+  /////////////////////////////////////////////////////////
 
-  public static function systemError(Player $player, Scribble $scribble)
+  public static function circleEnergy(Player $player, Scribble $scribble, bool $mustBuildWall)
   {
-    $msg = Globals::getScenario() == 1 ?
-      clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must circle one System Error box <SYSTEM-ERROR>')
-      : clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must cross off one System Error box <SYSTEM-ERROR>');
+    $msg = $mustBuildWall ?
+      clienttranslate('${player_name} circles one Energy symbol <ENERGY> and must divide a zone on his trajectory')
+      : clienttranslate('${player_name} circles one Energy symbol <ENERGY>');
 
     static::pnotify($player, 'addScribble', $msg, [
       'player' => $player,
@@ -157,29 +196,24 @@ class Notifications
     ]);
   }
 
-
-  public static function endGameTriggered(Player $player, string $condition)
+  public static function placeEnergyWall(Player $player, array $scribbles)
   {
-    $msgs = [
-      'errors' => Globals::getScenario() == 1 ?
-        clienttranslate('${player_name} circled all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure')
-        : clienttranslate('${player_name} crossed off all the System Error <SYSTEM-ERROR> boxes, therefore triggering the end of the adventure'),
-
-      'plans' => clienttranslate('${player_name} accomplished all three Missions, therefore triggering the end of the adventure'),
-
-      'houses' => clienttranslate('${player_name} filled in all the spaces of the marking area, therefore triggering the end of the adventure'),
-
-      'launch' => clienttranslate('${player_name} launched his rocket successfully, therefore triggering the end of the adventure'),
-    ];
-
-    self::notifyAll('endGameTriggered', $msgs[$condition], [
-      'player' => $player
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} divide a zone on his trajectory'), [
+      'player' => $player,
+      'scribbles' => $scribbles
     ]);
   }
 
-  /*************************
-   **** GENERIC METHODS ****
-   *************************/
+
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  //   ____                      _        __  __      _   _               _     
+  //  / ___| ___ _ __   ___ _ __(_) ___  |  \/  | ___| |_| |__   ___   __| |___ 
+  // | |  _ / _ \ '_ \ / _ \ '__| |/ __| | |\/| |/ _ \ __| '_ \ / _ \ / _` / __|
+  // | |_| |  __/ | | |  __/ |  | | (__  | |  | |  __/ |_| | | | (_) | (_| \__ \
+  //  \____|\___|_| |_|\___|_|  |_|\___| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
+  ///////////////////////////////////////////////////////////////////////////////////
+
   protected static function notifyAll($name, $msg, $data)
   {
     self::updateArgs($data, true);

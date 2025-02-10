@@ -87,6 +87,13 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $scribble = $player->scoresheet()->addScribble($slotId, $number);
     Notifications::writeNumber($player, $number, [$scribble]);
 
+    // Action corresponding to the combination
+    $action = $player->scoresheet()->getCombinationAtomicAction($player->getCombination());
+    if (!is_null($action)) {
+      $this->insertAsChild($action);
+    }
+
+    // Reaction to the scribble itself (filled up quarter bonuses, etc)
     $reactions = $player->scoresheet()->getScribbleReactions($scribble);
     if (!empty($reactions)) {
       $this->insertAsChild([

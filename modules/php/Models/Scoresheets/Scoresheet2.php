@@ -14,4 +14,13 @@ class Scoresheet2 extends Scoresheet
 {
   protected int $scenario = 2;
   protected array $datas = DATAS2;
+
+  public function getCombinationAtomicAction(array $combination): ?array
+  {
+    switch ($combination['action']) {
+      case ENERGY:
+        return ['action' => CIRCLE_ENERGY];
+    }
+    return null;
+  }
 }
