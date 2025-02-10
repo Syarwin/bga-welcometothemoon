@@ -122,7 +122,7 @@ class Scoresheet
    *  - considering increasing sequence constraint
    */
   protected array $increasingConstraints = [];
-  protected function getIncreasingSequences()
+  protected function getIncreasingSequencesConstraints()
   {
     return $this->increasingConstraints;
   }
@@ -140,7 +140,7 @@ class Scoresheet
 
     // Check each constraints
     $forbiddenSlots = [];
-    foreach ($this->getIncreasingSequences() as $slotSequence) {
+    foreach ($this->getIncreasingSequencesConstraints() as $slotSequence) {
       $curr = [];
       $previous = -1;
       foreach ($slotSequence as $i => $slotId) {

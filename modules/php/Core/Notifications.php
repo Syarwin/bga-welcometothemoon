@@ -198,7 +198,7 @@ class Notifications
 
   public static function placeEnergyWall(Player $player, array $scribbles)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} divide a zone on his trajectory'), [
+    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} divides a zone on his trajectory'), [
       'player' => $player,
       'scribbles' => $scribbles
     ]);
