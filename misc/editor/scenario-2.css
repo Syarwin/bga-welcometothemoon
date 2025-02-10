@@ -1,0 +1,177 @@
+/** NUMBERS **/
+#main-frame.add-numbers .slot-number,
+#main-frame.show-numbers .slot-number,
+#main-frame.add-numbers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+/** SCORES **/
+#main-frame.add-scores .slot-score,
+#main-frame.show-scores .slot-score,
+#main-frame.add-scores #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 1px;
+}
+#main-frame.add-subscores .slot-subscore,
+#main-frame.show-subscores .slot-subscore,
+#main-frame.add-subscores #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 1px;
+}
+
+/** ERRORS **/
+#main-frame.add-errors .slot-error,
+#main-frame.show-errors .slot-error,
+#main-frame.add-errors #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** PLAN **/
+#main-frame.add-plans .slot-plan,
+#main-frame.show-plans .slot-plan,
+#main-frame.add-plans #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border: 1px solid black;
+  box-shadow: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/** ROBOT **/
+#main-frame.add-robots .slot-robot,
+#main-frame.show-robots .slot-robot,
+#main-frame.add-robots #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** WATER **/
+#main-frame.add-waters .slot-water,
+#main-frame.show-waters .slot-water,
+#main-frame.add-waters #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** PLANT **/
+#main-frame.add-plants .slot-plant,
+#main-frame.show-plans .slot-plant,
+#main-frame.add-plants #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** WALL **/
+#main-frame.add-walls .slot-wall,
+#main-frame.show-walls .slot-wall,
+#main-frame.add-walls #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 5px;
+  height: 60px;
+  background: url("img/line_segment.svg");
+  background-size: 100% auto;
+  background-color: red;
+  border-radius: 0px;
+  border: none;
+  transform-origin: top left;
+}
+
+/** MULTIPLIERS **/
+#main-frame.add-bigmultipliers .slot-bigmultiplier,
+#main-frame.show-bigmultipliers .slot-bigmultiplier,
+#main-frame.add-bigmultipliers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-smallmultipliers .slot-smallmultiplier,
+#main-frame.show-smallmultipliers .slot-smallmultiplier,
+#main-frame.add-smallmultipliers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** MARKERS **/
+#main-frame.add-energymarkers .slot-energymarker,
+#main-frame.show-energymarkers .slot-energymarker,
+#main-frame.add-energymarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-othermarkers .slot-othermarker,
+#main-frame.show-othermarkers .slot-othermarker,
+#main-frame.add-othermarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
