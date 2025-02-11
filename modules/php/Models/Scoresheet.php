@@ -121,6 +121,17 @@ class Scoresheet
     return [];
   }
 
+  public function getScore(): int
+  {
+    $score = 0;
+    foreach ($this->computeUiData() as $slot) {
+      if ($slot['score'] ?? false) {
+        $score = $slot['v'];
+      }
+    }
+    return $score;
+  }
+
   /**
    * getAvailableSlotsForNumber : where can I put a given number
    *  - considering filled-up slots

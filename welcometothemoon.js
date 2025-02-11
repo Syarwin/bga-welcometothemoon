@@ -45,6 +45,7 @@ define([
           'accomplishMission',
           'newTurn',
           'endGameTriggered',
+          'endGameMessage',
           'clearTurn',
           'refreshUI',
           'midMessage',
@@ -237,7 +238,11 @@ define([
       },
 
       notif_endGameTriggered(args) {
-        return this.wait(1000);
+        return this.wait(800);
+      },
+
+      notif_endGameMessage(args) {
+        return this.wait(1200);
       },
 
       /**

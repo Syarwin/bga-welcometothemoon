@@ -92,51 +92,11 @@ trait TurnTrait
     $this->stEndTurn();
   }
 
-  // public function initCivCardTurn($nextState)
-  // {
-  //   // Compute the list of players with endOfTurn actions and wake themp up in turn order
-  //   $order = [];
-  //   $firstPlayer = Globals::getFirstPlayer();
-  //   $pId = $firstPlayer;
-  //   do {
-  //     if (Players::get($pId)->getEndOfTurnActions()) {
-  //       $order[] = $pId;
-  //     }
-  //     $pId = Players::getNextId($pId);
-  //   } while ($pId != $firstPlayer);
-
-  //   $this->initCustomTurnOrder('civCardTurn', $order, 'stChooseCivCard', $nextState);
-  // }
-
-  // // Boot the engine for that single awaken player
-  // public function stChooseCivCard()
-  // {
-  //   $player = Players::getActive();
-  //   Globals::setPhase(END_OF_TURN_PHASE);
-  //   Engine::setup(
-  //     [
-  //       'type' => NODE_PARALLEL,
-  //       'childs' => $player->getEndOfTurnActions(),
-  //     ],
-  //     ['order' => 'civCardTurn'],
-  //     'CivCard',
-  //     [$player->getId()]
-  //   );
-  // }
 
   // Now that everyone is done, proceed to the end of turn
   public function stEndTurn()
   {
     ConstructionCards::endOfTurn();
-
-    // Notify end of turn
-    //    Notifications::endOfTurn();
-
-    // // Clear endOfTurn actions
-    // $players = Players::getAll();
-    // foreach ($players as $pId => $player) {
-    //   $player->emptyEndOfTurnActions();
-    // }
 
     // Check end of scenario
     $nextState = ST_START_TURN;

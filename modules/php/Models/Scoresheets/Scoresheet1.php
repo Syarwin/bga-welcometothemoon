@@ -52,9 +52,10 @@ class Scoresheet1 extends Scoresheet
 
     return [
       ["slot" => 150, "v" => $negativePoints],
-      ["slot" => 151, "v" => $totalPoints],
+      ["slot" => 151, "v" => $totalPoints, "score" => true],
     ];
   }
+
 
   public function getNumberOfCircledUncrossedSystemErrors()
   {

@@ -258,8 +258,7 @@ $machinestates = [
     'description' => '',
     'type' => GAME,
     'action' => 'stEndOfScenario',
-    //    'transitions' => ['' => ST_END_GAME_TURN],
-    'transitions' => ['' => ST_SETUP_DEBUG],
+    'transitions' => ['' => ST_PRE_END_OF_GAME],
   ],
 
   ST_PRE_END_OF_GAME => [
