@@ -126,6 +126,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             }
           });
         });
+
+        // Scoresheet dynamic data
+        this.updateComputedScoresheetData(pId);
       });
 
       this.goToPlayerBoard(this.orderedPlayers[0].id);
@@ -144,6 +147,21 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     //     ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
     //   </div>`;
     // },
+
+    updateComputedScoresheetData(pId) {
+      this.gamedatas.players[pId].scoresheet.forEach((entry) => {
+        $(`slot-${pId}-${entry.slot}`).innerHTML = '';
+
+        // "v" for value
+        if (entry.v !== undefined) {
+          $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;
+        }
+        // "s" for scribble (useless ??)
+        else if (entry.s !== undefined) {
+          console.error('TODO');
+        }
+      });
+    },
 
     ////////////////////////////////////////////////////
     //   ____                  _

@@ -844,6 +844,8 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
     letter-spacing: -2px; }
+    .score-sheet[data-board="1"] .scribble-number.selectable {
+      border: 1px solid black; }
   .score-sheet[data-board="1"] .wttm-slot.slot-rocket {
     width: 32px;
     height: 32px; }
@@ -865,7 +867,17 @@ body {
         box-shadow: 0px 0px 4px 1px #04a604; }
   .score-sheet[data-board="1"] .wttm-slot.slot-score {
     width: 50px;
-    height: 40px; }
+    height: 40px;
+    font-family: "Bebas";
+    text-align: center;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 43px; }
+    .score-sheet[data-board="1"] .wttm-slot.slot-score[data-id="150"] {
+      color: #c40524; }
+    .score-sheet[data-board="1"] .wttm-slot.slot-score[data-id="151"] {
+      font-size: 32px;
+      line-height: 48px; }
   .score-sheet[data-board="1"] .wttm-slot.slot-error {
     width: 60px;
     height: 60px; }
@@ -886,6 +898,8 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
     letter-spacing: -2px; }
+    .score-sheet[data-board="2"] .scribble-number.selectable {
+      border: none; }
   .score-sheet[data-board="2"] .wttm-slot.slot-energymarker {
     width: 55px;
     height: 55px; }
@@ -1011,7 +1025,6 @@ body {
           .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable {
             background-color: rgba(255, 255, 255, 0.4);
             box-shadow: 0px 0px 8px 2px red;
-            border: 1px solid black;
             cursor: pointer; }
             .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable:hover {
               background-color: rgba(255, 255, 255, 0.8);

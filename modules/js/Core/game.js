@@ -229,12 +229,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           }
 
           await this[functionName](args.args);
-          // if (args.args.scores) {
-          //   Object.keys(args.args.scores).forEach((pId) => {
-          //     this.gamedatas.scores[pId] = args.args.scores[pId];
-          //     this.updatePlayerScores(pId);
-          //   });
-          // }
+          if (args.args && args.args.infos) {
+            this.updateInfosFromNotif(args.args.infos);
+          }
           dojo.publish('notifEnd', null);
         };
 
@@ -401,7 +398,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           value: newValue,
           player: this.player_id,
         };
-        this.takeAction('actChangePref', data, false, false);
         this.onPreferenceChange(pref, newValue);
       });
     },

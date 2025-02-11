@@ -7,6 +7,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
+include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario1.php";
 
 
@@ -14,6 +15,58 @@ class Scoresheet1 extends Scoresheet
 {
   protected int $scenario = 1;
   protected array $datas = DATAS1;
+
+  // DYNAMIC SLOTS
+  public function computeUiData(): array
+  {
+    // Compute base score
+    $basePoints = 0;
+    $scoreMap = [139 => 15, 140 => 30, 141 => 45, 142 => 60, 143 => 75, 144 => 90, 145 => 105, 146 => 120, 147 => 135, 148 => 150];
+    foreach ($scoreMap as $slot => $points) {
+      if ($this->hasScribbledSlot($slot)) {
+        $basePoints = $points;
+      }
+    }
+
+    // Compute negative points
+    $negativePoints = $this->getNumberOfCircledUncrossedSystemErrors() * 5;
+
+    // Compute total
+    $totalPoints = $basePoints - $negativePoints;
+
+    // Tie breaker
+    if ($negativePoints == 0) {
+      $bonusRockets = 0;
+      for ($slot = 131; $slot <= 138; $slot++) {
+        if ($this->hasScribbledSlot($slot)) {
+          $bonusRockets++;
+        } else {
+          break;
+        }
+      }
+
+      // Each extra rocket is worth 5 points
+      $bonusPoints = 5 * $bonusRockets;
+      $totalPoints += $bonusPoints;
+    }
+
+    return [
+      ["slot" => 150, "v" => $negativePoints],
+      ["slot" => 151, "v" => $totalPoints],
+    ];
+  }
+
+  public function getNumberOfCircledUncrossedSystemErrors()
+  {
+    $n = 0;
+    $slots = $this->getSectionSlots('errors');
+    foreach ($slots as $slot) {
+      if ($this->hasScribbledSlot($slot, SCRIBBLE_CIRCLE) && !$this->hasScribbledSlot($slot, SCRIBBLE)) {
+        $n++;
+      }
+    }
+    return $n;
+  }
 
   // PHASE 5
   public static function phase5Check(): void
@@ -61,13 +114,12 @@ class Scoresheet1 extends Scoresheet
     $triggered = parent::isEndOfGameTriggered();
     if ($triggered) return true;
 
+    // Any rocket not crossed off?
+    // -> 130 is the slot id of the last rocket below system errors
+    if (!$this->hasScribbledSlot(130)) return false;
+
     // Any circled system error not crossed off?
-    $slots = $this->getSectionSlots('errors');
-    foreach ($slots as $slot) {
-      if ($this->hasScribbledSlot($slot, SCRIBBLE_CIRCLE) && !$this->hasScribbledSlot($slot)) {
-        return false;
-      }
-    }
+    if ($this->getNumberOfCircledUncrossedSystemErrors() > 0) return false;
 
     Notifications::endGameTriggered($this->player, 'launch');
     return true;

@@ -31,6 +31,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\States\EndGameTrait;
@@ -54,7 +55,7 @@ class Game extends \Table
         ]);
 
         // Stats::checkExistence();
-        // Notifications::resetCache();
+        Notifications::resetCache();
     }
 
     public static function get()

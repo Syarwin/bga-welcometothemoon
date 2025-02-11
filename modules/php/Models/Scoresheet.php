@@ -116,6 +116,11 @@ class Scoresheet
     return null;
   }
 
+  public function computeUiData(): array
+  {
+    return [];
+  }
+
   /**
    * getAvailableSlotsForNumber : where can I put a given number
    *  - considering filled-up slots

@@ -240,6 +240,21 @@ define([
         return this.wait(1000);
       },
 
+      /**
+       * update cached information from Notifications.php module
+       */
+      updateInfosFromNotif(infos) {
+        debug('Updating some cached infos', infos);
+
+        // Scoresheet data
+        if (infos.scoresheet) {
+          Object.entries(infos.scoresheet).forEach(([pId, data]) => {
+            this.gamedatas.players[pId].scoresheet = data;
+            this.updateComputedScoresheetData(pId);
+          });
+        }
+      },
+
       /////////////////////////////////////////////////////////////////
       //  _____       _             ___
       // | ____|_ __ | |_ ___ _ __ / / |    ___  __ ___   _____
@@ -402,6 +417,7 @@ define([
       },
 
       notif_refreshUI(args) {
+        debug('Notif: refresh UI', args);
         this.clearPossible();
         ['scribbles', 'players'].forEach((value) => {
           this.gamedatas[value] = args.datas[value];

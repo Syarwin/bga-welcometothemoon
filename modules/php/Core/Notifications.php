@@ -205,6 +205,80 @@ class Notifications
   }
 
 
+  /////////////////////////////////////
+  //   ____           _          
+  //  / ___|__ _  ___| |__   ___ 
+  // | |   / _` |/ __| '_ \ / _ \
+  // | |__| (_| | (__| | | |  __/
+  //  \____\__,_|\___|_| |_|\___|
+  /////////////////////////////////////
+
+  protected static $listeners = [
+    [
+      'name' => 'scoresheet',
+      'player' => true,
+      'scoresheet' => true,
+      'method' => 'computeUiData',
+    ]
+  ];
+
+  protected static $cachedValues = [];
+  public static function resetCache()
+  {
+    foreach (self::$listeners as $listener) {
+      $method = $listener['method'];
+      if ($listener['player'] ?? false) {
+        foreach (Players::getAll() as $pId => $player) {
+          $val = null;
+          if ($listener['scoresheet'] ?? false) {
+            $val = is_null($player->scoresheet()) ? null : $player->scoresheet()->$method();
+          } else {
+            $val = $player->$method();
+          }
+          self::$cachedValues[$listener['name']][$pId] = $val;
+        }
+      } else {
+        self::$cachedValues[$listener['name']] = call_user_func($method);
+      }
+    }
+  }
+
+  public static function updateIfNeeded(&$args, $notifName, $notifType)
+  {
+    foreach (self::$listeners as $listener) {
+      $name = $listener['name'];
+      $method = $listener['method'];
+
+      if ($listener['player'] ?? false) {
+        foreach (Players::getAll() as $pId => $player) {
+          $val = null;
+          if ($listener['scoresheet'] ?? false) {
+            $val = is_null($player->scoresheet()) ? null : $player->scoresheet()->$method();
+          } else {
+            $val = $player->$method();
+          }
+
+          if ($val !== (self::$cachedValues[$name][$pId] ?? null)) {
+            $args['infos'][$name][$pId] = $val;
+            // // Only bust cache when a public non-ignored notif is sent to make sure everyone gets the info
+            // if ($notifType == 'public' && !in_array($notifName, self::$ignoredNotifs)) {
+            self::$cachedValues[$name][$pId] = $val;
+            // }
+          }
+        }
+      } else {
+        $val = call_user_func($method);
+        if ($val !== (self::$cachedValues[$name] ?? null)) {
+          $args['infos'][$name] = $val;
+          // // Only bust cache when a public non-ignored notif is sent to make sure everyone gets the info
+          // if ($notifType == 'public' && !in_array($notifName, self::$ignoredNotifs)) {
+          self::$cachedValues[$name] = $val;
+          // }
+        }
+      }
+    }
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////////
   //   ____                      _        __  __      _   _               _     
@@ -216,12 +290,14 @@ class Notifications
 
   protected static function notifyAll($name, $msg, $data)
   {
+    self::updateIfNeeded($data, $name, "public");
     self::updateArgs($data, true);
     Game::get()->notifyAllPlayers($name, $msg, $data);
   }
 
   protected static function notify($player, $name, $msg, $data)
   {
+    self::updateIfNeeded($data, $name, "private");
     $pId = is_int($player) ? $player : $player->getId();
     self::updateArgs($data);
     Game::get()->notifyPlayer($pId, $name, $msg, $data);
@@ -236,6 +312,7 @@ class Notifications
 
     // PRIVATE MODE => send private notif
     if ($mode == MODE_PRIVATE) {
+      self::updateIfNeeded($data, $name, "private");
       Game::get()->notifyPlayer($pId, $name, $msg, $data);
       self::flush();
     }
@@ -243,6 +320,7 @@ class Notifications
     elseif ($mode == \MODE_APPLY && ($data['public'] ?? true)) {
       $data['ignore'] = $pId;
       $data['preserve'][] = 'ignore';
+      self::updateIfNeeded($data, $name, "public");
       Game::get()->notifyAllPlayers($name, $msg, $data);
     }
   }

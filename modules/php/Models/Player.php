@@ -30,6 +30,16 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   ];
   protected int $id;
 
+  public function getUiData()
+  {
+    $datas = parent::getUiData();
+    $scoresheet = $this->scoresheet();
+    if (!is_null($scoresheet)) {
+      $datas['scoresheet'] = $scoresheet->computeUiData();
+    }
+    return $datas;
+  }
+
   public function getPref(int $prefId)
   {
     return Game::get()->getGameUserPreference($this->id, $prefId);
