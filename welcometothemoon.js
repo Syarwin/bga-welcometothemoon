@@ -43,6 +43,7 @@ define([
           'addScribbles',
           'resolveSabotage',
           'accomplishMission',
+          'giveCardToAstra',
           'newTurn',
           'endGameTriggered',
           'endGameMessage',
@@ -181,6 +182,7 @@ define([
         $('game_play_area').insertAdjacentHTML(
           'beforeend',
           `
+      <div id="astra-container"></div>
       <div id="welcometo-container">
         <div id="construction-cards-container">
           <div id="construction-cards-container-sticky">
@@ -219,7 +221,7 @@ define([
         $('game_play_area').dataset.turn = gamedatas.turn;
 
         this.setupPlayers();
-        this.setupConstructionCards();
+        this.initConstructionCards();
         this.setupPlanCards();
         if (gamedatas.scenario) this.setupScenario(gamedatas.scenario);
         this.addScribbleClipPaths();
@@ -427,10 +429,11 @@ define([
       notif_refreshUI(args) {
         debug('Notif: refresh UI', args);
         this.clearPossible();
-        ['scribbles', 'players'].forEach((value) => {
+        ['scribbles', 'players', 'constructionCards'].forEach((value) => {
           this.gamedatas[value] = args.datas[value];
         });
         this.setupScribbles();
+        this.setupConstructionCards();
 
         // this.forEachPlayer((player) => {
         //   this._scoreCounters[player.id].toValue(player.newScore);

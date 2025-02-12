@@ -251,8 +251,7 @@ class ConstructionCards extends CachedPieces
         self::moveAllInLocation($stack, "discard-$i", 1);
         self::moveAllInLocation($stack, $stack, 0, 1);
       } else {
-        // Discard all previously drawn cards
-        die("TODO: end of turn for solo");
+        // Discard all previously drawn cards (card given to ASTRA is handled in an atomic action)
         self::moveAllInLocation($stack, 'discard', 0);
       }
     }
@@ -319,22 +318,4 @@ class ConstructionCards extends CachedPieces
 
     return $result;
   }
-
-  // /*
-  //  * Get the combination corresponding to the stack(s) selection
-  //  */
-  // public static function getCombination($stack)
-  // {
-  //   $stacks = self::getUiData();
-  //   $data = [];
-  //   if (Globals::isStandard()) {
-  //     $data['action'] = $stacks[$stack][0]->getAction();
-  //     $data['number'] = $stacks[$stack][1]->getNumber();
-  //   } else {
-  //     $data['number'] = $stacks[$stack[0]][0]->getNumber();
-  //     $data['action'] = $stacks[$stack[1]][0]->getAction();
-  //   }
-
-  //   return $data;
-  // }
 }

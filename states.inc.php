@@ -219,6 +219,16 @@ $machinestates = [
     'possibleactions' => ['actAccomplishMission', 'actRestart'],
   ],
 
+  ST_GIVE_CARD_TO_ASTRA => [
+    'name' => 'giveCardAstra',
+    'descriptionmyturn' => clienttranslate('${you} must choose which card to give to Astra'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actGiveCardToAstra', 'actUseSoloBonus', 'actRestart'],
+  ],
+
+
 
   ST_WRITE_X => [
     'name' => 'writeX',

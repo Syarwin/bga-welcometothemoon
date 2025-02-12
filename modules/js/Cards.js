@@ -23,16 +23,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      * animate cards at the beggining of a new turn
      */
 
-    setupConstructionCards() {
-      let gamedatas = this.gamedatas;
-      this._isStandard = gamedatas.standard; // Standard = playing with three stack
+    initConstructionCards() {
+      this._isStandard = this.gamedatas.standard; // Standard = playing with three stack
       debug('Seting up the construction cards', this._isStandard ? 'Standard mode' : 'Only one card by stack');
 
       // Adjust stack size for flip animation
-      if (this._isStandard) dojo.addClass('construction-cards-container-resizable', 'standard');
+      if (this._isStandard) $('construction-cards-container-resizable').classList.add('standard');
 
-      gamedatas.constructionCards.forEach((stack, i) => {
+      this.setupConstructionCards();
+    },
+
+    setupConstructionCards() {
+      this.gamedatas.constructionCards.forEach((stack, i) => {
         stack.forEach((card, j) => {
+          if ($(`construction-card-${card.id}`)) return;
+
           $(`construction-cards-stack-${i}`).insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
           let oCard = $(`construction-card-${card.id}`);
           oCard.style.zIndex = 100;
@@ -210,46 +215,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
-    // /*
-    //  * Expert/solo mode => need two stacks
-    //  */
-    // onClickStackNonStandard(stackId) {
-    //   // Click again on same card => unselect
-    //   if (this._selectedStackForNonStandard == stackId) {
-    //     this.unselectFirstStack();
-    //     return;
-    //   }
-
-    //   // First stack => ask for a second one
-    //   if (this._selectedStackForNonStandard == null) {
-    //     this._selectedStackForNonStandard = stackId;
-    //     // Compute new possible choices for stacks
-    //     this.makeStacksSelectable(this.getSelectableSecondStacks(stackId), true);
-    //     this.addActionButton('buttonUnselect', _('Unselect'), () => this.unselectFirstStack(), null, false, 'gray');
-    //     dojo.addClass('construction-cards-stack-' + stackId, 'selected');
-    //   }
-
-    //   // Second stack => return both stacks
-    //   else {
-    //     this._callback([this._selectedStackForNonStandard, stackId]);
-    //   }
-    // },
-
-    // // Get the available choices for second stack depending on the first stack selected
-    // getSelectableSecondStacks(stackId) {
-    //   return this._possibleChoices.reduce((stacks, choice) => {
-    //     if (choice[0] == stackId) stacks.push(choice[1]);
-    //     return stacks;
-    //   }, []);
-    // },
-
-    // // Unselect first stack
-    // unselectFirstStack() {
-    //   dojo.destroy('buttonUnselect');
-    //   dojo.removeClass('construction-cards-stack-' + this._selectedStackForNonStandard, 'selected');
-    //   this.initSelectableStacks();
-    // },
-
     //////////////////////////////////////
     /////////////  New turn  /////////////
     //////////////////////////////////////
@@ -262,12 +227,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector('.construction-card-holder:last-of-type');
         let oldCard = cardsInStack;
 
+        // Remove if existing (should only be possible in standard mode)
+        let o = $(`construction-card-${card.id}`);
+        if (o) o.remove();
+
+        let stack = $(`construction-cards-stack-${card.stackId}`);
+
         //// STANDARD MODE : FLIP CARD ////
         if (this._isStandard) {
           // New card
-          let o = $(`construction-card-${card.id}`);
-          if (o) o.remove();
-          $(`construction-cards-stack-${card.stackId}`).insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+          stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
           $(`construction-card-${card.id}`).style.zIndex = 100 - args.turn;
 
           // Flip card animation
@@ -279,21 +248,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         //// NON STANDARD MODE : SLIDE LEFT ////
         else {
           // Compute x position to make it slide out the left border of window
-          let stack = $('construction-cards-stack-' + card.stackId);
-          this.slideToLeftAndDestroy(oldCard);
+          await this.slideToLeftAndDestroy(oldCard);
 
-          setTimeout(() => {
-            // Remove flipped class if needed
-            dojo.addClass(stack, 'notransition');
-            dojo.removeClass(stack, 'flipped');
-            stack.offsetHeight;
-            dojo.removeClass(stack, 'notransition');
+          // Remove flipped class if needed
+          stack.classList.add('notransition');
+          stack.classList.remove('flipped');
+          stack.offsetHeight;
+          stack.classList.remove('notransition');
 
-            // Create a new card and put it to the left (hidden)
-            var newCard = dojo.place(this.format_block('jstpl_constructionCard', card), stack);
-            dojo.style(newCard, 'z-index', 100 - turn);
-            this.slideFromLeft(newCard);
-          }, 800);
+          // Create a new card and put it to the left (hidden)
+          stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+          let newCard = $(`construction-card-${card.id}`);
+          newCard.style.zIndex = 100 - args.turn;
+          await this.slideFromLeft(newCard);
         }
       });
     },
@@ -301,32 +268,53 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     slideFromLeft(elem) {
       let stack = elem.parentNode;
       let x = elem.offsetWidth + stack.offsetWidth + stack.offsetLeft + 30;
-      dojo.addClass(elem, 'notransition');
-      dojo.style(elem, 'opacity', '0');
-      dojo.style(elem, 'left', -x + 'px');
+      elem.classList.add('notransition');
+      elem.style.opacity = 0;
+      elem.style.left = -x + 'px';
       elem.offsetHeight;
-      dojo.removeClass(elem, 'notransition');
+      elem.classList.remove('notransition');
 
-      dojo.style(elem, 'opacity', '1');
-      dojo.style(elem, 'left', '0px');
+      elem.style.opacity = 1;
+      elem.style.left = '0px';
 
       return this.wait(800);
     },
 
-    slideToLeftAndDestroy(elem) {
+    async slideToLeftAndDestroy(elem) {
       if (elem == null) return;
 
       let stack = elem.parentNode;
       let x = elem.offsetWidth + stack.offsetWidth + stack.offsetLeft + 30;
 
-      dojo.style(elem, 'left', -x + 'px');
-      setTimeout(() => {
-        dojo.destroy(elem);
-      }, 800);
+      elem.style.left = -x + 'px';
+      await this.wait(800);
+      elem.remove();
+      return true;
     },
 
-    discard() {
-      dojo.query('.construction-card-holder').forEach((elem) => this.slideToLeftAndDestroy(elem));
+    ///////////////////////////////////
+    //      _        _
+    //     / \   ___| |_ _ __ __ _
+    //    / _ \ / __| __| '__/ _` |
+    //   / ___ \\__ \ |_| | | (_| |
+    //  /_/   \_\___/\__|_|  \__,_|
+    ///////////////////////////////////
+
+    onEnteringStateGiveCardAstra(args) {
+      args.stacks.forEach((stackId) => {
+        let o = $(`construction-cards-stack-${stackId}`);
+        this.onClick(o, () => this.takeAtomicAction('actGiveCardToAstra', [stackId]));
+      });
+
+      if (args.mayUseSoloBonus) {
+        this.addPrimaryActionButton('actUseSoloBonus', _('Use one solo bonus instead'), () =>
+          this.takeAtomicAction('actUseSoloBonus', [])
+        );
+      }
+    },
+
+    notif_giveCardToAstra(args) {
+      return this.slide($(`construction-card-${args.card.id}`), $('astra-container'), { destroy: true });
     },
 
     ////////////////////////////////

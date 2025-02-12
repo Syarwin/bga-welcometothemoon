@@ -2,7 +2,10 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions;
 
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
+use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -11,37 +14,55 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return ST_GIVE_CARD_TO_ASTRA;
   }
 
-
+  public function isAutomatic(?Player $player = null): bool
+  {
+    return !is_null($this->stGiveCardToAstra());
+  }
 
   public function argsGiveCardToAstra()
   {
     $player = $this->getPlayer();
-    $mayUseSoloBonus = true; // TODO
+    $mayUseSoloBonus = false; // TODO
 
-    $stacks = array_values(array_diff([1, 2, 3], [])); // TODO
+    $combination = $player->getCombination();
+    $stacks = array_values(array_diff([0, 1, 2], $combination['stacks']));
 
     return [
       'mayUseSoloBonus' => $mayUseSoloBonus,
-      'stacks' => $stacks
+      'stacks' => $stacks,
     ];
   }
 
-  public function actGiveCardToAstra($cardId)
+  public function stGiveCardToAstra()
+  {
+    $args = $this->argsGiveCardToAstra();
+    if (!$args['mayUseSoloBonus'] && count($args['stacks']) == 1) {
+      return [$args['stacks'][0]];
+    }
+  }
+
+  public function actGiveCardToAstra($stack)
   {
     $player = $this->getPlayer();
     $args = $this->getArgs();
-    // if (!in_array($stack, $args['stacks'])) {
-    //   throw new \BgaUserException('You cannot select this stack. Should not happen.');
-    // }
+    if (!in_array($stack, $args['stacks'])) {
+      throw new \BgaUserException('You cannot select this stack. Should not happen.');
+    }
 
-    // PGlobals::setStack($player->getId(), [$stack]);
-    // Notifications::chooseCards($player, $player->getCombination());
+    $card = ConstructionCards::getInLocation("stack-$stack")->first();
+    if (is_null($card)) {
+      throw new \BgaUserException('No card in this stack. Should not happen.');
+    }
 
-    // $this->insertAsChild([
-    //   'action' => WRITE_NUMBER,
-    // ]);
+    $card->setLocation('astra');
+    Notifications::giveCardToAstra($player, $card);
   }
 
 
-  public function actUseSoloBonus() {}
+  public function actUseSoloBonus()
+  {
+    $player = $this->getPlayer();
+    die("TODO: actUseSoloBonus scribble a solo bonus");
+    Notifications::useSoloBonus($player);
+  }
 }

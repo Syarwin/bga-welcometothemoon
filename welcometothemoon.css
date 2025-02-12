@@ -869,6 +869,11 @@ body {
 [data-single-column="1"][data-merged="0"][data-cardsorder="0"] #welcometo-container #player-score-sheets-container {
   order: 3; }
 
+#astra-container {
+  position: relative; }
+  #astra-container .construction-card-holder {
+    position: absolute; }
+
 .score-sheet[data-board="1"] {
   background-image: url("img/scenario-1.jpg"); }
   .score-sheet[data-board="1"] .player-name {

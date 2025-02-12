@@ -10,6 +10,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Managers\Cards;
 use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
 use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
+use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
@@ -123,7 +124,34 @@ class Notifications
     ]);
   }
 
+  public static function giveCardToAstra(Player $player, ConstructionCard $card)
+  {
+    $names = [
+      ASTRONAUT => clienttranslate('Astronaut'),
+      ROBOT => clienttranslate('Robot'),
+      PLANT => clienttranslate('Plant'),
+      WATER => clienttranslate('Water'),
+      PLANNING => clienttranslate('Planning'),
+      ENERGY => clienttranslate('Energy'),
+      JOKER => clienttranslate('Joker'),
+    ];
 
+    static::pnotify($player, 'giveCardToAstra', clienttranslate('${player_name} leaves a ${action}${action_icon} card to ASTRA.'), [
+      'player' => $player,
+      'i18n' => ['action'],
+      'action' => $names[$card->getAction()],
+      'card' => $card,
+      'action_icon' => "",
+    ]);
+  }
+
+  public static function useSoloBonus(Player $player)
+  {
+    // Todo: change with scribble
+    static::pnotify($player, 'midMessage', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
+      'player' => $player,
+    ]);
+  }
 
   ///////////////////////////////////////////////////
   //  ____                            _         _ 
@@ -368,6 +396,7 @@ class Notifications
     $fDatas = [
       'players' => $datas['players'],
       'scribbles' => $datas['scribbles'],
+      'constructionCards' => $datas['constructionCards'],
     ];
 
     self::notify($pId, 'refreshUI', '', [
