@@ -32,7 +32,7 @@
     background-image: url("img/icon-robot.png");
   }
   .icon-astronaut {
-    background-image: url("img/icon-astronaute.png");
+    background-image: url("img/icon-astronaut.png");
   }
   .icon-water {
     background-image: url("img/icon-water.png");
@@ -58,6 +58,11 @@
     background-repeat: no-repeat;
     margin: 0 0.1em;
   }
+}
+
+.action-button.btnAction {
+  background-color: #4c483e;
+  padding: 6px;
 }
 
 // Formatting chooseCombination notif

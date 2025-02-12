@@ -56,7 +56,7 @@ class Notifications
   }
 
 
-  public static function chooseCards(Player $player, array $combination)
+  public static function chooseCards(Player $player, array $combination, bool $useJoker)
   {
     $names = [
       ASTRONAUT => clienttranslate('Astronaut'),
@@ -68,7 +68,10 @@ class Notifications
       JOKER => clienttranslate('Joker'),
     ];
 
-    static::pnotify($player, 'chooseCards', clienttranslate('${player_name} chooses the combination ${number} ${action}${action_icon}.'), [
+    $msg = $useJoker ?
+      clienttranslate('${player_name} chooses the combination ${number} ${action}${action_icon} using an action joker.')
+      : clienttranslate('${player_name} chooses the combination ${number} ${action}${action_icon}.');
+    static::pnotify($player, 'chooseCards', $msg, [
       'player' => $player,
       'i18n' => ['action'],
       'action' => $names[$combination['action']],

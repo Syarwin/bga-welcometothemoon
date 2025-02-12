@@ -46,7 +46,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     // Joker action
-    $canUseJokerAction = false;
+    $canUseJokerAction = false; // TODO
     if ($canUseJokerAction) {
       $data['jokerCombinations'] = $this->getPlayableCombinations($player, true);
     }
@@ -58,12 +58,21 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $args = $this->getArgs();
-    if (!in_array($combination, $args['combinations'])) {
-      throw new \BgaUserException('You cannot select this stack. Should not happen.');
+    if ($useJoker && !isset($args['jokerCombinations'])) {
+      throw new \BgaUserException('You dont have any joker to use. Should not happen.');
+    }
+
+    $combinations = $useJoker ? $args['jokerCombinations'] : $args['combinations'];
+    if (!in_array($combination, $combinations)) {
+      throw new \BgaUserException('You cannot select this combination. Should not happen.');
+    }
+
+    if ($useJoker) {
+      die("TODO: use Joker, scribble somewhere");
     }
 
     PGlobals::setCombination($player->getId(), $combination);
-    Notifications::chooseCards($player, $player->getCombination());
+    Notifications::chooseCards($player, $player->getCombination(), $useJoker);
 
     $this->insertAsChild([
       'action' => WRITE_NUMBER,

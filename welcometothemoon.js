@@ -276,6 +276,9 @@ define([
           if ($(eltId)) $(eltId).remove();
         });
 
+        // Remove joker marker
+        document.querySelectorAll('.construction-card-holder').forEach((o) => delete o.dataset.joker);
+
         this.inherited(arguments);
       },
 

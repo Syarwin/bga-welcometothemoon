@@ -59,7 +59,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     // Hightlight selected stack(s)
-    highlightCombination(combination) {
+    highlightCombination(combination, overwriteJoker = true) {
       document.querySelectorAll('.construction-cards-stack').forEach((o) => o.classList.add('unselectable'));
       combination.stacks.forEach((stackId, i) => {
         $(`construction-cards-stack-${stackId}`).classList.add('selected');
@@ -69,6 +69,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           $(`construction-cards-stack-${stackId}`).classList.add('flipped');
         }
       });
+
+      if (!overwriteJoker) return;
+      let stackAction = combination.stacks[this._isStandard ? 0 : 1];
+      let cardAction = $(`construction-cards-stack-${stackAction}`).querySelector('.construction-card-holder');
+      if (cardAction.dataset.action != combination.action) {
+        cardAction.dataset.joker = combination.action;
+      }
     },
 
     notif_chooseCards(args) {
@@ -93,6 +100,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////
 
     onEnteringStateChooseCards(args) {
+      args.useJoker = args.useJoker || false;
+
       // Clear previous choice
       document.querySelectorAll('.construction-cards-stack').forEach((o) => {
         o.classList.remove('selected', 'flipped');
@@ -100,29 +109,76 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       // Make them selectable
-      let selectableStacks = [];
-      args.combinations.forEach((combination) => {
+      let selectableStacks = {};
+      let combinations = args.useJoker || false ? args.jokerCombinations : args.combinations;
+      combinations.forEach((combination) => {
         let stackId = combination.stacks[0];
-        if (selectableStacks.includes(stackId)) return;
-        selectableStacks.push(stackId);
+        if (selectableStacks[stackId]) {
+          selectableStacks[stackId].push(combination.action);
+          return;
+        }
+        selectableStacks[stackId] = [combination.action];
 
         let o = $(`construction-cards-stack-${stackId}`);
         o.classList.remove('unselectable');
         this.onClick(o, () => {
-          // Standard mode => return stack id
-          if (this._isStandard) this.takeAtomicAction('actChooseCards', [combination]);
+          // Standard mode
+          if (this._isStandard) {
+            console.log(selectableStacks[stackId]);
+            // Basic case => combination selection is over
+            if (selectableStacks[stackId].length == 1) {
+              this.takeAtomicAction('actChooseCards', [combination]);
+            }
+            // Joker card or joker bonus => need to choose the action
+            else {
+              this.clientState('chooseCardsJokerAction', _('Which action do you want to use the joker for?'), {
+                combinations,
+                combination,
+                useJoker: args.useJoker,
+              });
+            }
+          }
+          // Solo mode => we need to select another stack
           else {
             this.clientState('chooseCardsSecondStack', _('You must choose another stack for the action'), {
-              combinations: args.combinations,
+              combinations,
               stackId,
             });
           }
         });
       });
 
-      if (args.combinations.length == 0) {
+      if (combinations.length == 0) {
         this.addDangerActionButton('btnSystemError', _('System Error'), () => this.takeAtomicAction('actSystemError', []));
       }
+
+      if (args.jokerCombinations) {
+        this.addSecondaryActionButton('btnUseJoker', _('Use joker'), () => {
+          args.useJoker = !args.useJoker;
+          this.clearPossible();
+          this.onEnteringStateChooseCards(args);
+        });
+
+        $('btnUseJoker').classList.toggle('selected', args.useJoker);
+      }
+    },
+
+    ///////////////////////////////////////////////////
+    ////////  Joker action : select the action ////////
+    ///////////////////////////////////////////////////
+
+    onEnteringStateChooseCardsJokerAction(args) {
+      this.highlightCombination(args.combination, false);
+      args.combinations.forEach((combination, i) => {
+        if (JSON.stringify(combination.stacks) != JSON.stringify(args.combination.stacks)) return;
+
+        this.addPrimaryActionButton(`btnAction${i}`, this.formatIcon(combination.action), () =>
+          this.takeAtomicAction('actChooseCards', [combination, args.useJoker])
+        );
+        $(`btnAction${i}`).classList.add('btnAction');
+      });
+
+      this.addCancelStateBtn(_('Reset cards selection'));
     },
 
     ////////////////////////////////////////////////////////

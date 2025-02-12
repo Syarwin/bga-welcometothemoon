@@ -81,6 +81,20 @@ $cardBorderRadius: 7px;
         }
     }
 
+    &[data-joker] .construction-card-back::before {
+        content: "";
+        display: block;
+        width: 125px;
+        height: 125px;
+        background: #4c483e96;
+        background-image: url("img/construction-cards-actions.png");
+        background-size: 500% 300%;
+        position: absolute;
+        top: 61px;
+        left: 38px;
+        border-radius: 4px;
+    }
+
     $actions: "robot" "energy" "plant" "water" "energy-water" "astronaut-plant" "robot-planning" "astronaut" "joker"
         "planning";
     @each $action in $actions {
@@ -94,6 +108,9 @@ $cardBorderRadius: 7px;
             .bottom-left-corner {
                 background-position: $col * 100%/4 $row * 50%;
             }
+        }
+        &[data-joker="#{$action}"] .construction-card-back::before {
+            background-position: $col * 100%/4 $row * 50%;
         }
     }
 

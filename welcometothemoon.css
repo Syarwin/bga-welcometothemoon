@@ -351,45 +351,77 @@
       transform: rotate(180deg);
       bottom: 16px;
       left: 17px; }
+  .construction-card-holder[data-joker] .construction-card-back::before {
+    content: "";
+    display: block;
+    width: 125px;
+    height: 125px;
+    background: #4c483e96;
+    background-image: url("img/construction-cards-actions.png");
+    background-size: 500% 300%;
+    position: absolute;
+    top: 61px;
+    left: 38px;
+    border-radius: 4px; }
   .construction-card-holder[data-action="robot"] .construction-card-back,
   .construction-card-holder[data-action="robot"] .top-right-corner,
   .construction-card-holder[data-action="robot"] .bottom-left-corner {
+    background-position: 0% 0%; }
+  .construction-card-holder[data-joker="robot"] .construction-card-back::before {
     background-position: 0% 0%; }
   .construction-card-holder[data-action="energy"] .construction-card-back,
   .construction-card-holder[data-action="energy"] .top-right-corner,
   .construction-card-holder[data-action="energy"] .bottom-left-corner {
     background-position: 25% 0%; }
+  .construction-card-holder[data-joker="energy"] .construction-card-back::before {
+    background-position: 25% 0%; }
   .construction-card-holder[data-action="plant"] .construction-card-back,
   .construction-card-holder[data-action="plant"] .top-right-corner,
   .construction-card-holder[data-action="plant"] .bottom-left-corner {
+    background-position: 50% 0%; }
+  .construction-card-holder[data-joker="plant"] .construction-card-back::before {
     background-position: 50% 0%; }
   .construction-card-holder[data-action="water"] .construction-card-back,
   .construction-card-holder[data-action="water"] .top-right-corner,
   .construction-card-holder[data-action="water"] .bottom-left-corner {
     background-position: 75% 0%; }
+  .construction-card-holder[data-joker="water"] .construction-card-back::before {
+    background-position: 75% 0%; }
   .construction-card-holder[data-action="energy-water"] .construction-card-back,
   .construction-card-holder[data-action="energy-water"] .top-right-corner,
   .construction-card-holder[data-action="energy-water"] .bottom-left-corner {
+    background-position: 100% 0%; }
+  .construction-card-holder[data-joker="energy-water"] .construction-card-back::before {
     background-position: 100% 0%; }
   .construction-card-holder[data-action="astronaut-plant"] .construction-card-back,
   .construction-card-holder[data-action="astronaut-plant"] .top-right-corner,
   .construction-card-holder[data-action="astronaut-plant"] .bottom-left-corner {
     background-position: 0% 50%; }
+  .construction-card-holder[data-joker="astronaut-plant"] .construction-card-back::before {
+    background-position: 0% 50%; }
   .construction-card-holder[data-action="robot-planning"] .construction-card-back,
   .construction-card-holder[data-action="robot-planning"] .top-right-corner,
   .construction-card-holder[data-action="robot-planning"] .bottom-left-corner {
+    background-position: 25% 50%; }
+  .construction-card-holder[data-joker="robot-planning"] .construction-card-back::before {
     background-position: 25% 50%; }
   .construction-card-holder[data-action="astronaut"] .construction-card-back,
   .construction-card-holder[data-action="astronaut"] .top-right-corner,
   .construction-card-holder[data-action="astronaut"] .bottom-left-corner {
     background-position: 50% 50%; }
+  .construction-card-holder[data-joker="astronaut"] .construction-card-back::before {
+    background-position: 50% 50%; }
   .construction-card-holder[data-action="joker"] .construction-card-back,
   .construction-card-holder[data-action="joker"] .top-right-corner,
   .construction-card-holder[data-action="joker"] .bottom-left-corner {
     background-position: 75% 50%; }
+  .construction-card-holder[data-joker="joker"] .construction-card-back::before {
+    background-position: 75% 50%; }
   .construction-card-holder[data-action="planning"] .construction-card-back,
   .construction-card-holder[data-action="planning"] .top-right-corner,
   .construction-card-holder[data-action="planning"] .bottom-left-corner {
+    background-position: 100% 50%; }
+  .construction-card-holder[data-joker="planning"] .construction-card-back::before {
     background-position: 100% 50%; }
   .construction-card-holder[data-number="0"] .construction-card-front {
     background-position-x: 0%;
@@ -573,7 +605,7 @@
   .icon-container .icon-robot {
     background-image: url("img/icon-robot.png"); }
   .icon-container .icon-astronaut {
-    background-image: url("img/icon-astronaute.png"); }
+    background-image: url("img/icon-astronaut.png"); }
   .icon-container .icon-water {
     background-image: url("img/icon-water.png"); }
   .icon-container .icon-plant {
@@ -591,6 +623,10 @@
     background-size: 100%;
     background-repeat: no-repeat;
     margin: 0 0.1em; }
+
+.action-button.btnAction {
+  background-color: #4c483e;
+  padding: 6px; }
 
 .card-number {
   width: 1em;
