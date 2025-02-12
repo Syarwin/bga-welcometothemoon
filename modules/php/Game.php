@@ -96,6 +96,7 @@ class Game extends \Table
             'standard' => Globals::isStandard(),
             'scenario' => Globals::getScenario(),
             'turn' => Globals::getTurn(),
+            'astraLevel' => Globals::getAstraLevel(),
         ];
 
         return $datas;

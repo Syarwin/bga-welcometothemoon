@@ -25,6 +25,12 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap; }
+@font-face {
+  font-family: "Gears of Peace";
+  src: url("img/fonts/GearsofPeace.woff2") format("woff2"), url("img/fonts/GearsofPeace.woff") format("woff"), url("img/fonts/GearsofPeace.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap; }
 /*! nouislider - 14.6.0 - 6/27/2020 */
 .noUi-target, .noUi-target * {
   -webkit-touch-callout: none;
@@ -635,7 +641,7 @@
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  font-family: Bebas;
+  font-family: "Bebas";
   font-size: 2em;
   line-height: 1.3em;
   border-radius: 3px;
@@ -658,7 +664,7 @@
   width: 1.2em;
   height: 1.2em;
   display: inline-block;
-  font-family: Bebas;
+  font-family: "Bebas";
   font-weight: bold;
   font-size: 1.5em;
   text-align: center;
@@ -871,8 +877,204 @@ body {
 
 #astra-container {
   position: relative; }
+  #astra-container:empty {
+    display: none; }
   #astra-container .construction-card-holder {
     position: absolute; }
+  #astra-container .astra-wrapper {
+    background: #ecedce;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 5px;
+    display: flex;
+    padding: 4px;
+    box-shadow: 1px 1px 3px -1px black;
+    box-sizing: border-box; }
+    #astra-container .astra-wrapper .astra-opponent {
+      width: 190px;
+      height: 102px;
+      display: flex;
+      background: #3d3630;
+      border-radius: 5px;
+      align-items: flex-end;
+      border: 1px solid black;
+      background-image: url("img/solo-opponents.jpg");
+      background-size: 200% 400%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="1"] {
+        background-position: 0% 0%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="2"] {
+        background-position: 100% 0%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="3"] {
+        background-position: 0% 33.333%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="4"] {
+        background-position: 100% 33.333%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="5"] {
+        background-position: 0% 66.666%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="6"] {
+        background-position: 100% 66.666%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="7"] {
+        background-position: 0% 99.999%; }
+      #astra-container .astra-wrapper .astra-opponent[data-level="8"] {
+        background-position: 100% 99.999%; }
+      #astra-container .astra-wrapper .astra-opponent .astra-level {
+        width: 35px;
+        height: 40px;
+        position: relative;
+        margin-left: 10px; }
+        #astra-container .astra-wrapper .astra-opponent .astra-level::before {
+          content: "";
+          position: absolute;
+          z-index: 0;
+          width: 0px;
+          height: 0px;
+          top: -8px;
+          border: 17px solid transparent;
+          border-bottom: 30px solid #fff0d3; }
+        #astra-container .astra-wrapper .astra-opponent .astra-level::after {
+          content: attr(data-level);
+          position: absolute;
+          z-index: 0;
+          width: 35px;
+          height: 20px;
+          text-align: center;
+          bottom: 0;
+          font-family: "Gears of Peace";
+          color: #a15643; }
+      #astra-container .astra-wrapper .astra-opponent .astra-name {
+        margin-left: 10px;
+        margin-right: 20px;
+        font-family: "Gears of Peace";
+        color: #fff0d3;
+        text-shadow: 1px 1px 1px #a15643;
+        font-variant: all-small-caps;
+        background: #262520e0;
+        box-shadow: 0px 0px 7px 3px #2d2b28;
+        padding: 0px 8px;
+        clip-path: polygon(-9% -10%, 110% 10%, 110% 100%, -10% 100%); }
+    #astra-container .astra-wrapper .astra-scores {
+      margin-left: 10px;
+      display: flex;
+      background-color: #4c483e;
+      border-radius: 5px; }
+      #astra-container .astra-wrapper .astra-scores .astra-score-category {
+        width: 74px;
+        margin: 20px 7px 4px;
+        border: 2px solid #6cc9ea;
+        border-radius: 8px;
+        position: relative;
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 5px;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-bottom: none;
+        border-image: linear-gradient(to bottom, #6cc9ea 25%, rgba(0, 0, 0, 0) 70%) 2 20%; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category.fixed-score, #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score, #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score {
+          width: 50px; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category.fixed-score .category-score, #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score .category-score, #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score .category-score {
+            width: 40px; }
+            #astra-container .astra-wrapper .astra-scores .astra-score-category.fixed-score .category-score::after, #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score .category-score::after, #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score .category-score::after {
+              right: -18px; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score .category-icon {
+          border: 10px solid transparent;
+          border-bottom: 18px solid #fff0d3;
+          width: 0;
+          height: 0;
+          border-radius: 0px;
+          left: 15px;
+          top: -22px; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score .category-multiplier {
+          color: #75c2de;
+          text-shadow: 0px 0px 2px #4b97b3; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category.level-score .category-score::after {
+          content: "="; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score {
+          border-image: none;
+          border: 2px solid transparent;
+          border-bottom: none; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score .category-score {
+            border-color: #e6952c;
+            box-shadow: 0px 0px 2px 1px #e6952c; }
+            #astra-container .astra-wrapper .astra-scores .astra-score-category.total-score .category-score::after {
+              display: none; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon {
+          width: 30px;
+          height: 30px;
+          background-image: url("img/construction-cards-actions.png");
+          background-size: 500% 300%;
+          position: absolute;
+          left: 20px;
+          top: -21px;
+          z-index: 2;
+          background-color: #4c483e;
+          border-radius: 50%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="robot"] {
+            background-position: 0% 0%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="energy"] {
+            background-position: 25% 0%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="plant"] {
+            background-position: 50% 0%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="water"] {
+            background-position: 75% 0%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="energy-water"] {
+            background-position: 100% 0%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="astronaut-plant"] {
+            background-position: 0% 50%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="robot-planning"] {
+            background-position: 25% 50%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="astronaut"] {
+            background-position: 50% 50%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="joker"] {
+            background-position: 75% 50%; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-icon[data-icon="planning"] {
+            background-position: 100% 50%; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category .category-multiplier {
+          font-family: "Gears of Peace";
+          color: #feefd2;
+          width: 20px;
+          height: 28px;
+          line-height: 23px;
+          text-shadow: 0px 0px 2px #f7df0e;
+          text-align: center; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-multiplier.max-mult {
+            color: #f07c89;
+            text-shadow: 0px 0px 2px #e7300f; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-multiplier.min-mult {
+            color: #7cba77;
+            text-shadow: 0px 0px 2px #26bb08; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category .category-cross {
+          font-family: "Gears of Peace";
+          color: #feefd2;
+          text-shadow: 0px 0px 2px #f7df0e;
+          font-size: 21px;
+          margin-left: 1px;
+          margin-right: 5px; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category .category-count {
+          background: #feefd2;
+          width: 28px;
+          height: 21px;
+          margin-right: 2px;
+          box-shadow: 0px 0px 2px 1px #f7df0e;
+          font-family: "Gears of Peace"; }
+        #astra-container .astra-wrapper .astra-scores .astra-score-category .category-score {
+          background: #feefd2;
+          border: 2px solid #73c2e0;
+          box-shadow: 0px 0px 2px 1px #73c2e0;
+          border-radius: 5px;
+          width: 50px;
+          height: 21px;
+          margin-top: 8px;
+          font-family: "Gears of Peace";
+          position: relative; }
+          #astra-container .astra-wrapper .astra-scores .astra-score-category .category-score::after {
+            content: "+";
+            position: absolute;
+            right: -27px;
+            color: #feefd2;
+            text-shadow: 0px 0px 2px #f7df0e;
+            top: 2px;
+            font-size: 14px; }
 
 .score-sheet[data-board="1"] {
   background-image: url("img/scenario-1.jpg"); }
@@ -911,15 +1113,14 @@ body {
   .score-sheet[data-board="1"] .wttm-slot.slot-score {
     width: 50px;
     height: 40px;
-    font-family: "Bebas";
+    font-family: "Gears of Peace";
     text-align: center;
-    font-weight: bold;
-    font-size: 26px;
+    font-size: 22px;
     line-height: 43px; }
     .score-sheet[data-board="1"] .wttm-slot.slot-score[data-id="150"] {
       color: #c40524; }
     .score-sheet[data-board="1"] .wttm-slot.slot-score[data-id="151"] {
-      font-size: 32px;
+      font-size: 24px;
       line-height: 48px; }
   .score-sheet[data-board="1"] .wttm-slot.slot-error {
     width: 60px;

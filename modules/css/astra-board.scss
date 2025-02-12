@@ -1,7 +1,231 @@
 #astra-container {
   position: relative;
+  &:empty {
+    display: none;
+  }
 
   .construction-card-holder {
     position: absolute;
+  }
+
+  .astra-wrapper {
+    background: #ecedce;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 5px;
+    display: flex;
+    padding: 4px;
+    box-shadow: 1px 1px 3px -1px black;
+    box-sizing: border-box;
+
+    .astra-opponent {
+      width: 190px;
+      height: 102px;
+      display: flex;
+      background: #3d3630;
+      border-radius: 5px;
+      align-items: flex-end;
+      border: 1px solid black;
+      background-image: url("img/solo-opponents.jpg");
+      background-size: 200% 400%;
+      @for $i from 1 through 8 {
+        $col: ($i - 1) % 2;
+        $row: ($i - 1 - $col) / 2;
+
+        &[data-level="#{$i}"] {
+          background-position: $col * 100% $row * 33.333%;
+        }
+      }
+
+      .astra-level {
+        width: 35px;
+        height: 40px;
+        position: relative;
+        margin-left: 10px;
+
+        &::before {
+          content: "";
+          position: absolute;
+          z-index: 0;
+          width: 0px;
+          height: 0px;
+          top: -8px;
+          border: 17px solid transparent;
+          border-bottom: 30px solid #fff0d3;
+        }
+        &::after {
+          content: attr(data-level);
+          position: absolute;
+          z-index: 0;
+          width: 35px;
+          height: 20px;
+          text-align: center;
+          bottom: 0;
+          font-family: "Gears of Peace";
+          color: #a15643;
+        }
+      }
+
+      .astra-name {
+        margin-left: 10px;
+        margin-right: 20px;
+        font-family: "Gears of Peace";
+        color: #fff0d3;
+        text-shadow: 1px 1px 1px #a15643;
+        font-variant: all-small-caps;
+        background: #262520e0;
+        box-shadow: 0px 0px 7px 3px #2d2b28;
+        padding: 0px 8px;
+        clip-path: polygon(-9% -10%, 110% 10%, 110% 100%, -10% 100%);
+      }
+    }
+
+    .astra-scores {
+      margin-left: 10px;
+      display: flex;
+      background-color: #4c483e;
+      border-radius: 5px;
+
+      .astra-score-category {
+        width: 74px;
+        margin: 20px 7px 4px;
+        border: 2px solid #6cc9ea;
+        border-radius: 8px;
+        position: relative;
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 5px;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-bottom: none;
+        border-image: linear-gradient(to bottom, #6cc9ea 25%, rgba(0, 0, 0, 0) 70%) 2 20%;
+
+        &.fixed-score,
+        &.level-score,
+        &.total-score {
+          width: 50px;
+          .category-score {
+            width: 40px;
+            &::after {
+              right: -18px;
+            }
+          }
+        }
+        &.level-score {
+          .category-icon {
+            border: 10px solid transparent;
+            border-bottom: 18px solid #fff0d3;
+            width: 0;
+            height: 0;
+            border-radius: 0px;
+            left: 15px;
+            top: -22px;
+          }
+
+          .category-multiplier {
+            color: #75c2de;
+            text-shadow: 0px 0px 2px #4b97b3;
+          }
+
+          .category-score::after {
+            content: "=";
+          }
+        }
+        &.total-score {
+          border-image: none;
+          border: 2px solid transparent;
+          border-bottom: none;
+
+          .category-score {
+            border-color: #e6952c;
+            box-shadow: 0px 0px 2px 1px #e6952c;
+            &::after {
+              display: none;
+            }
+          }
+        }
+
+        .category-icon {
+          width: 30px;
+          height: 30px;
+          background-image: url("img/construction-cards-actions.png");
+          background-size: 500% 300%;
+          position: absolute;
+          left: 20px;
+          top: -21px;
+          z-index: 2;
+          background-color: #4c483e;
+          border-radius: 50%;
+
+          $actions: "robot" "energy" "plant" "water" "energy-water" "astronaut-plant" "robot-planning" "astronaut"
+            "joker" "planning";
+          @each $action in $actions {
+            $i: index($actions, $action) - 1;
+            $col: $i % 5;
+            $row: ($i - $col) / 5;
+
+            &[data-icon="#{$action}"] {
+              background-position: $col * 100%/4 $row * 50%;
+            }
+          }
+        }
+
+        .category-multiplier {
+          font-family: "Gears of Peace";
+          color: #feefd2;
+          width: 20px;
+          height: 28px;
+          line-height: 23px;
+          text-shadow: 0px 0px 2px #f7df0e;
+          text-align: center;
+          &.max-mult {
+            color: #f07c89;
+            text-shadow: 0px 0px 2px #e7300f;
+          }
+          &.min-mult {
+            color: #7cba77;
+            text-shadow: 0px 0px 2px #26bb08;
+          }
+        }
+        .category-cross {
+          font-family: "Gears of Peace";
+          color: #feefd2;
+          text-shadow: 0px 0px 2px #f7df0e;
+          font-size: 21px;
+          margin-left: 1px;
+          margin-right: 5px;
+        }
+        .category-count {
+          background: #feefd2;
+          width: 28px;
+          height: 21px;
+          margin-right: 2px;
+          box-shadow: 0px 0px 2px 1px #f7df0e;
+          font-family: "Gears of Peace";
+        }
+        .category-score {
+          background: #feefd2;
+          border: 2px solid #73c2e0;
+          box-shadow: 0px 0px 2px 1px #73c2e0;
+          border-radius: 5px;
+          width: 50px;
+          height: 21px;
+          margin-top: 8px;
+          font-family: "Gears of Peace";
+          position: relative;
+
+          &::after {
+            content: "+";
+            position: absolute;
+            right: -27px;
+            color: #feefd2;
+            text-shadow: 0px 0px 2px #f7df0e;
+            top: 2px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
 }

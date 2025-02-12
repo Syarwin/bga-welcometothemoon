@@ -1,8 +1,8 @@
 define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (dojo, declare) => {
-  const PLAYER_COUNTERS = ['immediateCiv', 'endgameCiv'];
+  // const PLAYER_COUNTERS = ['immediateCiv', 'endgameCiv'];
 
-  const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
-  const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
+  // const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
+  // const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
 
   return declare('welcometothemoon.players', null, {
     getPlayers() {
@@ -39,6 +39,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
 
       //      this.setupPlayersCounters();
+      if (this.isSolo()) {
+        this.setupAstra();
+      }
     },
 
     onChangePlayerBoardsLayoutSetting(v) {
@@ -134,20 +137,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.goToPlayerBoard(this.orderedPlayers[0].id);
     },
 
-    // tplPlayerPanel(player) {
-    //   return `<div class="welcometothemoon-first-player-holder" id="firstPlayer-${player.id}"></div>
-    //   <div class='player-info'>
-    //     <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
-    //       <span id='counter-${player.id}-immediateCiv'>0</span>!
-    //       +
-    //       <span id='counter-${player.id}-endgameCiv'>0</span>
-    //       •
-    //       ${this.formatIcon('civ')}
-    //     </div>
-    //     ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
-    //   </div>`;
-    // },
-
     updateComputedScoresheetData(pId) {
       this.gamedatas.players[pId].scoresheet.forEach((entry) => {
         $(`slot-${pId}-${entry.slot}`).innerHTML = '';
@@ -163,6 +152,105 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
     },
 
+    ////////////////////////////////////
+    //      _        _
+    //     / \   ___| |_ _ __ __ _
+    //    / _ \ / __| __| '__/ _` |
+    //   / ___ \\__ \ |_| | | (_| |
+    //  /_/   \_\___/\__|_|  \__,_|
+    ////////////////////////////////////
+    setupAstra() {
+      const ASTRA_OPPONENTS = {
+        1: {
+          name: 'Katherine',
+          mult: [2, 3, 2, 3, 1, 4],
+        },
+        2: {
+          name: 'Alexei',
+          mult: [2, 3, 3, 2, 4, 3],
+        },
+        3: {
+          name: 'Margaret',
+          mult: [5, 4, 2, 2, 2, 3],
+        },
+        4: {
+          name: 'Franklin',
+          mult: [2, 6, 4, 3, 3, 2],
+        },
+        5: {
+          name: 'Sergei',
+          mult: [4, 4, 4, 4, 4, 3],
+        },
+        6: {
+          name: 'Stephanie',
+          mult: [6, 2, 4, 5, 4, 4],
+        },
+        7: {
+          name: 'Thomas',
+          mult: [5, 4, 3, 6, 5, 4],
+        },
+        8: {
+          name: 'Peggy',
+          mult: [5, 3, 6, 3, 6, 6],
+        },
+      };
+      const level = this.gamedatas.astraLevel;
+      const opponent = ASTRA_OPPONENTS[level];
+
+      let scores = '';
+      let minMult = Math.min(...opponent.mult);
+      let maxMult = Math.max(...opponent.mult);
+      ['robot', 'energy', 'plant', 'water', 'astronaut', 'planning'].forEach((icon, i) => {
+        const mult = opponent.mult[i];
+        let highlight = '';
+        if (mult == minMult) highlight = 'min-mult';
+        if (mult == maxMult && mult > minMult + 1) highlight = 'max-mult';
+
+        scores += `<div class='astra-score-category'>
+          <div class='category-icon' data-icon='${icon}'></div>
+          <div class='category-multiplier ${highlight}'>${mult}</div>
+          <div class='category-cross'>x</div>
+          <div class='category-count' id='astra-${icon}-count'></div>
+          <div class='category-score' id='astra-${icon}-score'></div>
+        </div>`;
+      });
+
+      // Fixed score
+      scores += `<div class='astra-score-category fixed-score'>
+        <div class='category-multiplier'></div>
+        <div class='category-cross'></div>
+        <div class='category-score' id='astra-fixed-score'></div>
+      </div>`;
+
+      // Difficulty score
+      let levelMultiplier = 2; // TODO
+      scores += `<div class='astra-score-category level-score'>
+        <div class='category-icon' data-icon='level'></div>
+        <div class='category-cross'>x</div>
+        <div class='category-multiplier'>${levelMultiplier}</div>
+        <div class='category-score' id='astra-level-score'></div>
+      </div>`;
+
+      scores += `<div class='astra-score-category total-score'>
+        <div class='category-cross'></div>
+        <div class='category-multiplier'></div>
+        <div class='category-score' id='astra-total-score'></div>
+      </div>`;
+
+      $('astra-container').insertAdjacentHTML(
+        'beforeend',
+        `<div class="astra-wrapper">
+        <div class="astra-opponent" data-level="${level}">
+          <div class="astra-level" data-level="${level}"></div>
+          <div class="astra-name">${opponent.name}</div>
+        </div>
+        <div class="astra-scores">
+          ${scores}
+        </div>
+      </div>`
+      );
+    },
+
     ////////////////////////////////////////////////////
     //   ____                  _
     //  / ___|___  _   _ _ __ | |_ ___ _ __ ___
@@ -171,6 +259,21 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     //  \____\___/ \__,_|_| |_|\__\___|_|  |___/
     //
     ////////////////////////////////////////////////////
+
+    // tplPlayerPanel(player) {
+    //   return `<div class="welcometothemoon-first-player-holder" id="firstPlayer-${player.id}"></div>
+    //   <div class='player-info'>
+    //     <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
+    //       <span id='counter-${player.id}-immediateCiv'>0</span>!
+    //       +
+    //       <span id='counter-${player.id}-endgameCiv'>0</span>
+    //       •
+    //       ${this.formatIcon('civ')}
+    //     </div>
+    //     ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
+    //   </div>`;
+    // },
+
     // /**
     //  * Create all the counters for player panels
     //  */

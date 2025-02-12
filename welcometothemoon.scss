@@ -41,6 +41,17 @@ html {
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Gears of Peace";
+  src:
+    url("img/fonts/GearsofPeace.woff2") format("woff2"),
+    url("img/fonts/GearsofPeace.woff") format("woff"),
+    url("img/fonts/GearsofPeace.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @mixin handwritten {
   font-size: x-large;
   font-family: "Caveat";
