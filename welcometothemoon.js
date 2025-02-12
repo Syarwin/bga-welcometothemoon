@@ -351,8 +351,8 @@ define([
         }
 
         // Highlight stacks
-        if (args.args && args.args.selectedStack) {
-          this.highlightStacks(args.args.selectedStack[0]);
+        if (args.args && args.args.selectedCombination) {
+          this.highlightCombination(args.args.selectedCombination);
         }
 
         if (this.isCurrentPlayerActive() && args.args) {

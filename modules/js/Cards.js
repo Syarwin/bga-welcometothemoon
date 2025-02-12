@@ -58,23 +58,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 </div>`;
     },
 
-    // // Clear everything
-    // clearPossible() {
-    //   this._callback = null;
-    //   this._possibleChoices = null;
-    //   this._selectableStacks = null;
-    //   this._highlighted = null;
-    //   dojo.query('.construction-cards-stack').removeClass('unselectable selectable');
-    // },
-
     // Hightlight selected stack(s)
-    highlightStacks(stack) {
-      if (this._isStandard) {
-        $(`construction-cards-stack-${stack}`).classList.add('selected');
-      } else {
-        $(`construction-cards-stack-${stack[0]}`).classList.add('selected');
-        $(`construction-cards-stack-${stack[1]}`).classList.add('selected');
-      }
+    highlightCombination(combination) {
+      document.querySelectorAll('.construction-cards-stack').forEach((o) => o.classList.add('unselectable'));
+      combination.stacks.forEach((stackId, i) => {
+        $(`construction-cards-stack-${stackId}`).classList.add('selected');
+
+        // Solo mode => flip the second stack
+        if (i > 0) {
+          $(`construction-cards-stack-${stackId}`).classList.add('flipped');
+        }
+      });
     },
 
     notif_chooseCards(args) {
@@ -99,27 +93,34 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////
 
     onEnteringStateChooseCards(args) {
-      // Clear previous coic
+      // Clear previous choice
       document.querySelectorAll('.construction-cards-stack').forEach((o) => {
         o.classList.remove('selected', 'flipped');
         o.classList.add('unselectable');
       });
 
       // Make them selectable
-      let stacks = args.stacks.map((choice) => (this._isStandard ? choice : choice[0]));
-      stacks.forEach((stackId) => {
+      let selectableStacks = [];
+      args.combinations.forEach((combination) => {
+        let stackId = combination.stacks[0];
+        if (selectableStacks.includes(stackId)) return;
+        selectableStacks.push(stackId);
+
         let o = $(`construction-cards-stack-${stackId}`);
         o.classList.remove('unselectable');
         this.onClick(o, () => {
           // Standard mode => return stack id
-          if (this._isStandard) this.takeAtomicAction('actChooseCards', [stackId]);
+          if (this._isStandard) this.takeAtomicAction('actChooseCards', [combination]);
           else {
-            console.log('TODO: solo choose cards');
+            this.clientState('chooseCardsSecondStack', _('You must choose another stack for the action'), {
+              combinations: args.combinations,
+              stackId,
+            });
           }
         });
       });
 
-      if (args.stacks.length == 0) {
+      if (args.combinations.length == 0) {
         this.addDangerActionButton('btnSystemError', _('System Error'), () => this.takeAtomicAction('actSystemError', []));
       }
     },
@@ -127,6 +128,31 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////////////////////////
     ////////  Non-standard mode : select two stacks ////////
     ////////////////////////////////////////////////////////
+
+    onEnteringStateChooseCardsSecondStack(args) {
+      this.addCancelStateBtn(_('Unselect'));
+
+      document.querySelectorAll('.construction-cards-stack').forEach((o) => {
+        if (o.id == `construction-cards-stack-${args.stackId}`) {
+          o.classList.add('selected');
+          this.onClick(o, () => this.clearClientState());
+        } else {
+          o.classList.add('flipped', 'unslectable');
+        }
+      });
+
+      let selectableStacks = [];
+      args.combinations.forEach((combination) => {
+        if (combination.stacks[0] != args.stackId) return;
+        let stackId = combination.stacks[1];
+        if (selectableStacks.includes(stackId)) return;
+        selectableStacks.push(stackId);
+
+        let o = $(`construction-cards-stack-${stackId}`);
+        o.classList.remove('unselectable');
+        this.onClick(o, () => this.takeAtomicAction('actChooseCards', [combination]));
+      });
+    },
 
     // /*
     //  * Expert/solo mode => need two stacks
@@ -247,12 +273,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       dojo.query('.construction-card-holder').forEach((elem) => this.slideToLeftAndDestroy(elem));
     },
 
-    giveCard(stack, pId) {
-      let oldCard = dojo.query('#construction-cards-stack-' + stack + ' .construction-card-holder:last-of-type')[0];
-      dojo.addClass(oldCard, 'notransition');
-      this.slideToObjectAndDestroy(oldCard, 'overall_player_board_' + pId, 1000);
-    },
-
     ////////////////////////////////
     //  ____  _
     // |  _ \| | __ _ _ __  ___
@@ -263,10 +283,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     setupPlanCards(gamedatas) {
       debug('Seting up the plan cards');
-      // this._selectablePlans = [];
-      // this._planIds = [];
-      // this._gamedatas = gamedatas;
-      // this._pId = pId;
 
       // Display the cards
       this.gamedatas.planCards.forEach((plan) => {

@@ -4,7 +4,7 @@
  * Game options
  */
 const OPTION_ADVENTURE = 110;
-
+const OPTION_ASTRA_LEVEL = 111;
 
 /*
  * User preferences
@@ -49,6 +49,7 @@ const ST_WRITE_X = 32;
 const ST_ROCKET_ACTIVATION = 33;
 const ST_ACCOMPLISH_MISSION = 34;
 const ST_PLACE_ENERGY_WALL = 35;
+const ST_GIVE_CARD_TO_ASTRA = 36;
 
 
 // Engine state
@@ -86,6 +87,7 @@ const PASS = 99;
 const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
 const ACCOMPLISH_MISSION = 'AccomplishMission';
+const GIVE_CARD_TO_ASTRA = 'GiveCardToAstra';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -115,6 +117,7 @@ const ALL_ACTIONS = [ROBOT, WATER, ENERGY, PLANT, ASTRONAUT, PLANNING];
 const ENERGY_WATER = 'energy-water';
 const ASTRONAUT_PLANT = 'astronaut-plant';
 const ROBOT_PLANNING = 'robot-planning';
+const SOLO = 'solo';
 
 /*
  * MISC

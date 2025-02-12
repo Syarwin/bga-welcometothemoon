@@ -68,10 +68,8 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 
   public function getCombination()
   {
-    $stack = PGlobals::getStack($this->id);
-    if (is_null($stack)) return null;
-
-    $combination = ConstructionCards::getCombination($stack[0]);
+    $combination = PGlobals::getCombination($this->id);
+    if (is_null($combination) || empty($combination)) return null;
     return $combination;
   }
 }

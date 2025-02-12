@@ -64,6 +64,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
     // Game options
     'solo' => 'bool',
+    'astraLevel' => 'int',
 
     // Scenario 1
     'triggeredSabotages' => 'obj',
@@ -210,6 +211,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     static::setSolo($isSolo);
     static::setFirstPlayer(array_keys($players)[0]);
     static::setScenario($options[OPTION_ADVENTURE]);
+    static::setAstraLevel($options[OPTION_ASTRA_LEVEL] ?? 0);
   }
 
   public static function isStandard()

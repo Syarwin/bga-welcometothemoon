@@ -27,9 +27,9 @@ trait EngineTrait
 
   function addCommonArgs($pId, &$args)
   {
-    $stack = PGlobals::getStack($pId);
-    if (!empty($stack)) {
-      $args['selectedStack'] = $stack;
+    $combination = PGlobals::getCombination($pId);
+    if (!empty($combination)) {
+      $args['selectedCombination'] = $combination;
     }
 
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);

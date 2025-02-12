@@ -1218,6 +1218,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     clearClientState() {
       //this.clearPossible();
       this.restoreServerGameState();
+
+      // SOLVING BGA ISSUE FOR CLIENTSTATE WITHIN PARALLEL STATES
+      let l = this.gamedatas;
+      if (null != l.gamestate.private_state) {
+        this.updatePageTitle(l.gamestate.private_state);
+        this.onEnteringState(l.gamestate.private_state.name, l.gamestate.private_state);
+      }
     },
 
     translate(t) {

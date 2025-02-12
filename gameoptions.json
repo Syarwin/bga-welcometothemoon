@@ -13,5 +13,41 @@
         "tmdisplay": "[2: The Journey]"
       }
     }
+  },
+  "111": {
+    "name": "ASTRA Level",
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "maxplayers",
+        "value": [1]
+      }
+    ],
+    "values": {
+      "1": {
+        "name": "Level 1 - Katherine"
+      },
+      "2": {
+        "name": "Level 2 - Alexei"
+      },
+      "3": {
+        "name": "Level 3 - Margaret"
+      },
+      "4": {
+        "name": "Level 4 - Franklin"
+      },
+      "5": {
+        "name": "Level 5 - Sergei"
+      },
+      "6": {
+        "name": "Level 6 - Stephanie"
+      },
+      "7": {
+        "name": "Level 7 - Thomas"
+      },
+      "8": {
+        "name": "Level 8 - Peggy"
+      }
+    }
   }
 }

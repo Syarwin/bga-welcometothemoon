@@ -43,9 +43,24 @@ trait TurnTrait
     $players = Players::getAll();
     $flows = [];
     foreach ($players as $pId => $player) {
-      $flows[$pId] = [
-        'action' => CHOOSE_CARDS,
+      $flow = [
+        'type' => NODE_SEQ,
+        'childs' => [
+          ['action' => CHOOSE_CARDS],
+        ]
       ];
+
+      // For all scenarios except 1 and 6, checking mission can be done drectly since there are no phase 5 effect
+      if (!in_array(Globals::getScenario(), [1, 6])) {
+        $flow['childs'][] = ['action' => ACCOMPLISH_MISSION];
+      }
+
+      // For solo mode, add the action corresponding to giving a card to Astra
+      if (Globals::isSolo()) {
+        $flow['childs'][] = ['action' => GIVE_CARD_TO_ASTRA];
+      }
+
+      $flows[$pId] = $flow;
     }
 
     Engine::multipleSetup($flows, ['method' => 'stEndTurnEngine']);

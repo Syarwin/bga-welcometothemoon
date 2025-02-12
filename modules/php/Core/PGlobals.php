@@ -17,7 +17,7 @@ class PGlobals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     'engineChoices' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
     'flags' => 'obj', // Useful for flagging a "once per turn action" as flagged,
 
-    'stack' => 'obj',
+    'combination' => 'obj',
     'validatedPlans' => 'obj',
   ];
 

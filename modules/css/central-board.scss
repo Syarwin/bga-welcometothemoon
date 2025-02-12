@@ -72,6 +72,13 @@ body {
 
           &.flipped .construction-card-holder {
             transform: rotateY(180deg);
+
+            .construction-card-front {
+              box-shadow: none;
+            }
+            .construction-card-back {
+              box-shadow: 2px 2px 3px #1c1c1c;
+            }
           }
         }
 
@@ -97,9 +104,6 @@ body {
             opacity 0.6s ease-in-out;
           transform-origin: 50% 50%;
           transform-style: preserve-3d;
-          &.flipped {
-            transform: rotateY(180deg);
-          }
         }
       }
     }

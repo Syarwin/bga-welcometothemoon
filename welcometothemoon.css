@@ -747,6 +747,10 @@ body {
               cursor: default; }
           #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable .construction-cards-stack.flipped .construction-card-holder {
             transform: rotateY(180deg); }
+            #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable .construction-cards-stack.flipped .construction-card-holder .construction-card-front {
+              box-shadow: none; }
+            #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable .construction-cards-stack.flipped .construction-card-holder .construction-card-back {
+              box-shadow: 2px 2px 3px #1c1c1c; }
         #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable.standard .construction-cards-stack {
           width: 405px; }
         #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable.standard .construction-card-holder {
@@ -760,8 +764,6 @@ body {
           transition: transform 0.5s ease-in-out, left 0.6s ease-in-out, opacity 0.6s ease-in-out;
           transform-origin: 50% 50%;
           transform-style: preserve-3d; }
-          #welcometo-container #construction-cards-container #construction-cards-container-sticky #construction-cards-container-resizable .construction-card-holder.flipped {
-            transform: rotateY(180deg); }
   #welcometo-container #player-score-sheets-container #player-score-sheets-container-resizable {
     transform-origin: top left; }
   #welcometo-container #plan-cards-container {

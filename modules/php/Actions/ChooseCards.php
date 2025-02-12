@@ -18,13 +18,13 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   /*
    * Return the stack combinations that leads to at least one writtable number
    */
-  public function getAvailableStacks($player)
+  public function getPlayableCombinations($player, $canUseJoker = false)
   {
-    $combinations = ConstructionCards::getPossibleCombinations();
+    $combinations = ConstructionCards::getPossibleCombinations($canUseJoker);
     $result = [];
     foreach ($combinations as $combination) {
       if (!empty(WriteNumber::getAvailableNumbersOfCombination($player, $combination))) {
-        array_push($result, $combination['stacks']);
+        array_push($result, $combination);
       }
     }
     return $result;
@@ -39,24 +39,30 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     $data = [];
-    $data['stacks'] = $this->getAvailableStacks($player);
-    if (empty($data['stacks'])) {
+    $data['combinations'] = $this->getPlayableCombinations($player);
+    if (empty($data['combinations'])) {
       $data['systemError'] = $player->scoresheet()->getNextFreeSystemErrorSlot();
       $data['descSuffix'] = Globals::getScenario() == 1 ? 'impossible1' : 'impossible';
+    }
+
+    // Joker action
+    $canUseJokerAction = false;
+    if ($canUseJokerAction) {
+      $data['jokerCombinations'] = $this->getPlayableCombinations($player, true);
     }
 
     return $data;
   }
 
-  public function actChooseCards($stack)
+  public function actChooseCards(array $combination, bool $useJoker = false)
   {
     $player = $this->getPlayer();
     $args = $this->getArgs();
-    if (!in_array($stack, $args['stacks'])) {
+    if (!in_array($combination, $args['combinations'])) {
       throw new \BgaUserException('You cannot select this stack. Should not happen.');
     }
 
-    PGlobals::setStack($player->getId(), [$stack]);
+    PGlobals::setCombination($player->getId(), $combination);
     Notifications::chooseCards($player, $player->getCombination());
 
     $this->insertAsChild([
@@ -73,6 +79,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     $player = $this->getPlayer();
+    PGlobals::setStack($player->getId(), []);
     $scribbleType = Globals::getScenario() == 1 ? SCRIBBLE_CIRCLE : SCRIBBLE;
     $scribble = $player->scoresheet()->addScribble($args['systemError'], $scribbleType);
     Notifications::systemError($player, $scribble);
