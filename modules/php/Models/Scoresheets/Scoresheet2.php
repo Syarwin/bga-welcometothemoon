@@ -2,9 +2,6 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario2.php";
@@ -20,6 +17,8 @@ class Scoresheet2 extends Scoresheet
     switch ($combination['action']) {
       case ENERGY:
         return ['action' => CIRCLE_ENERGY];
+      case ROBOT:
+        return ['action' => PROGRAM_ROBOT];
     }
     return null;
   }

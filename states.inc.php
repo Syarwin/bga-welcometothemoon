@@ -228,8 +228,6 @@ $machinestates = [
     'possibleactions' => ['actGiveCardToAstra', 'actUseSoloBonus', 'actRestart'],
   ],
 
-
-
   ST_WRITE_X => [
     'name' => 'writeX',
     'descriptionmyturn' => clienttranslate('${you} must write an X on your scoresheet'),
@@ -246,13 +244,20 @@ $machinestates = [
     'possibleactions' => ['actRocketActivation', 'actRestart'],
   ],
 
-
   ST_PLACE_ENERGY_WALL => [
     'name' => 'placeEnergyWall',
     'descriptionmyturn' => clienttranslate('${you} must divide a zone on your trajectory'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'possibleactions' => ['actPlaceEnergyWall', 'actRestart'],
+  ],
+
+  ST_PROGRAM_ROBOT => [
+    'name' => 'programRobot',
+    'descriptionmyturn' => clienttranslate('${you} must program a robot sent towards any station'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actProgramRobot', 'actRestart'],
   ],
 
   //////////////////////////////////////////////////////////////////

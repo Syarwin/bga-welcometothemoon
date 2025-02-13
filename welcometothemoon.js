@@ -622,6 +622,7 @@ define([
        * launchActionOnSlotClick : make slots selectable and launch action when clicking on one
        * @param {*} slots
        * @param {*} action
+       * @param callback
        */
       launchActionOnSlotClick(slots, action, callback = null) {
         slots.forEach((slotId) => {
@@ -645,6 +646,10 @@ define([
 
       onEnteringStatePlaceEnergyWall(args) {
         this.launchActionOnSlotClick(args.slots, 'actPlaceEnergyWall');
+      },
+
+      onEnteringStateProgramRobot(args) {
+        this.launchActionOnSlotClick(args.slots, 'actProgramRobot');
       },
 
       ////////////////////////////////////////////////////////////

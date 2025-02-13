@@ -237,6 +237,15 @@ class Notifications
     ]);
   }
 
+  public static function programRobot(Player $player, Scribble $scribble)
+  {
+    $msg = clienttranslate('${player_name} programs a robot');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
 
   /////////////////////////////////////
   //   ____           _          

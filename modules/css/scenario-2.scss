@@ -19,15 +19,9 @@
     }
   }
 
-  .wttm-slot.slot-energymarker {
-    width: 55px;
-    height: 55px;
-  }
-
-  .wttm-slot.slot-wall {
-    width: 5px;
-    height: 60px;
-
+  .wttm-slot {
+    // TODO: I don't think .selectables should be unique for all scenarios and elements, there must be some similarities
+    // therefore it should be in some scenario-common.scss/scoresheet.scss
     &.selectable {
       border: 1px solid red;
       background-color: rgba(255, 0, 0, 0.5);
@@ -42,6 +36,21 @@
         background-color: #00ff0091;
         box-shadow: 0px 0px 4px 1px #04a604;
       }
+    }
+
+    &.slot-energymarker {
+      width: 55px;
+      height: 55px;
+    }
+
+    &.slot-robot {
+      width: 50px;
+      height: 45px;
+    }
+
+    &.slot-wall {
+      width: 5px;
+      height: 60px;
     }
   }
 
