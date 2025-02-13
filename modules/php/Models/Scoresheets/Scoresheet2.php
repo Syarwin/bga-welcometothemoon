@@ -2,6 +2,11 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario2.php";
@@ -49,5 +54,26 @@ class Scoresheet2 extends Scoresheet
   public function getIncreasingSequencesConstraints()
   {
     return $this->getSections();
+  }
+
+  // PHASE 5
+  public static function phase5Check(): void
+  {
+    $circledMultipliersIds = array_unique(Globals::getCircledMultipliers());
+    if (count($circledMultipliersIds) > 0) {
+      $players = Players::getAll();
+      foreach ($circledMultipliersIds as $multiplierId) {
+        /** @var Player $player */
+        foreach ($players as $player) {
+          $scoresheet = $player->scoresheet();
+            if (!$scoresheet->hasScribbledSlot($multiplierId)) {
+            $scribble = $scoresheet->addScribble($multiplierId);
+            Notifications::crossOffMultiplier($player, $scribble, ProgramRobot::getMultiplierValue($multiplierId));
+          }
+        }
+      }
+    }
+
+    Globals::setCircledMultipliers([]);
   }
 }

@@ -1437,6 +1437,14 @@ body {
   width: 5px;
   height: 60px;
 }
+.score-sheet[data-board="2"] .wttm-slot.slot-bigmultiplier {
+  width: 50px;
+  height: 50px;
+}
+.score-sheet[data-board="2"] .wttm-slot.slot-smallmultiplier {
+  width: 37px;
+  height: 37px;
+}
 
 .score-sheet-wrapper {
   width: 1128px;

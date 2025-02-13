@@ -246,6 +246,25 @@ class Notifications
     ]);
   }
 
+  public static function circleMultiplier(Player $player, Scribble $scribble, int $multiplierValue)
+  {
+    $msg = clienttranslate('${player_name} have programmed all robots of a single station and gets a multiplier x${multiplierValue}');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+      'multiplierValue' => $multiplierValue
+    ]);
+  }
+
+  public static function crossOffMultiplier(Player $player, Scribble $scribble, int $multiplierValue)
+  {
+    $msg = clienttranslate('${player_name} crosses off a multiplier x${multiplierValue}');
+    static::notifyAll('addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+      'multiplierValue' => $multiplierValue,
+    ]);
+  }
 
   /////////////////////////////////////
   //   ____           _          
