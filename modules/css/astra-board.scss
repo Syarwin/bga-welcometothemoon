@@ -408,5 +408,81 @@
         background-image: url("img/solo/misc-8.png");
       }
     }
+
+    ///////////////////////////////////
+    ////// SCENARIO 1
+    &[data-scenario="1"] {
+      .astra-scores {
+        .astra-score-category {
+          width: 50px;
+
+          &.fixed-score,
+          &.level-score {
+            display: none;
+          }
+          .category-icon {
+            left: 10px;
+          }
+          .category-count {
+            display: none;
+          }
+          &:not(.total-score) .category-score {
+            background: none;
+            border: none;
+            box-shadow: none;
+            margin-top: 0px;
+
+            &::after {
+              display: none;
+            }
+
+            &::before {
+              content: "\e901";
+              color: #feefd2;
+              text-shadow: 0px 0px 2px #f7df0e;
+              font-family: "icomoon";
+              font-size: 25px;
+            }
+          }
+        }
+      }
+
+      .astra-effects-bonus-wrapper {
+        order: 3;
+      }
+
+      .astra-misc {
+        order: 2;
+        width: 300px;
+        background-image: url("img/solo/misc-1.png");
+        background-size: auto 100%;
+        background-color: #362f27;
+
+        .astra-rocket-grid {
+          position: relative;
+          margin-top: 2px;
+          margin-left: 8px;
+          width: 244px;
+          height: 98px;
+          display: grid;
+          grid-template-columns: 20px 15px 15px 15px 15px 21px 15px 15px 15px 15px 21px 15px 15px 15px 15px;
+          grid-template-rows: 16px 17px 16px 17px 16px 16px;
+
+          .astra-rocket-slot {
+            &#astra-rocket-slot-75 {
+              grid-column: 11;
+            }
+
+            &#astra-rocket-slot-80 {
+              position: absolute;
+              right: -19px;
+              width: 20px;
+              height: 16px;
+              bottom: 0px;
+            }
+          }
+        }
+      }
+    }
   }
 }

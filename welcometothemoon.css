@@ -1198,6 +1198,52 @@ body {
       #astra-container .astra-wrapper .astra-misc[data-scenario="8"] {
         width: 140px;
         background-image: url("img/solo/misc-8.png"); }
+    #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category {
+      width: 50px; }
+      #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category.fixed-score, #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category.level-score {
+        display: none; }
+      #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category .category-icon {
+        left: 10px; }
+      #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category .category-count {
+        display: none; }
+      #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category:not(.total-score) .category-score {
+        background: none;
+        border: none;
+        box-shadow: none;
+        margin-top: 0px; }
+        #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category:not(.total-score) .category-score::after {
+          display: none; }
+        #astra-container .astra-wrapper[data-scenario="1"] .astra-scores .astra-score-category:not(.total-score) .category-score::before {
+          content: "\e901";
+          color: #feefd2;
+          text-shadow: 0px 0px 2px #f7df0e;
+          font-family: "icomoon";
+          font-size: 25px; }
+    #astra-container .astra-wrapper[data-scenario="1"] .astra-effects-bonus-wrapper {
+      order: 3; }
+    #astra-container .astra-wrapper[data-scenario="1"] .astra-misc {
+      order: 2;
+      width: 300px;
+      background-image: url("img/solo/misc-1.png");
+      background-size: auto 100%;
+      background-color: #362f27; }
+      #astra-container .astra-wrapper[data-scenario="1"] .astra-misc .astra-rocket-grid {
+        position: relative;
+        margin-top: 2px;
+        margin-left: 8px;
+        width: 244px;
+        height: 98px;
+        display: grid;
+        grid-template-columns: 20px 15px 15px 15px 15px 21px 15px 15px 15px 15px 21px 15px 15px 15px 15px;
+        grid-template-rows: 16px 17px 16px 17px 16px 16px; }
+        #astra-container .astra-wrapper[data-scenario="1"] .astra-misc .astra-rocket-grid .astra-rocket-slot#astra-rocket-slot-75 {
+          grid-column: 11; }
+        #astra-container .astra-wrapper[data-scenario="1"] .astra-misc .astra-rocket-grid .astra-rocket-slot#astra-rocket-slot-80 {
+          position: absolute;
+          right: -19px;
+          width: 20px;
+          height: 16px;
+          bottom: 0px; }
 
 .score-sheet[data-board="1"] {
   background-image: url("img/scenario-1.jpg"); }

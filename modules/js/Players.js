@@ -211,12 +211,26 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       let astraMisc = '';
       if (adventureDatas.descMisc) {
-        astraMisc = `<div id="astra-misc" class="astra-misc" data-scenario="${scenario}"></div>`;
+        if (scenario != 1) {
+          astraMisc = `<div id="astra-misc" class="astra-misc" data-scenario="${scenario}"></div>`;
+        }
+        // Scenario 1 : grid for crossing off rockets
+        else {
+          let grid = '';
+          for (let slot = 0; slot <= 80; slot++) {
+            grid += `<div id='astra-rocket-slot-${slot}' class='astra-rocket-slot'></div>`;
+          }
+          astraMisc = `<div id="astra-misc" class="astra-misc" data-scenario="${scenario}">
+            <div class='astra-rocket-grid'>
+              ${grid}
+            </div>
+          </div>`;
+        }
       }
 
       $('astra-container').insertAdjacentHTML(
         'beforeend',
-        `<div class="astra-wrapper">
+        `<div class="astra-wrapper" data-scenario="${scenario}">
         <div class="astra-opponent" data-level="${level}">
           <div class="astra-level" data-level="${level}"></div>
           <div class="astra-name">${opponent.name}</div>
@@ -289,6 +303,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             'As soon as you draw an ASTRA Effect card, either A, B or C, select one Sabotage effect still available in your marking area and cross it off immediately. From now on, this bonus is no longer available for you. In addition, circle 1 System Error immediately.'
           ),
           descSoloBonus: _('Each time you trigger a Sabotage effect, circle 1 Solo bonus on the ASTRA Adventure card.'),
+          descMisc: _(
+            'You will not tally up ASTRA’s score at the end of the game, because during the whole game you will use the scoring track on the ASTRA Adventure card. Each time you give a Starship card to ASTRA, immediately cross off the number of boxes corresponding to the action type, as specified on the ASTRA Opponent card.'
+          ),
         },
         2: {
           fixedScore: 5,
