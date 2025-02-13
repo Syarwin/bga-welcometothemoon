@@ -28,7 +28,6 @@ class CircleEnergy extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return [];
   }
 
-
   // Each entry is BOTTOM SLOT => [FIRST TOP SLOT, SECOND TOP SLOT] of an individual column
   public static array $slots = [
     135 => [133, 134],
@@ -42,7 +41,6 @@ class CircleEnergy extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function getNextSlot(Player $player): ?array
   {
     $scoresheet = $player->scoresheet();
-    $slots = [];
     foreach (self::$slots as $bonusSlot => $slots) {
       foreach ($slots as $i => $slotId) {
         if (!$scoresheet->hasScribbledSlot($slotId) && $slotId != 133) { // SLOT 133 is pre-scribbled

@@ -80,9 +80,9 @@ trait TurnTrait
    */
   function stEndTurnEngine()
   {
-    // SCENARIO 1 AND 6 HAVE A PHASE 5 EFFECT
+    // SCENARIO 1, 2 AND 6 HAVE A PHASE 5 EFFECT
     // THAT WE MUST RESOLVE BEFORE CHECKING MISSION SATISFACTION
-    if (in_array(Globals::getScenario(), [1, 6])) {
+    if (in_array(Globals::getScenario(), [1, 2, 6])) {
       // Phase 5
       Scoresheet::phase5Check();
 

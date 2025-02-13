@@ -30,6 +30,7 @@ class Actions
     // Scenario 2
     CIRCLE_ENERGY,
     PLACE_ENERGY_WALL,
+    PROGRAM_ROBOT,
   ];
 
   public static function get($actionId, &$ctx = null)

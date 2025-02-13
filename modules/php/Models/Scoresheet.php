@@ -8,6 +8,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
 
 class Scoresheet
 {
@@ -22,6 +23,9 @@ class Scoresheet
     switch (Globals::getScenario()) {
       case 1:
         Scoresheet1::phase5Check();
+        break;
+      case 2:
+        Scoresheet2::phase5Check();
         break;
       default:
         die("Unsupported phase 5 for this scenario");
@@ -39,7 +43,7 @@ class Scoresheet
     $this->player = $player;
     $this->fetch();
 
-    // Extract info froms datas
+    // Extract info from datas
     foreach ($this->datas['sections'] as $section) {
       $this->slotsBySection[$section['id']] = [];
       foreach ($section['elts'] as $elt) {
@@ -154,7 +158,7 @@ class Scoresheet
       return $allSlots;
     }
 
-    // Check each constraints
+    // Check each constraint
     $forbiddenSlots = [];
     foreach ($this->getIncreasingSequencesConstraints() as $slotSequence) {
       $curr = [];

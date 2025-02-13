@@ -3,8 +3,6 @@
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class PlaceEnergyWall extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -48,12 +46,11 @@ class PlaceEnergyWall extends \Bga\Games\WelcomeToTheMoon\Models\Action
     ];
   }
 
-
   public function actPlaceEnergyWall(int $slot)
   {
     $args = $this->getArgs();
     if (!in_array($slot, $args['slots'])) {
-      throw new \BgaUserException('You cannot activate this rocket bonus here. Should not happen.');
+      throw new \BgaUserException('You cannot place an energy wall here. Should not happen.');
     }
 
     // Draw the line
