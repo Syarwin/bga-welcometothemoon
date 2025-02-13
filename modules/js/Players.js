@@ -160,7 +160,90 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     //  /_/   \_\___/\__|_|  \__,_|
     ////////////////////////////////////
     setupAstra() {
-      const ASTRA_OPPONENTS = {
+      const level = this.gamedatas.astraLevel;
+      const opponent = this.getAstraOpponentsData()[level];
+      const scenario = this.gamedatas.scenario;
+      const adventureDatas = this.getAstraAdventuresData()[scenario];
+
+      let scores = '';
+      let minMult = Math.min(...opponent.mult);
+      let maxMult = Math.max(...opponent.mult);
+      ['robot', 'energy', 'plant', 'water', 'astronaut', 'planning'].forEach((icon, i) => {
+        const mult = opponent.mult[i];
+        let highlight = '';
+        if (mult == minMult) highlight = 'min-mult';
+        if (mult == maxMult && mult > minMult + 1) highlight = 'max-mult';
+
+        scores += `<div class='astra-score-category'>
+          <div class='category-icon' data-icon='${icon}'></div>
+          <div class='category-multiplier ${highlight}'>${mult}</div>
+          <div class='category-cross'>x</div>
+          <div class='category-count' id='astra-${icon}-count'></div>
+          <div class='category-score' id='astra-${icon}-score'></div>
+        </div>`;
+      });
+
+      // Fixed score
+      scores += `<div class='astra-score-category fixed-score'>
+        <div class='category-multiplier'></div>
+        <div class='category-cross'></div>
+        <div class='category-score' id='astra-fixed-score'>${adventureDatas.fixedScore}</div>
+      </div>`;
+
+      // Difficulty score
+      scores += `<div class='astra-score-category level-score'>
+        <div class='category-icon' data-icon='level'></div>
+        <div class='category-cross'>x</div>
+        <div class='category-multiplier'>${adventureDatas.levelMultiplier}</div>
+        <div class='category-score' id='astra-level-score'></div>
+      </div>`;
+
+      scores += `<div class='astra-score-category total-score'>
+        <div class='category-cross'></div>
+        <div class='category-multiplier'></div>
+        <div class='category-score' id='astra-total-score'></div>
+      </div>`;
+
+      let bonusSlots = '';
+      for (let i = 0; i < adventureDatas.nBonuses; i++) {
+        bonusSlots += `<div class="astra-bonus-slot-wrapper"><div class="astra-bonus-slot" id="astra-bonus-${i}"></div></div>`;
+      }
+
+      let astraMisc = '';
+      if (adventureDatas.descMisc) {
+        astraMisc = `<div id="astra-misc" class="astra-misc" data-scenario="${scenario}"></div>`;
+      }
+
+      $('astra-container').insertAdjacentHTML(
+        'beforeend',
+        `<div class="astra-wrapper">
+        <div class="astra-opponent" data-level="${level}">
+          <div class="astra-level" data-level="${level}"></div>
+          <div class="astra-name">${opponent.name}</div>
+        </div>
+        <div class="astra-scores">
+          ${scores}
+        </div>
+        <div class="astra-effects-bonus-wrapper" data-scenario="${scenario}">
+          <div id="astra-effects" class="astra-effects"></div>
+          <div id="astra-bonus" class="astra-bonus"></div>
+          <div class="astra-bonus-slots">
+            ${bonusSlots}            
+          </div>
+        </div>
+        ${astraMisc}
+      </div>`
+      );
+
+      this.addCustomTooltip('astra-effects', `<h2>${_('ASTRA EFFECT:')}</h2> ${adventureDatas.descEffects}`);
+      this.addCustomTooltip('astra-bonus', `<h2>${_('SOLO BONUS:')}</h2> ${adventureDatas.descSoloBonus}`);
+      if (adventureDatas.descMisc) {
+        this.addCustomTooltip('astra-misc', `${adventureDatas.descMisc}`);
+      }
+    },
+
+    getAstraOpponentsData() {
+      return {
         1: {
           name: 'Katherine',
           mult: [2, 3, 2, 3, 1, 4],
@@ -194,61 +277,105 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           mult: [5, 3, 6, 3, 6, 6],
         },
       };
-      const level = this.gamedatas.astraLevel;
-      const opponent = ASTRA_OPPONENTS[level];
+    },
 
-      let scores = '';
-      let minMult = Math.min(...opponent.mult);
-      let maxMult = Math.max(...opponent.mult);
-      ['robot', 'energy', 'plant', 'water', 'astronaut', 'planning'].forEach((icon, i) => {
-        const mult = opponent.mult[i];
-        let highlight = '';
-        if (mult == minMult) highlight = 'min-mult';
-        if (mult == maxMult && mult > minMult + 1) highlight = 'max-mult';
-
-        scores += `<div class='astra-score-category'>
-          <div class='category-icon' data-icon='${icon}'></div>
-          <div class='category-multiplier ${highlight}'>${mult}</div>
-          <div class='category-cross'>x</div>
-          <div class='category-count' id='astra-${icon}-count'></div>
-          <div class='category-score' id='astra-${icon}-score'></div>
-        </div>`;
-      });
-
-      // Fixed score
-      scores += `<div class='astra-score-category fixed-score'>
-        <div class='category-multiplier'></div>
-        <div class='category-cross'></div>
-        <div class='category-score' id='astra-fixed-score'></div>
-      </div>`;
-
-      // Difficulty score
-      let levelMultiplier = 2; // TODO
-      scores += `<div class='astra-score-category level-score'>
-        <div class='category-icon' data-icon='level'></div>
-        <div class='category-cross'>x</div>
-        <div class='category-multiplier'>${levelMultiplier}</div>
-        <div class='category-score' id='astra-level-score'></div>
-      </div>`;
-
-      scores += `<div class='astra-score-category total-score'>
-        <div class='category-cross'></div>
-        <div class='category-multiplier'></div>
-        <div class='category-score' id='astra-total-score'></div>
-      </div>`;
-
-      $('astra-container').insertAdjacentHTML(
-        'beforeend',
-        `<div class="astra-wrapper">
-        <div class="astra-opponent" data-level="${level}">
-          <div class="astra-level" data-level="${level}"></div>
-          <div class="astra-name">${opponent.name}</div>
-        </div>
-        <div class="astra-scores">
-          ${scores}
-        </div>
-      </div>`
-      );
+    getAstraAdventuresData() {
+      return {
+        1: {
+          fixedScore: 0,
+          levelMultiplier: 0,
+          nBonuses: 9,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A, B or C, select one Sabotage effect still available in your marking area and cross it off immediately. From now on, this bonus is no longer available for you. In addition, circle 1 System Error immediately.'
+          ),
+          descSoloBonus: _('Each time you trigger a Sabotage effect, circle 1 Solo bonus on the ASTRA Adventure card.'),
+        },
+        2: {
+          fixedScore: 5,
+          levelMultiplier: 1,
+          nBonuses: 10,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A or B, choose a space station with the highest multiplier still available on your sheet and cross it off immediately. From now on, you will only be able to get the lowest multiplier of that space station. The ASTRA Effect C card does not trigger the ASTRA Effect, but when you draw it on the 2nd draw, you must nevertheless flip the mission C card.'
+          ),
+          descSoloBonus: _(
+            'Whenever you get the highest multiplier from a space station, circle 2 Solo bonuses on the ASTRA Adventure card.'
+          ),
+          descMisc: _(
+            'At the end of the game, on your course, if the number of complete zones is higher than or equal to the number of sets of two Energy cards given to ASTRA, then you are in the lead, and you earn 20 points for your complete zones. Otherwise, you are second and you earn only 10 points. You do not earn any points if you do not have at least one complete zone. ASTRA does not receive any additional points for that.'
+          ),
+        },
+        3: {
+          fixedScore: 10,
+          levelMultiplier: 3,
+          nBonuses: 8,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A or B, choose a quarter with the highest 15 points bonus still available on your sheet, and immediately cross it off. From now on, you will only be able to earn the 5 points bonus by numbering this quarter. The ASTRA Effect C card does not trigger the ASTRA Effect, but when you draw it on the 2nd draw, you must nevertheless flip the mission C card.'
+          ),
+          descSoloBonus: _(
+            'Whenever you get the highest bonus of 15 points by numbering all the buildings of a quarter, circle 2 Solo bonuses on the ASTRA Adventure card.'
+          ),
+          descMisc: _(
+            'At the end of the game, if your number of crossed off astronauts is higher than or equal to the number of Astronaut cards given to ASTRA, then you are in the lead and you earn 20 points. Otherwise, you are second and you earn only 10 points. You do not earn any points if you have not crossed off at least one astronaut. ASTRA does not receive any additional points for that.'
+          ),
+        },
+        4: {
+          fixedScore: 5,
+          levelMultiplier: 2,
+          nBonuses: 8,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect, either A or B, choose a filling bonus of a main factory still available on your sheet and immediately cross it off. From now on, this bonus is no longer available for you. The ASTRA Effect C card does not trigger the ASTRA Effect, but when you draw it on the 2nd draw, you must nevertheless flip the mission C card.'
+          ),
+          descSoloBonus: _(
+            'Whenever you earn a filling bonus of a main factory, circle 2 Solo bonus on the ASTRA Adventure card.'
+          ),
+        },
+        5: {
+          fixedScore: 10,
+          levelMultiplier: 2,
+          nBonuses: 8,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A, B or C, choose one highest bonus on top or at the bottom of a skyscraper that is still available on your sheet and immediately cross it off. From now on, you will only be able to earn the lowest bonus there.'
+          ),
+          descSoloBonus: _(
+            'Whenever you get the highest bonus at the top or at the bottom of a skyscraper, circle one Solo bonus on the ASTRA Adventure card.'
+          ),
+          descMisc: _(
+            'At the end of the game, if your number of crossed off astronauts is higher than or equal to the number of Astronaut cards given to ASTRA, then you are in the lead and you earn 20 points. Otherwise, you are second and you earn only 10 points. You do not earn any points if you have not crossed off at least one astronaut. ASTRA does not receive any additional points for that.'
+          ),
+        },
+        6: {
+          fixedScore: 5,
+          levelMultiplier: 4,
+          nBonuses: 9,
+          descEffects: _(
+            'The ASTRA Effect is different on the 1st and the 2nd draw of the ASTRA Effect cards. On the 1st draw: Whenever you draw an ASTRA Effect card, either A, B or C, ASTRA immediately activates the green or blue virus, or triggers a propagation. In the scoring area, choose a virus activation symbol still available between green and blue, cross it off and activate the corresponding virus. If both green and blue viruses are already activated, select instead a Propagation symbol still available and cross it off. You must immediately (and not on phase 5) trigger a propagation of all active viruses. On the 2nd draw: Whenever you draw an ASTRA Effect card, either A, B or C, immediately activate the virus shown on the corresponding Mission card, either A, B or C, and immediately (and not on phase 5) trigger a propagation of all active viruses. Then flip over the Mission card on its accomplished mission side.'
+          ),
+          descSoloBonus: _(
+            'Whenever you activate a virus yourself (with a mission or a Plant/Water action), or you trigger a Propagation symbol (with a Plant/Water action), circle 1 Solo bonus on the ASTRA Adventure card.'
+          ),
+        },
+        7: {
+          fixedScore: 15,
+          levelMultiplier: 1,
+          nBonuses: 6,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A, B or C, choose a greenhouse X2 bonus still available on your sheet, and immediately cross it off. From now on, this bonus is no longer available for you.'
+          ),
+          descSoloBonus: _('Whenever you get a x2 bonus, circle 1 Solo bonus on the ASTRA Adventure card.'),
+        },
+        8: {
+          fixedScore: 20,
+          levelMultiplier: 3,
+          nBonuses: 6,
+          descEffects: _(
+            'As soon as you draw an ASTRA Effect card, either A, B or C, immediately perform 2 Planning actions for ASTRA. On the active sheet of the current turn, draw 2 ASTRA insignia on a moon. You must choose a moon whose planet is still available, and as a priority the moon of the planet with the most of your insignia (planet + moon). If several planets are tied, you can choose whichever. If the moon is already occupied by an insignia, add an ASTRA insignia next to it, then draw the 2nd insignia on the moon of the next planet in the priority order.'
+          ),
+          descSoloBonus: _(
+            'Whenever you draw your insignia on the flags of 2 planets, circle 1 Solo bonus on the ASTRA Adventure card.'
+          ),
+          descMisc: 'TODO',
+        },
+      };
     },
 
     ////////////////////////////////////////////////////
