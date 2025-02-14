@@ -11,6 +11,10 @@ class PlaceEnergyWall extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return ST_PLACE_ENERGY_WALL;
   }
 
+  public function isOptional(): bool
+  {
+    return true;
+  }
 
   // // Each entry is BOTTOM SLOT => [FIRST TOP SLOT, SECOND TOP SLOT] of an individual column
   // protected array $slots = [

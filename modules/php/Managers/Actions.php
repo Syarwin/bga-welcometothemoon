@@ -31,6 +31,7 @@ class Actions
     CIRCLE_ENERGY,
     PLACE_ENERGY_WALL,
     PROGRAM_ROBOT,
+    CIRCLE_PLANT,
   ];
 
   public static function get($actionId, &$ctx = null)

@@ -35,7 +35,7 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function stGiveCardToAstra()
   {
-    $args = $this->argsGiveCardToAstra();
+    $args = $this->getArgs();
     if (!$args['mayUseSoloBonus'] && count($args['stacks']) == 1) {
       return [$args['stacks'][0]];
     }

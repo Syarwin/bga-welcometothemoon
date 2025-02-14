@@ -4,12 +4,6 @@ namespace Bga\Games\WelcomeToTheMoon\Core;
 
 use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
-use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Managers\Cards;
-use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
-use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
 use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -266,6 +260,16 @@ class Notifications
     ]);
   }
 
+  public static function circlePlant(Player $player, Scribble $scribble, int $stationNumber)
+  {
+    $msg = clienttranslate('${player_name} circles a plant at a station number ${stationNumber}');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+      'stationNumber' => $stationNumber
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
@@ -284,6 +288,7 @@ class Notifications
   ];
 
   protected static $cachedValues = [];
+
   public static function resetCache()
   {
     foreach (self::$listeners as $listener) {
@@ -376,8 +381,7 @@ class Notifications
       self::updateIfNeeded($data, $name, "private");
       Game::get()->notifyPlayer($pId, $name, $msg, $data);
       self::flush();
-    }
-    // PUBLIC MODE => send public notif with ignore flag
+    } // PUBLIC MODE => send public notif with ignore flag
     elseif ($mode == \MODE_APPLY && ($data['public'] ?? true)) {
       $data['ignore'] = $pId;
       $data['preserve'][] = 'ignore';

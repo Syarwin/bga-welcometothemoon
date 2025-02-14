@@ -17,13 +17,15 @@ class Scoresheet2 extends Scoresheet
   protected int $scenario = 2;
   protected array $datas = DATAS2;
 
-  public function getCombinationAtomicAction(array $combination): ?array
+  public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
       case ENERGY:
         return ['action' => CIRCLE_ENERGY];
       case ROBOT:
         return ['action' => PROGRAM_ROBOT];
+      case PLANT:
+        return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
     }
     return null;
   }
@@ -66,7 +68,7 @@ class Scoresheet2 extends Scoresheet
         /** @var Player $player */
         foreach ($players as $player) {
           $scoresheet = $player->scoresheet();
-            if (!$scoresheet->hasScribbledSlot($multiplierId)) {
+          if (!$scoresheet->hasScribbledSlot($multiplierId)) {
             $scribble = $scoresheet->addScribble($multiplierId);
             Notifications::crossOffMultiplier($player, $scribble, ProgramRobot::getMultiplierValue($multiplierId));
           }

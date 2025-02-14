@@ -14,6 +14,7 @@
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
     letter-spacing: -2px;
+
     &.selectable {
       border: none;
     }
@@ -61,6 +62,15 @@
     &.slot-smallmultiplier {
       width: 37px;
       height: 37px;
+    }
+
+    &.slot-plant {
+      width: 41px;
+      height: 41px;
+
+      &.selectable {
+        border-radius: 50%;
+      }
     }
   }
 
