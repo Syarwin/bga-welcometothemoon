@@ -52,6 +52,7 @@ const ST_PLACE_ENERGY_WALL = 35;
 const ST_GIVE_CARD_TO_ASTRA = 36;
 const ST_PROGRAM_ROBOT = 37;
 const ST_CIRCLE_PLANT = 38;
+const ST_STIR_WATER_TANKS = 39;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -102,6 +103,7 @@ const CIRCLE_ENERGY = 'Scenario2\CircleEnergy';
 const PLACE_ENERGY_WALL = 'Scenario2\PlaceEnergyWall';
 const PROGRAM_ROBOT = 'Scenario2\ProgramRobot';
 const CIRCLE_PLANT = 'Scenario2\CirclePlant';
+const STIR_WATER_TANKS = 'Scenario2\StirWaterTanks';
 
 /*
  * Actions

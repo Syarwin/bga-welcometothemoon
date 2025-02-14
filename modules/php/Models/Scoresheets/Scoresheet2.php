@@ -26,10 +26,11 @@ class Scoresheet2 extends Scoresheet
         return ['action' => PROGRAM_ROBOT];
       case PLANT:
         return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
+      case WATER:
+        return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot]];
     }
     return null;
   }
-
 
   // NUMBER SLOTS IDS ARE 1 - 36
   // WALL SLOTS IDS ARE 90 - 124

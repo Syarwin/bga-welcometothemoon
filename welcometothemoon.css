@@ -1661,6 +1661,13 @@ body {
 .score-sheet[data-board="2"] .wttm-slot.slot-plant.selectable {
   border-radius: 50%;
 }
+.score-sheet[data-board="2"] .wttm-slot.slot-water {
+  width: 51px;
+  height: 51px;
+}
+.score-sheet[data-board="2"] .wttm-slot.slot-water.selectable {
+  border-radius: 50%;
+}
 
 .score-sheet-wrapper {
   width: 1128px;

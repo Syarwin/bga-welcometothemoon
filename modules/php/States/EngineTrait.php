@@ -133,7 +133,6 @@ trait EngineTrait
   #[CheckAction(false)]
   function actTakeAtomicAction(string $actionName, #[JsonParam] array $actionArgs)
   {
-    self::checkAction($actionName);
     $pId = Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
     $ctx = Engine::getNextUnresolved($pId);
