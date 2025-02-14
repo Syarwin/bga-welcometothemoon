@@ -2,19 +2,8 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions;
 
-use Bga\Games\WelcomeToTheMoon\Managers\Meeples;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Managers\Tiles;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
-use Bga\Games\WelcomeToTheMoon\Core\Stats;
-use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
-use Bga\Games\WelcomeToTheMoon\Helpers\FlowConvertor;
-use Bga\Games\WelcomeToTheMoon\Managers\Actions;
-use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
-use Bga\Games\WelcomeToTheMoon\Managers\Susan;
 
 class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -75,20 +64,20 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
     ];
   }
 
-  public function actWriteNumber(string $slotId, int $number)
+  public function actWriteNumber(string $slot, int $number)
   {
     $args = $this->getArgs();
     $slots = $args['numbers'][$number] ?? [];
-    if (!in_array($slotId, $slots)) {
+    if (!in_array($slot, $slots)) {
       throw new \BgaUserException('You cannot write this number here. Should not happen.');
     }
 
     $player = $this->getPlayer();
-    $scribble = $player->scoresheet()->addScribble($slotId, $number);
+    $scribble = $player->scoresheet()->addScribble($slot, $number);
     Notifications::writeNumber($player, $number, [$scribble]);
 
     // Action corresponding to the combination
-    $action = $player->scoresheet()->getCombinationAtomicAction($player->getCombination());
+    $action = $player->scoresheet()->getCombinationAtomicAction($player->getCombination(), $slot);
     if (!is_null($action)) {
       $this->insertAsChild($action);
     }

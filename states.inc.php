@@ -249,7 +249,8 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must divide a zone on your trajectory'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actPlaceEnergyWall', 'actRestart'],
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPlaceEnergyWall', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_PROGRAM_ROBOT => [
@@ -257,7 +258,17 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must program a robot sent towards any station'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actProgramRobot', 'actRestart'],
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actProgramRobot', 'actRestart', 'actPassOptionalAction'],
+  ],
+
+  ST_CIRCLE_PLANT => [
+    'name' => 'circlePlant',
+    'descriptionmyturn' => clienttranslate('${you} may circle a plant at a station'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCirclePlant', 'actRestart', 'actPassOptionalAction'],
   ],
 
   //////////////////////////////////////////////////////////////////

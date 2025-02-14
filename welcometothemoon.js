@@ -652,6 +652,10 @@ define([
         this.launchActionOnSlotClick(args.slots, 'actProgramRobot');
       },
 
+      onEnteringStateCirclePlant(args) {
+        this.launchActionOnSlotClick(args.slots, 'actCirclePlant');
+      },
+
       ////////////////////////////////////////////////////////////
       // _____                          _   _   _
       // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _

@@ -61,6 +61,7 @@ class Scoresheet
       $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
     }
   }
+
   public function getScribbles(): Collection
   {
     return $this->scribbles;
@@ -115,7 +116,7 @@ class Scoresheet
     return [];
   }
 
-  public function getCombinationAtomicAction(array $combination): ?array
+  public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     return null;
   }
@@ -142,10 +143,12 @@ class Scoresheet
    *  - considering increasing sequence constraint
    */
   protected array $increasingConstraints = [];
-  protected function getIncreasingSequencesConstraints()
+
+  public function getIncreasingSequencesConstraints()
   {
     return $this->increasingConstraints;
   }
+
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
     $allSlots = $this->slotsBySection['numbers'];
@@ -216,6 +219,7 @@ class Scoresheet
    */
   protected array $datas = [];
   protected array $slotsBySection = [];
+
   public function getUiData()
   {
     return $this->datas;

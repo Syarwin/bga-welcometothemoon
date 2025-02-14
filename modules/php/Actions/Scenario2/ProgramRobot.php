@@ -13,6 +13,16 @@ class ProgramRobot extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return ST_PROGRAM_ROBOT;
   }
 
+  public function isOptional(): bool
+  {
+    return true;
+  }
+
+  public function isDoable(Player $player): bool
+  {
+    return !empty($player->scoresheet()->getSectionFreeSlots('robots'));
+  }
+
   public function argsProgramRobot()
   {
     $player = $this->getPlayer();
@@ -27,7 +37,7 @@ class ProgramRobot extends \Bga\Games\WelcomeToTheMoon\Models\Action
    */
   public function actProgramRobot(int $slot)
   {
-    if (!in_array($slot, $this->argsProgramRobot()['slots'])) {
+    if (!in_array($slot, $this->getArgs()['slots'])) {
       throw new \InvalidArgumentException('actProgramRobot: slot ' . $slot . ' is not in argsProgramRobot');
     }
 
@@ -57,7 +67,7 @@ class ProgramRobot extends \Bga\Games\WelcomeToTheMoon\Models\Action
    * Find the big multiplier assigned to this robot slot id
    * @throws \BgaVisibleSystemException
    */
-  private function getMultiplierToAchieve(Player $player, int $robotSlotId): int | null
+  private function getMultiplierToAchieve(Player $player, int $robotSlotId): int|null
   {
     $scoresheet = $player->scoresheet();
     $multiplierAffected = self::findMultiplierByRobot($robotSlotId);
