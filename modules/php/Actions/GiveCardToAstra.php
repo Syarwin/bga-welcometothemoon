@@ -23,7 +23,8 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function argsGiveCardToAstra()
   {
     $player = $this->getPlayer();
-    $mayUseSoloBonus = false; // TODO
+    $astra = Players::getAstra();
+    $mayUseSoloBonus = !is_null($astra->getNextAvailableSoloBonus());
 
     $combination = $player->getCombination();
     $stacks = array_values(array_diff([0, 1, 2], $combination['stacks']));
@@ -67,7 +68,9 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function actUseSoloBonus()
   {
     $player = $this->getPlayer();
-    die("TODO: actUseSoloBonus scribble a solo bonus");
-    Notifications::useSoloBonus($player);
+    $astra = Players::getAstra();
+    $location = $astra->getNextAvailableSoloBonus();
+    $scribble = $astra->addScribble($location);
+    Notifications::useSoloBonus($player, $scribble);
   }
 }

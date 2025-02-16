@@ -55,6 +55,7 @@ class Astra
   protected int $fixedScore;
   protected int $levelMultiplier;
   protected array $scribblesByLocation;
+  protected int $nBonuses;
 
   public function __construct()
   {
@@ -67,22 +68,63 @@ class Astra
     }
 
     foreach (Scribbles::getInLocation("astra-%") as $scribble) {
-      $this->scribblesByLocation[$scribble->getLocation()] = $scribble;
+      $this->scribblesByLocation[$scribble->getLocation()][] = $scribble;
     }
   }
 
   public function setupScenario(): void {}
 
+  /**
+   * Scribbles and bonuses
+   */
   public function addScribble($location, $type = SCRIBBLE): Scribble
   {
     $scribble = Scribbles::add(0, [
       'type' => $type,
       'location' => $location,
     ]);
-    $this->scribblesByLocation[$scribble->getLocation()] = $scribble;
+    $this->scribblesByLocation[$scribble->getLocation()][] = $scribble;
     return $scribble;
   }
 
+  public function hasScribbledLocation(string $location, ?int $type = null): bool
+  {
+    foreach (($this->scribblesByLocation[$location] ?? []) as $scribble) {
+      if (is_null($type) || $scribble->getType() == $type) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+
+  public function circleNextBonus(): ?Scribble
+  {
+    for ($i = 0; $i < $this->nBonuses; $i++) {
+      $location = "astra-bonus-$i";
+      if (!$this->hasScribbledLocation($location)) {
+        return $this->addScribble($location, SCRIBBLE_CIRCLE);
+      }
+    }
+    return null;
+  }
+
+  public function getNextAvailableSoloBonus(): ?string
+  {
+    for ($i = 0; $i < $this->nBonuses; $i++) {
+      $location = "astra-bonus-$i";
+      if ($this->hasScribbledLocation($location, SCRIBBLE_CIRCLE) && !$this->hasScribbledLocation($location, SCRIBBLE)) {
+        return $location;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * UI DATA
+   */
   public function getUiData()
   {
     $data = [];
@@ -121,5 +163,6 @@ class Astra
     return $data;
   }
 
+  // Listener (only useful for scenario 1 probably)
   public function onReceivingCard(ConstructionCard $card): void {}
 }

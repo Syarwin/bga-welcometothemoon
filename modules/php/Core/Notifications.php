@@ -139,11 +139,11 @@ class Notifications
     ]);
   }
 
-  public static function useSoloBonus(Player $player)
+  public static function useSoloBonus(Player $player, Scribble $scribble)
   {
-    // Todo: change with scribble
-    static::pnotify($player, 'midMessage', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
       'player' => $player,
+      'scribble' => $scribble,
     ]);
   }
 
@@ -211,6 +211,16 @@ class Notifications
       'scribbles' => $scribbles,
     ]);
   }
+
+
+  public static function resolveSabotageAstra(Player $player, Scribble $scribble)
+  {
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} gains one solo bonus'), [
+      'player' => $player,
+      'scribble' => $scribble
+    ]);
+  }
+
 
 
   /////////////////////////////////////////////////////////

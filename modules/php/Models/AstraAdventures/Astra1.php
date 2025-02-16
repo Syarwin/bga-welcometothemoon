@@ -14,6 +14,7 @@ class Astra1 extends Astra
     parent::__construct();
     $this->fixedScore = 0;
     $this->levelMultiplier = 0;
+    $this->nBonuses = 9;
   }
 
   public function setupScenario(): void
@@ -58,7 +59,7 @@ class Astra1 extends Astra
     ];
     foreach ($slotToScoreMap as $slot => $score) {
       $location = "astra-rocket-slot-$slot";
-      if (isset($this->scribblesByLocation[$location])) {
+      if (!$this->hasScribbledLocation($location)) {
         $totalScore = $score;
       }
     }
@@ -76,7 +77,7 @@ class Astra1 extends Astra
     for ($i = 0; $i <= 80; $i++) {
       $location = "astra-rocket-slot-$i";
 
-      if (!isset($this->scribblesByLocation[$location])) {
+      if (!$this->hasScribbledLocation($location)) {
         $scribbles[] = $this->addScribble($location);
         if (count($scribbles) >= $nRocketsToCross) {
           break;

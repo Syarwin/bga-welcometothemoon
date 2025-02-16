@@ -104,7 +104,9 @@ class Scoresheet1 extends Scoresheet
         }
       }
 
-      Notifications::resolveSabotage($affectedPlayers, $scribbles, $name);
+      if (!empty($affectedPlayers)) {
+        Notifications::resolveSabotage($affectedPlayers, $scribbles, $name);
+      }
     }
 
     Globals::setTriggeredSabotages([]);
