@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Managers;
 use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
+use Bga\Games\WelcomeToTheMoon\Models\Astra;
 
 /*
  * Players manager : allows to easily access players ...
@@ -129,5 +130,36 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
       $p = self::getNextId($p);
     } while ($p != $firstPlayer);
     return $order;
+  }
+
+
+  /*
+   * Get Astra
+   */
+  private static ?Astra $astra;
+  public static function getAstra(): ?Astra
+  {
+    if (!Globals::isSolo()) return null;
+
+    if (!isset(static::$astra)) {
+      $className = "Bga\\Games\\WelcomeToTheMoon\\Models\\AstraAdventures\\Astra" . Globals::getScenario();
+      static::$astra = new $className();
+    }
+
+    return static::$astra;
+  }
+
+  public static function getAstraDatas(): array
+  {
+    $astra = self::getAstra();
+    if (is_null($astra)) return [];
+
+    return $astra->getUiData();
+  }
+
+  public static function invalidate()
+  {
+    parent::invalidate();
+    static::$astra = null;
   }
 }

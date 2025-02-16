@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
@@ -56,6 +57,10 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     $card->setLocation('astra');
     Notifications::giveCardToAstra($player, $card);
+
+    // Any reactions ?
+    $astra = Players::getAstra();
+    $astra->onReceivingCard($card);
   }
 
 

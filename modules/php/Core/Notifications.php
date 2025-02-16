@@ -203,6 +203,16 @@ class Notifications
     ]);
   }
 
+  public static function astraCrossRockets(Player $player, int $mRockets, array $scribbles)
+  {
+    $msg = clienttranslate('ASTRA crosses ${mRockets} rockets <ROCKET>');
+    static::pnotify($player, 'addScribbles', $msg, [
+      'mRockets' => $mRockets,
+      'scribbles' => $scribbles,
+    ]);
+  }
+
+
   /////////////////////////////////////////////////////////
   //  ____                            _         ____  
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ \ 
@@ -284,6 +294,10 @@ class Notifications
       'player' => true,
       'scoresheet' => true,
       'method' => 'computeUiData',
+    ],
+    [
+      'name' => 'astra',
+      'method' => ['Bga\Games\WelcomeToTheMoon\Managers\Players', 'getAstraDatas'],
     ]
   ];
 

@@ -739,6 +739,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
               this.tooltips[mobile.id].close();
               delete this.tooltips[mobile.id];
             }
+            if (config.phantomEnd) dojo.destroy(targetId);
             dojo.destroy(mobile);
             resolve();
             return;
