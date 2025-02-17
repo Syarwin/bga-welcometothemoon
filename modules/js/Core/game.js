@@ -739,6 +739,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
               this.tooltips[mobile.id].close();
               delete this.tooltips[mobile.id];
             }
+            if (config.phantomEnd) dojo.destroy(targetId);
             dojo.destroy(mobile);
             resolve();
             return;
@@ -1217,13 +1218,19 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     clearClientState() {
       //this.clearPossible();
-      this.restoreServerGameState();
 
       // SOLVING BGA ISSUE FOR CLIENTSTATE WITHIN PARALLEL STATES
-      let l = this.gamedatas;
-      if (null != l.gamestate.private_state) {
-        this.updatePageTitle(l.gamestate.private_state);
-        this.onEnteringState(l.gamestate.private_state.name, l.gamestate.private_state);
+      if (this.on_client_state) this.restoreServerGameState();
+
+      if (this.isCurrentPlayerActive()) {
+        if (this.gamedatas.gamestate.private_state != null) {
+          let gamestate = this.gamedatas.gamestate.private_state;
+          this.updatePageTitle(gamestate);
+          this.onEnteringState(gamestate.name, gamestate);
+          this.onUpdateActionButtons(gamestate.name, gamestate.args);
+        } else {
+          this.updatePageTitle(this.gamedatas.gamestate);
+        }
       }
     },
 

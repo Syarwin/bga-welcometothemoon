@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario1;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 
 class ActivateSabotage extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -53,5 +54,12 @@ class ActivateSabotage extends \Bga\Games\WelcomeToTheMoon\Models\Action
     Globals::setTriggeredSabotages($sabotages);
 
     Notifications::activateSabotage($player, $scribble, $source['name']);
+
+    // ASTRA BONUS
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      $bonusScribble = $astra->circleNextBonus();
+      Notifications::resolveSabotageAstra($player, $bonusScribble);
+    }
   }
 }

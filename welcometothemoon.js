@@ -266,6 +266,12 @@ define([
             this.updateComputedScoresheetData(pId);
           });
         }
+
+        // Aastra data
+        if (infos.astra) {
+          this.gamedatas.astra = infos.astra;
+          this.updateAstra();
+        }
       },
 
       /////////////////////////////////////////////////////////////////

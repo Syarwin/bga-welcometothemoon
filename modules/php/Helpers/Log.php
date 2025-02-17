@@ -62,7 +62,7 @@ class Log extends \APP_DbObject
     }
 
     if (is_null(static::$moveId)) {
-      static::$moveId = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
+      static::$moveId = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3') ?? 0;
     }
     $entry['move_id'] = static::$moveId;
     $query = new QueryBuilder('log', null, 'id');

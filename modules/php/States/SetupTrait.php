@@ -52,6 +52,10 @@ trait SetupTrait
     PlanCards::setupScenario($scenario);
     Notifications::setupScenario($scenario);
 
+    if (Globals::isSolo()) {
+      Players::getAstra()->setupScenario();
+    }
+
     $this->gamestate->jumpToState(ST_START_TURN);
   }
 }

@@ -4,10 +4,6 @@
     display: none;
   }
 
-  .construction-card-holder {
-    position: absolute;
-  }
-
   .astra-wrapper {
     background: #ecedce;
     width: 100%;
@@ -86,6 +82,11 @@
       display: flex;
       background-color: #4c483e;
       border-radius: 5px;
+      position: relative;
+
+      .construction-card-holder {
+        position: absolute;
+      }
 
       .astra-score-category {
         width: 74px;
@@ -469,6 +470,8 @@
           grid-template-rows: 16px 17px 16px 17px 16px 16px;
 
           .astra-rocket-slot {
+            position: relative;
+
             &#astra-rocket-slot-75 {
               grid-column: 11;
             }

@@ -254,6 +254,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       if (adventureDatas.descMisc) {
         this.addCustomTooltip('astra-misc', `${adventureDatas.descMisc}`);
       }
+
+      this.updateAstra();
+    },
+
+    updateAstra() {
+      Object.entries(this.gamedatas.astra).forEach(([slot, value]) => {
+        $(slot).innerHTML = value;
+      });
     },
 
     getAstraOpponentsData() {

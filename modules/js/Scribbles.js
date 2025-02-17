@@ -89,6 +89,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           return $(`plan-card-${t[1]}-validation`);
         }
       }
+      if ($(scribble.location)) {
+        return $(scribble.location);
+      }
 
       console.error('Trying to get container of a scribble', scribble);
       return 'game_play_area';

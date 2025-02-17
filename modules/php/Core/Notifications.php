@@ -139,11 +139,11 @@ class Notifications
     ]);
   }
 
-  public static function useSoloBonus(Player $player)
+  public static function useSoloBonus(Player $player, Scribble $scribble)
   {
-    // Todo: change with scribble
-    static::pnotify($player, 'midMessage', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
       'player' => $player,
+      'scribble' => $scribble,
     ]);
   }
 
@@ -202,6 +202,26 @@ class Notifications
       'i18n' => ['source'],
     ]);
   }
+
+  public static function astraCrossRockets(Player $player, int $mRockets, array $scribbles)
+  {
+    $msg = clienttranslate('ASTRA crosses ${mRockets} rockets <ROCKET>');
+    static::pnotify($player, 'addScribbles', $msg, [
+      'mRockets' => $mRockets,
+      'scribbles' => $scribbles,
+    ]);
+  }
+
+
+  public static function resolveSabotageAstra(Player $player, Scribble $scribble)
+  {
+    static::pnotify($player, 'addScribble', clienttranslate('${player_name} gains one solo bonus'), [
+      'player' => $player,
+      'scribble' => $scribble
+    ]);
+  }
+
+
 
   /////////////////////////////////////////////////////////
   //  ____                            _         ____  
@@ -294,6 +314,10 @@ class Notifications
       'player' => true,
       'scoresheet' => true,
       'method' => 'computeUiData',
+    ],
+    [
+      'name' => 'astra',
+      'method' => ['Bga\Games\WelcomeToTheMoon\Managers\Players', 'getAstraDatas'],
     ]
   ];
 

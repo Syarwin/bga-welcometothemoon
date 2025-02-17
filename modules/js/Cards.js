@@ -222,47 +222,65 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: new turn', args);
       $('game_play_area').dataset.turn = args.turn;
 
-      await args.cards.forEach(async (card) => {
-        card.stackId = card.location.split('-')[1];
-        let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector('.construction-card-holder:last-of-type');
-        let oldCard = cardsInStack;
+      if (!this._isStandard) {
+        await Promise.all(
+          args.cards.map(async (card) => {
+            card.stackId = card.location.split('-')[1];
+            let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector(
+              '.construction-card-holder:last-of-type'
+            );
+            let oldCard = cardsInStack;
 
-        // Remove if existing (should only be possible in standard mode)
-        let o = $(`construction-card-${card.id}`);
-        if (o) o.remove();
+            // Compute x position to make it slide out the left border of window
+            await this.slideToLeftAndDestroy(oldCard);
 
-        let stack = $(`construction-cards-stack-${card.stackId}`);
+            // Remove flipped class if needed
+            let stack = $(`construction-cards-stack-${card.stackId}`);
+            stack.classList.add('notransition');
+            stack.classList.remove('flipped');
+            stack.offsetHeight;
+            stack.classList.remove('notransition');
 
-        //// STANDARD MODE : FLIP CARD ////
-        if (this._isStandard) {
-          // New card
-          stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
-          $(`construction-card-${card.id}`).style.zIndex = 100 - args.turn;
+            return true;
+          })
+        );
+      }
 
-          // Flip card animation
-          if (oldCard) await this.flipCard(oldCard, args.turn);
+      await Promise.all(
+        args.cards.map((card) => {
+          card.stackId = card.location.split('-')[1];
+          let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector(
+            '.construction-card-holder:last-of-type'
+          );
+          let oldCard = cardsInStack;
+          let stack = $(`construction-cards-stack-${card.stackId}`);
 
-          // First card in this stack ? => slide from left
-          if (!oldCard) await this.slideFromLeft(newCard);
-        }
-        //// NON STANDARD MODE : SLIDE LEFT ////
-        else {
-          // Compute x position to make it slide out the left border of window
-          await this.slideToLeftAndDestroy(oldCard);
+          //// STANDARD MODE : FLIP CARD ////
+          if (this._isStandard) {
+            // Remove if existing
+            let o = $(`construction-card-${card.id}`);
+            if (o) o.remove();
 
-          // Remove flipped class if needed
-          stack.classList.add('notransition');
-          stack.classList.remove('flipped');
-          stack.offsetHeight;
-          stack.classList.remove('notransition');
+            // New card
+            stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+            $(`construction-card-${card.id}`).style.zIndex = 100 - args.turn;
 
-          // Create a new card and put it to the left (hidden)
-          stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
-          let newCard = $(`construction-card-${card.id}`);
-          newCard.style.zIndex = 100 - args.turn;
-          await this.slideFromLeft(newCard);
-        }
-      });
+            // Flip card animation
+            if (oldCard) return this.flipCard(oldCard, args.turn);
+
+            // First card in this stack ? => slide from left
+            if (!oldCard) return this.slideFromLeft(newCard);
+          }
+          //// NON STANDARD MODE : SLIDE LEFT ////
+          else {
+            // Create a new card and put it to the left (hidden)
+            stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+            let newCard = $(`construction-card-${card.id}`);
+            newCard.style.zIndex = 100 - args.turn;
+            return this.slideFromLeft(newCard);
+          }
+        })
+      );
     },
 
     slideFromLeft(elem) {
@@ -314,7 +332,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     notif_giveCardToAstra(args) {
-      return this.slide($(`construction-card-${args.card.id}`), $('astra-container'), { destroy: true });
+      let o = $(`construction-card-${args.card.id}`);
+      o.classList.add('notransition');
+      o.offsetHeight;
+      return this.slide(o, $('astra-container').querySelector('.astra-scores'), {
+        destroy: true,
+      });
     },
 
     ////////////////////////////////
