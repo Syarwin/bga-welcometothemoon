@@ -657,7 +657,7 @@ define([
       },
 
       onEnteringStateStirWaterTanks(args) {
-        this.onClick(`slot-${this.player_id}-${args.slots[0]}`, () => {
+        this.onClick(`slot-${this.player_id}-${args.slot}`, () => {
           this.takeAtomicAction('actStirWaterTanks');
         });
         this.addPrimaryActionButton('btnStir', _('Stir'), () => {

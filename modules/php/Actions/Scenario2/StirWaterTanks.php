@@ -19,15 +19,14 @@ class StirWaterTanks extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function isDoable(Player $player): bool
   {
-    return !empty($this->getArgs()['slots']);
+    return !is_null($this->getArgs()['slot']);
   }
 
   public function argsStirWaterTanks()
   {
     $slot = $this->getCtxArgs()['slot'];
-    $isWaterTankAttached = in_array($slot, array_keys(self::$waterTanksAtSlots));
     return [
-      'slots' => $isWaterTankAttached ? [self::$waterTanksAtSlots[$slot]] : [],
+      'slot' => self::$waterTanksAtSlots[$slot] ?? null,
     ];
   }
 
@@ -35,12 +34,11 @@ class StirWaterTanks extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
-    $slot = $this->getArgs()['slots'][0];
+    $slot = $this->getArgs()['slot'];
 
     $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
     Notifications::stirWaterTanks($player, $scribble, self::$waterTanksValues[$slot]);
   }
-
 
   private static array $waterTanksAtSlots = [
     2 => 62,
