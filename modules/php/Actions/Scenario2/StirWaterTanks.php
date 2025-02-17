@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class StirWaterTanks extends \Bga\Games\WelcomeToTheMoon\Models\Action
@@ -20,6 +21,12 @@ class StirWaterTanks extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function isDoable(Player $player): bool
   {
     return !is_null($this->getArgs()['slot']);
+  }
+
+  public function stStirWaterTanks()
+  {
+    $pref = Players::getCurrent()->getPref(OPTION_WATER_ACTION);
+    return $pref === OPTION_WATER_AUTOMATIC ? [] : null;
   }
 
   public function argsStirWaterTanks()

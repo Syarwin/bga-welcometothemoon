@@ -39,5 +39,18 @@
         "name": "Disabled"
       }
     }
+  },
+  "105": {
+    "name": "Water Actions",
+    "needReload": false,
+    "default": 1,
+    "values": {
+      "1": {
+        "name": "Automatic"
+      },
+      "0": {
+        "name": "Manual"
+      }
+    }
   }
 }

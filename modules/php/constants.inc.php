@@ -16,6 +16,10 @@ const OPTION_CONFIRM_TIMER = 3;
 
 const OPTION_CONFIRM_UNDOABLE = 104;
 
+const OPTION_WATER_ACTION = 105;
+const OPTION_WATER_AUTOMATIC = 1;
+const OPTION_WATER_MANUAL = 0;
+
 /*
  * State constants
  */
