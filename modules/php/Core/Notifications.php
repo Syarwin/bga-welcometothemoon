@@ -290,6 +290,16 @@ class Notifications
     ]);
   }
 
+  public static function stirWaterTanks(Player $player, Scribble $scribble, int $waterValue)
+  {
+    $msg = clienttranslate('${player_name} stirs a water tank with the value of ${waterValue}');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+      'waterValue' => $waterValue
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

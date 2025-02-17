@@ -271,6 +271,15 @@ $machinestates = [
     'possibleactions' => ['actCirclePlant', 'actRestart', 'actPassOptionalAction'],
   ],
 
+  ST_STIR_WATER_TANKS => [
+    'name' => 'stirWaterTanks',
+    'descriptionmyturn' => clienttranslate('${you} may choose to stir the attached water tank'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actStirWaterTanks', 'actRestart', 'actPassOptionalAction'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

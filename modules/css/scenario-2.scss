@@ -72,6 +72,15 @@
         border-radius: 50%;
       }
     }
+
+    &.slot-water {
+      width: 51px;
+      height: 51px;
+
+      &.selectable {
+        border-radius: 50%;
+      }
+    }
   }
 
   // .wttm-slot.slot-rocket {

@@ -559,7 +559,7 @@ define([
       },
 
       // Generic call for Atomic Action that encode args as a JSON to be decoded by backend
-      takeAtomicAction(action, args, warning = false) {
+      takeAtomicAction(action, args = [], warning = false) {
         if (!this.checkAction(action)) return false;
 
         this.askConfirmation(warning, () =>
@@ -660,6 +660,15 @@ define([
 
       onEnteringStateCirclePlant(args) {
         this.launchActionOnSlotClick(args.slots, 'actCirclePlant');
+      },
+
+      onEnteringStateStirWaterTanks(args) {
+        this.onClick(`slot-${this.player_id}-${args.slot}`, () => {
+          this.takeAtomicAction('actStirWaterTanks');
+        });
+        this.addPrimaryActionButton('btnStir', _('Stir'), () => {
+          this.takeAtomicAction('actStirWaterTanks');
+        });
       },
 
       ////////////////////////////////////////////////////////////
