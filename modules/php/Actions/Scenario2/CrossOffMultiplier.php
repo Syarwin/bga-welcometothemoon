@@ -19,7 +19,7 @@ class CrossOffMultiplier extends GenericPickSlot
     128,
   ];
 
-  public function actCrossOffSabotage(int $slot)
+  public function actCrossOffMultiplier(int $slot)
   {
     $this->sanityCheck($slot);
 

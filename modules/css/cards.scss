@@ -29,6 +29,9 @@ $cardBorderRadius: 7px;
             box-shadow: 2px 2px 3px #1c1c1c;
         }
     }
+    &.moving {
+        transform: scale(0.7);
+    }
 
     .construction-card-back,
     .construction-card-front {

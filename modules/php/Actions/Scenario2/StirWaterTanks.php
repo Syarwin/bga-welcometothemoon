@@ -62,7 +62,7 @@ class StirWaterTanks extends \Bga\Games\WelcomeToTheMoon\Models\Action
     35 => 73,
   ];
 
-  private static array $waterTanksValues = [
+  public static array $waterTanksValues = [
     62 => 4,
     63 => 4,
     64 => 5,

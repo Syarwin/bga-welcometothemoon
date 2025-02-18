@@ -318,6 +318,8 @@
       box-shadow: none; }
     .construction-card-holder.flipped .construction-card-back {
       box-shadow: 2px 2px 3px #1c1c1c; }
+  .construction-card-holder.moving {
+    transform: scale(0.7); }
   .construction-card-holder .construction-card-back,
   .construction-card-holder .construction-card-front {
     position: absolute;
@@ -1379,6 +1381,22 @@ body {
     height: 51px; }
     .score-sheet[data-board="2"] .wttm-slot.slot-water.selectable {
       border-radius: 50%; }
+  .score-sheet[data-board="2"] .wttm-slot.slot-score {
+    width: 50px;
+    height: 40px;
+    font-family: "Gears of Peace";
+    text-align: center;
+    font-size: 22px;
+    line-height: 43px; }
+    .score-sheet[data-board="2"] .wttm-slot.slot-score[data-id="42"] {
+      color: #c40524; }
+  .score-sheet[data-board="2"] .wttm-slot.slot-subscore {
+    width: 40px;
+    height: 30px;
+    font-family: "Gears of Peace";
+    text-align: center;
+    font-size: 18px;
+    line-height: 32px; }
 
 .score-sheet-wrapper {
   width: 1128px;
