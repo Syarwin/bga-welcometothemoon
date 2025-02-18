@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\AstraAdventures;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
@@ -87,5 +88,16 @@ class Astra1 extends Astra
 
     $player = Players::getCurrent();
     Notifications::astraCrossRockets($player, $nRocketsToCross, $scribbles);
+  }
+
+  public function getAstraEffect(string $stack, bool $isFirstDraw): array
+  {
+    if (!$isFirstDraw) return [];
+
+    return [
+      [
+        'action' => CROSS_OFF_SABOTAGE
+      ]
+    ];
   }
 }

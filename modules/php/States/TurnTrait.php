@@ -48,12 +48,7 @@ trait TurnTrait
       'childs' => []
     ];
     foreach ($cards as $card) {
-      $childs = $astra->onDrawingSoloCard($card);
-      $childs[] = [
-        'action' => REPLACE_SOLO_CARD,
-        'args' => ['cardId' => $card->getId()]
-      ];
-      $root['childs'][] = count($childs) == 1 ? $childs[0] : ['type' => NODE_SEQ, 'childs' => $childs];
+      $root['childs'][] = $astra->onDrawingSoloCard($card);
     }
 
     $this->gamestate->setAllPlayersMultiactive();
@@ -156,7 +151,8 @@ trait TurnTrait
 
     // Check end of scenario
     $nextState = ST_START_TURN;
-    foreach (Players::getAll() as $player) {
+    foreach (Players::getAll() as $pId => $player) {
+      PGlobals::setCombination($pId, []);
       if ($player->scoresheet()->isEndOfGameTriggered()) {
         $nextState = ST_END_SCENARIO;
       }

@@ -57,6 +57,7 @@ const ST_GIVE_CARD_TO_ASTRA = 36;
 const ST_PROGRAM_ROBOT = 37;
 const ST_CIRCLE_PLANT = 38;
 const ST_STIR_WATER_TANKS = 39;
+const ST_CROSS_OFF_SABOTAGE = 40;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -102,6 +103,7 @@ const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
 const WRITE_X = 'Scenario1\WriteX';
 const ACTIVATE_SABOTAGE = 'Scenario1\ActivateSabotage';
+const CROSS_OFF_SABOTAGE = 'Scenario1\CrossOffSabotage';
 
 // SCENARIO 2
 const CIRCLE_ENERGY = 'Scenario2\CircleEnergy';

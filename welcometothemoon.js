@@ -663,6 +663,11 @@ define([
         this.launchActionOnSlotClick(args.slots, 'actCirclePlant');
       },
 
+      // GENERIC PICK ONE SLOT
+      onEnteringStatePickOneSlot(args) {
+        this.launchActionOnSlotClick(args.slots, args.action);
+      },
+
       onEnteringStateStirWaterTanks(args) {
         this.onClick(`slot-${this.player_id}-${args.slot}`, () => {
           this.takeAtomicAction('actStirWaterTanks');

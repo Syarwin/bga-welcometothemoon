@@ -27,6 +27,18 @@
   .wttm-slot.slot-bonus {
     width: 38px;
     height: 38px;
+
+    &.selectable {
+      background-color: rgba(255, 0, 0, 0.5);
+      box-shadow: 0px 0px 8px 2px red;
+      cursor: pointer;
+      border-radius: 30%;
+
+      &:hover {
+        background-color: #00a60091;
+        box-shadow: 0px 0px 4px 1px #04a604;
+      }
+    }
   }
 
   .wttm-slot.slot-arrow {

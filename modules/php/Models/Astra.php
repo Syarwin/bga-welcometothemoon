@@ -10,6 +10,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 
 const OPPONENTS =  [
@@ -126,13 +127,15 @@ class Astra
   /**
    * SOLO CARDS
    */
-  public function onDrawingSoloCard(ConstructionCard $card)
+  public function onDrawingSoloCard(ConstructionCard $card): array
   {
+    $player = Players::getActive();
     $stack = SOLO_CARDS_STACKS[$card->getId()];
+    $firstDraw = Globals::getSoloDraw() == 0;
 
     // First draw => log message
-    if (Globals::getSoloDraw() == 2) {
-      Notifications::midMessage(clienttranslate('Drawing solo card ${stack} for the first time'), [
+    if ($firstDraw) {
+      Notifications::pmidMessage($player, clienttranslate('Drawing solo card ${stack} for the first time'), [
         'stack' => $stack
       ]);
     }
@@ -149,7 +152,7 @@ class Astra
           'type' => SCRIBBLE,
         ]);
         $msg = clienttranslate('Drawing solo card ${stack} for the second time: corresponding mission card can no longer be accomplished for maximum points');
-        Notifications::addScribble(null, $scribble, $msg, [
+        Notifications::addScribble($player, $scribble, $msg, [
           'stack' => $stack,
           'duration' => 1500,
           'plansUpdateNeeded' => true
@@ -157,12 +160,22 @@ class Astra
       }
       // Otherwise just notif
       else {
-        Notifications::midMessage(clienttranslate('Drawing solo card ${stack} for the second time'), [
+        Notifications::pmidMessage($player, clienttranslate('Drawing solo card ${stack} for the second time'), [
           'stack' => $stack
         ]);
       }
     }
 
+    $childs = $this->getAstraEffect($stack, $firstDraw);
+    $childs[] = [
+      'action' => REPLACE_SOLO_CARD,
+      'args' => ['cardId' => $card->getId()]
+    ];
+    return count($childs) == 1 ? $childs[0] : ['type' => NODE_SEQ, 'childs' => $childs];
+  }
+
+  public function getAstraEffect(string $stack, bool $isFirstDraw): array
+  {
     return [];
   }
 

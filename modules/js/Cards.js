@@ -34,8 +34,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     setupConstructionCards() {
+      let cardIds = [];
       this.gamedatas.constructionCards.forEach((stack, i) => {
         stack.forEach((card, j) => {
+          cardIds.push(`construction-card-${card.id}`);
           if ($(`construction-card-${card.id}`)) return;
 
           $(`construction-cards-stack-${i}`).insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
@@ -47,6 +49,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.flipCard(oCard, 1);
           }
         });
+      });
+
+      document.querySelectorAll('.construction-card-holder').forEach((oCard) => {
+        if (!cardIds.includes(oCard.id)) {
+          this.destroy(oCard);
+        }
       });
     },
 

@@ -88,7 +88,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     $player = $this->getPlayer();
-    PGlobals::setStack($player->getId(), []);
+    PGlobals::setCombination($player->getId(), []);
     $scribbleType = Globals::getScenario() == 1 ? SCRIBBLE_CIRCLE : SCRIBBLE;
     $scribble = $player->scoresheet()->addScribble($args['systemError'], $scribbleType);
     Notifications::systemError($player, $scribble);

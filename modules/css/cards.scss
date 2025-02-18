@@ -139,10 +139,10 @@ $cardBorderRadius: 7px;
         background-position: 50% 100%;
     }
     &[data-number="-2"] .construction-card-front {
-        background-position: 25% 100%;
+        background-position: 0% 100%;
     }
     &[data-number="-3"] .construction-card-front {
-        background-position: 0% 100%;
+        background-position: 25% 100%;
     }
 }
 

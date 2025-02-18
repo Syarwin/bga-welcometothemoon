@@ -236,6 +236,14 @@ $machinestates = [
     'possibleactions' => ['actWriteX', 'actRestart'],
   ],
 
+  //////////////////////////////////////////////////
+  //  ____                            _         _ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   / |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | |
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | | |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |_|
+  //////////////////////////////////////////////////                                   
+
   ST_ROCKET_ACTIVATION => [
     'name' => 'rocketActivation',
     'descriptionmyturn' => clienttranslate('${you} must activate an inactive Rocket quarter bonus on your scoresheet'),
@@ -243,6 +251,22 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'possibleactions' => ['actRocketActivation', 'actRestart'],
   ],
+
+  ST_CROSS_OFF_SABOTAGE => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off one available Sabotage effect'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actCrossOffSabotage', 'actRestart'],
+  ],
+
+  //////////////////////////////////////////////////////
+  //  ____                            _         ____  
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ \ 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \    __) |
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  / __/ 
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |_____|
+  //////////////////////////////////////////////////////
 
   ST_PLACE_ENERGY_WALL => [
     'name' => 'placeEnergyWall',

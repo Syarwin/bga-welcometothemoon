@@ -235,6 +235,10 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
   }
 
+  public static function crossOffSabotage($player, $scribbles)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} crosses off one available Sabotage bonus <SABOTAGE> and circle one System Error'));
+  }
 
 
   /////////////////////////////////////////////////////////
@@ -415,8 +419,10 @@ class Notifications
       self::flush();
     } // PUBLIC MODE => send public notif with ignore flag
     elseif ($mode == \MODE_APPLY && ($data['public'] ?? true)) {
-      $data['ignore'] = $pId;
-      $data['preserve'][] = 'ignore';
+      if (!empty(PGlobals::getEngine($pId))) {
+        $data['ignore'] = $pId;
+        $data['preserve'][] = 'ignore';
+      }
       self::updateIfNeeded($data, $name, "public");
       Game::get()->notifyAllPlayers($name, $msg, $data);
     }
@@ -430,6 +436,11 @@ class Notifications
   public static function midMessage($txt, $args = [])
   {
     self::notifyAll('midMessage', $txt, $args);
+  }
+
+  public static function pmidMessage(Player $player, $txt, $args = [])
+  {
+    self::pnotify($player, 'midMessage', $txt, $args);
   }
 
   public static function messageTo($player, $txt, $args = [])

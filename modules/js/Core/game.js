@@ -223,7 +223,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         let wrapper = async (args) => {
           let msg = this.formatString(this.format_string_recursive(args.log, args.args));
           if (msg != '') {
-            this.clearTitleBar();
+            this.clearPossible();
             $('gameaction_status').innerHTML = msg;
             $('pagemaintitletext').innerHTML = msg;
           }

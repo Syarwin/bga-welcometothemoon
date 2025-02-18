@@ -27,6 +27,7 @@ class Actions
     WRITE_X,
     ROCKET_ACTIVATION,
     ACTIVATE_SABOTAGE,
+    CROSS_OFF_SABOTAGE,
 
     // Scenario 2
     CIRCLE_ENERGY,
