@@ -12,11 +12,15 @@ class GenericPickSlot extends \Bga\Games\WelcomeToTheMoon\Models\Action
   }
 
   protected array $slots = [];
+  protected function getSlots(Player $player): array
+  {
+    return $this->slots;
+  }
   public function getFreeSlots(Player $player)
   {
     $scoresheet = $player->scoresheet();
     $slots = [];
-    foreach ($this->slots as $slotId) {
+    foreach ($this->getSlots($player) as $slotId) {
       if (!$scoresheet->hasScribbledSlot($slotId)) {
         $slots[] = $slotId;
       }
@@ -41,7 +45,7 @@ class GenericPickSlot extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $args = $this->getArgs();
     if (!in_array($slot, $args['slots'])) {
-      throw new \BgaUserException('You cannot activate this rocket bonus here. Should not happen.');
+      throw new \BgaUserException('Invalid slot id. Should not happen. Action: act' . $this->getClassName());
     }
   }
 }

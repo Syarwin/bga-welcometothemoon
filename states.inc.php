@@ -229,7 +229,7 @@ $machinestates = [
   ],
 
   ST_WRITE_X => [
-    'name' => 'writeX',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must write an X on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
@@ -245,7 +245,7 @@ $machinestates = [
   //////////////////////////////////////////////////                                   
 
   ST_ROCKET_ACTIVATION => [
-    'name' => 'rocketActivation',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must activate an inactive Rocket quarter bonus on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
@@ -269,7 +269,7 @@ $machinestates = [
   //////////////////////////////////////////////////////
 
   ST_PLACE_ENERGY_WALL => [
-    'name' => 'placeEnergyWall',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must divide a zone on your trajectory'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
@@ -278,7 +278,7 @@ $machinestates = [
   ],
 
   ST_PROGRAM_ROBOT => [
-    'name' => 'programRobot',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must program a robot sent towards any station'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
@@ -287,7 +287,7 @@ $machinestates = [
   ],
 
   ST_CIRCLE_PLANT => [
-    'name' => 'circlePlant',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} may circle a plant at a station'),
     'type' => 'private',
     'args' => 'argsAtomicAction',

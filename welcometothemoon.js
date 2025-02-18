@@ -643,26 +643,6 @@ define([
         });
       },
 
-      onEnteringStateWriteX(args) {
-        this.launchActionOnSlotClick(args.slots, 'actWriteX');
-      },
-
-      onEnteringStateRocketActivation(args) {
-        this.launchActionOnSlotClick(args.slots, 'actRocketActivation');
-      },
-
-      onEnteringStatePlaceEnergyWall(args) {
-        this.launchActionOnSlotClick(args.slots, 'actPlaceEnergyWall');
-      },
-
-      onEnteringStateProgramRobot(args) {
-        this.launchActionOnSlotClick(args.slots, 'actProgramRobot');
-      },
-
-      onEnteringStateCirclePlant(args) {
-        this.launchActionOnSlotClick(args.slots, 'actCirclePlant');
-      },
-
       // GENERIC PICK ONE SLOT
       onEnteringStatePickOneSlot(args) {
         this.launchActionOnSlotClick(args.slots, args.action);

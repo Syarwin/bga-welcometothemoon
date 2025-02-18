@@ -96,12 +96,12 @@ const WRITE_NUMBER = 'WriteNumber';
 const ACCOMPLISH_MISSION = 'AccomplishMission';
 const GIVE_CARD_TO_ASTRA = 'GiveCardToAstra';
 const REPLACE_SOLO_CARD = 'ReplaceSoloCard';
+const WRITE_X = 'WriteX';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
 const CROSS_ROCKETS = 'Scenario1\CrossRockets';
 const ROCKET_ACTIVATION = 'Scenario1\RocketActivation';
-const WRITE_X = 'Scenario1\WriteX';
 const ACTIVATE_SABOTAGE = 'Scenario1\ActivateSabotage';
 const CROSS_OFF_SABOTAGE = 'Scenario1\CrossOffSabotage';
 

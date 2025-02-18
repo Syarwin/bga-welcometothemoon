@@ -1,10 +1,11 @@
 <?php
 
-namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario1;
+namespace Bga\Games\WelcomeToTheMoon\Actions;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
-class WriteX extends \Bga\Games\WelcomeToTheMoon\Models\Action
+class WriteX extends GenericPickSlot
 {
   public function getState(): int
   {
@@ -16,30 +17,14 @@ class WriteX extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return clienttranslate("Write X");
   }
 
-  // public function isDoable($player)
-  // {
-  //   if ($this->getCtxArg('type') == 'normal') {
-  //     return true;
-  //   }
-
-  //   list($tiles, $canPlace) = $this->getPlayableTiles($player, true);
-  //   return $canPlace;
-  // }
-
-  public function argsWriteX()
+  protected function getSlots(Player $player): array
   {
-    $player = $this->getPlayer();
-    return [
-      'slots' => $player->scoresheet()->getAvailableSlotsForNumber(NUMBER_X, JOKER)
-    ];
+    return $player->scoresheet()->getAvailableSlotsForNumber(NUMBER_X, JOKER);
   }
 
   public function actWriteX(string $slotId)
   {
-    $args = $this->getArgs();
-    if (!in_array($slotId, $args['slots'])) {
-      throw new \BgaUserException('You cannot write an X here. Should not happen.');
-    }
+    $this->sanityCheck($slotId);
 
     $number = NUMBER_X;
     $player = $this->getPlayer();

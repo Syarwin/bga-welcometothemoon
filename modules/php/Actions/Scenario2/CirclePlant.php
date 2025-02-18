@@ -2,30 +2,20 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 
+use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
-class CirclePlant extends \Bga\Games\WelcomeToTheMoon\Models\Action
+class CirclePlant extends GenericPickSlot
 {
   public function getState(): int
   {
     return ST_CIRCLE_PLANT;
   }
 
-  public function isOptional(): bool
+  protected function getSlots(Player $player): array
   {
-    return true;
-  }
-
-  public function isDoable(Player $player): bool
-  {
-    return !empty($this->getArgs()['slots']);
-  }
-
-  public function argsCirclePlant()
-  {
-    $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $slot = $this->getCtxArgs()['slot'];
 
@@ -34,15 +24,14 @@ class CirclePlant extends \Bga\Games\WelcomeToTheMoon\Models\Action
       return self::$stationConnections[$stationSlot];
     }, $stationsInSection);
 
-    return [
-      'slots' => array_merge(...$plantsAtStations),
-    ];
+    return array_merge(...$plantsAtStations);
   }
 
   private function getStationsInSection(Scoresheet $scoresheet, int $slot): array
   {
     $section = $this->getSectionBySlot($scoresheet, $slot);
-    return array_filter(array_keys(self::$stationConnections),
+    return array_filter(
+      array_keys(self::$stationConnections),
       fn($stationSlot) => in_array($stationSlot, $section)
     );
   }
@@ -61,9 +50,7 @@ class CirclePlant extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function actCirclePlant(int $slot): void
   {
-    if (!in_array($slot, $this->getArgs()['slots'])) {
-      throw new \InvalidArgumentException('actCirclePlant: slot ' . $slot . ' is not in argsCirclePlant');
-    }
+    $this->sanityCheck($slot);
 
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();

@@ -2,44 +2,26 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 
+use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
-class ProgramRobot extends \Bga\Games\WelcomeToTheMoon\Models\Action
+class ProgramRobot extends GenericPickSlot
 {
   public function getState(): int
   {
     return ST_PROGRAM_ROBOT;
   }
 
-  public function isOptional(): bool
+  protected function getSlots(Player $player): array
   {
-    return true;
+    return $player->scoresheet()->getSectionSlots('robots');
   }
 
-  public function isDoable(Player $player): bool
-  {
-    return !empty($player->scoresheet()->getSectionFreeSlots('robots'));
-  }
-
-  public function argsProgramRobot()
-  {
-    $player = $this->getPlayer();
-
-    return [
-      'slots' => $player->scoresheet()->getSectionFreeSlots('robots'),
-    ];
-  }
-
-  /**
-   * @throws \BgaVisibleSystemException
-   */
   public function actProgramRobot(int $slot)
   {
-    if (!in_array($slot, $this->getArgs()['slots'])) {
-      throw new \InvalidArgumentException('actProgramRobot: slot ' . $slot . ' is not in argsProgramRobot');
-    }
+    $this->sanityCheck($slot);
 
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
