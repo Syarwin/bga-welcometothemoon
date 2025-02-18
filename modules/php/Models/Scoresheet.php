@@ -78,11 +78,11 @@ class Scoresheet
     return false;
   }
 
-  public function hasScribbledSomeSlots(array $slots, int $target)
+  public function hasScribbledSomeSlots(array $slots, int $target, ?int $type = null)
   {
     $n = 0;
     foreach ($slots as $slot2) {
-      if ($this->hasScribbledSlot($slot2)) {
+      if ($this->hasScribbledSlot($slot2, $type)) {
         $n++;
       }
 
@@ -94,10 +94,10 @@ class Scoresheet
     return false;
   }
 
-  public function hasScribbledSlots(array $slots): bool
+  public function hasScribbledSlots(array $slots, ?int $type = null): bool
   {
     $slots = array_unique($slots);
-    return $this->hasScribbledSomeSlots($slots, count($slots));
+    return $this->hasScribbledSomeSlots($slots, count($slots), $type);
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble

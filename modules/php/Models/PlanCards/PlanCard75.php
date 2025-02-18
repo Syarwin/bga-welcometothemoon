@@ -18,6 +18,20 @@ class PlanCard75 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
+    $n = 0;
+    $scoresheet = $player->scoresheet();
+    foreach ($scoresheet->getSectionSlots('waters') as $slot) {
+      if ($scoresheet->hasScribbledSlot($slot)) {
+        $n++;
+      } else {
+        $n = 0;
+      }
+
+      if ($n >= 4) {
+        return true;
+      }
+    }
+
     return false;
   }
 }

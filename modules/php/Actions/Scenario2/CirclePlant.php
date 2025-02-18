@@ -66,7 +66,7 @@ class CirclePlant extends GenericPickSlot
     Notifications::circlePlant($player, $scribble, self::$stationNumbers[$stationSlot]);
   }
 
-  private static array $stationConnections = [
+  public static array $stationConnections = [
     6 => [74, 75, 76, 77, 78],
     16 => [79, 80, 81],
     21 => [82, 83, 84, 85],

@@ -18,6 +18,8 @@ class PlanCard70 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $slots = array_merge($scoresheet->getSectionSlots('bigmultipliers'), $scoresheet->getSectionSlots('smallmultipliers'));
+    return $scoresheet->hasScribbledSomeSlots($slots, 3, SCRIBBLE_CIRCLE);
   }
 }

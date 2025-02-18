@@ -55,6 +55,27 @@ class Scoresheet2 extends Scoresheet
     return $sections;
   }
 
+  public function getNumberedSections()
+  {
+    $sections = [];
+    foreach ($this->getSections() as $section) {
+      if ($this->hasScribbledSlots($section)) {
+        $sections[] = $section;
+      }
+    }
+
+    return $sections;
+  }
+
+  public function getNumberedSectionsBySize()
+  {
+    $sizes = [];
+    foreach ($this->getNumberedSections() as $section) {
+      $sizes[count($section)][] = $section;
+    }
+    return $sizes;
+  }
+
   public function getIncreasingSequencesConstraints()
   {
     return $this->getSections();

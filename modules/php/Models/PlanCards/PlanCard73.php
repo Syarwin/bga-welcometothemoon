@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
 
 class PlanCard73 extends PlanCard
 {
@@ -18,6 +19,8 @@ class PlanCard73 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $sectionsBySize = $scoresheet->getNumberedSectionsBySize();
+    return isset($sectionsBySize[6]) && isset($sectionsBySize[4]) && isset($sectionsBySize[2]);
   }
 }

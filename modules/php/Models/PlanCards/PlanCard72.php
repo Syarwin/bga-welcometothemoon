@@ -18,6 +18,8 @@ class PlanCard72 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $sectionsBySize = $scoresheet->getNumberedSectionsBySize();
+    return count($sectionsBySize[6] ?? []) >= 2;
   }
 }

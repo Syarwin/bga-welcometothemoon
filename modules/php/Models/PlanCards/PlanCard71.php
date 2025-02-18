@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
@@ -18,6 +19,14 @@ class PlanCard71 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $nCircled = 0;
+    foreach (CirclePlant::$stationConnections as $slots) {
+      if ($scoresheet->hasScribbledSlots($slots)) {
+        $nCircled++;
+      }
+    }
+
+    return $nCircled >= 2;
   }
 }
