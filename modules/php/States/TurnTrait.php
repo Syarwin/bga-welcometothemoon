@@ -21,10 +21,51 @@ trait TurnTrait
     $cards = ConstructionCards::newTurn();
     Notifications::newTurn(Globals::getTurn(), $cards);
 
+    // Any pending solo cards to resolve ?
+    if (ConstructionCards::getPendingSoloCards()->count() > 0) {
+      $this->stResolveSoloCards();
+      return;
+    }
+
     $this->gamestate->setAllPlayersMultiactive();
     $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
   }
 
+
+  /////////////////////////////////////////////////////
+  //  ____        _          ____              _     
+  // / ___|  ___ | | ___    / ___|__ _ _ __ __| |___ 
+  // \___ \ / _ \| |/ _ \  | |   / _` | '__/ _` / __|
+  //  ___) | (_) | | (_) | | |__| (_| | | | (_| \__ \
+  // |____/ \___/|_|\___/   \____\__,_|_|  \__,_|___/
+  /////////////////////////////////////////////////////
+  public function stResolveSoloCards()
+  {
+    $cards = ConstructionCards::getPendingSoloCards();
+    $astra = Players::getAstra();
+    $root = [
+      'type' => NODE_SEQ,
+      'childs' => []
+    ];
+    foreach ($cards as $card) {
+      $childs = $astra->onDrawingSoloCard($card);
+      $childs[] = [
+        'action' => REPLACE_SOLO_CARD,
+        'args' => ['cardId' => $card->getId()]
+      ];
+      $root['childs'][] = count($childs) == 1 ? $childs[0] : ['type' => NODE_SEQ, 'childs' => $childs];
+    }
+
+    $this->gamestate->setAllPlayersMultiactive();
+    $pId = Players::getCurrentId();
+    Engine::multipleSetup([$pId => $root], ['method' => 'stEndResolveSoloCardsEngine']);
+  }
+
+  public function stEndResolveSoloCardsEngine()
+  {
+    $this->gamestate->setAllPlayersMultiactive();
+    $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
+  }
 
   /////////////////////////////////////////////////////////////////
   //  ____  _             _     _____             _

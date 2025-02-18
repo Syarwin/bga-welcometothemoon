@@ -58,6 +58,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     'gameEndTriggered' => 'bool',
     'firstPlayer' => 'int',
     'turn' => 'int',
+    'soloDraw' => 'int', // Are we on the first or second rotation of the deck?
 
     // Setup
     'scenario' => 'int',

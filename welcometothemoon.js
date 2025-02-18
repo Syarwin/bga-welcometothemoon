@@ -44,6 +44,7 @@ define([
           'resolveSabotage',
           'accomplishMission',
           'giveCardToAstra',
+          'replaceSoloCard',
           'newTurn',
           'endGameTriggered',
           'endGameMessage',

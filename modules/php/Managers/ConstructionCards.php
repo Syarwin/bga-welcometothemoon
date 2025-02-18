@@ -212,33 +212,19 @@ class ConstructionCards extends CachedPieces
 
   public static function newTurn()
   {
-    if (Globals::isSolo()) {
-      return self::newTurnSolo();
-    }
-
-    // Standard mode => draw 1 card from each deck
     $drawnCards = [];
     for ($i = 0; $i < 3; $i++) {
-      $drawnCard = self::pickOneForLocation("deck-$i", "stack-$i", 0);
+      $fromLocation = Globals::isSolo() ? "deck" : "deck-$i";
+      $drawnCard = self::pickOneForLocation($fromLocation, "stack-$i", 0);
       $drawnCards[$i] = $drawnCard;
     }
 
     return $drawnCards;
   }
 
-  public static function newTurnSolo()
+  public static function getPendingSoloCards()
   {
-    // Solo mode => draw the three cards from the deck
-    $drawnCards = [];
-    for ($i = 0; $i < 3; $i++) {
-      $drawnCard = self::pickOneForLocation("deck", "stack-$i", 0);
-      if ($drawnCard->getAction() == SOLO) {
-        die("SOLO CARD DRAWN: TODO");
-      }
-
-      $drawnCards[$i] = $drawnCard;
-    }
-    return $drawnCards;
+    return self::getInLocation("stack-%")->filter(fn($card) => $card->getAction() == SOLO);
   }
 
   public static function endOfTurn()

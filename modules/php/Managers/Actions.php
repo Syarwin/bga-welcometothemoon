@@ -19,6 +19,7 @@ class Actions
     WRITE_NUMBER,
     ACCOMPLISH_MISSION,
     GIVE_CARD_TO_ASTRA,
+    REPLACE_SOLO_CARD,
 
     // Scenario 1
     TAKE_BONUS,

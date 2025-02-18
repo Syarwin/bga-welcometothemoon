@@ -55,12 +55,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
     },
 
-    notif_addScribble(args) {
+    async notif_addScribble(args) {
       debug('Notif: add scribble', args);
       this.addScribble(args.scribble, true);
 
       let duration = args.duration || 900;
-      return this.wait(duration);
+      await this.wait(duration);
+
+      if (args.plansUpdateNeeded) {
+        this.updatePlansValidationMarks();
+      }
+
+      return true;
     },
 
     notif_addScribbles(args) {

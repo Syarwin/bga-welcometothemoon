@@ -75,13 +75,35 @@ class Notifications
     ]);
   }
 
+  // Generic addScribble notif
+  public static function addScribble(?Player $player, Scribble $scribble, $msg, $args = [])
+  {
+    $args['scribble'] = $scribble;
+    if (is_null($player)) {
+      self::notifyAll('addScribble', $msg, $args);
+    } else {
+      $args['player'] = $player;
+      self::pnotify($player, 'addScribble', $msg, $args);
+    }
+  }
+
+  // Generic addScribbles notif
+  public static function addScribbles(?Player $player, array $scribbles, $msg, $args = [])
+  {
+    $args['scribbles'] = $scribbles;
+    if (is_null($player)) {
+      self::notifyAll('addScribbles', $msg, $args);
+    } else {
+      $args['player'] = $player;
+      self::pnotify($player, 'addScribbles', $msg, $args);
+    }
+  }
+
   public static function writeNumber(Player $player, int $number, array $scribbles, ?string $source = null)
   {
     $msg = clienttranslate('${player_name} writes ${number} on his scoresheet');
     $data = [
-      'player' => $player,
       'number' => $number,
-      'scribbles' => $scribbles,
     ];
 
     if ($number == NUMBER_X) {
@@ -90,7 +112,7 @@ class Notifications
       $data['i18n'][] = 'source';
     }
 
-    static::pnotify($player, 'addScribbles', $msg, $data);
+    self::addScribbles($player, $scribbles, $msg, $data);
   }
 
   public static function accomplishMission(Player $player, PlanCard $plan, array $scribbles, bool $firstValidation)
@@ -112,10 +134,7 @@ class Notifications
       clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must circle one System Error box <SYSTEM-ERROR>')
       : clienttranslate('<SYSTEM-ERROR> ${player_name} cannot write down any number and must cross off one System Error box <SYSTEM-ERROR>');
 
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
-    ]);
+    self::addScribble($player, $scribble, $msg);
   }
 
   public static function giveCardToAstra(Player $player, ConstructionCard $card)
@@ -141,9 +160,15 @@ class Notifications
 
   public static function useSoloBonus(Player $player, Scribble $scribble)
   {
-    static::pnotify($player, 'addScribble', clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'), [
-      'player' => $player,
-      'scribble' => $scribble,
+    self::addScribble($player, $scribble, clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'));
+  }
+
+  public static function replaceSoloCard($player, $stack, $card, $drawnCard)
+  {
+    self::pnotify($player, 'replaceSoloCard', clienttranslate('Replacing solo card ${stack} by another construction card'), [
+      'stack' => $stack,
+      'oldCard' => $card,
+      'newCard' => $drawnCard,
     ]);
   }
 
@@ -161,13 +186,11 @@ class Notifications
     if ($mRockets == 0) $msg = clienttranslate('${player_name} crosses ${mErrors} system errors <SYSTEM-ERROR> (${mCrossed} crossed / ${mCircled} circled) (${source})');
     if ($mErrors == 0) $msg = clienttranslate('${player_name} crosses ${mRockets} rockets <ROCKET> (${source})');
 
-    static::pnotify($player, 'addScribbles', $msg, [
-      'player' => $player,
+    static::addScribbles($player, $scribbles, $msg, [
       'mRockets' => $mRockets,
       'mErrors' => $mErrors,
       'mCrossed' => $mCrossed,
       'mCircled' => $mCircled,
-      'scribbles' => $scribbles,
       'source' => $source,
       'i18n' => ['source'],
     ]);
@@ -175,9 +198,7 @@ class Notifications
 
   public static function activateRocket(Player $player, array $scribbles, string $source)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} activate <ARROW> an Inactivate Rocket quarter bonus (${source})'), [
-      'player' => $player,
-      'scribbles' => $scribbles,
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} activate <ARROW> an Inactivate Rocket quarter bonus (${source})'), [
       'source' => $source,
       'i18n' => ['source'],
     ]);
@@ -185,9 +206,7 @@ class Notifications
 
   public static function activateSabotage(Player $player, Scribble $scribble, string $source)
   {
-    static::pnotify($player, 'addScribble', clienttranslate('${player_name} triggers a Sabotage <SABOTAGE> (${source})'), [
-      'player' => $player,
-      'scribble' => $scribble,
+    self::addScribble($player, $scribble, clienttranslate('${player_name} triggers a Sabotage <SABOTAGE> (${source})'), [
       'source' => $source,
       'i18n' => ['source'],
     ]);
@@ -205,20 +224,15 @@ class Notifications
 
   public static function astraCrossRockets(Player $player, int $mRockets, array $scribbles)
   {
-    $msg = clienttranslate('ASTRA crosses ${mRockets} rockets <ROCKET>');
-    static::pnotify($player, 'addScribbles', $msg, [
+    static::addScribbles($player, $scribbles, clienttranslate('ASTRA crosses ${mRockets} rockets <ROCKET>'), [
       'mRockets' => $mRockets,
-      'scribbles' => $scribbles,
     ]);
   }
 
 
   public static function resolveSabotageAstra(Player $player, Scribble $scribble)
   {
-    static::pnotify($player, 'addScribble', clienttranslate('${player_name} gains one solo bonus'), [
-      'player' => $player,
-      'scribble' => $scribble
-    ]);
+    static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
   }
 
 
@@ -237,35 +251,24 @@ class Notifications
       clienttranslate('${player_name} circles one Energy symbol <ENERGY> and must divide a zone on his trajectory')
       : clienttranslate('${player_name} circles one Energy symbol <ENERGY>');
 
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
-    ]);
+    static::addScribble($player, $scribble, $msg);
   }
 
   public static function placeEnergyWall(Player $player, array $scribbles)
   {
-    static::pnotify($player, 'addScribbles', clienttranslate('${player_name} divides a zone on his trajectory'), [
-      'player' => $player,
-      'scribbles' => $scribbles
-    ]);
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} divides a zone on his trajectory'));
   }
 
   public static function programRobot(Player $player, Scribble $scribble)
   {
     $msg = clienttranslate('${player_name} programs a robot');
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
-    ]);
+    static::addScribble($player, $scribble, $msg);
   }
 
   public static function circleMultiplier(Player $player, Scribble $scribble, int $multiplierValue)
   {
     $msg = clienttranslate('${player_name} have programmed all robots of a single station and gets a multiplier x${multiplierValue}');
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
+    static::addScribble($player, $scribble, $msg, [
       'multiplierValue' => $multiplierValue
     ]);
   }
@@ -273,9 +276,8 @@ class Notifications
   public static function crossOffMultiplier(Player $player, Scribble $scribble, int $multiplierValue)
   {
     $msg = clienttranslate('${player_name} crosses off a multiplier x${multiplierValue}');
-    static::notifyAll('addScribble', $msg, [
+    static::addScribbles(null,  $msg, [
       'player' => $player,
-      'scribble' => $scribble,
       'multiplierValue' => $multiplierValue,
     ]);
   }
@@ -283,9 +285,7 @@ class Notifications
   public static function circlePlant(Player $player, Scribble $scribble, int $stationNumber)
   {
     $msg = clienttranslate('${player_name} circles a plant at a station number ${stationNumber}');
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
+    static::addScribble($player, $scribble, $msg, [
       'stationNumber' => $stationNumber
     ]);
   }
@@ -293,9 +293,7 @@ class Notifications
   public static function stirWaterTanks(Player $player, Scribble $scribble, int $waterValue)
   {
     $msg = clienttranslate('${player_name} stirs a water tank with the value of ${waterValue}');
-    static::pnotify($player, 'addScribble', $msg, [
-      'player' => $player,
-      'scribble' => $scribble,
+    static::addScribble($player, $scribble, $msg, [
       'waterValue' => $waterValue
     ]);
   }

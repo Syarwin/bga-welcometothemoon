@@ -340,6 +340,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
+    async notif_replaceSoloCard(args) {
+      // Destroy old card
+      let oldCard = $(`construction-card-${args.oldCard.id}`);
+      let stack = oldCard.parentNode;
+      await this.slideToLeftAndDestroy(oldCard);
+
+      // Slide in new card
+      stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(args.newCard));
+      let newCard = $(`construction-card-${args.newCard.id}`);
+      newCard.style.zIndex = 100 - args.turn;
+      return this.slideFromLeft(newCard);
+    },
+
     ////////////////////////////////
     //  ____  _
     // |  _ \| | __ _ _ __  ___

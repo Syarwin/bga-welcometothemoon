@@ -94,6 +94,7 @@ const CHOOSE_CARDS = 'ChooseCards';
 const WRITE_NUMBER = 'WriteNumber';
 const ACCOMPLISH_MISSION = 'AccomplishMission';
 const GIVE_CARD_TO_ASTRA = 'GiveCardToAstra';
+const REPLACE_SOLO_CARD = 'ReplaceSoloCard';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -148,6 +149,12 @@ const SCRIBBLE_ARROW = 301;
 const SCRIBBLE_CIRCLE = 302;
 const SCRIBBLE_CHECKMARK = 303;
 const SCRIBBLE_LINE = 304;
+
+const SOLO_CARDS_STACKS = [
+  112 => 'A',
+  113 => 'B',
+  114 => 'C',
+];
 
 /******************
  ****** STATS ******
