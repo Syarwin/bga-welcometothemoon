@@ -58,6 +58,7 @@ const ST_PROGRAM_ROBOT = 37;
 const ST_CIRCLE_PLANT = 38;
 const ST_STIR_WATER_TANKS = 39;
 const ST_CROSS_OFF_SABOTAGE = 40;
+const ST_CROSS_OFF_MULTIPLIER = 41;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -111,6 +112,7 @@ const PLACE_ENERGY_WALL = 'Scenario2\PlaceEnergyWall';
 const PROGRAM_ROBOT = 'Scenario2\ProgramRobot';
 const CIRCLE_PLANT = 'Scenario2\CirclePlant';
 const STIR_WATER_TANKS = 'Scenario2\StirWaterTanks';
+const CROSS_OFF_MULTIPLIER = 'Scenario2\CrossOffMultiplier';
 
 /*
  * Actions

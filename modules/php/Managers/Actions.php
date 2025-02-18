@@ -35,6 +35,7 @@ class Actions
     PROGRAM_ROBOT,
     CIRCLE_PLANT,
     STIR_WATER_TANKS,
+    CROSS_OFF_MULTIPLIER,
   ];
 
   public static function get($actionId, &$ctx = null)

@@ -1076,7 +1076,8 @@ body {
           height: 21px;
           margin-right: 2px;
           box-shadow: 0px 0px 2px 1px #f7df0e;
-          font-family: "Gears of Peace"; }
+          font-family: "Gears of Peace";
+          text-align: center; }
         #astra-container .astra-wrapper .astra-scores .astra-score-category .category-score {
           background: #feefd2;
           border: 2px solid #73c2e0;

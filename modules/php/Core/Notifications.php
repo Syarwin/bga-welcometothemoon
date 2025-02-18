@@ -238,7 +238,7 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
   }
 
-  public static function crossOffSabotage($player, $scribbles)
+  public static function crossOffSabotage(Player $player, array $scribbles)
   {
     static::addScribbles($player, $scribbles, clienttranslate('${player_name} crosses off one available Sabotage bonus <SABOTAGE> and circle one System Error'));
   }
@@ -283,7 +283,7 @@ class Notifications
   public static function crossOffMultiplier(Player $player, Scribble $scribble, int $multiplierValue)
   {
     $msg = clienttranslate('${player_name} crosses off a multiplier x${multiplierValue}');
-    static::addScribbles(null,  $msg, [
+    static::addScribble(null, $scribble, $msg, [
       'player' => $player,
       'multiplierValue' => $multiplierValue,
     ]);
@@ -304,6 +304,17 @@ class Notifications
       'waterValue' => $waterValue
     ]);
   }
+
+  public static function circleStationHighMultAstra(Player $player, array $scribbles)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} gains two solo bonuses'));
+  }
+
+  public static function crossOffMultiplierAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one station multiplier'));
+  }
+
 
   /////////////////////////////////////
   //   ____           _          

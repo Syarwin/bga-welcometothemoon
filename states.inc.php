@@ -215,8 +215,9 @@ $machinestates = [
     'name' => 'accomplishMission',
     'descriptionmyturn' => clienttranslate('${you} may select a mission to accomplish'),
     'type' => 'private',
+    'action' => 'stAtomicAction',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actAccomplishMission', 'actRestart'],
+    'possibleactions' => ['actAccomplishMission', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_GIVE_CARD_TO_ASTRA => [
@@ -303,6 +304,15 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'possibleactions' => ['actStirWaterTanks', 'actRestart', 'actPassOptionalAction'],
   ],
+
+  ST_CROSS_OFF_MULTIPLIER => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a multiplier'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
+  ],
+
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

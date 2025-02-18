@@ -8,10 +8,10 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
+use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 
 const OPPONENTS =  [
   1 => [
@@ -48,6 +48,7 @@ const OPPONENTS =  [
   ],
 ];
 
+include_once dirname(__FILE__) . "/../constants.inc.php";
 const ACTIONS = [ROBOT, ENERGY, PLANT, WATER, ASTRONAUT, PLANNING];
 
 class Astra

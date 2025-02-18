@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class ProgramRobot extends GenericPickSlot
@@ -31,9 +32,11 @@ class ProgramRobot extends GenericPickSlot
 
     $multiplier = self::getMultiplierToAchieve($player, $slot);
     if (!is_null($multiplier)) {
+      $bigMultiplier = true;
       if ($scoresheet->hasScribbledSlot($multiplier)) {
         // Circling small multiplier instead
         $multiplier = self::$bigToSmallMultiplierMap[$multiplier];
+        $bigMultiplier = false;
       } else {
         // Register for phase 5
         $multipliers = Globals::getCircledMultipliers();
@@ -42,6 +45,15 @@ class ProgramRobot extends GenericPickSlot
       }
       $scribble = $scoresheet->addScribble($multiplier, SCRIBBLE_CIRCLE);
       Notifications::circleMultiplier($player, $scribble, self::getMultiplierValue($multiplier));
+
+      // ASTRA BONUS
+      if (Globals::isSolo() && $bigMultiplier) {
+        $astra = Players::getAstra();
+        $bonusScribbles = [];
+        $bonusScribbles[] = $astra->circleNextBonus();
+        $bonusScribbles[] = $astra->circleNextBonus();
+        Notifications::circleStationHighMultAstra($player, $bonusScribbles);
+      }
     }
   }
 
