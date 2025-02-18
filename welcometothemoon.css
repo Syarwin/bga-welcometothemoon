@@ -1713,24 +1713,15 @@ body {
       display: none; }
 
 #popin_showSettings,
-#popin_showSusan,
-#popin_showScores,
-#popin_chooseCard,
-.welcometothemoon_popin_cards {
+#popin_chooseNumber {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative; }
   #popin_showSettings .welcometothemoon_popin_closeicon,
   #popin_showSettings .welcometothemoon_popin_cards_closeicon,
-  #popin_showSusan .welcometothemoon_popin_closeicon,
-  #popin_showSusan .welcometothemoon_popin_cards_closeicon,
-  #popin_showScores .welcometothemoon_popin_closeicon,
-  #popin_showScores .welcometothemoon_popin_cards_closeicon,
-  #popin_chooseCard .welcometothemoon_popin_closeicon,
-  #popin_chooseCard .welcometothemoon_popin_cards_closeicon,
-  .welcometothemoon_popin_cards .welcometothemoon_popin_closeicon,
-  .welcometothemoon_popin_cards .welcometothemoon_popin_cards_closeicon {
+  #popin_chooseNumber .welcometothemoon_popin_closeicon,
+  #popin_chooseNumber .welcometothemoon_popin_cards_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -1747,33 +1738,18 @@ body {
     z-index: 2; }
     #popin_showSettings .welcometothemoon_popin_closeicon:hover,
     #popin_showSettings .welcometothemoon_popin_cards_closeicon:hover,
-    #popin_showSusan .welcometothemoon_popin_closeicon:hover,
-    #popin_showSusan .welcometothemoon_popin_cards_closeicon:hover,
-    #popin_showScores .welcometothemoon_popin_closeicon:hover,
-    #popin_showScores .welcometothemoon_popin_cards_closeicon:hover,
-    #popin_chooseCard .welcometothemoon_popin_closeicon:hover,
-    #popin_chooseCard .welcometothemoon_popin_cards_closeicon:hover,
-    .welcometothemoon_popin_cards .welcometothemoon_popin_closeicon:hover,
-    .welcometothemoon_popin_cards .welcometothemoon_popin_cards_closeicon:hover {
+    #popin_chooseNumber .welcometothemoon_popin_closeicon:hover,
+    #popin_chooseNumber .welcometothemoon_popin_cards_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
     #popin_showSettings .welcometothemoon_popin_closeicon i,
     #popin_showSettings .welcometothemoon_popin_cards_closeicon i,
-    #popin_showSusan .welcometothemoon_popin_closeicon i,
-    #popin_showSusan .welcometothemoon_popin_cards_closeicon i,
-    #popin_showScores .welcometothemoon_popin_closeicon i,
-    #popin_showScores .welcometothemoon_popin_cards_closeicon i,
-    #popin_chooseCard .welcometothemoon_popin_closeicon i,
-    #popin_chooseCard .welcometothemoon_popin_cards_closeicon i,
-    .welcometothemoon_popin_cards .welcometothemoon_popin_closeicon i,
-    .welcometothemoon_popin_cards .welcometothemoon_popin_cards_closeicon i {
+    #popin_chooseNumber .welcometothemoon_popin_closeicon i,
+    #popin_chooseNumber .welcometothemoon_popin_cards_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2,
-  #popin_showSusan h2,
-  #popin_showScores h2,
-  #popin_chooseCard h2,
-  .welcometothemoon_popin_cards h2 {
+  #popin_chooseNumber h2 {
     font-family: MyriadPro-Semibold;
     text-align: center;
     font-size: 25px;
@@ -1782,6 +1758,81 @@ body {
     border-radius: 8px 8px 0px 0px;
     padding: 11px 0px 3px;
     border-bottom: 1px solid #734f2a; }
+
+#popin_chooseNumber {
+  width: auto;
+  max-width: 80%; }
+  #popin_chooseNumber #popin_chooseNumber_contents {
+    min-height: 200px;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 20px;
+    flex-wrap: wrap; }
+    #popin_chooseNumber #popin_chooseNumber_contents div {
+      flex-shrink: 0;
+      height: 200px;
+      margin: 10px 20px;
+      width: 131.9230769231px;
+      background-image: url("img/construction-cards-front.jpg");
+      background-size: 600% 400%;
+      box-shadow: -2px 2px 3px rgba(20, 20, 20, 0.8);
+      cursor: pointer; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="0"] {
+        background-position-x: 0%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="1"] {
+        background-position-x: 20%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="2"] {
+        background-position-x: 40%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="3"] {
+        background-position-x: 60%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="4"] {
+        background-position-x: 80%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="5"] {
+        background-position-x: 100%;
+        background-position-y: 0%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="6"] {
+        background-position-x: 0%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="7"] {
+        background-position-x: 20%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="8"] {
+        background-position-x: 40%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="9"] {
+        background-position-x: 60%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="10"] {
+        background-position-x: 80%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="11"] {
+        background-position-x: 100%;
+        background-position-y: 33.3333333333%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="12"] {
+        background-position-x: 0%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="13"] {
+        background-position-x: 20%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="14"] {
+        background-position-x: 40%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="15"] {
+        background-position-x: 60%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="16"] {
+        background-position-x: 80%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div[data-number="17"] {
+        background-position-x: 100%;
+        background-position-y: 66.6666666667%; }
+      #popin_chooseNumber #popin_chooseNumber_contents div:hover {
+        transform: scale(1.05) rotate(2deg); }
 
 /********************************
 *** Hightlight recent actions ***

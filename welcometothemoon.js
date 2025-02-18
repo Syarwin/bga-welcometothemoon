@@ -594,27 +594,27 @@ define([
                 }
                 // Several numbers possible => modal
                 else {
-                  console.log('TODO: multiple numbers');
-                  // // Open a modal to ask the number to write
-                  // var dial = new customgame.modal('chooseNumber', {
-                  //   class: 'welcometo_popin',
-                  //   closeIcon: 'fa-times',
-                  //   title: _('Choose the number you want to write'),
-                  //   openAnimation: true,
-                  //   openAnimationTarget: `${house.pId}_house_${house.x}_${house.y}`,
-                  // });
+                  // Open a modal to ask the number to write
+                  let dial = new customgame.modal('chooseNumber', {
+                    class: 'welcometothemoon_popin',
+                    closeIcon: 'fa-times',
+                    title: _('Choose the number you want to write'),
+                    openAnimation: true,
+                    openAnimationTarget: `slot-${this.player_id}-${slotId}`,
+                  });
 
-                  // numbers.forEach((number) => {
-                  //   var div = dojo.place(
-                  //     `<div class='number-choice' data-number='${number}'></div>`,
-                  //     'popin_chooseNumber_contents',
-                  //   );
-                  //   dojo.connect(div, 'onclick', () => {
-                  //     dial.destroy();
-                  //     this._callbackHouse(number, house.x, house.y);
-                  //   });
-                  // });
-                  // dial.show();
+                  numbers.forEach((number) => {
+                    $('popin_chooseNumber_contents').insertAdjacentHTML(
+                      'beforeend',
+                      `<div id="number-choice-${number}" class='number-choice' data-number='${number}'></div>`
+                    );
+
+                    this.onClick(`number-choice-${number}`, () => {
+                      dial.destroy();
+                      this.takeAtomicAction('actWriteNumber', [slotId, number]);
+                    });
+                  });
+                  dial.show();
                 }
               });
             }
