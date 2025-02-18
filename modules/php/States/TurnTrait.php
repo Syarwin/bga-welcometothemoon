@@ -7,6 +7,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
+use Bga\Games\WelcomeToTheMoon\Helpers\Log;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
@@ -20,6 +21,7 @@ trait TurnTrait
     Globals::incTurn();
     $cards = ConstructionCards::newTurn();
     Notifications::newTurn(Globals::getTurn(), $cards);
+    Log::checkpoint();
 
     // Any pending solo cards to resolve ?
     if (ConstructionCards::getPendingSoloCards()->count() > 0) {
@@ -76,6 +78,13 @@ trait TurnTrait
    */
   function stStartTurnEngine()
   {
+    // Reshuffled twice ? Game is over !
+    if (Globals::getSoloDraw() >= 2) {
+      Notifications::endGameTriggered(null, 'soloDraw');
+      $this->gamestate->jumpToState(ST_END_SCENARIO);
+      return;
+    }
+
     $players = Players::getAll();
     $flows = [];
     foreach ($players as $pId => $player) {

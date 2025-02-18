@@ -678,6 +678,7 @@ define([
           rocket: 1,
           sabotage: 1,
           x: 1,
+          reshuffle: 1,
         };
         if (glyphs[type]) {
           let icon = `<i class='svgicon-${type}'>`;
@@ -700,7 +701,7 @@ define([
       },
 
       formatString(str) {
-        const ICONS = ['ARROW', 'ROCKET', 'SABOTAGE', 'X', 'SYSTEM-ERROR'];
+        const ICONS = ['ARROW', 'ROCKET', 'SABOTAGE', 'X', 'SYSTEM-ERROR', 'RESHUFFLE'];
 
         ICONS.forEach((name) => {
           const regex = new RegExp('<' + name + ':([^>]+)>', 'g');

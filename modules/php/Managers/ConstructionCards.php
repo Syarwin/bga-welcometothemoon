@@ -126,8 +126,14 @@ class ConstructionCards extends CachedPieces
 
   public static function onReshuffle($fromLocation)
   {
+    // Standard mode : notif when deck is reshuffled
     if ($fromLocation == 'deck-0') {
-      Notifications::midMessage(clienttranslate("Reshuffling decks of construction cards"));
+      Notifications::midMessage(clienttranslate("<RESHUFFLE> Reshuffling decks of construction cards <RESHUFFLE>"));
+    }
+    // Solo mode : notif + count number of redraw
+    if ($fromLocation == 'deck') {
+      Notifications::midMessage(clienttranslate("<RESHUFFLE> Reshuffling decks of construction cards <RESHUFFLE>"));
+      Globals::incSoloDraw();
     }
   }
 

@@ -179,6 +179,12 @@ class Astra
     return [];
   }
 
+  public function isEndOfGameTriggered(): bool
+  {
+    return false;
+  }
+
+
   /**
    * UI DATA
    */

@@ -60,7 +60,7 @@ class Astra1 extends Astra
     ];
     foreach ($slotToScoreMap as $slot => $score) {
       $location = "astra-rocket-slot-$slot";
-      if (!$this->hasScribbledLocation($location)) {
+      if ($this->hasScribbledLocation($location)) {
         $totalScore = $score;
       }
     }
@@ -99,5 +99,15 @@ class Astra1 extends Astra
         'action' => CROSS_OFF_SABOTAGE
       ]
     ];
+  }
+
+  public function isEndOfGameTriggered(): bool
+  {
+    // Any rocket not crossed off?
+    // -> 80 is the slot id of the last rocket
+    if (!$this->hasScribbledLocation("astra-rocket-slot-80")) return false;
+
+    Notifications::endGameTriggered(null, 'astraLaunch');
+    return true;
   }
 }

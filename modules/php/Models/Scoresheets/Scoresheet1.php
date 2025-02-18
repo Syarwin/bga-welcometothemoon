@@ -117,6 +117,12 @@ class Scoresheet1 extends Scoresheet
     $triggered = parent::isEndOfGameTriggered();
     if ($triggered) return true;
 
+    // Is ASTRA over with its rockets ?
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      if ($astra->isEndOfGameTriggered()) return true;
+    }
+
     // Any rocket not crossed off?
     // -> 130 is the slot id of the last rocket below system errors
     if (!$this->hasScribbledSlot(130)) return false;

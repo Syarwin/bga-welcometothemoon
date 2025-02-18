@@ -297,7 +297,7 @@
 
 :root {
   --scoresheetScale: 1;
-  --cardsScale: 1;
+  --cardsScale: 0.7;
   --planScale: 1; }
 
 /*****************************
@@ -730,6 +730,9 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.svgicon-reshuffle:before {
+  content: "\e904"; }
 
 .svgicon-arrow:before {
   content: "\e900"; }

@@ -192,6 +192,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.svgicon-reshuffle:before {
+  content: "\e904";
+}
 .svgicon-arrow:before {
   content: "\e900";
 }

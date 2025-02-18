@@ -29,7 +29,7 @@ class Notifications
   }
 
 
-  public static function endGameTriggered(Player $player, string $condition)
+  public static function endGameTriggered(?Player $player, string $condition)
   {
     self::notifyAll('endGameTriggered', clienttranslate('End triggered'), []);
 
@@ -43,6 +43,9 @@ class Notifications
       'houses' => clienttranslate('${player_name} filled in all the spaces of the marking area, therefore triggering the end of the adventure'),
 
       'launch' => clienttranslate('${player_name} launched his rocket successfully, therefore triggering the end of the adventure'),
+      'astraLaunch' => clienttranslate('ASTRA launched his rocket successfully, therefore triggering the end of the adventure'),
+
+      'soloDraw' => clienttranslate('The draw pile has been exhausted for the second time, therefore triggering the end of the adventure')
     ];
 
     self::notifyAll('endGameMessage', $msgs[$condition], [

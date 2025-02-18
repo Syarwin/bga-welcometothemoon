@@ -47,7 +47,7 @@ class ActivateSabotage extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Scribble the bonus slot with a CIRCLE
     $source = $this->getCtxArg('source');
-    $scribble = $scoresheet->addScribble($source['slot'], SCRIBBLE_CIRCLE);
+    $scribble = $scoresheet->addScribble($source['slot'], Globals::isSolo() ? SCRIBBLE : SCRIBBLE_CIRCLE);
     // Register for phase 5
     $sabotages = Globals::getTriggeredSabotages();
     $sabotages[] = $source['slot'];
