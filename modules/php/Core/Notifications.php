@@ -121,7 +121,7 @@ class Notifications
   public static function accomplishMission(Player $player, PlanCard $plan, array $scribbles, bool $firstValidation)
   {
     $stacks = ['A', 'B', 'C'];
-    $msg = $firstValidation ? clienttranslate('${player_name} accomplishes mission ${stack}') : clienttranslate('${player_name} accomplishes mission ${stack} (first fulfillment)');
+    $msg = $firstValidation ? clienttranslate('${player_name} accomplishes mission ${stack} (first fulfillment)') : clienttranslate('${player_name} accomplishes mission ${stack}');
     static::pnotify($player, 'accomplishMission', $msg, [
       'player' => $player,
       'scribbles' => $scribbles,

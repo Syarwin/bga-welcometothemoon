@@ -227,6 +227,11 @@ class Astra
     return $data;
   }
 
+  public function getScore()
+  {
+    return $this->getUiData()['astra-total-score'];
+  }
+
   // Listener (only useful for scenario 1 probably)
   public function onReceivingCard(ConstructionCard $card): void {}
 }

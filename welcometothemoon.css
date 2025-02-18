@@ -764,7 +764,8 @@ body {
 
 #welcometo-container {
   display: flex;
-  flex-flow: row; }
+  flex-flow: row;
+  justify-content: center; }
   #welcometo-container #construction-cards-container {
     position: relative;
     margin-right: 10px;
@@ -908,7 +909,9 @@ body {
     grid-gap: 10px;
     padding: 4px;
     box-shadow: 1px 1px 3px -1px black;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center; }
     #astra-container .astra-wrapper .astra-opponent {
       width: 190px;
       height: 102px;
@@ -1397,6 +1400,19 @@ body {
     text-align: center;
     font-size: 18px;
     line-height: 32px; }
+  .score-sheet[data-board="2"] .wttm-slot.slot-plan {
+    width: 54px;
+    height: 54px; }
+    .score-sheet[data-board="2"] .wttm-slot.slot-plan .scribble-number {
+      width: 100%;
+      height: 100%;
+      font-family: "Gears of Peace";
+      text-align: center;
+      font-size: 27px;
+      line-height: 56px;
+      background: none;
+      box-shadow: none;
+      text-indent: 0px; }
 
 .score-sheet-wrapper {
   width: 1128px;
@@ -1406,16 +1422,17 @@ body {
   .score-sheet-wrapper[data-slideshow="0"] .slideshow-left,
   .score-sheet-wrapper[data-slideshow="0"] .slideshow-right {
     display: none; }
-  .score-sheet-wrapper .slideshow-left,
-  .score-sheet-wrapper .slideshow-right {
+  .score-sheet-wrapper .slideshow-left, .score-sheet-wrapper .slideshow-right {
     position: absolute;
     width: 70px;
     z-index: 3;
     top: 3px;
     bottom: 3px;
     cursor: pointer; }
-    .score-sheet-wrapper .slideshow-left .arrow,
-    .score-sheet-wrapper .slideshow-right .arrow {
+    [data-solo="1"] .score-sheet-wrapper .slideshow-left,
+    [data-solo="1"] .score-sheet-wrapper .slideshow-right {
+      display: none; }
+    .score-sheet-wrapper .slideshow-left .arrow, .score-sheet-wrapper .slideshow-right .arrow {
       position: absolute;
       height: 30px;
       width: 30px;
@@ -1428,12 +1445,10 @@ body {
       opacity: 0.35;
       outline: 0;
       z-index: 4; }
-      .score-sheet-wrapper .slideshow-left .arrow:hover,
-      .score-sheet-wrapper .slideshow-right .arrow:hover {
+      .score-sheet-wrapper .slideshow-left .arrow:hover, .score-sheet-wrapper .slideshow-right .arrow:hover {
         opacity: 1;
         border-color: white; }
-    .score-sheet-wrapper .slideshow-left:hover .arrow,
-    .score-sheet-wrapper .slideshow-right:hover .arrow {
+    .score-sheet-wrapper .slideshow-left:hover .arrow, .score-sheet-wrapper .slideshow-right:hover .arrow {
       opacity: 1;
       border-color: white; }
   .score-sheet-wrapper .slideshow-left {
@@ -1552,7 +1567,9 @@ body {
 
 #player_board_config {
   position: relative;
-  border-image: none; }
+  border-image: none;
+  grid-column: 1;
+  grid-row: 1; }
 
 #player_config {
   padding-bottom: 8px; }

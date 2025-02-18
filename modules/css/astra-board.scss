@@ -15,6 +15,8 @@
     padding: 4px;
     box-shadow: 1px 1px 3px -1px black;
     box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center;
 
     .astra-opponent {
       width: 190px;

@@ -17,6 +17,7 @@ body {
 #welcometo-container {
   display: flex;
   flex-flow: row;
+  justify-content: center;
 
   #construction-cards-container {
     position: relative;

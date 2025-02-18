@@ -22,6 +22,9 @@
         top: $borderSize;
         bottom: $borderSize;
         cursor: pointer;
+        [data-solo="1"] & {
+            display: none;
+        }
 
         .arrow {
             position: absolute;

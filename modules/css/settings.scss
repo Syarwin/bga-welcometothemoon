@@ -1,6 +1,8 @@
 #player_board_config {
     position: relative;
     border-image: none;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 #player_config {

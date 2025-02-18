@@ -42,7 +42,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $scribbles = [];
 
     // Was the plan already validated or not ?
-    $validationScribble = Scribbles::getSingle("0-$planId", false);
+    $validationScribble = Scribbles::getInLocation("plan-$planId")->first();
     $firstValidation = is_null($validationScribble) || $validationScribble->getTurn() == Globals::getTurn();
 
     // Mark the plan as validated
@@ -71,7 +71,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     if ($scenarioId == 1) {
       $scribbles[] = $player->scoresheet()->addScribble($slotId, SCRIBBLE_CHECKMARK);
     } else {
-      die("TODO : accomplish mission for scenario != 1");
+      $scribbles[] = $player->scoresheet()->addScribble($slotId, $reward);
     }
 
     // Notify

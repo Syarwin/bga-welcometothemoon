@@ -110,8 +110,14 @@ class Scoresheet2 extends Scoresheet
   {
     $data = [];
 
-    // Missions TODO
+    // Missions
     $missionPoints = 0;
+    foreach ($this->getSectionSlots('plans') as $slot) {
+      $scribbles = $this->scribblesBySlots[$slot] ?? [];
+      if (!empty($scribbles)) {
+        $missionPoints += $scribbles[0]->getType();
+      }
+    }
     $data[] = ["slot" => 37, "v" => $missionPoints];
 
     // Stations TODO
@@ -154,7 +160,11 @@ class Scoresheet2 extends Scoresheet
     $data[] = ["slot" => 42, "v" => $negativePoints];
 
     // Total score
-    $data[] = ["slot" => 43, "v" => $missionPoints + $stationPoints + $waterPoints + $maxSectionSize + $sectionMajorityPoints - $negativePoints];
+    $data[] = [
+      "slot" => 43,
+      "score" => true,
+      "v" => $missionPoints + $stationPoints + $waterPoints + $maxSectionSize + $sectionMajorityPoints - $negativePoints
+    ];
 
     return $data;
   }

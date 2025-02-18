@@ -330,6 +330,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       args.stacks.forEach((stackId) => {
         let o = $(`construction-cards-stack-${stackId}`);
         this.onClick(o, () => this.takeAtomicAction('actGiveCardToAstra', [stackId]));
+        this.addPrimaryActionButton(
+          `btnCard${stackId}`,
+          this.formatIcon(o.querySelector('.construction-card-holder').dataset.action),
+          () => this.takeAtomicAction('actGiveCardToAstra', [stackId])
+        );
+        $(`btnCard${stackId}`).classList.add('btnAction');
       });
 
       if (args.mayUseSoloBonus) {

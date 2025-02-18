@@ -40,6 +40,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       //      this.setupPlayersCounters();
       if (this.isSolo()) {
+        $('ebd-body').dataset.solo = 1;
         this.setupAstra();
       }
     },
