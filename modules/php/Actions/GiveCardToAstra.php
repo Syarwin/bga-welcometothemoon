@@ -27,7 +27,7 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $mayUseSoloBonus = !is_null($astra->getNextAvailableSoloBonus());
 
     $combination = $player->getCombination();
-    $stacks = array_values(array_diff([0, 1, 2], $combination['stacks']));
+    $stacks = array_values(array_diff([0, 1, 2], $combination['stacks'] ?? []));
 
     return [
       'mayUseSoloBonus' => $mayUseSoloBonus,
