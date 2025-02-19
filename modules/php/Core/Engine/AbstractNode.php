@@ -454,14 +454,6 @@ class AbstractNode
     $this->infos['optional'] = false;
   }
 
-  // TODO : remove;
-  public function unresolveAction()
-  {
-    unset($this->infos['actionResolved']);
-    unset($this->infos['actionResolutionArgs']);
-    unset($this->infos['optional']);
-  }
-
   // Useful for scholar
   public function getResolvedActions($types)
   {

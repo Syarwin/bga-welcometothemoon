@@ -25,7 +25,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     initConstructionCards() {
       this._isStandard = this.gamedatas.standard; // Standard = playing with three stack
-      debug('Seting up the construction cards', this._isStandard ? 'Standard mode' : 'Only one card by stack');
+      debug('Setting up the construction cards', this._isStandard ? 'Standard mode' : 'Only one card by stack');
 
       // Adjust stack size for flip animation
       if (this._isStandard) $('construction-cards-container-resizable').classList.add('standard');
@@ -114,7 +114,64 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // Add tooltip
       let action = card.dataset.action;
-      this.addCustomTooltip(card.id, 'TODO: tooltip ' + action);
+      this.addCustomTooltip(card.id, this.getActionDesc(action));
+    },
+
+    getActionDesc(action) {
+      const scenario = this.gamedatas.scenario;
+      switch (scenario) {
+        // Scenario 1
+        case 1:
+          return (
+            _('In this Adventure, you won’t perform any action. That means that none of the 6 actions has any effect.') +
+            _(
+              'Each floor is tied to one of the action symbols (Astronaut, Water, Robot...). The actions only serve to show you where you can write down the number of the combination. So, each turn, you must write down a number on the floor tied to the action associated with that number.'
+            )
+          );
+        // Scenario 2
+        case 2:
+          switch (action) {
+            case 'energy':
+              return (
+                _(
+                  'The energy allows you to turn on the engines of your rocket, in order to create a boost to correct your trajectory. For that purpose, circle one Energy symbol at the top of your sheet 2. At the beginning of the game, you start with one energy already circled.'
+                ) +
+                _(
+                  'Each time you have 2 circled energies, you must immediately cross them off, then divide a zone on your trajectory by drawing a line between 2 spaces of your choice, numbered or not. This line shows the end of one zone, and the beginning of another one. This way you will get shorter zones that you must number independently from one another.'
+                )
+              );
+            case 'robot':
+              return (
+                _(
+                  'You must program the robots to retrieve the plants from the space stations. The stations are already connected to your trajectory by the robots, but you must activate them in order to retrieve the plants and earn points.'
+                ) +
+                _(
+                  'No matter where you have written down the number of your combination, with this action, you can circle a robot sent towards any station. The first players to circle all the robots of a station, during the same turn, can circle the highest multiplier. The other players must then cross off this multiplier and will be able to get only the lowest multiplier.'
+                )
+              );
+            case 'plant':
+              return (
+                _(
+                  'You must organize the growing of the plants in microgravity in the space stations. These stations are connected to your trajectory by Robot symbols. With the Plant action, circle one plant in the station of your choice, as long as this station is connected to the zone where you have written down your number.'
+                ) +
+                _(
+                  'At the beginning of the game, you can reach all stations from any space on your trajectory, because the 4 stations are connected to the one and only zone that makes up your trajectory. But gradually, through the use of the energies, you will split your trajectory in multiple separate zones. Thus, each station will be connected only to a specific zone, and a Plant action will only reach it if the number is written in this zone.'
+                )
+              );
+            case 'water':
+              return _(
+                'It is important to stir the water tanks. If you have written down the number of your combination in a space with a water tank, then, with the Water action, you can circle that water tank.'
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover, cross off 1 Astronaut symbol on the right side of your sheet. Whenever you have 2 crossed off Astronauts, circle a Wild Action symbol'
+              );
+            case 'planning':
+              return _(
+                'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, cross off 1 Planning symbol on the right side of your sheet. Whenever you have 2 crossed off Planning, circle a Wild Action symbol. Note that you cannot cross off a Planning symbol without writing down an X in an empty space.'
+              );
+          }
+      }
     },
 
     ////////////////////////////////////

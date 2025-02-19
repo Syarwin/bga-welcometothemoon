@@ -248,7 +248,7 @@ class Engine
 
     $state = Actions::getState($actionId, $node);
     if (is_null($state)) {
-      die('TODO: action without state');
+      die('Action without state. Engine.php');
     }
     self::setState($pId, $state);
   }

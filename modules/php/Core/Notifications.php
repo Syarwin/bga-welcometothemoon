@@ -14,9 +14,13 @@ class Notifications
 {
   public static function setupScenario($scenario)
   {
+    $names = [
+      1 => clienttranslate("The Launch"),
+      2 => clienttranslate("The Journey"),
+    ];
     self::notifyAll('message', clienttranslate('Starting scenario ${n}: ${name}'), [
       'n' => $scenario,
-      'name' => 'TODO',
+      'name' => $names[$scenario],
       'i18n' => ['name'],
     ]);
   }
