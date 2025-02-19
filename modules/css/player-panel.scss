@@ -1,48 +1,130 @@
-.player-name {
-    svg {
-        width: 25px;
-        height: 21px;
-        cursor: pointer;
-        vertical-align: bottom;
-        margin-left: 3px;
-    }
-}
+// .player-board {
+//     z-index:100;
 
-// .player_score {
-//     .player_score_value {
-//         display: none;
+//     .player-name {
+//       margin-left: 50px;
+//       margin-right: 65px;
+
+//       a {
+//         word-wrap: break-word;
+//       }
 //     }
-// }
+//     .show-streets-button {
+//       position:absolute;
+//       top:0;
+//       right:36px;
+//       height:40px;
+//       width:25px;
+//       cursor:pointer;
+//       &:hover {
+//         color:grey;
+//       }
 
-.player-info {
+//       svg {
+//         width:auto;
+//         height:100%;
+//       }
+//     }
+//   }
+
+.wttm-player-panel {
+    padding: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    flex-wrap: wrap;
 
-    .civ-hand {
-        width: 100px;
-        height: 35px;
+    .plans-status {
+        width: 120px;
+        height: 100%;
         display: flex;
         justify-content: space-around;
-        align-items: center;
-        color: white;
-        background: #353534;
-        border: 2px solid white;
-        border-radius: 9px;
-        font-family: "HemiHead";
-        padding-left: 4px;
-        box-shadow: 2px 2px 3px black;
-        cursor: pointer;
-        position: relative;
-        .welcometothemoon-card {
-            position: absolute;
+
+        div {
+            width: 37px;
+            height: 40px;
+            font-size: 20px;
+            font-family: "Gears of Peace";
+            @include centered;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+
+            &.plan-status-1 {
+                background-image: url("img/stack-A.png");
+            }
+            &.plan-status-2 {
+                background-image: url("img/stack-B.png");
+            }
+            &.plan-status-3 {
+                background-image: url("img/stack-C.png");
+            }
         }
     }
-}
 
-.welcometothemoon-first-player-holder {
-    position: absolute;
-    height: 40px;
-    right: 49px;
-    top: 7px;
-    width: 80px;
+    .numbers-status {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        font-family: "Bebas";
+        background-image: url("img/slot-number.png");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+
+        div {
+            position: absolute;
+        }
+
+        div:nth-of-type(1) {
+            top: 3px;
+            left: 10px;
+            font-size: 17px;
+            width: 15px;
+            text-align: center;
+        }
+        div:nth-of-type(2) {
+            top: 15px;
+            left: 10px;
+            width: 22px;
+            height: 15px;
+            background: linear-gradient(-20deg, transparent calc(50% - 1px), #222, transparent calc(50% + 1px));
+        }
+        div:nth-of-type(3) {
+            bottom: 0px;
+            right: 10px;
+            font-size: 14px;
+            color: #575757;
+        }
+    }
+
+    .system-errors-status {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        font-family: "Bebas";
+        background-image: url("img/system-error-filled.png");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        color: white;
+
+        div {
+            position: absolute;
+        }
+
+        div:nth-of-type(1) {
+            top: 5px;
+            left: 7px;
+        }
+        div:nth-of-type(2) {
+            top: 12px;
+            left: 10px;
+            width: 22px;
+            height: 15px;
+            background: linear-gradient(-30deg, transparent calc(50% - 2px), white, transparent calc(50% + 1px));
+        }
+        div:nth-of-type(3) {
+            bottom: 3px;
+            right: 8px;
+            font-size: 14px;
+            color: white;
+        }
+    }
 }

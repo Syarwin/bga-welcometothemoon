@@ -33,9 +33,18 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       // Add player board and player panel
       this.orderedPlayers.forEach((player, i) => {
+        let pId = player.id;
+
         // Panels
-        //        this.place('tplPlayerPanel', player, `overall_player_board_${player.id}`);
-        $(`overall_player_board_${player.id}`).addEventListener('click', () => this.goToPlayerBoard(player.id));
+        this.place('tplPlayerPanel', player, `overall_player_board_${player.id}`);
+        $(`overall_player_board_${pId}`).addEventListener('click', () => this.goToPlayerBoard(player.id));
+
+        // Tooltips
+        this.addCustomTooltip(`plan-status-1-${pId}`, _('Status of Mission A'));
+        this.addCustomTooltip(`plan-status-2-${pId}`, _('Status of Mission B'));
+        this.addCustomTooltip(`plan-status-3-${pId}`, _('Status of Mission C'));
+        this.addCustomTooltip(`numbers-status-container-${pId}`, _('Number of filled up number slots'));
+        this.addCustomTooltip(`system-errors-status-container-${pId}`, _('Number of System errors'));
       });
 
       //      this.setupPlayersCounters();
@@ -93,6 +102,29 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.goToPlayerBoard(pId);
     },
 
+    tplPlayerPanel(player) {
+      let pId = player.id;
+      return `<div class="wttm-player-panel">
+        <div class="plans-status">
+          <div id="plan-status-1-${pId}" class="plan-status-1"></div>
+          <div id="plan-status-2-${pId}" class="plan-status-2"></div>
+          <div id="plan-status-3-${pId}" class="plan-status-3"></div>
+        </div>
+
+      <div id="numbers-status-container-${pId}" class="numbers-status">
+        <div id="numbers-status-${pId}"></div>
+        <div></div>
+        <div class="numbers-scenario-amount"></div>
+      </div>
+
+      <div id="system-errors-status-container-${pId}" class="system-errors-status">
+        <div id="errors-status-${pId}"></div>
+        <div></div>
+        <div class="errors-scenario-amount"></div>
+      </div>
+    </div>`;
+    },
+
     /////////////////////////////////////////////////////////////
     //  ____                     ____  _               _
     // / ___|  ___ ___  _ __ ___/ ___|| |__   ___  ___| |_
@@ -117,7 +149,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         );
 
         // Slots
+        let nNumbers = 0,
+          nErrors = 0;
         data.sections.forEach((section) => {
+          if (section.id == 'numbers') nNumbers = section.elts.length;
+          if (section.id == 'errors') nErrors = section.elts.length;
+
           let className = section.eltClass;
           section.elts.forEach((elt) => {
             $(`score-sheet-${pId}`).insertAdjacentHTML(
@@ -133,6 +170,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
         // Scoresheet dynamic data
         this.updateComputedScoresheetData(pId);
+
+        // Player panels
+        $(`numbers-status-container-${pId}`).querySelector('.numbers-scenario-amount').innerHTML = nNumbers;
+        $(`system-errors-status-container-${pId}`).querySelector('.errors-scenario-amount').innerHTML = nErrors;
       });
 
       this.goToPlayerBoard(this.orderedPlayers[0].id);
@@ -140,15 +181,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
     updateComputedScoresheetData(pId) {
       this.gamedatas.players[pId].scoresheet.forEach((entry) => {
-        $(`slot-${pId}-${entry.slot}`).innerHTML = '';
-
-        // "v" for value
-        if (entry.v !== undefined) {
+        // Dynamic slot on scoresheet
+        if (entry.slot) {
           $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;
         }
-        // "s" for scribble (useless ??)
-        else if (entry.s !== undefined) {
-          console.error('TODO');
+        // Dynamic data on player panel
+        else if (entry.panel) {
+          $(`${entry.panel}-status-${pId}`).innerHTML = entry.v;
         }
       });
     },

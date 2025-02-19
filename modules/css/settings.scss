@@ -14,12 +14,44 @@
         align-items: center;
         padding: 5px 0px;
         border-bottom: 1px solid #80502e;
+    }
 
-        &#susan-holder {
-            height: 355px;
-            cursor: zoom-in;
-            border-bottom: none;
-            padding-bottom: 0px;
+    #cards-count {
+        display: flex;
+        height: 40px;
+        width: 35px;
+        margin-left: 2px;
+        position: relative;
+        z-index: 1;
+
+        div,
+        div::after,
+        div::before {
+            width: 27px;
+            height: 35px;
+            transform-origin: left bottom;
+        }
+
+        div {
+            position: relative;
+            font-family: "Bebas";
+            font-size: 23px;
+            @include centered;
+
+            &::after,
+            &::before {
+                content: "";
+                position: absolute;
+                z-index: -1;
+                border-radius: 6px;
+                border: 1px solid #555;
+                box-shadow: 1px 1px 1px black;
+                background-color: #8b7f73;
+            }
+
+            &::before {
+                transform: translateY(1px) translateX(2px) rotate(6deg);
+            }
         }
     }
 

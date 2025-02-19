@@ -227,6 +227,7 @@ define([
 
         $('game_play_area').dataset.turn = gamedatas.turn;
 
+        this.setupInfoPanel();
         this.setupPlayers();
         this.initConstructionCards();
         this.setupPlanCards();
@@ -234,7 +235,6 @@ define([
         this.addScribbleClipPaths();
         this.setupScribbles();
 
-        this.setupInfoPanel();
         this.inherited(arguments);
         // Create a new div for "anytime" buttons
         dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
@@ -779,6 +779,10 @@ define([
   <div class='player-board' id="player_board_config">
     <div id="player_config" class="player_board_content">
       <div class="player_config_row">
+        <div id="cards-count">
+          <div id="cards-count-status"></div>
+        </div>
+
         <div id="show-scores">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <g class="fa-group">

@@ -56,6 +56,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this.destroy(oCard);
         }
       });
+
+      this.updateDeckCount();
+    },
+
+    updateDeckCount(deckCount = null) {
+      if (deckCount !== null) {
+        this.gamedatas.deckCount = deckCount;
+      }
+      $('cards-count-status').innerHTML = this.gamedatas.deckCount;
     },
 
     tplConstructionCard(card) {
@@ -289,6 +298,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
         })
       );
+      this.updateDeckCount(args.deckCount);
+      return true;
     },
 
     slideFromLeft(elem) {
@@ -364,6 +375,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(args.newCard));
       let newCard = $(`construction-card-${args.newCard.id}`);
       newCard.style.zIndex = 100 - args.turn;
+      this.updateDeckCount(args.deckCount);
       return this.slideFromLeft(newCard);
     },
 
@@ -423,9 +435,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     updatePlansValidationMarks() {
       $('plan-cards-container')
         .querySelectorAll('.plan-card-holder')
-        .forEach((oPlan) => {
+        .forEach((oPlan, i) => {
           delete oPlan.dataset.validation;
-
+          document.querySelectorAll(`.plan-status-${i + 1}`).forEach((o) => (o.innerHTML = ''));
           // Is this plan validated ?
           let validationScribble = oPlan.querySelector('.wttm-scribble.scribble-squiggle');
 
@@ -444,6 +456,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
               if (firstValidation) high.push(name);
               else low.push(name);
+              $(`plan-status-${i + 1}-${pId}`).innerHTML = firstValidation ? 1 : 2;
             });
           }
           oPlan.dataset.validation = validationStatus;

@@ -1530,40 +1530,85 @@ body {
             font-weight: bold;
             text-align: center; }
 
-.player-name svg {
-  width: 25px;
-  height: 21px;
-  cursor: pointer;
-  vertical-align: bottom;
-  margin-left: 3px; }
-
-.player-info {
+.wttm-player-panel {
+  padding: 0;
   display: flex;
-  justify-content: space-between; }
-  .player-info .civ-hand {
-    width: 100px;
-    height: 35px;
+  justify-content: space-around;
+  flex-wrap: wrap; }
+  .wttm-player-panel .plans-status {
+    width: 120px;
+    height: 100%;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
-    background: #353534;
-    border: 2px solid white;
-    border-radius: 9px;
-    font-family: "HemiHead";
-    padding-left: 4px;
-    box-shadow: 2px 2px 3px black;
-    cursor: pointer;
-    position: relative; }
-    .player-info .civ-hand .welcometothemoon-card {
+    justify-content: space-around; }
+    .wttm-player-panel .plans-status div {
+      width: 37px;
+      height: 40px;
+      font-size: 20px;
+      font-family: "Gears of Peace";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-size: 100% auto;
+      background-repeat: no-repeat; }
+      .wttm-player-panel .plans-status div.plan-status-1 {
+        background-image: url("img/stack-A.png"); }
+      .wttm-player-panel .plans-status div.plan-status-2 {
+        background-image: url("img/stack-B.png"); }
+      .wttm-player-panel .plans-status div.plan-status-3 {
+        background-image: url("img/stack-C.png"); }
+  .wttm-player-panel .numbers-status {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    font-family: "Bebas";
+    background-image: url("img/slot-number.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat; }
+    .wttm-player-panel .numbers-status div {
       position: absolute; }
-
-.welcometothemoon-first-player-holder {
-  position: absolute;
-  height: 40px;
-  right: 49px;
-  top: 7px;
-  width: 80px; }
+    .wttm-player-panel .numbers-status div:nth-of-type(1) {
+      top: 3px;
+      left: 10px;
+      font-size: 17px;
+      width: 15px;
+      text-align: center; }
+    .wttm-player-panel .numbers-status div:nth-of-type(2) {
+      top: 15px;
+      left: 10px;
+      width: 22px;
+      height: 15px;
+      background: linear-gradient(-20deg, transparent calc(50% - 1px), #222, transparent calc(50% + 1px)); }
+    .wttm-player-panel .numbers-status div:nth-of-type(3) {
+      bottom: 0px;
+      right: 10px;
+      font-size: 14px;
+      color: #575757; }
+  .wttm-player-panel .system-errors-status {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    font-family: "Bebas";
+    background-image: url("img/system-error-filled.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    color: white; }
+    .wttm-player-panel .system-errors-status div {
+      position: absolute; }
+    .wttm-player-panel .system-errors-status div:nth-of-type(1) {
+      top: 5px;
+      left: 7px; }
+    .wttm-player-panel .system-errors-status div:nth-of-type(2) {
+      top: 12px;
+      left: 10px;
+      width: 22px;
+      height: 15px;
+      background: linear-gradient(-30deg, transparent calc(50% - 2px), white, transparent calc(50% + 1px)); }
+    .wttm-player-panel .system-errors-status div:nth-of-type(3) {
+      bottom: 3px;
+      right: 8px;
+      font-size: 14px;
+      color: white; }
 
 #player_board_config {
   position: relative;
@@ -1579,11 +1624,37 @@ body {
     align-items: center;
     padding: 5px 0px;
     border-bottom: 1px solid #80502e; }
-    #player_config .player_config_row#susan-holder {
-      height: 355px;
-      cursor: zoom-in;
-      border-bottom: none;
-      padding-bottom: 0px; }
+  #player_config #cards-count {
+    display: flex;
+    height: 40px;
+    width: 35px;
+    margin-left: 2px;
+    position: relative;
+    z-index: 1; }
+    #player_config #cards-count div,
+    #player_config #cards-count div::after,
+    #player_config #cards-count div::before {
+      width: 27px;
+      height: 35px;
+      transform-origin: left bottom; }
+    #player_config #cards-count div {
+      position: relative;
+      font-family: "Bebas";
+      font-size: 23px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center; }
+      #player_config #cards-count div::after, #player_config #cards-count div::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border-radius: 6px;
+        border: 1px solid #555;
+        box-shadow: 1px 1px 1px black;
+        background-color: #8b7f73; }
+      #player_config #cards-count div::before {
+        transform: translateY(1px) translateX(2px) rotate(6deg); }
   #player_config #help-mode-switch .checkbox {
     display: none; }
   #player_config #help-mode-switch .label {

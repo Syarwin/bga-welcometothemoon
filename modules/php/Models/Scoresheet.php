@@ -100,6 +100,22 @@ class Scoresheet
     return $this->hasScribbledSomeSlots($slots, count($slots), $type);
   }
 
+  public function countScribbledSlots(array $slots, ?int $type = null): int
+  {
+    $n = 0;
+    foreach ($slots as $slot) {
+      if ($this->hasScribbledSlot($slot, $type)) {
+        $n++;
+      }
+    }
+    return $n;
+  }
+
+  public function countScribblesInSection(string $section, ?int $type = null): int
+  {
+    return $this->countScribbledSlots($this->getSectionSlots($section), $type);
+  }
+
   public function addScribble($location, $type = SCRIBBLE): Scribble
   {
     $scribble = Scribbles::add($this->player, [

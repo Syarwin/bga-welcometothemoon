@@ -53,6 +53,8 @@ class Scoresheet1 extends Scoresheet
     return [
       ["slot" => 150, "v" => $negativePoints],
       ["slot" => 151, "v" => $totalPoints, "score" => true],
+      ["panel" => "numbers", "v" => $this->countScribblesInSection('numbers')],
+      ["panel" => "errors", "v" => $this->countScribblesInSection('errors', SCRIBBLE_CIRCLE)],
     ];
   }
 

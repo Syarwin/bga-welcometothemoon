@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Core;
 
 use Bga\Games\WelcomeToTheMoon\Game;
+use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
@@ -25,6 +26,7 @@ class Notifications
     self::notifyAll('newTurn', clienttranslate('Turn ${turn}'), [
       'turn' => $turn,
       'cards' => $cards,
+      'deckCount' => ConstructionCards::getCardsLeft(),
     ]);
   }
 
@@ -172,6 +174,7 @@ class Notifications
       'stack' => $stack,
       'oldCard' => $card,
       'newCard' => $drawnCard,
+      'deckCount' => ConstructionCards::getCardsLeft(),
     ]);
   }
 

@@ -90,6 +90,7 @@ class Game extends \Table
         $datas =  [
             'players' => Players::getUiData($currentPId),
             'constructionCards' => ConstructionCards::getUiData(),
+            'deckCount' => ConstructionCards::getCardsLeft(),
             'planCards' => PlanCards::getUiData(),
             'scribbles' => Scribbles::getUiData(),
 

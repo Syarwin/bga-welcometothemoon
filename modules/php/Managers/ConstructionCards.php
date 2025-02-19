@@ -137,6 +137,24 @@ class ConstructionCards extends CachedPieces
     }
   }
 
+  /*
+   * Get the content of the three stacks
+   */
+  public static function getUiData()
+  {
+    $cards = [];
+    for ($i = 0; $i < 3; $i++) {
+      $cards[$i] = self::getTopOf("stack-$i", 2, false)->toArray();
+    }
+
+    return $cards;
+  }
+
+  public static function getCardsLeft()
+  {
+    return self::countInLocation(Globals::isSolo() ? "deck" : "deck-1");
+  }
+
   ////////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
@@ -247,19 +265,6 @@ class ConstructionCards extends CachedPieces
         self::moveAllInLocation($stack, 'discard', 0);
       }
     }
-  }
-
-  /*
-   * Get the content of the three stacks
-   */
-  public static function getUiData()
-  {
-    $cards = [];
-    for ($i = 0; $i < 3; $i++) {
-      $cards[$i] = self::getTopOf("stack-$i", 2, false)->toArray();
-    }
-
-    return $cards;
   }
 
   /*
