@@ -146,4 +146,24 @@
             }
         }
     }
+
+    [data-player-boards-layout="1"] & {
+        height: auto;
+
+        .slideshow-left,
+        .slideshow-right {
+            display: none;
+        }
+
+        .score-sheet-holder {
+            height: auto;
+
+            .score-sheet {
+                position: relative;
+                &:not(.active) {
+                    display: block;
+                }
+            }
+        }
+    }
 }

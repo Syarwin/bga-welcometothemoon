@@ -65,7 +65,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     goToPlayerBoard(pId, evt = null) {
       if (evt) evt.stopPropagation();
 
-      let v = 0; // TODO this.settings.playerBoardsLayout;
+      let v = this.settings.playerBoardsLayout;
       if (v == 0) {
         // Tabbed view
         this._focusedPlayer = pId;

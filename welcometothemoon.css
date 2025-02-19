@@ -1529,6 +1529,17 @@ body {
             font-family: "Caveat";
             font-weight: bold;
             text-align: center; }
+  [data-player-boards-layout="1"] .score-sheet-wrapper {
+    height: auto; }
+    [data-player-boards-layout="1"] .score-sheet-wrapper .slideshow-left,
+    [data-player-boards-layout="1"] .score-sheet-wrapper .slideshow-right {
+      display: none; }
+    [data-player-boards-layout="1"] .score-sheet-wrapper .score-sheet-holder {
+      height: auto; }
+      [data-player-boards-layout="1"] .score-sheet-wrapper .score-sheet-holder .score-sheet {
+        position: relative; }
+        [data-player-boards-layout="1"] .score-sheet-wrapper .score-sheet-holder .score-sheet:not(.active) {
+          display: block; }
 
 .wttm-player-panel {
   padding: 0;
