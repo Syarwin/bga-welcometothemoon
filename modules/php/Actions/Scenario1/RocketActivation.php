@@ -19,15 +19,27 @@ class RocketActivation extends GenericPickSlot
     return clienttranslate('Activate an Inactive Rocket bonus');
   }
 
-  protected array $slots = [
-    152,
-    153,
-    154,
-    155,
-    156,
-    157,
-    158,
-  ];
+  protected function getSlots(Player $player): array
+  {
+    $slotsAndQuarter = [
+      152 => [4, 5, 6],
+      153 => [9, 10, 11],
+      154 => [17, 18, 19, 20, 21],
+      155 => [22, 23, 24, 25, 26, 27],
+      156 => [28, 29, 30, 31, 32],
+      157 => [38, 39],
+      158 => [42, 43],
+    ];
+    $slots = [];
+    // Filter out slot from a filled out quarter
+    foreach ($slotsAndQuarter as $slot => $quarterSlots) {
+      if (!$player->scoresheet()->hasScribbledSlots($quarterSlots)) {
+        $slots[] = $slot;
+      }
+    }
+    return $slots;
+  }
+
   public function actRocketActivation(int $slot)
   {
     $this->sanityCheck($slot);
