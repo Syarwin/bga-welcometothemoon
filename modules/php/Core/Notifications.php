@@ -322,6 +322,23 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one station multiplier'));
   }
 
+  public static function scribbleAstronaut(Player $player, Scribble $scribble)
+  {
+    $msg = clienttranslate('${player_name} crosses off an Astronaut symbol');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
+  public static function circleJoker(Player $player, Scribble $scribble)
+  {
+    $msg = clienttranslate('${player_name} circles a Wild Action symbol');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
 
   /////////////////////////////////////
   //   ____           _          
