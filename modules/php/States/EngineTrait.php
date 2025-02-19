@@ -50,6 +50,7 @@ trait EngineTrait
    */
   function argsAtomicAction($pId, $state)
   {
+    if ($pId != Players::getCurrentId(true)) return [];
     $player = Players::get($pId);
     $node = Engine::getNextUnresolved($pId);
     if (is_null($node)) {

@@ -142,7 +142,7 @@ class Scoresheet2 extends Scoresheet
 
     // Longest station
     $sectionsBySizes = $this->getNumberedSectionsBySize();
-    $maxSectionSize = max(array_keys($sectionsBySizes));
+    $maxSectionSize = empty($sectionsBySizes) ? 0 : max(array_keys($sectionsBySizes));
     $data[] = ["slot" => 40, "v" => $maxSectionSize];
 
     // Most station TODO
@@ -165,6 +165,10 @@ class Scoresheet2 extends Scoresheet
       "score" => true,
       "v" => $missionPoints + $stationPoints + $waterPoints + $maxSectionSize + $sectionMajorityPoints - $negativePoints
     ];
+
+    // Panel
+    $data[] = ["panel" => "numbers", "v" => $this->countScribblesInSection('numbers')];
+    $data[] = ["panel" => "errors", "v" => $this->countScribblesInSection('errors')];
 
     return $data;
   }
