@@ -81,5 +81,12 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     if ($scenarioId == 1) {
       CrossRockets::crossRocketAux($player, $reward, clienttranslate("accomplished mission"));
     }
+
+    // Any additional mission to accomplish ?
+    if (PlanCards::getAccomplishablePlans($player)->count() > 0) {
+      $this->insertAsChild([
+        'action' => ACCOMPLISH_MISSION,
+      ]);
+    }
   }
 }
