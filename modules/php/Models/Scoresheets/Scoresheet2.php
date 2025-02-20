@@ -31,6 +31,9 @@ class Scoresheet2 extends Scoresheet
         return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
       case WATER:
         return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot]];
+      case ASTRONAUT:
+      case PLANNING:
+        return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => $combination['action']]];
     }
     return null;
   }

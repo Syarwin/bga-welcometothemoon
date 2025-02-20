@@ -8,7 +8,6 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Helpers\Log;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 
 /* Class to manage all the Actions */
 
@@ -36,6 +35,7 @@ class Actions
     CIRCLE_PLANT,
     STIR_WATER_TANKS,
     CROSS_OFF_MULTIPLIER,
+    CIRCLE_OTHER,
   ];
 
   public static function get($actionId, &$ctx = null)

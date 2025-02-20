@@ -113,6 +113,7 @@ const PROGRAM_ROBOT = 'Scenario2\ProgramRobot';
 const CIRCLE_PLANT = 'Scenario2\CirclePlant';
 const STIR_WATER_TANKS = 'Scenario2\StirWaterTanks';
 const CROSS_OFF_MULTIPLIER = 'Scenario2\CrossOffMultiplier';
+const CIRCLE_OTHER = 'Scenario2\CircleOther';
 
 /*
  * Actions
