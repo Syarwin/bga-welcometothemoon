@@ -64,7 +64,6 @@ define([
       getSettingsSections() {
         return {
           layout: _('Layout'),
-          playerBoard: _('Player Board/Panel'),
           gameFlow: _('Game Flow'),
           other: _('Other'),
         };
@@ -74,6 +73,18 @@ define([
         return {
           ////////////////////
           ///    LAYOUT    ///
+          playerBoardsLayout: {
+            default: 0,
+            name: _('Player boards layout'),
+            attribute: 'player-boards-layout',
+            type: 'select',
+            values: {
+              0: _('Individual view (tabbed layout)'),
+              1: _('Multiple view'),
+            },
+            section: 'layout',
+          },
+
           singleColumn: {
             default: (isMobile) => (isMobile ? 1 : 0),
             name: _('Single column layout'),
@@ -828,6 +839,9 @@ define([
       onChangeFitToWidthSetting(val) {
         this.updateLayout();
       },
+      onChangePlayerBoardsLayoutSetting(val) {
+        this.updateLayout();
+      },
 
       onLoadingComplete() {
         this.updateLayout();
@@ -858,9 +872,10 @@ define([
         const sheetRatio = (ratio[1] - firstHandle) / 100;
         const newSheetWidth = sheetZoom * sheetRatio * box['width'];
         const sheetScale = newSheetWidth / sheetWidth;
+        const tabbed = this.settings.playerBoardsLayout == 0;
         $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
         $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-        $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+        $('player-score-sheets-container').style.height = `${(tabbed ? 1 : this.getPlayers().length) * newSheetWidth}px`;
 
         const cardsWidth = this._isStandard ? 420 : 208;
         const cardsHeight = 963;
@@ -890,9 +905,10 @@ define([
         const sheetWidth = 1128;
         const sheetScale = box['width'] / sheetWidth;
         const newSheetWidth = box['width'];
+        const tabbed = this.settings.playerBoardsLayout == 0;
         $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
         $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-        $('player-score-sheets-container').style.height = `${newSheetWidth}px`;
+        $('player-score-sheets-container').style.height = `${(tabbed ? 1 : this.getPlayers().length) * newSheetWidth}px`;
 
         const cardsWidth = this._isStandard ? 1289 : 900;
         const plansWidth = 654;
