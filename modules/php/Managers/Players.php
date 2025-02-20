@@ -6,6 +6,7 @@ use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 /*
  * Players manager : allows to easily access players ...
@@ -17,6 +18,7 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
   protected static string $table = 'player';
   protected static string $primary = 'player_id';
   protected static ?Collection $datas = null;
+
   protected static function cast($row)
   {
     return new \Bga\Games\WelcomeToTheMoon\Models\Player($row);
@@ -63,12 +65,12 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return (int) Game::get()->getCurrentPId($bReturnNullIfNotLogged);
   }
 
-  public static function getActive()
+  public static function getActive(): Player
   {
     return self::get(self::getActiveId());
   }
 
-  public static function getCurrent()
+  public static function getCurrent(): Player
   {
     return self::get(self::getCurrentId());
   }
@@ -137,6 +139,7 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
    * Get Astra
    */
   private static ?Astra $astra;
+
   public static function getAstra(): ?Astra
   {
     if (!Globals::isSolo()) return null;

@@ -44,7 +44,7 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function getDescription(): string
   {
-    return $this->isAstronautAction() ? clienttranslate('Circling an astronaut symbol') : clienttranslate('Circling a planning symbol');
+    return $this->isAstronautAction() ? clienttranslate('Circling an Astronaut symbol') : clienttranslate('Circling a Planning symbol');
   }
 
   public function stCircleOther()
@@ -59,7 +59,9 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
     foreach ($this->getSlots() as $slot) {
       if (!$scoresheet->hasScribbledSlot($slot)) {
         $scribble = $scoresheet->addScribble($slot);
-        Notifications::scribbleAstronaut($player, $scribble);
+        $this->isAstronautAction() ?
+          Notifications::scribbleAstronaut($player, $scribble) :
+          Notifications::scribblePlanning($player, $scribble);
         if (in_array($slot, array_keys(self::$jokers))) {
           $scribble = $scoresheet->addScribble(self::$jokers[$slot], SCRIBBLE_CIRCLE);
           Notifications::circleJoker($player, $scribble);

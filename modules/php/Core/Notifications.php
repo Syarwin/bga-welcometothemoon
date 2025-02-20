@@ -331,6 +331,15 @@ class Notifications
     ]);
   }
 
+  public static function scribblePlanning(Player $player, Scribble $scribble)
+  {
+    $msg = clienttranslate('${player_name} crosses off a Planning symbol');
+    static::pnotify($player, 'addScribble', $msg, [
+      'player' => $player,
+      'scribble' => $scribble,
+    ]);
+  }
+
   public static function circleJoker(Player $player, Scribble $scribble)
   {
     $msg = clienttranslate('${player_name} circles a Wild Action symbol');

@@ -78,6 +78,11 @@ class Scoresheet
     return false;
   }
 
+  public function isWriteXOptional(): bool
+  {
+    return false;
+  }
+
   public function hasScribbledSomeSlots(array $slots, int $target, ?int $type = null)
   {
     $n = 0;
