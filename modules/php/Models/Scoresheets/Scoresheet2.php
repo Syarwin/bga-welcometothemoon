@@ -173,7 +173,7 @@ class Scoresheet2 extends Scoresheet
 
       $bigMultiplier = array_keys(ProgramRobot::$bigToSmallMultiplierMap)[$station - 1];
       $stationMultipliers = [$bigMultiplier, ProgramRobot::$bigToSmallMultiplierMap[$bigMultiplier]];
-      $circledMultipliersCount = $this->countScribbledSlots($stationMultipliers);
+      $circledMultipliersCount = $this->countScribbledSlots($stationMultipliers, SCRIBBLE_CIRCLE);
       if ($circledMultipliersCount > 1) {
         throw new \BgaVisibleSystemException("both station multipliers are circled for station {$station}, expected 0 or 1");
       }
