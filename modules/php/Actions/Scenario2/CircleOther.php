@@ -44,7 +44,7 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function getDescription(): string
   {
-    return $this->isAstronautAction() ? clienttranslate('Circling an Astronaut symbol') : clienttranslate('Circling a Planning symbol');
+    return $this->isAstronautAction() ? clienttranslate('Circle an Astronaut symbol') : clienttranslate('Circle a Planning symbol');
   }
 
   public function stCircleOther()

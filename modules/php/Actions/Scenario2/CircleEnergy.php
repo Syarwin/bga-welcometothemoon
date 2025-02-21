@@ -3,7 +3,6 @@
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class CircleEnergy extends \Bga\Games\WelcomeToTheMoon\Models\Action
@@ -28,6 +27,11 @@ class CircleEnergy extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return [];
   }
 
+  public function getDescription(): string
+  {
+    return clienttranslate('Circle an Energy symbol');
+  }
+
   // Each entry is BOTTOM SLOT => [FIRST TOP SLOT, SECOND TOP SLOT] of an individual column
   public static array $slots = [
     135 => [133, 134],
@@ -37,7 +41,8 @@ class CircleEnergy extends \Bga\Games\WelcomeToTheMoon\Models\Action
     147 => [145, 146],
     150 => [148, 149],
   ];
-  // Find the next empty slot and whether it implies to build a wall or not 
+
+  // Find the next empty slot and whether it implies to build a wall or not
   public function getNextSlot(Player $player): ?array
   {
     $scoresheet = $player->scoresheet();
