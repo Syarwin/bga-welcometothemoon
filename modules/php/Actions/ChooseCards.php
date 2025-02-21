@@ -46,8 +46,7 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     // Joker action
-    $canUseJokerAction = false; // TODO
-    if ($canUseJokerAction) {
+    if ($player->scoresheet()->canUseJoker()) {
       $data['jokerCombinations'] = $this->getPlayableCombinations($player, true);
     }
 
@@ -68,7 +67,9 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     if ($useJoker) {
-      die("TODO: use Joker, scribble somewhere");
+      $scoresheet = $player->scoresheet();
+      $scribble = $scoresheet->addScribble($scoresheet->getFirstUnscribbledJoker());
+      Notifications::addScribble($player, $scribble);
     }
 
     PGlobals::setCombination($player->getId(), $combination);

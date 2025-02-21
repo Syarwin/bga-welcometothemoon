@@ -85,7 +85,7 @@ class Notifications
   }
 
   // Generic addScribble notif
-  public static function addScribble(?Player $player, Scribble $scribble, $msg, $args = [])
+  public static function addScribble(?Player $player, Scribble $scribble, $msg = '', $args = [])
   {
     $args['scribble'] = $scribble;
     if (is_null($player)) {
