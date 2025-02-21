@@ -74,8 +74,10 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
+  public static bool $multipleSetupCalled = false;
   public static function multipleSetup($aTrees, $callback, $descPrefix = '')
   {
+    static::$multipleSetupCalled = true; // Useful for private args computaiton
     Globals::setEngineWaitingDescriptionSuffix($descPrefix);
     Globals::setCallbackEngineResolved($callback);
     $allPIds = Players::getAll()->getIds();
