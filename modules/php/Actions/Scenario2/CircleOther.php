@@ -73,7 +73,7 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   private static array $astronauts = [151, 152, 154, 155, 157, 158];
   private static array $planning = [160, 161, 163, 164, 166, 167];
-  private static array $jokers = [
+  public static array $jokers = [
     152 => 153,
     155 => 156,
     158 => 159,

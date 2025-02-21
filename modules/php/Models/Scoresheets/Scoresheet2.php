@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CircleOther;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\StirWaterTanks;
@@ -122,6 +123,21 @@ class Scoresheet2 extends Scoresheet
       ];
     }
     return [];
+  }
+
+  public function canUseJoker(): bool
+  {
+    return $this->getFirstUnscribbledJoker() !== null;
+  }
+
+  public function getFirstUnscribbledJoker(): int|null
+  {
+    foreach (CircleOther::$jokers as $jokerSlot) {
+      if ($this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE) && !$this->hasScribbledSlot($jokerSlot, SCRIBBLE)) {
+        return $jokerSlot;
+      }
+    }
+    return null;
   }
 
   // DYNAMIC SLOTS

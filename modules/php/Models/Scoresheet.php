@@ -78,7 +78,7 @@ class Scoresheet
     return false;
   }
 
-  public function hasScribbledSomeSlots(array $slots, int $target, ?int $type = null)
+  public function hasScribbledSomeSlots(array $slots, int $target, ?int $type = null): bool
   {
     $n = 0;
     foreach ($slots as $slot2) {
@@ -133,6 +133,16 @@ class Scoresheet
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
+  {
+    return null;
+  }
+
+  public function canUseJoker(): bool
+  {
+    return false;
+  }
+
+  public function getFirstUnscribbledJoker(): int|null
   {
     return null;
   }
