@@ -232,9 +232,10 @@ $machinestates = [
   ST_WRITE_X => [
     'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must write an X on your scoresheet'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may write an X on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
-    'possibleactions' => ['actWriteX', 'actRestart'],
+    'possibleactions' => ['actWriteX', 'actRestart', 'actPassOptionalAction'],
   ],
 
   //////////////////////////////////////////////////

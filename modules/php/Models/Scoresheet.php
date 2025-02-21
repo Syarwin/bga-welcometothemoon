@@ -147,6 +147,11 @@ class Scoresheet
     return null;
   }
 
+  public function isWriteXOptional(): bool
+  {
+    return true;
+  }
+
   public function computeUiData(): array
   {
     return [];

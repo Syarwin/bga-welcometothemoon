@@ -65,12 +65,12 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return (int) Game::get()->getCurrentPId($bReturnNullIfNotLogged);
   }
 
-  public static function getActive()
+  public static function getActive(): Player
   {
     return self::get(self::getActiveId());
   }
 
-  public static function getCurrent()
+  public static function getCurrent(): Player
   {
     return self::get(self::getCurrentId());
   }

@@ -33,8 +33,12 @@ class Scoresheet2 extends Scoresheet
       case WATER:
         return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot]];
       case ASTRONAUT:
-      case PLANNING:
         return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => $combination['action']]];
+      case PLANNING:
+        return ['action' => WRITE_X, 'args' => [
+          'actionType' => $combination['action'],
+          'source' => ['name' => clienttranslate('Planning action')],
+        ]];
     }
     return null;
   }
@@ -108,6 +112,18 @@ class Scoresheet2 extends Scoresheet
     Globals::setCircledMultipliers([]);
   }
 
+  public function getScribbleReactions($scribble): array
+  {
+    if ($scribble->getNumber() === NUMBER_X) {
+      return [
+        [
+          'action' => CIRCLE_OTHER,
+          'args' => ['actionType' => PLANNING]
+        ]
+      ];
+    }
+    return [];
+  }
 
   public function canUseJoker(): bool
   {
