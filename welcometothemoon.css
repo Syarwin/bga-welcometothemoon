@@ -1698,6 +1698,10 @@ body {
   width: 37px;
   height: 37px;
 }
+.score-sheet[data-board="2"] .wttm-slot.slot-error {
+  width: 42px;
+  height: 42px;
+}
 .score-sheet[data-board="2"] .wttm-slot.slot-othermarker {
   width: 40px;
   height: 40px;
