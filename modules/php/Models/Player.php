@@ -40,6 +40,11 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     return $datas;
   }
 
+  public function getId(): int
+  {
+    return $this->id;
+  }
+
   public function getPref(int $prefId)
   {
     return Game::get()->getGameUserPreference($this->id, $prefId);
@@ -57,6 +62,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   }
 
   protected ?Scoresheet $scoresheet = null;
+
   public function scoresheet(): ?Scoresheet
   {
     if (is_null($this->scoresheet) && Globals::getScenario() != 0) {

@@ -44,7 +44,7 @@ class Scoresheet2 extends Scoresheet
   /**
    * getSections: based on current walls, compute the different sections
    */
-  public function getSections()
+  public function getSections(): array
   {
     $sections = [];
     $section = [1];
@@ -61,7 +61,7 @@ class Scoresheet2 extends Scoresheet
     return $sections;
   }
 
-  public function getNumberedSections()
+  public function getNumberedSections(): array
   {
     $sections = [];
     foreach ($this->getSections() as $section) {
@@ -73,7 +73,7 @@ class Scoresheet2 extends Scoresheet
     return $sections;
   }
 
-  public function getNumberedSectionsBySize()
+  public function getNumberedSectionsBySize(): array
   {
     $sizes = [];
     foreach ($this->getNumberedSections() as $section) {
@@ -124,7 +124,16 @@ class Scoresheet2 extends Scoresheet
     return null;
   }
 
+  public function getCompleteSectionsCount(): int
+  {
+    return count($this->getNumberedSections());
+  }
+
   // DYNAMIC SLOTS
+
+  /**
+   * @throws \BgaVisibleSystemException
+   */
   public function computeUiData(): array
   {
     $data = [];
@@ -139,12 +148,29 @@ class Scoresheet2 extends Scoresheet
     }
     $data[] = ["slot" => 37, "v" => $missionPoints];
 
-    // Stations TODO
+    // Stations
     $stationPoints = 0;
     for ($station = 1; $station <= 4; $station++) {
-      $mult = 0; // TODO
-      $nPlants = 0; // TODO
-      $points = $mult * $nPlants;
+      $stationSlot = array_flip(CirclePlant::$stationNumbers)[$station];
+      $plantsSlots = CirclePlant::$stationConnections[$stationSlot];
+      $nPlants = $this->countScribbledSlots($plantsSlots);
+
+      $bigMultiplier = array_keys(ProgramRobot::$bigToSmallMultiplierMap)[$station - 1];
+      $stationMultipliers = [$bigMultiplier, ProgramRobot::$bigToSmallMultiplierMap[$bigMultiplier]];
+      $circledMultipliersCount = $this->countScribbledSlots($stationMultipliers);
+      if ($circledMultipliersCount > 1) {
+        throw new \BgaVisibleSystemException("both station multipliers are circled for station {$station}, expected 0 or 1");
+      }
+      if ($circledMultipliersCount === 0) {
+        $multiplier = 0;
+      } else {
+        $multiplierSlot = array_values(array_filter($stationMultipliers, function ($multiplier) {
+          return $this->hasScribbledSlot($multiplier);
+        }))[0];
+        $multiplier = ProgramRobot::$multipliersValues[$multiplierSlot];
+      }
+
+      $points = $multiplier * $nPlants;
       $stationPoints += $points;
       $data[] = ["slot" => 168 + $station, "v" => $points];
     }
@@ -159,15 +185,20 @@ class Scoresheet2 extends Scoresheet
     }
     $data[] = ["slot" => 39, "v" => $waterPoints];
 
-    // Longest station
+    // Longest complete zone
     $sectionsBySizes = $this->getNumberedSectionsBySize();
     $maxSectionSize = empty($sectionsBySizes) ? 0 : max(array_keys($sectionsBySizes));
     $data[] = ["slot" => 40, "v" => $maxSectionSize];
 
-    // Most station TODO
-    $sectionMajorityPoints = 0;
+    // Most zones complete
+    $thisPlayerOrder = Players::getOrderNumberMostZonesComplete($this->player->getId());
+    $sectionMajorityPoints = [
+      0 => 0,
+      1 => 20,
+      2 => 10,
+      3 => 5,
+    ][$thisPlayerOrder];
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
-
 
     // System errors
     $negativePoints = 0;

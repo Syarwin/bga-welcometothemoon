@@ -284,4 +284,9 @@ class Scoresheet
     $slots = $this->getSectionFreeSlots('errors');
     return empty($slots) ? null : $slots[0];
   }
+
+  public function getCompleteSectionsCount(): int
+  {
+    return 0;
+  }
 }
