@@ -156,6 +156,7 @@ class Scoresheet1 extends Scoresheet
     // JOKER
     [46, 47, 48, 49, 50, 51, 52, 53]
   ];
+
   public function getAvailableSlotsForNumber(int $number, string $action): array
   {
     $allSlots = parent::getAvailableSlotsForNumber($number, $action);
@@ -222,6 +223,11 @@ class Scoresheet1 extends Scoresheet
     }
 
     return $actions;
+  }
+
+  public function isWriteXOptional(): bool
+  {
+    return false;
   }
 
   public static function getQuarters()

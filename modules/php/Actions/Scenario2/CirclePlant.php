@@ -73,7 +73,7 @@ class CirclePlant extends GenericPickSlot
     31 => [86, 87, 88, 89],
   ];
 
-  private static array $stationNumbers = [
+  public static array $stationNumbers = [
     6 => 1,
     16 => 2,
     21 => 3,

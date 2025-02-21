@@ -147,6 +147,11 @@ class Scoresheet
     return null;
   }
 
+  public function isWriteXOptional(): bool
+  {
+    return true;
+  }
+
   public function computeUiData(): array
   {
     return [];
@@ -283,5 +288,10 @@ class Scoresheet
   {
     $slots = $this->getSectionFreeSlots('errors');
     return empty($slots) ? null : $slots[0];
+  }
+
+  public function getCompleteSectionsCount(): int
+  {
+    return 0;
   }
 }

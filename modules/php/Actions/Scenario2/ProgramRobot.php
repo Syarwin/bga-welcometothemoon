@@ -95,14 +95,14 @@ class ProgramRobot extends GenericPickSlot
     128 => [58, 59, 60, 61],
   ];
 
-  private static array $bigToSmallMultiplierMap = [
+  public static array $bigToSmallMultiplierMap = [
     125 => 129,
     126 => 130,
     127 => 131,
     128 => 132,
   ];
 
-  private static array $multipliersValues = [
+  public static array $multipliersValues = [
     125 => 6,
     126 => 9,
     127 => 8,

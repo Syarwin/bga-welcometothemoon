@@ -17,6 +17,11 @@ class WriteX extends GenericPickSlot
     return clienttranslate("Write X");
   }
 
+  public function isOptional(): bool
+  {
+    return $this->getPlayer()->scoresheet()->isWriteXOptional();
+  }
+
   protected function getSlots(Player $player): array
   {
     return $player->scoresheet()->getAvailableSlotsForNumber(NUMBER_X, JOKER);
@@ -33,8 +38,10 @@ class WriteX extends GenericPickSlot
 
     // Scribble the bonus slot
     $source = $this->getCtxArg('source');
-    $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
-    Notifications::writeNumber($player, $number, $scribbles, $source['name']);
+    if (isset($source['slot'])) {
+      $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+    }
+    Notifications::writeNumber($player, $number, $scribbles, $source['name'] ?? null);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble);
     if (!empty($reactions)) {
