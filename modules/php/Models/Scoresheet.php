@@ -78,11 +78,6 @@ class Scoresheet
     return false;
   }
 
-  public function isWriteXOptional(): bool
-  {
-    return false;
-  }
-
   public function hasScribbledSomeSlots(array $slots, int $target, ?int $type = null)
   {
     $n = 0;
@@ -140,6 +135,11 @@ class Scoresheet
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     return null;
+  }
+
+  public function isWriteXOptional(): bool
+  {
+    return true;
   }
 
   public function computeUiData(): array

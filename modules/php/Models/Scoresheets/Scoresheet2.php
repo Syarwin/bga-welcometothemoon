@@ -111,14 +111,9 @@ class Scoresheet2 extends Scoresheet
     Globals::setCircledMultipliers([]);
   }
 
-  public function isWriteXOptional(): bool
-  {
-    return true;
-  }
-
   public function getScribbleReactions($scribble): array
   {
-    if (Players::getCurrent()->scoresheet()->hasScribbledSlot($scribble->getSlot(), NUMBER_X)) {
+    if ($scribble->getNumber() === NUMBER_X) {
       return [
         [
           'action' => CIRCLE_OTHER,
