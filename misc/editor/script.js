@@ -325,14 +325,14 @@ function onClickBoard(sectionConfig, mode, pos, evt) {
       .forEach((e) => (maxId = Math.max(maxId, parseInt(e.dataset.id))));
     let id = maxId + 1;
 
-    addSlot(id, sectionConfig.eltClass, pos.x, pos.y, 90);
+    addSlot(id, sectionConfig.eltClass, pos.x, pos.y);
     sectionConfig.elts.push({ id, x: pos.x, y: pos.y });
     saveScenario();
   }
 
   // ROTATE MODE
   if (mode == 'rotate') {
-    const DELTA = 5;
+    const DELTA = 90;
     let slotId = evt.target.classList.contains('wttm-slot') ? evt.target.dataset.id : null;
     if (slotId == null) return;
 
