@@ -341,6 +341,16 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} circles a Wild Action symbol'));
   }
 
+  public static function circleGreenhouse(Player $player, array $scribbles, string $quarterName)
+  {
+    if (count($scribbles) === 2) {
+      $msg = clienttranslate('${player_name} circles last greenhouse in the ${quarterName} quarter');
+    } else {
+      $msg = clienttranslate('${player_name} circles next greenhouse in the ${quarterName} quarter');
+    }
+    static::addScribbles($player, $scribbles, $msg, ['quarterName' => $quarterName]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

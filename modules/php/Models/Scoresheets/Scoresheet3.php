@@ -2,11 +2,11 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
 include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
-
 
 class Scoresheet3 extends Scoresheet
 {
@@ -41,11 +41,28 @@ class Scoresheet3 extends Scoresheet
     17 => 120,
   ];
 
+  public static function getQuarters()
+  {
+    return array_map(function ($data) {
+      return new Quarter($data);
+    }, [
+      [0, clienttranslate('top-left'), [3, 4, 5, 9, 10, 11, 15, 16], [[63], [64], [65], [66, 67]]],
+      [1, clienttranslate('top-right'), [19, 20, 21, 25, 26, 27, 31, 32], [[68], [69], [70], [71, 72]]],
+      [2, clienttranslate('bottom-left'), [1, 2, 6, 7, 8, 12, 13, 14], [[73], [74], [75], [76, 77]]],
+      [3, clienttranslate('bottom-right'), [17, 18, 22, 23, 24, 28, 29, 30], [[78], [79], [80], [81, 82]]],
+    ]);
+  }
+
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
       case WATER:
         return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot, 'waterTanksSlots' => $this->waterTanksAtSlots]];
+      case PLANT:
+        $quarterId = current(array_filter(self::getQuarters(), function ($quarter) use ($slot) {
+          return $quarter->hasSlot($slot);
+        }))->getId();
+        return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
     }
     return null;
   }

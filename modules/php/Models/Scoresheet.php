@@ -147,6 +147,16 @@ class Scoresheet
     return null;
   }
 
+  public function getFirstUnscribbled(array $slots, ?int $type = null): int|null
+  {
+    foreach ($slots as $slot) {
+      if (!$this->hasScribbledSlot($slot, $type)) {
+        return $slot;
+      }
+    }
+    return null;
+  }
+
   public function isWriteXOptional(): bool
   {
     return true;
@@ -298,7 +308,6 @@ class Scoresheet
 
     return $freeSlots;
   }
-
 
   /**
    * getNextFreeSystemErrorSlot: return the next system Error slot available, if any
