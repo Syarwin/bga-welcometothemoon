@@ -171,6 +171,48 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, cross off 1 Planning symbol on the right side of your sheet. Whenever you have 2 crossed off Planning, circle a Wild Action symbol. Note that you cannot cross off a Planning symbol without writing down an X in an empty space.'
               );
           }
+
+        // Scenario 3
+        case 3:
+          switch (action) {
+            case 'energy':
+              return _(
+                'Using the energy, you can improve the greenhouses, the water tanks or the network of parabolic antennas. To do that, cross off one box in the scoring area of your choice: the plants, the water or the antennas. You must first cross off the box with the lowest value, then the others from top to bottom.'
+              );
+            case 'robot':
+              return (
+                _(
+                  'n order to dispatch the scientists and the equipment, you must create a network of pressurized tunnels connecting the buildings to one another. At the beginning of the game, you have already 2 tunnels built from the landing site of the rocket.'
+                ) +
+                _(
+                  'With the Robot action, draw a line on a tunnel to connect two buildings. These buildings do not necessarily have to be numbered. The line must start from a building already connected to the network. The network can branch out in multiple paths.'
+                ) +
+                _(
+                  'As soon as a building with a parabolic antenna is numbered AND connected to your tunnel network, circle its antenna. If you connect the observatory on the top right corner, immediately circle its 3 antennas.'
+                )
+              );
+            case 'plant':
+              return (
+                _(
+                  'You must build greenhouses in order to grow plants. For that purpose, circle one greenhouse in the same quarter where you have just written down the number of your combination.'
+                ) +
+                _(
+                  'You must circle the greenhouses of a quarter from top to bottom. Each greenhouse will earn you 1 plant for the end of the game. The fourth greenhouse, which is larger, will earn you 2 plants.'
+                )
+              );
+            case 'water':
+              return _(
+                'If you write down the number of your combination in a building with a water tank, then with the Water action, you can circle that water tank.'
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover cross off 1 Astronaut symbol in the scoring area of your sheet.'
+              );
+            case 'planning':
+              return _(
+                'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the Planning scoring area at the bottom of your sheet. The Planning action is powerful to quickly establish your colony, but it will cost you some points at the end of the game.'
+              );
+          }
       }
     },
 

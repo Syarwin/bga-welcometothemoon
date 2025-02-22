@@ -11,9 +11,9 @@ class PlanCard78 extends PlanCard
   {
     parent::__construct($row);
     $this->desc = [
-      clienttranslate('')
+      clienttranslate('Using the robots, connect the tunnel network to the observatory in the top right corner of your sheet.')
     ];
-    $this->rewards = [11, 6];
+    $this->rewards = [9, 4];
   }
 
   public function canAccomplish(Player $player): bool

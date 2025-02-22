@@ -11,9 +11,9 @@ class PlanCard76 extends PlanCard
   {
     parent::__construct($row);
     $this->desc = [
-      clienttranslate('')
+      clienttranslate('Number all the buildings in 3 vertical columns.')
     ];
-    $this->rewards = [11, 6];
+    $this->rewards = [12, 6];
   }
 
   public function canAccomplish(Player $player): bool
