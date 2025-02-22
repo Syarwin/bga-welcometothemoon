@@ -98,6 +98,7 @@ const ACCOMPLISH_MISSION = 'AccomplishMission';
 const GIVE_CARD_TO_ASTRA = 'GiveCardToAstra';
 const REPLACE_SOLO_CARD = 'ReplaceSoloCard';
 const WRITE_X = 'WriteX';
+const STIR_WATER_TANKS = 'StirWaterTanks';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -111,9 +112,11 @@ const CIRCLE_ENERGY = 'Scenario2\CircleEnergy';
 const PLACE_ENERGY_WALL = 'Scenario2\PlaceEnergyWall';
 const PROGRAM_ROBOT = 'Scenario2\ProgramRobot';
 const CIRCLE_PLANT = 'Scenario2\CirclePlant';
-const STIR_WATER_TANKS = 'Scenario2\StirWaterTanks';
 const CROSS_OFF_MULTIPLIER = 'Scenario2\CrossOffMultiplier';
 const CIRCLE_OTHER = 'Scenario2\CircleOther';
+
+// SCENARIO 3
+const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
 
 /*
  * Actions

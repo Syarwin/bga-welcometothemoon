@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
+namespace Bga\Games\WelcomeToTheMoon\Actions;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;

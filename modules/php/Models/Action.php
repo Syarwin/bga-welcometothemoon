@@ -5,7 +5,6 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 /*
  * Action: base class to handle atomic action
@@ -15,12 +14,14 @@ class Action
 {
   protected object $ctx; // Contain ctx information : current node of flow tree
   protected string $description = '';
+
   public function __construct(&$ctx)
   {
     $this->ctx = $ctx;
   }
 
   protected ?array $args = null;
+
   public function getArgs()
   {
     if (is_null($this->args)) {
@@ -93,6 +94,7 @@ class Action
       return $this->ctx->getArgs() ?? [];
     }
   }
+
   public function getCtxArg(string $v): mixed
   {
     return $this->getCtxArgs()[$v] ?? null;

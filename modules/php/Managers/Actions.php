@@ -36,6 +36,9 @@ class Actions
     STIR_WATER_TANKS,
     CROSS_OFF_MULTIPLIER,
     CIRCLE_OTHER,
+
+    // Scenario 3
+    CIRCLE_GREENHOUSE,
   ];
 
   public static function get($actionId, &$ctx = null)

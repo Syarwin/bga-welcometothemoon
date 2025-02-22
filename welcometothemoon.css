@@ -1850,6 +1850,10 @@ body {
   height: 42px;
   border-radius: 50%;
 }
+.score-sheet[data-board="3"] .wttm-slot.slot-plant {
+  width: 45px;
+  height: 45px;
+}
 .score-sheet[data-board="3"] .wttm-slot.slot-score {
   width: 50px;
   height: 40px;
