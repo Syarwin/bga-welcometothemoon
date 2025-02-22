@@ -59,6 +59,7 @@ const ST_CIRCLE_PLANT = 38;
 const ST_STIR_WATER_TANKS = 39;
 const ST_CROSS_OFF_SABOTAGE = 40;
 const ST_CROSS_OFF_MULTIPLIER = 41;
+const ST_IMPROVE_BONUS = 42;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -117,6 +118,7 @@ const CIRCLE_OTHER = 'Scenario2\CircleOther';
 
 // SCENARIO 3
 const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
+const IMPROVE_BONUS = 'Scenario3\ImproveBonus';
 
 /*
  * Actions

@@ -4,8 +4,8 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CircleOther;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ImproveBonus;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
-use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\StirWaterTanks;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;

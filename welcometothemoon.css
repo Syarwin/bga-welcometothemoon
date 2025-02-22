@@ -1854,6 +1854,10 @@ body {
   width: 45px;
   height: 45px;
 }
+.score-sheet[data-board="3"] .wttm-slot.slot-multmarker {
+  width: 26px;
+  height: 26px;
+}
 .score-sheet[data-board="3"] .wttm-slot.slot-score {
   width: 50px;
   height: 40px;

@@ -149,12 +149,13 @@ class Scoresheet
 
   public function getFirstUnscribbled(array $slots, ?int $type = null): int|null
   {
-    foreach ($slots as $slot) {
-      if (!$this->hasScribbledSlot($slot, $type)) {
-        return $slot;
-      }
-    }
-    return null;
+    $allUnscribbled = $this->getAllUnscribbled($slots, $type);
+    return is_null($allUnscribbled) ? null : $allUnscribbled[0];
+  }
+
+  public function getAllUnscribbled(array $slots, ?int $type = null): array|null
+  {
+    return array_values(array_filter($slots, fn($slot) => !$this->hasScribbledSlot($slot, $type)));
   }
 
   public function isWriteXOptional(): bool

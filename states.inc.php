@@ -314,6 +314,13 @@ $machinestates = [
     'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
   ],
 
+  ST_IMPROVE_BONUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a scoring bonus for plants, water or antennas'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actImproveBonus', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
