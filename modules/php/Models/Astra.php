@@ -13,7 +13,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 
-const OPPONENTS =  [
+const OPPONENTS = [
   1 => [
     "name" => 'Katherine',
     "mult" => [2, 3, 2, 3, 1, 4],
@@ -139,8 +139,7 @@ class Astra
       Notifications::pmidMessage($player, clienttranslate('Drawing solo card ${stack} for the first time'), [
         'stack' => $stack
       ]);
-    }
-    // Second draw => flip over corresponding plan cards
+    } // Second draw => flip over corresponding plan cards
     else {
       $plan = PlanCards::getInLocation("stack-$stack")->first();
       $planId = $plan->getId();
@@ -158,8 +157,7 @@ class Astra
           'duration' => 1500,
           'plansUpdateNeeded' => true
         ]);
-      }
-      // Otherwise just notif
+      } // Otherwise just notif
       else {
         Notifications::pmidMessage($player, clienttranslate('Drawing solo card ${stack} for the second time'), [
           'stack' => $stack
@@ -185,6 +183,20 @@ class Astra
     return false;
   }
 
+  /**
+   * @return int
+   */
+  public function getCardsByActionMap(): array
+  {
+    $nCardsByAction = [];
+    foreach (ACTIONS as $action) {
+      $nCardsByAction[$action] = 0;
+    }
+    foreach (ConstructionCards::getInLocation("astra") as $card) {
+      $nCardsByAction[$card->getAction()]++;
+    }
+    return $nCardsByAction;
+  }
 
   /**
    * UI DATA
@@ -195,13 +207,7 @@ class Astra
     $totalScore = 0;
 
     // Count number of cards of each action
-    $nCardsByAction = [];
-    foreach (ACTIONS as $action) {
-      $nCardsByAction[$action] = 0;
-    }
-    foreach (ConstructionCards::getInLocation("astra") as $card) {
-      $nCardsByAction[$card->getAction()]++;
-    }
+    $nCardsByAction = $this->getCardsByActionMap();
 
     // Score for each icon category
     foreach (ACTIONS as $action) {

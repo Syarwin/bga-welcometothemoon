@@ -176,6 +176,10 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
         $zones[$player->getId()] = $completeSectionsCount;
       }
     }
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      $zones['astra'] = intdiv($astra->getCardsByActionMap()[ENERGY], 2);
+    }
     if (!isset($zones[$pId])) {
       return 0;
     }

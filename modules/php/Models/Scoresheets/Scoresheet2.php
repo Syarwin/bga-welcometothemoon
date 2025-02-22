@@ -122,6 +122,10 @@ class Scoresheet2 extends Scoresheet
         ]
       ];
     }
+    if (in_array($scribble->getSlot(), [44, 45])) {
+      return [['action' => CIRCLE_ENERGY]];
+    }
+
     return [];
   }
 
