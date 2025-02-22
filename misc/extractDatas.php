@@ -56,7 +56,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 // }
 
 $maps = [];
-foreach ([1, 2] as $mapId) {
+foreach ([1, 2, 3] as $mapId) {
   require_once "../modules/php/Models/Scoresheets/Scoresheet$mapId.php";
   $className = 'Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet' . $mapId;
   $map = new $className(null);

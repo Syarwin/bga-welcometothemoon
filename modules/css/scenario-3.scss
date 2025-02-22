@@ -1,0 +1,96 @@
+.score-sheet[data-board="3"] {
+  background-image: url("img/scenario-3.jpg");
+
+  .player-name {
+    left: 540px;
+    top: 10px;
+  }
+
+  .scribble-number {
+    font-size: 43px;
+    line-height: 41px;
+    text-indent: -11px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
+    letter-spacing: -2px;
+
+    &.selectable {
+      border: none;
+    }
+  }
+
+  .wttm-slot {
+    // TODO: I don't think .selectables should be unique for all scenarios and elements, there must be some similarities
+    // therefore it should be in some scenario-common.scss/scoresheet.scss
+    &.selectable {
+      border: 1px solid red;
+      background-color: rgba(255, 0, 0, 0.5);
+      box-shadow: 0px 0px 2px 0px red;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 3px;
+      margin: -3px;
+
+      &:hover {
+        border: 1px solid #00ff0091;
+        background-color: #00ff0091;
+        box-shadow: 0px 0px 4px 1px #04a604;
+      }
+    }
+
+    &.slot-bigmultiplier {
+      width: 50px;
+      height: 50px;
+    }
+
+    &.slot-smallmultiplier {
+      width: 37px;
+      height: 37px;
+    }
+
+    &.slot-error {
+      width: 42px;
+      height: 42px;
+    }
+
+    &.slot-score {
+      width: 50px;
+      height: 40px;
+      font-family: "Gears of Peace";
+      text-align: center;
+      font-size: 22px;
+      line-height: 43px;
+
+      &[data-id="42"] {
+        color: #c40524;
+      }
+    }
+
+    &.slot-subscore {
+      width: 40px;
+      height: 30px;
+      font-family: "Gears of Peace";
+      text-align: center;
+      font-size: 18px;
+      line-height: 32px;
+    }
+
+    &.slot-plan {
+      width: 54px;
+      height: 54px;
+
+      .scribble-number {
+        width: 100%;
+        height: 100%;
+        font-family: "Gears of Peace";
+        text-align: center;
+        font-size: 27px;
+        line-height: 56px;
+        background: none;
+        box-shadow: none;
+        text-indent: 0px;
+      }
+    }
+  }
+}
