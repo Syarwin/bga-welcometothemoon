@@ -146,10 +146,6 @@ trait EngineTrait
    */
   function actPassOptionalAction($auto = false, $pId = null)
   {
-    if (!$auto) {
-      self::checkAction('actPassOptionalAction');
-    }
-
     $pId = $pId ?? Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
     $ctx = Engine::getNextUnresolved($pId);

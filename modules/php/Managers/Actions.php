@@ -162,6 +162,14 @@ class Actions
       throw new \BgaVisibleSystemException('This action is not optional, ' . $actionId);
     }
 
+    $player = self::getPlayer($ctx);
+    // Check action
+    if (!$auto && Globals::getMode() == \MODE_PRIVATE) {
+      Game::get()->checkAction('actPassOptionalAction');
+      $stepId = Log::step();
+      Notifications::newUndoableStep($player, $stepId);
+    }
+
     $action = self::get($actionId, $ctx);
     $methodName = 'actPass' . $action->getClassName();
     if (\method_exists($action, $methodName)) {
@@ -169,7 +177,6 @@ class Actions
     } else {
       Engine::resolveAction(PASS, false, $ctx, $auto);
     }
-    $player = self::getPlayer($ctx);
     Engine::proceed($player->getId());
   }
 }

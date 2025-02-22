@@ -65,6 +65,16 @@ class Scoresheet3 extends Scoresheet
         return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
       case ENERGY:
         return ['action' => IMPROVE_BONUS];
+      case PLANNING:
+        return [
+          'action' => WRITE_X,
+          'args' => [
+            'source' => [
+              'name' => clienttranslate('Planning action'),
+              'slot' => $this->getFirstUnscribbled($this->getSectionSlots('planningmarkers'))
+            ],
+          ]
+        ];
     }
     return null;
   }
