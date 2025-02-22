@@ -25,11 +25,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         return scribble.id;
       });
-      document.querySelectorAll('.wttm-scribble[id^="scribble-"]').forEach((oScribble) => {
-        if (!scribbleIds.includes(oScribble.getAttribute('data-id'))) {
-          this.destroy(oScribble);
-        }
-      });
+      $('overall-content')
+        .querySelectorAll('.wttm-scribble[id^="scribble-"]')
+        .forEach((oScribble) => {
+          if (!scribbleIds.includes(oScribble.getAttribute('data-id'))) {
+            this.destroy(oScribble);
+          }
+        });
       this.updatePlansValidationMarks();
     },
 

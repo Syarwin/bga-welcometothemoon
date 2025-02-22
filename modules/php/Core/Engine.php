@@ -231,6 +231,7 @@ class Engine
       }
     } else {
       // No choice => proceed to do the action
+      var_dump($allChoices);
       self::proceedToAction($pId, $node, $isUndo);
     }
   }

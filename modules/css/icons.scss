@@ -58,6 +58,33 @@
     background-repeat: no-repeat;
     margin: 0 0.1em;
   }
+
+  .icon-slot-number {
+    width: 1.8em;
+    height: 1.8em;
+    background-image: url("img/slot-number.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em;
+  }
+
+  .icon-longest-section {
+    width: 2.36em;
+    height: 1.82em;
+    background-image: url("img/overview/longest-section.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em;
+  }
+
+  .icon-most-sections {
+    width: 2.36em;
+    height: 1.82em;
+    background-image: url("img/overview/most-sections.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em;
+  }
 }
 
 .action-button.btnAction {
@@ -114,7 +141,10 @@
   background-repeat: no-repeat;
 }
 
-.log-stack {
+.log-stack,
+.icon-stack-a,
+.icon-stack-b,
+.icon-stack-c {
   width: 1.25em;
   height: 1.5em;
   display: inline-block;
@@ -127,13 +157,16 @@
   background-size: 100% auto;
   background-repeat: no-repeat;
 
-  &.stack-A {
+  &.stack-A,
+  &.icon-stack-a {
     background-image: url("img/stack-A.png");
   }
-  &.stack-B {
+  &.stack-B,
+  &.icon-stack-b {
     background-image: url("img/stack-B.png");
   }
-  &.stack-C {
+  &.stack-C,
+  &.icon-stack-c {
     background-image: url("img/stack-C.png");
   }
 }

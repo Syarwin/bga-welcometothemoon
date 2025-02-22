@@ -157,6 +157,25 @@ class Scoresheet
     return [];
   }
 
+  // Generic UI-data for missions for all scenarios except the 1st one
+  public function computeMissionsUiData(&$data): int
+  {
+    $missionPoints = 0;
+    $stacks = ['stack-A', 'stack-B', 'stack-C'];
+    foreach ($this->getSectionSlots('plans') as $i => $slot) {
+      $stack = $stacks[$i];
+      $scribbles = $this->scribblesBySlots[$slot] ?? [];
+      $missionPoint = 0;
+      if (!empty($scribbles)) {
+        $missionPoint = $scribbles[0]->getNumber();
+      }
+      $data[] = ["overview" => $stack, "v" => $missionPoint];
+      $missionPoints += $missionPoint;
+    }
+
+    return $missionPoints;
+  }
+
   public function getScore(): int
   {
     $score = 0;

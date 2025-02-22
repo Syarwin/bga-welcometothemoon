@@ -58,15 +58,24 @@ class Astra1 extends Astra
       75 => 140,
       80 => 150,
     ];
-    foreach ($slotToScoreMap as $slot => $score) {
-      $location = "astra-rocket-slot-$slot";
-      if ($this->hasScribbledLocation($location)) {
+    $nRockets = 0;
+    for ($i = 0; $i <= 80; $i++) {
+      $location = "astra-rocket-slot-$i";
+      if (!$this->hasScribbledLocation($location)) {
+        break;
+      }
+      $nRockets++;
+    }
+
+    foreach ($slotToScoreMap as $minRockets => $score) {
+      if ($nRockets >= $minRockets) {
         $totalScore = $score;
       }
     }
 
     // Total score
-    $data['astra-total-score'] = $totalScore;
+    $data[] = ['overview' => 'rockets', 'v' => $nRockets, 'max' => 81];
+    $data[] = ['slot' => 'astra-total-score', 'v' => $totalScore, 'overview' => "total"];
 
     return $data;
   }

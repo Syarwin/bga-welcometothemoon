@@ -46,12 +46,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         this.addCustomTooltip(`numbers-status-container-${pId}`, _('Number of filled up number slots'));
         this.addCustomTooltip(`system-errors-status-container-${pId}`, _('Number of System errors'));
       });
-
-      //      this.setupPlayersCounters();
-      if (this.isSolo()) {
-        $('ebd-body').dataset.solo = 1;
-        this.setupAstra();
-      }
     },
 
     onChangePlayerBoardsLayoutSetting(v) {
@@ -65,7 +59,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     goToPlayerBoard(pId, evt = null) {
       if (evt) evt.stopPropagation();
 
-      let v = this.settings.playerBoardsLayout;
+      let v = this.settings ? this.settings.playerBoardsLayout : 0;
       if (v == 0) {
         // Tabbed view
         this._focusedPlayer = pId;
@@ -136,6 +130,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     setupScoreSheets() {
       const scenarioId = this.gamedatas.scenario;
       const data = SCENARIOS_DATA[scenarioId];
+      this.setupOverview();
+
+      if (this.isSolo()) {
+        $('ebd-body').dataset.solo = 1;
+        this.setupAstra();
+      }
 
       this.forEachPlayer((player) => {
         let pId = player.id;
@@ -186,10 +186,127 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;
         }
         // Dynamic data on player panel
-        else if (entry.panel) {
+        if (entry.panel) {
           $(`${entry.panel}-status-${pId}`).innerHTML = entry.v;
         }
+        // Dynamic data on overview
+        if (entry.overview) {
+          this.updateOverviewEntry(entry, pId);
+        }
       });
+    },
+
+    //////////////////////////////////////
+    //  ____
+    // / ___|  ___ ___  _ __ ___  ___
+    // \___ \ / __/ _ \| '__/ _ \/ __|
+    //  ___) | (_| (_) | | |  __/\__ \
+    // |____/ \___\___/|_|  \___||___/
+    //////////////////////////////////////
+
+    /*
+     * Create a table with a nice overview of current situation for everyone
+     */
+    setupOverview() {
+      if (this._overviewModal) {
+        this._overviewModal.destroy();
+      }
+
+      this._overviewModal = new customgame.modal('showOverview', {
+        class: 'welcometothemoon_popin',
+        closeAction: 'hide',
+        closeIcon: 'fa-times',
+        openAnimation: true,
+        openAnimationTarget: 'show-scores',
+        contents: this.tplOverview(),
+        // breakpoint: 0.9 * width,
+        // scale: 0.8,
+      });
+      $('show-scores').addEventListener('click', () => this._overviewModal.show());
+    },
+
+    tplOverview() {
+      const scenarioId = this.gamedatas.scenario;
+      const data = SCENARIOS_DATA[scenarioId];
+      if (!data.overview) {
+        console.log('TODO: overview for this scenario');
+        return '';
+      }
+
+      let overview = '';
+      this._overviewEntries = {};
+      data.overview.forEach((entry) => {
+        this._overviewEntries[entry.name] = entry;
+        overview += `<th id='overview-${entry.name}'>${this.formatIcon(entry.icon)}</th>`;
+      });
+
+      let rows = '';
+      this.forEachPlayer((player) => {
+        let tr = `<tr><td>${player.name}</td>`;
+        data.overview.forEach((entry) => {
+          tr += `<td id='overview-${entry.name}-${player.id}' class='overview-${entry.name}'></td>`;
+        });
+        tr += `<td id='overview-total-${player.id}' class='overview-total'></td></tr>`;
+        rows += tr;
+      });
+
+      // ASTRA
+      if (this.isSolo()) {
+        let tr = `<tr><td>${_('ASTRA')}</td>`;
+        data.overview.forEach((entry) => {
+          tr += `<td id='overview-${entry.name}-astra' class='overview-${entry.name}'></td>`;
+        });
+        tr += `<td id='overview-total-astra' class='overview-total'></td></tr>`;
+        rows += tr;
+      }
+
+      return `
+      <table id='players-overview'>
+        <thead>
+          <tr>
+            <th id="overview-user"><i class="fa fa-user"></i></th>
+            ${overview}
+            <th id="overview-total"><i class="fa fa-star"></i></th>
+          </tr>
+        </thead>
+        <tbody id="player-overview-body">
+          ${rows}
+        </tbody>
+      </table>
+      `;
+    },
+
+    updateOverviewEntry(entry, pId) {
+      let o = $(`overview-${entry.overview}-${pId}`);
+      if (!o) {
+        console.error(`Unfound overview entry: overview-${entry.overview}-${pId}`);
+        return;
+      }
+
+      const config = this._overviewEntries[entry.overview];
+      // Should only be used for total probably
+      if (!config) {
+        o.innerHTML = entry.v;
+      }
+      // Basic display with points + star icon
+      else if (config.type == 'points') {
+        let details = entry.details ? ` (${entry.details})` : '';
+        o.innerHTML = `${entry.v}<i class="fa fa-star"></i>${details}`;
+      }
+      // Basic display with points + star icon or dash if 0
+      else if (config.type == 'points-or-dash') {
+        let details = entry.details ? ` (${entry.details})` : '';
+        let score = entry.v > 0 ? `${entry.v}<i class="fa fa-star"></i>` : '-';
+        o.innerHTML = `${score}${details}`;
+      }
+      // Display of X / Y
+      else if (config.type == '/') {
+        o.innerHTML = `<span>${entry.v}</span> / <span>${entry.max}</span>`;
+      }
+      // Checkmark
+      else if (config.type == 'checkmark') {
+        o.innerHTML = entry.checkmark ? this.tplScribbleCheckmark({ turn: -1, id: `overview-${config.name}-${pId}` }) : '-';
+      }
     },
 
     ////////////////////////////////////
@@ -299,8 +416,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     updateAstra() {
-      Object.entries(this.gamedatas.astra).forEach(([slot, value]) => {
-        $(slot).innerHTML = value;
+      this.gamedatas.astra.forEach((entry) => {
+        // Dynamic slot on scoresheet
+        if (entry.slot) {
+          $(entry.slot).innerHTML = entry.v;
+        }
+        // Dynamic data on overview
+        if (entry.overview) {
+          this.updateOverviewEntry(entry, 'astra');
+        }
       });
     },
 
@@ -442,265 +566,5 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         },
       };
     },
-
-    ////////////////////////////////////////////////////
-    //   ____                  _
-    //  / ___|___  _   _ _ __ | |_ ___ _ __ ___
-    // | |   / _ \| | | | '_ \| __/ _ \ '__/ __|
-    // | |__| (_) | |_| | | | | ||  __/ |  \__ \
-    //  \____\___/ \__,_|_| |_|\__\___|_|  |___/
-    //
-    ////////////////////////////////////////////////////
-
-    // tplPlayerPanel(player) {
-    //   return `<div class="welcometothemoon-first-player-holder" id="firstPlayer-${player.id}"></div>
-    //   <div class='player-info'>
-    //     <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
-    //       <span id='counter-${player.id}-immediateCiv'>0</span>!
-    //       +
-    //       <span id='counter-${player.id}-endgameCiv'>0</span>
-    //       •
-    //       ${this.formatIcon('civ')}
-    //     </div>
-    //     ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
-    //   </div>`;
-    // },
-
-    // /**
-    //  * Create all the counters for player panels
-    //  */
-    // setupPlayersCounters() {
-    //   this._playerCounters = {};
-    //   this.forEachPlayer((player) => {
-    //     this._playerCounters[player.id] = {};
-    //     PLAYER_COUNTERS.forEach((res) => {
-    //       let v = player[res] || 0;
-    //       this._playerCounters[player.id][res] = this.createCounter(`counter-${player.id}-${res}`, v);
-    //     });
-    //   });
-    // },
-
-    // /**
-    //  * Update all the counters in player panels according to gamedatas, useful for reloading
-    //  */
-    // updatePlayersCounters(anim = true) {
-    //   this.forEachPlayer((player) => {
-    //     // PLAYER_COUNTERS.forEach((res) => {
-    //     //   let value = player[res] || 0;
-    //     //   this._playerCounters[player.id][res].goTo(value, anim);
-    //     // });
-
-    //     // CIV counters
-    //     let immediateCiv = 0,
-    //       endgameCiv = 0;
-    //     Object.values(player.playedCiv).forEach((card) => {
-    //       if (card.effectType == 'immediate') immediateCiv++;
-    //       else endgameCiv++;
-    //     });
-
-    //     Object.values(player.handCiv).forEach((card) => {
-    //       if (card.effectType == 'immediate') immediateCiv++;
-    //       else endgameCiv++;
-    //     });
-
-    //     this._playerCounters[player.id]['immediateCiv'].toValue(immediateCiv);
-    //     this._playerCounters[player.id]['endgameCiv'].toValue(endgameCiv);
-    //   });
-    // },
-
-    //////////////////////////////////////
-    //  ____
-    // / ___|  ___ ___  _ __ ___  ___
-    // \___ \ / __/ _ \| '__/ _ \/ __|
-    //  ___) | (_| (_) | | |  __/\__ \
-    // |____/ \___\___/|_|  \___||___/
-    //////////////////////////////////////
-
-    // tplScoreModal() {
-    //   return `
-    // <table id='players-scores'>
-    //   <thead>
-    //     <tr id="scores-names">
-    //       <th>${_('NAME')}</th>
-    //     </tr>
-    //     <tr id="scores-planets">
-    //       <th>${_('Planet Name')}</th>
-    //     </tr>
-    //     <tr id="scores-corporations">
-    //       <th>${_('Corporation Name')}</th>
-    //     </tr>
-    //   </thead>
-    //   <tbody id="scores-body">
-    //     <tr id="scores-row-planet">
-    //       <td class="row-header">${_('Planet')}</td>
-    //     </tr>
-    //     <tr id="scores-row-tracks">
-    //       <td class="row-header">${_('Resource Tracks')}</td>
-    //     </tr>
-    //     <tr id="scores-row-lifepods">
-    //       <td class="row-header">${_('Lifepods')}</td>
-    //     </tr>
-    //     <tr id="scores-row-meteors">
-    //       <td class="row-header">${_('Meteorites')}</td>
-    //     </tr>
-    //     <tr id="scores-row-civ">
-    //       <td class="row-header">${_('CIV cards')}</td>
-    //     </tr>
-    //     <tr id="scores-row-objectives">
-    //       <td class="row-header">${_('Objectives')}</td>
-    //     </tr>
-
-    //     <tr id="scores-row-total">
-    //       <td class="row-header">${_('TOTAL')}</td>
-    //     </tr>
-    //   </tbody>
-    // </table>
-    // `;
-    // },
-
-    // /*
-    //  * Display a table with a nice overview of current situation for everyone
-    //  */
-    // setupScoresModal() {
-    //   this._scoresModal = new customgame.modal('showScores', {
-    //     class: 'welcometothemoon_popin',
-    //     closeIcon: 'fa-times',
-    //     contents: this.tplScoreModal(),
-    //     closeAction: 'hide',
-    //     scale: 0.8,
-    //     breakpoint: 800,
-    //     verticalAlign: 'flex-start',
-    //   });
-
-    //   // Create columns
-    //   this.forEachPlayer((player) => {
-    //     let planetName = player.planetId ? _(PLANETS_DATA[player.planetId].name) : '';
-    //     let corporationName = player.corporationId ? _(CORPOS_DATA[player.corporationId].name) : '';
-
-    //     $('scores-names').insertAdjacentHTML('beforeend', `<th style='color:#${player.color}'>${player.name}</th>`);
-    //     $('scores-planets').insertAdjacentHTML('beforeend', `<th>${_(planetName)}</th>`);
-    //     $('scores-corporations').insertAdjacentHTML('beforeend', `<th>${_(corporationName)}</th>`);
-
-    //     SCORE_CATEGORIES.forEach((row) => {
-    //       let scoreElt = '<div><span id="score-' + player.id + '-' + row + '"></span><i class="fa fa-circle"></i></div>';
-    //       let addClass = '';
-
-    //       // Wrap that into a scoring entry
-    //       scoreElt = `<div class="scoring-entry ${addClass}">${scoreElt}</div>`;
-
-    //       if (SCORE_MULTIPLE_ENTRIES.includes(row)) {
-    //         scoreElt += `<div class="scoring-subentries" id="score-subentries-${player.id}-${row}"></div>`;
-    //       }
-
-    //       $(`scores-row-${row}`).insertAdjacentHTML('beforeend', `<td>${scoreElt}</td>`);
-    //     });
-    //   });
-
-    //   $('show-scores').addEventListener('click', () => this.showScoresModal());
-    //   this.addTooltip('show-scores', '', _('Show scoring details.'));
-    //   if (this.gamedatas.scores === null) {
-    //     dojo.style('show-scores', 'display', 'none');
-    //   }
-    // },
-
-    // showScoresModal() {
-    //   this._scoresModal.show();
-    // },
-
-    // onEnteringStateGameEnd() {
-    //   this.showScoresModal();
-    //   dojo.style('show-scores', 'display', 'block');
-    // },
-
-    // /**
-    //  * Create score counters
-    //  */
-    // setupPlayersScores() {
-    //   this._scoresCounters = {};
-
-    //   this.forEachPlayer((player) => {
-    //     this._scoresCounters[player.id] = {};
-
-    //     SCORE_CATEGORIES.forEach((category) => {
-    //       this._scoresCounters[player.id][category] = this.createCounter('score-' + player.id + '-' + category);
-    //     });
-    //   });
-
-    //   this.updatePlayersScores(false);
-    // },
-
-    // /**
-    //  * Update score counters
-    //  */
-    // updatePlayersScores(anim = true) {
-    //   if (this.gamedatas.scores !== null) {
-    //     this.forEachPlayer((player) => {
-    //       this.updatePlayerScores(player.id, anim);
-    //     });
-    //   }
-    // },
-
-    // updatePlayerScores(pId, anim = true) {
-    //   SCORE_CATEGORIES.forEach((category) => {
-    //     if (this.gamedatas.scores[pId][category] === undefined) return;
-
-    //     let value = category == 'total' ? this.gamedatas.scores[pId]['total'] : this.gamedatas.scores[pId][category]['total'];
-    //     this._scoresCounters[pId][category][anim ? 'toValue' : 'setValue'](value);
-
-    //     let entries = this.gamedatas.scores[pId][category].entries;
-    //     // if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
-    //     //   let container = $(`score-subentries-${player.id}-${category}`);
-    //     //   dojo.empty(container);
-    //     //   this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
-    //     //     dojo.place(
-    //     //       `<div class="scoring-subentry">
-    //     //       <div>${_(entry.source)}</div>
-    //     //       <div>
-    //     //         ${entry.score}
-    //     //         <i class="fa fa-star"></i>
-    //     //       </div>
-    //     //     </div>`,
-    //     //       container
-    //     //     );
-    //     //   });
-    //     // }
-
-    //     // Planet => show each row/column status
-    //     if (category == 'planet') {
-    //       Object.keys(entries).forEach((id) => {
-    //         if (['Cerberus1', 'Cerberus2', 'Cerberus3'].includes(id)) return;
-
-    //         let t = id.split('_');
-    //         if (t[0] == 'city') return; // Gaia
-    //         let cell = t[0] == 'column' ? this.getPlanetCell(pId, t[1], -1) : this.getPlanetCell(pId, -1, t[1]);
-    //         cell.classList.toggle('ok', entries[id] > 0);
-    //         cell.classList.toggle('nok', entries[id] == 0);
-    //       });
-    //     }
-    //     // Objectives
-    //     else if (category == 'objectives') {
-    //       Object.keys(entries).forEach((cardId) => {
-    //         let t = cardId.split('_');
-
-    //         if (t[0] == 'NOCard') {
-    //           $(`card-${t[1]}-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
-    //           $(`card-${t[1]}-${pId}-medal`).innerHTML = entries[cardId][0];
-    //           if ($(`card-${t[1]}d-${pId}-value`)) {
-    //             $(`card-${t[1]}d-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
-    //             $(`card-${t[1]}d-${pId}-medal`).innerHTML = entries[cardId][0];
-    //           }
-    //         } else if (t[0] == 'POCard') {
-    //           console.log(cardId);
-    //           let v = entries[cardId];
-    //           $(`card-${t[1]}-${pId}-medal`).innerHTML = v;
-    //           $(`card-${t[1]}-${pId}-value`).classList.toggle('ok', v > 0);
-    //         }
-    //       });
-    //     }
-    //   });
-    //   if (this.scoreCtrl && this.scoreCtrl[pId] !== undefined) {
-    //     this.scoreCtrl[pId].toValue(this.gamedatas.scores[pId].total);
-    //   }
-    // },
   });
 });

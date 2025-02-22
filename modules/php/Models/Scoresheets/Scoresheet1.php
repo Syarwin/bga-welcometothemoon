@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
@@ -19,6 +20,13 @@ class Scoresheet1 extends Scoresheet
   // DYNAMIC SLOTS
   public function computeUiData(): array
   {
+    $data = [];
+
+    // Number of numbered slots
+    $nNumberedSlots = $this->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
+
     // Compute base score
     $basePoints = 0;
     $scoreMap = [139 => 15, 140 => 30, 141 => 45, 142 => 60, 143 => 75, 144 => 90, 145 => 105, 146 => 120, 147 => 135, 148 => 150];
@@ -29,12 +37,18 @@ class Scoresheet1 extends Scoresheet
     }
 
     // Compute negative points
-    $negativePoints = $this->getNumberOfCircledUncrossedSystemErrors() * 5;
+    $circledErrors = $this->countScribblesInSection('errors', SCRIBBLE_CIRCLE);
+    $uncrossedCircledErrors = $this->getNumberOfCircledUncrossedSystemErrors();
+    $negativePoints = $uncrossedCircledErrors * 5;
+    $data[] = ["slot" => 150, "v" => $negativePoints];
+    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($circledErrors . " / " . 8)];
+    $data[] = ["panel" => "errors", "v" => $circledErrors];
 
     // Compute total
     $totalPoints = $basePoints - $negativePoints;
 
     // Tie breaker
+    $nRockets = $this->countScribblesInSection('rockets');
     if ($negativePoints == 0) {
       $bonusRockets = 0;
       for ($slot = 131; $slot <= 138; $slot++) {
@@ -46,16 +60,20 @@ class Scoresheet1 extends Scoresheet
       }
 
       // Each extra rocket is worth 5 points
+      $nRockets += $bonusRockets;
       $bonusPoints = 5 * $bonusRockets;
       $totalPoints += $bonusPoints;
     }
 
-    return [
-      ["slot" => 150, "v" => $negativePoints],
-      ["slot" => 151, "v" => $totalPoints, "score" => true],
-      ["panel" => "numbers", "v" => $this->countScribblesInSection('numbers')],
-      ["panel" => "errors", "v" => $this->countScribblesInSection('errors', SCRIBBLE_CIRCLE)],
-    ];
+    $data[] = ["overview" => "rockets", "v" => $nRockets, 'max' => 31];
+    $data[] = ["slot" => 151, "v" => $totalPoints, "overview" => "total", "score" => true];
+
+    // Plans for overview
+    foreach (PlanCards::getCurrent() as $plan) {
+      $data[] = ["overview" => $plan->getLocation(), "checkmark" => $plan->isValidated($this->player) || $plan->getLocation() == 'stack-A'];
+    }
+
+    return $data;
   }
 
 

@@ -2,6 +2,48 @@
   "id": "scenario-2",
   "name": "The Journey",
   "jpgUrl": "./scenarios/scenario-2.jpg",
+  "overview": [
+    {
+      "name": "numbers",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "stack-A",
+      "type": "points-or-dash",
+      "icon": "stack-A"
+    },
+    {
+      "name": "stack-B",
+      "type": "points-or-dash",
+      "icon": "stack-B"
+    },
+    {
+      "name": "stack-C",
+      "type": "points-or-dash",
+      "icon": "stack-C"
+    },
+    {
+      "name": "waters",
+      "type": "points",
+      "icon": "water"
+    },
+    {
+      "name": "longest-section",
+      "type": "points",
+      "icon": "longest-section"
+    },
+    {
+      "name": "most-sections",
+      "type": "majority",
+      "icon": "most-sections"
+    },
+    {
+      "name": "errors",
+      "type": "points",
+      "icon": "system-error"
+    }
+  ],
   "sections": [
     {
       "id": "numbers",

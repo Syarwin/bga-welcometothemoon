@@ -154,14 +154,13 @@ class Scoresheet2 extends Scoresheet
   {
     $data = [];
 
+    // Number of numbered slots
+    $nNumberedSlots = $this->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
+
     // Missions
-    $missionPoints = 0;
-    foreach ($this->getSectionSlots('plans') as $slot) {
-      $scribbles = $this->scribblesBySlots[$slot] ?? [];
-      if (!empty($scribbles)) {
-        $missionPoints += $scribbles[0]->getType();
-      }
-    }
+    $missionPoints = $this->computeMissionsUiData($data);
     $data[] = ["slot" => 37, "v" => $missionPoints];
 
     // Stations
@@ -199,12 +198,12 @@ class Scoresheet2 extends Scoresheet
         $waterPoints += $value;
       }
     }
-    $data[] = ["slot" => 39, "v" => $waterPoints];
+    $data[] = ["slot" => 39, "v" => $waterPoints, "overview" => "waters"];
 
     // Longest complete zone
     $sectionsBySizes = $this->getNumberedSectionsBySize();
     $maxSectionSize = empty($sectionsBySizes) ? 0 : max(array_keys($sectionsBySizes));
-    $data[] = ["slot" => 40, "v" => $maxSectionSize];
+    $data[] = ["slot" => 40, "v" => $maxSectionSize, "overview" => "longest-section"];
 
     // Most zones complete
     $thisPlayerOrder = Players::getOrderNumberMostZonesComplete($this->player->getId());
@@ -215,26 +214,24 @@ class Scoresheet2 extends Scoresheet
       3 => 5,
     ][$thisPlayerOrder];
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
-
+    $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "count" => 0];
     // System errors
-    $negativePoints = 0;
-    foreach ($this->getSectionSlots('errors') as $slot) {
-      if ($this->hasScribbledSlot($slot)) {
-        $negativePoints += 5;
-      }
-    }
+    $scribbledErrors = $this->countScribblesInSection('errors');
+    $negativePoints = 5 * $scribbledErrors;
     $data[] = ["slot" => 42, "v" => $negativePoints];
+    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / " . 3)];
+    $data[] = ["panel" => "errors", "v" => $scribbledErrors];
+
 
     // Total score
     $data[] = [
       "slot" => 43,
       "score" => true,
+      "overview" => "total",
       "v" => $missionPoints + $stationPoints + $waterPoints + $maxSectionSize + $sectionMajorityPoints - $negativePoints
     ];
 
     // Panel
-    $data[] = ["panel" => "numbers", "v" => $this->countScribblesInSection('numbers')];
-    $data[] = ["panel" => "errors", "v" => $this->countScribblesInSection('errors')];
 
     return $data;
   }
