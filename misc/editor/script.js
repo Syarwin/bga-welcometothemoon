@@ -325,7 +325,7 @@ function onClickBoard(sectionConfig, mode, pos, evt) {
       .forEach((e) => (maxId = Math.max(maxId, parseInt(e.dataset.id))));
     let id = maxId + 1;
 
-    addSlot(id, sectionConfig.eltClass, pos.x, pos.y);
+    addSlot(id, sectionConfig.eltClass, pos.x, pos.y, 90);
     sectionConfig.elts.push({ id, x: pos.x, y: pos.y });
     saveScenario();
   }

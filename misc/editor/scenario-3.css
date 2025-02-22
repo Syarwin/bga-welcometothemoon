@@ -66,28 +66,14 @@
   background-color: rgba(255, 255, 255, 0.6);
 }
 
-/** ROBOT **/
-#main-frame.add-robots .slot-robot,
-#main-frame.show-robots .slot-robot,
-#main-frame.add-robots #hover-indicator {
-  display: block;
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: url("img/scribble.png");
-  background-size: 100%;
-  border-radius: 0px;
-  border: none;
-}
-
 /** WATER **/
 #main-frame.add-waters .slot-water,
 #main-frame.show-waters .slot-water,
 #main-frame.add-waters #hover-indicator {
   display: block;
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: url("img/circled.png");
   background-size: 100%;
   border-radius: 0px;
@@ -109,9 +95,9 @@
 }
 
 /** WALL **/
-#main-frame.add-walls .slot-wall,
-#main-frame.show-walls .slot-wall,
-#main-frame.add-walls #hover-indicator {
+#main-frame.add-tunnels .slot-tunnel,
+#main-frame.show-tunnels .slot-tunnel,
+#main-frame.add-tunnels #hover-indicator {
   display: block;
   position: absolute;
   width: 5px;
@@ -184,6 +170,20 @@
   width: 30px;
   height: 30px;
   background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** ANTENNA **/
+#main-frame.add-antennas .slot-antenna,
+#main-frame.show-antennas .slot-antenna,
+#main-frame.add-antennas #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("img/circled.png");
   background-size: 100%;
   border-radius: 0px;
   border: none;
