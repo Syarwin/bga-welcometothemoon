@@ -351,6 +351,12 @@ class Notifications
     static::addScribbles($player, $scribbles, $msg, ['quarterName' => $quarterName]);
   }
 
+  public static function improveBonus(Player $player, Scribble $scribble, string $bonusName, int $bonusValue)
+  {
+    $msg = clienttranslate('${player_name} improves ${bonusName} scoring bonus crossing off number ${bonusValue}');
+    static::addScribble($player, $scribble, $msg, ['bonusName' => $bonusName, 'bonusValue' => $bonusValue]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

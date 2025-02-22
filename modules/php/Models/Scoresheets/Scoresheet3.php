@@ -63,6 +63,8 @@ class Scoresheet3 extends Scoresheet
           return $quarter->hasSlot($slot);
         }))->getId();
         return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
+      case ENERGY:
+        return ['action' => IMPROVE_BONUS];
     }
     return null;
   }

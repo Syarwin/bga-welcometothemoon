@@ -39,6 +39,7 @@ class Actions
 
     // Scenario 3
     CIRCLE_GREENHOUSE,
+    IMPROVE_BONUS
   ];
 
   public static function get($actionId, &$ctx = null)
