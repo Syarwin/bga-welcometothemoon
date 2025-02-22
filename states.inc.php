@@ -314,6 +314,14 @@ $machinestates = [
     'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
   ],
 
+  //////////////////////////////////////////////////////////
+  //  ____                            _         _____ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ / 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \    |_ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  ___) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |____/ 
+  //////////////////////////////////////////////////////////
+
   ST_IMPROVE_BONUS => [
     'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must cross off a scoring bonus for plants, water or antennas'),
@@ -321,6 +329,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'possibleactions' => ['actImproveBonus', 'actRestart'],
   ],
+
+  ST_BUILD_ROBOT_TUNNEL => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must build a pressurized tunnel'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actBuildRobotTunnel', 'actRestart'],
+  ],
+
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

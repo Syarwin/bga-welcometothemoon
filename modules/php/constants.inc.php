@@ -60,6 +60,7 @@ const ST_STIR_WATER_TANKS = 39;
 const ST_CROSS_OFF_SABOTAGE = 40;
 const ST_CROSS_OFF_MULTIPLIER = 41;
 const ST_IMPROVE_BONUS = 42;
+const ST_BUILD_ROBOT_TUNNEL = 43;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -119,6 +120,7 @@ const CIRCLE_OTHER = 'Scenario2\CircleOther';
 // SCENARIO 3
 const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
 const IMPROVE_BONUS = 'Scenario3\ImproveBonus';
+const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
 
 /*
  * Actions
@@ -165,6 +167,8 @@ const SOLO_CARDS_STACKS = [
   113 => 'B',
   114 => 'C',
 ];
+
+const TOP_RIGHT_CORNER_SLOT = 400;
 
 /******************
  ****** STATS ******

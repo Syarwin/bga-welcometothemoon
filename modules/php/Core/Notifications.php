@@ -351,10 +351,31 @@ class Notifications
     static::addScribbles($player, $scribbles, $msg, ['quarterName' => $quarterName]);
   }
 
+  //////////////////////////////////////////////////////
+  //  ____                            _         _____ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ / 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \    |_ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  ___) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |____/ 
+  //////////////////////////////////////////////////////
+
   public static function improveBonus(Player $player, Scribble $scribble, string $bonusName, int $bonusValue)
   {
     $msg = clienttranslate('${player_name} improves ${bonusName} scoring bonus crossing off number ${bonusValue}');
     static::addScribble($player, $scribble, $msg, ['bonusName' => $bonusName, 'bonusValue' => $bonusValue]);
+  }
+
+  public static function buildRobotTunnel(Player $player, array $scribbles, int $circledAntennas)
+  {
+    $msg = $circledAntennas > 0 ?
+      clienttranslate('${player_name} builds a pressurized tunnel and connects ${n} antenna(s)') :
+      clienttranslate('${player_name} builds a pressurized tunnel to extend his network');
+    self::addScribbles($player, $scribbles, $msg, ['n' => $circledAntennas]);
+  }
+
+  public static function circleAntennas(Player $player, array $scribbles)
+  {
+    self::addScribbles($player, $scribbles, clienttranslate('${player_name} connects ${n} antenna(s)'), ['n' => count($scribbles)]);
   }
 
   /////////////////////////////////////

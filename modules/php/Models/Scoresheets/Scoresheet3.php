@@ -2,8 +2,11 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario3\BuildRobotTunnel;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
+use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
@@ -75,7 +78,22 @@ class Scoresheet3 extends Scoresheet
             ],
           ]
         ];
+      case ROBOT:
+        return ['action' => BUILD_ROBOT_TUNNEL];
     }
     return null;
+  }
+
+  public function getScribbleReactions(Scribble $scribble): array
+  {
+    if (!in_array($scribble->getSlot(), $this->getSectionSlots('numbers'))) return [];
+
+    // Check antennas
+    $scribbles = BuildRobotTunnel::scribblesConnectedAntennas($this);
+    if (!empty($scribbles)) {
+      Notifications::circleAntennas($this->player, $scribbles);
+    }
+
+    return [];
   }
 }
