@@ -20,6 +20,35 @@ class Scoresheet2 extends Scoresheet
 {
   protected int $scenario = 2;
   protected array $datas = DATAS2;
+  private array $waterTanksAtSlots = [
+    2 => 62,
+    5 => 63,
+    7 => 64,
+    11 => 65,
+    14 => 66,
+    18 => 67,
+    19 => 68,
+    23 => 69,
+    26 => 70,
+    30 => 71,
+    32 => 72,
+    35 => 73,
+  ];
+
+  public array $waterTanksValues = [
+    62 => 4,
+    63 => 4,
+    64 => 5,
+    65 => 6,
+    66 => 7,
+    67 => 8,
+    68 => 8,
+    69 => 7,
+    70 => 6,
+    71 => 5,
+    72 => 4,
+    73 => 4,
+  ];
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
@@ -31,7 +60,11 @@ class Scoresheet2 extends Scoresheet
       case PLANT:
         return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
       case WATER:
-        return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot]];
+        return ['action' => STIR_WATER_TANKS, 'args' => [
+          'slot' => $slot,
+          'waterTanksSlots' => $this->waterTanksAtSlots,
+          'waterTanksValues' => $this->waterTanksValues,
+        ]];
       case ASTRONAUT:
         return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => $combination['action']]];
       case PLANNING:
@@ -197,7 +230,7 @@ class Scoresheet2 extends Scoresheet
 
     // Water
     $waterPoints = 0;
-    foreach (StirWaterTanks::$waterTanksValues as $slot => $value) {
+    foreach ($this->waterTanksValues as $slot => $value) {
       if ($this->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
         $waterPoints += $value;
       }

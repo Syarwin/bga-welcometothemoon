@@ -44,6 +44,12 @@ class PlanCards extends CachedPieces
       'B' => [72, 73],
       'C' => [74, 75],
     ],
+    3 => [
+      // TODO: Change to real numbers after implementing plan cards
+      'A' => [76, 76],
+      'B' => [77, 77],
+      'C' => [78, 78],
+    ],
   ];
 
 
