@@ -32,9 +32,15 @@ class CircleGreenhouse extends \Bga\Games\WelcomeToTheMoon\Models\Action
   protected function getNextUnscribbledSlot(Player $player, Quarter|null $quarter = null): int|null
   {
     if (is_null($quarter)) {
-      $quarter = Scoresheet3::getQuarters()[$this->getCtxArgs()['quarterId']];
+      $quarter = $this->getQuarter();
     }
     return $player->scoresheet()->getFirstUnscribbled(array_merge(...$quarter->getPlantsSlots()), SCRIBBLE_CIRCLE);
+  }
+
+  private function getQuarter(): Quarter
+  {
+    $quarterId = $this->getCtxArg('quarterId');
+    return Scoresheet3::getQuarters()[$quarterId];
   }
 
   public function stCircleGreenhouse()
@@ -46,13 +52,12 @@ class CircleGreenhouse extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
-    /** @var Quarter $quarter */
-    $quarter = Scoresheet3::getQuarters()[$this->getCtxArgs()['quarterId']];
+    $quarter = $this->getQuarter();
     $nextUnscribbledSlot = $this->getNextUnscribbledSlot($player, $quarter);
     // There might be 1 or 2 plants in a Greenhouse
-    $greenhousePlantSlots = current(array_filter($quarter->getPlantsSlots(), function ($greenhouseBlock) use ($nextUnscribbledSlot) {
-      return in_array($nextUnscribbledSlot, $greenhouseBlock);
-    }));
+    $greenhousePlantSlots = current(array_filter($quarter->getPlantsSlots(),
+      fn($greenhouseBlock) => in_array($nextUnscribbledSlot, $greenhouseBlock)
+    ));
     $scribbles = [];
     foreach ($greenhousePlantSlots as $slot) {
       $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);

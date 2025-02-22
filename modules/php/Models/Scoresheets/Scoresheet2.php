@@ -169,9 +169,7 @@ class Scoresheet2 extends Scoresheet
 
   public function getFirstUnscribbledJoker(): int|null
   {
-    $circledJokers = array_filter(CircleOther::$jokers, function ($jokerSlot) {
-      return $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE);
-    });
+    $circledJokers = array_filter(CircleOther::$jokers, fn($jokerSlot) => $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
     return $this->getFirstUnscribbled($circledJokers, SCRIBBLE);
   }
 
