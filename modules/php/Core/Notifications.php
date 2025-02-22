@@ -17,6 +17,7 @@ class Notifications
     $names = [
       1 => clienttranslate("The Launch"),
       2 => clienttranslate("The Journey"),
+      3 => clienttranslate("The Colony"),
     ];
     self::notifyAll('message', clienttranslate('Starting scenario ${n}: ${name}'), [
       'n' => $scenario,
@@ -304,9 +305,12 @@ class Notifications
     ]);
   }
 
-  public static function stirWaterTanks(Player $player, Scribble $scribble, int $waterValue)
+  public static function stirWaterTanks(Player $player, Scribble $scribble, int|null $waterValue)
   {
-    $msg = clienttranslate('${player_name} stirs a water tank with the value of ${waterValue}');
+
+    $msg = $waterValue ?
+      clienttranslate('${player_name} stirs a water tank with the value of ${waterValue}') :
+      clienttranslate('${player_name} circles an attached water tank');
     static::addScribble($player, $scribble, $msg, [
       'waterValue' => $waterValue
     ]);

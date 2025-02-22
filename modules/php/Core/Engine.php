@@ -75,6 +75,7 @@ class Engine
    * @param array $t
    */
   public static bool $multipleSetupCalled = false;
+
   public static function multipleSetup($aTrees, $callback, $descPrefix = '')
   {
     static::$multipleSetupCalled = true; // Useful for private args computaiton
@@ -231,7 +232,6 @@ class Engine
       }
     } else {
       // No choice => proceed to do the action
-      var_dump($allChoices);
       self::proceedToAction($pId, $node, $isUndo);
     }
   }
@@ -341,13 +341,11 @@ class Engine
     if (is_null($node)) {
       $node = self::$trees[$pId];
       $node->pushChild(self::buildTree($t));
-    }
-    // Parallel/Or node => just append and call chooseNode
+    } // Parallel/Or node => just append and call chooseNode
     elseif ($node instanceof \Bga\Games\WelcomeToTheMoon\Core\Engine\ParallelNode || $node instanceof \Bga\Games\WelcomeToTheMoon\Core\Engine\OrNode) {
       $node->pushChild(self::buildTree($t));
       $node->choose(count($node->getChilds()) - 1, true);
-    }
-    // Otherwise => check parent
+    } // Otherwise => check parent
     else {
       $parent = $node->getParent();
 
@@ -355,8 +353,7 @@ class Engine
       if ($parent instanceof \Bga\Games\WelcomeToTheMoon\Core\Engine\SeqNode) {
         $index = $node->getIndex() - 1;
         $parent->insertChildAtPos(self::buildTree($t), $index);
-      }
-      // Other case : try to insert a SEQ node on top of it
+      } // Other case : try to insert a SEQ node on top of it
       else {
         $node2 = self::buildTree([
           'type' => NODE_SEQ,
@@ -425,8 +422,7 @@ class Engine
           'childs' => $childs,
         ])
       );
-    }
-    // Otherwise, turn the node into a PARALLEL node if needed, and then insert the childs
+    } // Otherwise, turn the node into a PARALLEL node if needed, and then insert the childs
     else {
       // If the node is an action leaf, turn it into a Parallel node first
       if ($node->getType() == NODE_LEAF) {
