@@ -191,7 +191,67 @@ class Scoresheet3 extends Scoresheet
     $missionPoints = $this->computeMissionsUiData($data);
     $data[] = ["slot" => 33, "v" => $missionPoints];
 
-    // Plants/Water/Antennas TODO
+    // Plants/Water/Antennas
+    $plantsWaterAntennasPoints = 0;
+    $scoringCategories = [
+      [
+        'section' => 'plants',
+        'slotNbr' => 48,
+        'slotPoints' => 34,
+        'slotsMult' => [101 => 1, 102 => 2, 103 => 3, 104 => 4],
+      ],
+      [
+        'section' => 'waters',
+        'slotNbr' => 49,
+        'slotPoints' => 35,
+        'slotsMult' => [105 => 2, 106 => 4, 107 => 6, 108 => 8],
+      ],
+      [
+        'section' => 'antennas',
+        'slotNbr' => 50,
+        'slotPoints' => 36,
+        'slotsMult' => [109 => 1, 110 => 2, 111 => 4, 112 => 6],
+      ]
+    ];
+    foreach ($scoringCategories as $category) {
+      // Amount of scribbles
+      $n = $this->countScribblesInSection($category['section']);
+      $data[] = ["slot" => $category['slotNbr'], "v" => $n];
+      // Multiplier
+      $mult = 0;
+      foreach ($category['slotsMult'] as $slot => $m) {
+        if ($this->hasScribbledSlot($slot)) $mult = $m;
+      }
+      // Points
+      $points = $n * $mult;
+      $data[] = ["slot" => $category['slotPoints'], "v" => $points];
+      $plantsWaterAntennasPoints += $points;
+    }
+
+    // Quarters
+    $quarters = $this->getQuarters();
+    $quartersPoints = 0;
+    foreach ([51, 52, 53, 54] as $quarterId => $slotScore) {
+      $points = 0;
+      foreach ($quarters[$quarterId]->getPointsSlots() as $i => $slot) {
+        if ($this->hasScribbledSlot($slot)) {
+          $points = $i == 0 ? 15 : 5;
+        }
+      }
+      $data[] = ["slot" => $slotScore, "v" => $points];
+      $quartersPoints += $points;
+    }
+    $data[] = ["slot" => 37, "v" => $quartersPoints];
+
+    // Planning
+    $planningNegativePoints = 0;
+    $planningMap = [83 => 1, 84 => 3, 85 => 6, 86 => 9, 87 => 12, 88 => 16, 89 => 20, 90 => 24, 91 => 28];
+    foreach ($planningMap as $slot => $points) {
+      if ($this->hasScribbledSlot($slot)) {
+        $planningNegativePoints = $points;
+      }
+    }
+    $data[] = ["slot" => 39, "v" => $planningNegativePoints];
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
@@ -206,7 +266,7 @@ class Scoresheet3 extends Scoresheet
       "slot" => 41,
       "score" => true,
       "overview" => "total",
-      "v" => $missionPoints - $negativePoints
+      "v" => $missionPoints + $plantsWaterAntennasPoints + $quartersPoints - $planningNegativePoints - $negativePoints
     ];
 
     return $data;
