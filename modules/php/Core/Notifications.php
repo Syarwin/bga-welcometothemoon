@@ -8,6 +8,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 class Notifications
@@ -376,6 +377,27 @@ class Notifications
   public static function circleAntennas(Player $player, array $scribbles)
   {
     self::addScribbles($player, $scribbles, clienttranslate('${player_name} connects ${n} antenna(s)'), ['n' => count($scribbles)]);
+  }
+
+  public static function filledQuarter(Player $player, Scribble $scribble, Quarter $quarter, bool $firstToFill)
+  {
+    $msg = $firstToFill ?
+      clienttranslate('${player_name} have filled the ${quarter} quarter first and gets 15 points')
+      : clienttranslate('${player_name} have filled the ${quarter} quarter and gets 5 points');;
+    static::addScribble($player, $scribble, $msg, [
+      'quarter' => $quarter->getName(),
+      'i18n' => ['quarter']
+    ]);
+  }
+
+  public static function crossOffQuarterPoints(array $players, array $scribbles, Quarter $quarter)
+  {
+    static::addScribbles(null, $scribbles, clienttranslate('${players_names} crosses off the ${quarter} quarter 15 points bonus because someone else filled it during this turn'), [
+      'players' => $players,
+      'scribbles' => $scribbles,
+      'quarter' => $quarter->getName(),
+      'i18n' => ['quarter']
+    ]);
   }
 
   /////////////////////////////////////

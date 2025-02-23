@@ -41,6 +41,7 @@ class Actions
     CIRCLE_GREENHOUSE,
     IMPROVE_BONUS,
     BUILD_ROBOT_TUNNEL,
+    FILLED_QUARTER,
   ];
 
   public static function get($actionId, &$ctx = null)

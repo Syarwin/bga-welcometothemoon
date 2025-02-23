@@ -9,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet3;
 
 class Scoresheet
 {
@@ -26,6 +27,9 @@ class Scoresheet
         break;
       case 2:
         Scoresheet2::phase5Check();
+        break;
+      case 3:
+        Scoresheet3::phase5Check();
         break;
       default:
         die("Unsupported phase 5 for this scenario");
@@ -127,7 +131,7 @@ class Scoresheet
     return $scribble;
   }
 
-  public function getScribbleReactions(Scribble $scribble): array
+  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     return [];
   }

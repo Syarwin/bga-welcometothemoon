@@ -37,7 +37,7 @@ class WriteX extends GenericPickSlot
     $scribbles = [$scribble];
     Notifications::writeNumber($player, $number, $scribbles, $this->getCtxArg('source')['name'] ?? null);
 
-    $reactions = $player->scoresheet()->getScribbleReactions($scribble);
+    $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actWriteX');
     if (!empty($reactions)) {
       $this->insertAsChild([
         'type' => NODE_PARALLEL,

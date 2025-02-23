@@ -121,6 +121,7 @@ const CROSS_OFF_MULTIPLIER = 'Scenario2\CrossOffMultiplier';
 const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
 const IMPROVE_BONUS = 'Scenario3\ImproveBonus';
 const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
+const FILLED_QUARTER = 'Scenario3\FilledQuarter';
 
 /*
  * Actions

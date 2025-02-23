@@ -93,7 +93,8 @@ class Scoresheet2 extends Scoresheet
             'slots' => $this->planningSlots,
             'jokers' => $this->jokers,
             'source' => ['name' => clienttranslate('Planning action')],
-          ]];
+          ]
+        ];
     }
     return null;
   }
@@ -167,9 +168,9 @@ class Scoresheet2 extends Scoresheet
     Globals::setCircledMultipliers([]);
   }
 
-  public function getScribbleReactions($scribble): array
+  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
-    if ($scribble->getNumber() === NUMBER_X) {
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
       return [
         [
           'action' => CIRCLE_OTHER,

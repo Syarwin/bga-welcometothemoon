@@ -4,9 +4,11 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario3\BuildRobotTunnel;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 
 include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
@@ -49,11 +51,21 @@ class Scoresheet3 extends Scoresheet
     return array_map(function ($data) {
       return new Quarter($data);
     }, [
-      [0, clienttranslate('top-left'), [3, 4, 5, 9, 10, 11, 15, 16], [[63], [64], [65], [66, 67]]],
-      [1, clienttranslate('top-right'), [19, 20, 21, 25, 26, 27, 31, 32], [[68], [69], [70], [71, 72]]],
-      [2, clienttranslate('bottom-left'), [1, 2, 6, 7, 8, 12, 13, 14], [[73], [74], [75], [76, 77]]],
-      [3, clienttranslate('bottom-right'), [17, 18, 22, 23, 24, 28, 29, 30], [[78], [79], [80], [81, 82]]],
+      [0, clienttranslate('top-left'), [3, 4, 5, 9, 10, 11, 15, 16], [[63], [64], [65], [66, 67]], [55, 59]],
+      [1, clienttranslate('top-right'), [19, 20, 21, 25, 26, 27, 31, 32], [[68], [69], [70], [71, 72]], [56, 60]],
+      [2, clienttranslate('bottom-left'), [1, 2, 6, 7, 8, 12, 13, 14], [[73], [74], [75], [76, 77]], [57, 61]],
+      [3, clienttranslate('bottom-right'), [17, 18, 22, 23, 24, 28, 29, 30], [[78], [79], [80], [81, 82]], [58, 62]],
     ]);
+  }
+
+  public static function getQuarterOfSlot(int $slot): Quarter
+  {
+    foreach (self::getQuarters() as $quarter) {
+      if ($quarter->hasSlot($slot)) {
+        return $quarter;
+      }
+    }
+    return null;
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -62,9 +74,7 @@ class Scoresheet3 extends Scoresheet
       case WATER:
         return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot, 'waterTanksSlots' => $this->waterTanksAtSlots]];
       case PLANT:
-        $quarterId = current(array_filter(self::getQuarters(), function ($quarter) use ($slot) {
-          return $quarter->hasSlot($slot);
-        }))->getId();
+        $quarterId = self::getQuarterOfSlot($slot)->getId();
         return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
       case ENERGY:
         return ['action' => IMPROVE_BONUS];
@@ -85,9 +95,10 @@ class Scoresheet3 extends Scoresheet
     return null;
   }
 
-  public function getScribbleReactions(Scribble $scribble): array
+  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
-    if (!in_array($scribble->getSlot(), $this->getSectionSlots('numbers'))) return [];
+    $slot = $scribble->getSlot();
+    if (!in_array($slot, $this->getSectionSlots('numbers'))) return [];
 
     // Check antennas
     $scribbles = BuildRobotTunnel::scribblesConnectedAntennas($this);
@@ -95,18 +106,58 @@ class Scoresheet3 extends Scoresheet
       Notifications::circleAntennas($this->player, $scribbles);
     }
 
-    if ($scribble->getNumber() === NUMBER_X) {
-      return [
-        [
-          'action' => CIRCLE_OTHER,
-          'args' => [
-            'actionType' => PLANNING,
-            'slots' => $this->getSectionSlots('planningmarkers'),
-          ]
+    $reactions = [];
+
+    // Check full quarter
+    $quarter = self::getQuarterOfSlot($slot);
+    if ($this->hasScribbledSlots($quarter->getSlots())) {
+      $reactions[] = [
+        'action' => FILLED_QUARTER,
+        'args' => ['quarterId' => $quarter->getId()]
+      ];
+    }
+
+    // PLANNING markers
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      $reactions[] = [
+        'action' => CIRCLE_OTHER,
+        'args' => [
+          'actionType' => PLANNING,
+          'slots' => $this->getSectionSlots('planningmarkers'),
         ]
       ];
     }
 
-    return [];
+    return $reactions;
+  }
+
+
+  // PHASE 5
+  public static function phase5Check(): void
+  {
+    $filledQuartersIds = array_unique(Globals::getFilledQuarters());
+    if (count($filledQuartersIds) > 0) {
+      $players = Players::getAll();
+      foreach ($filledQuartersIds as $quarterId) {
+        $quarter = self::getQuarters()[$quarterId];
+        $slotId = $quarter->getPointsSlots()[0];
+
+        $affectedPlayers = [];
+        $scribbles = [];
+        foreach ($players as $player) {
+          $scoresheet = $player->scoresheet();
+          if (!$scoresheet->hasScribbledSlot($slotId)) {
+            $scribbles[] = $scoresheet->addScribble($slotId);
+            $affectedPlayers[] = $player;
+          }
+        }
+
+        if (!empty($affectedPlayers)) {
+          Notifications::crossOffQuarterPoints($affectedPlayers, $scribbles, $quarter);
+        }
+      }
+    }
+
+    Globals::setFilledQuarters([]);
   }
 }

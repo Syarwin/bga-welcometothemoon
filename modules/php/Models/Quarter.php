@@ -8,10 +8,11 @@ class Quarter
   private string $name;
   private array $slots;
   private array $plantsSlots;
+  private array $pointsSlots;
 
   public function __construct($data)
   {
-    list($this->id, $this->name, $this->slots, $this->plantsSlots) = $data;
+    list($this->id, $this->name, $this->slots, $this->plantsSlots, $this->pointsSlots) = $data;
   }
 
   public function getId(): int
@@ -29,8 +30,18 @@ class Quarter
     return in_array($slot, $this->slots);
   }
 
+  public function getSlots(): array
+  {
+    return $this->slots;
+  }
+
   public function getPlantsSlots(): array
   {
     return $this->plantsSlots;
+  }
+
+  public function getPointsSlots(): array
+  {
+    return $this->pointsSlots;
   }
 }

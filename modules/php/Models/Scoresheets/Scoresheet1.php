@@ -201,12 +201,12 @@ class Scoresheet1 extends Scoresheet
   }
 
   // QUARTER BONUSES
-  public function getScribbleReactions($scribble): array
+  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     $slot = $scribble->getSlot();
 
     // Number => check quarters
-    if (1 <= $slot && $slot <= 53) {
+    if (in_array($slot, $this->getSectionSlots('numbers'))) {
       foreach ($this->getQuarters() as $quarter) {
         if ($this->hasFilledQuarter($quarter['slots'], $slot)) {
           return $this->convertQuarterBonuses($quarter);
