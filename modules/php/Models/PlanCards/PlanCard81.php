@@ -18,6 +18,20 @@ class PlanCard81 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $quarterAntennaSlots = [
+      [113, 114],
+      [115, 116],
+      [117, 118],
+      [119, 120]
+    ];
+    $scoresheet = $player->scoresheet();
+    $nQuarters = 0;
+    foreach ($quarterAntennaSlots as $quarter => $slots) {
+      if ($scoresheet->hasScribbledSlots($slots)) {
+        $nQuarters++;
+      }
+    }
+
+    return $nQuarters >= 2;
   }
 }

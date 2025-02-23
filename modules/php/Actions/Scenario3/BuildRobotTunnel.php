@@ -6,6 +6,7 @@ use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet3;
 
 const DIRECTIONS = [
   [-1, 0], // N
@@ -43,7 +44,7 @@ class BuildRobotTunnel extends GenericPickSlot
         if ($newCol < 0 || $newCol > 10 || $newRow < 0 || $newRow > 10) continue;
 
         // If the tunnel is build, add the node in the stack
-        $tunnelSlot = static::$grid[$newRow][$newCol];
+        $tunnelSlot = Scoresheet3::$grid[$newRow][$newCol];
         if ($tunnelSlot == -1 || $scoresheet->hasScribbledSlot($tunnelSlot)) {
           $stack[] = [$newRow + $dir[0], $newCol + $dir[1]];
         }
@@ -73,20 +74,6 @@ class BuildRobotTunnel extends GenericPickSlot
     Notifications::buildRobotTunnel($player, $scribbles, $circledAntennas);
   }
 
-  protected static $grid = [
-    [5, 170, 11, 176, 16, 182, 21, 188, 27, 194, TOP_RIGHT_CORNER_SLOT],
-    [140, 0, 145, 0, 150, 0, 155, 0, 160, 0, 165],
-    [4, 169, 10, 175, 15, 181, 20, 187, 26, 193, 32],
-    [139, 0, 144, 0, 149, 0, 154, 0, 159, 0, 164],
-    [3, 168, 9, 174, -1, 180, 19, 186, 25, 192, 31],
-    [138, 0, 143, 0, 148, 0, 153, 0, 158, 0, 163],
-    [2, 167, 8, 173, 14, 179, -1, 185, 24, 191, 30],
-    [137, 0, 142, 0, 147, 0, 152, 0, 157, 0, 162],
-    [1, 166, 7, 172, 13, 178, 18, 184, 23, 190, 29],
-    [-1, 0, 141, 0, 146, 0, 151, 0, 156, 0, 161],
-    [-1, -1, 6, 171, 12, 177, 17, 183, 22, 189, 28],
-  ];
-
   protected static $slotToAntennasMap = [
     1 => [129],
     3 => [125],
@@ -110,7 +97,6 @@ class BuildRobotTunnel extends GenericPickSlot
 
     // BFS
     $visited = [];
-    $slots = [];
     $stack = [[10, 0]];
     while (!empty($stack)) {
       $pos = array_pop($stack);
@@ -120,7 +106,7 @@ class BuildRobotTunnel extends GenericPickSlot
       $visited[$pos[0]][$pos[1]] = true;
 
       // Any Antenna to scribble here ? (only if the slot is scribbled!)
-      $slot = static::$grid[$pos[0]][$pos[1]];
+      $slot = Scoresheet3::$grid[$pos[0]][$pos[1]];
       if (in_array($slot, [-1, TOP_RIGHT_CORNER_SLOT]) || $scoresheet->hasScribbledSlot($slot)) {
         $antennasSlots = static::$slotToAntennasMap[$slot] ?? [];
         foreach ($antennasSlots as $antennasSlot) {

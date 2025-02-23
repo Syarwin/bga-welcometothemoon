@@ -18,6 +18,7 @@ class PlanCard78 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    // 134 is one of the three antenna slot in the top right corner
+    return $player->scoresheet()->hasScribbledSlot(134);
   }
 }
