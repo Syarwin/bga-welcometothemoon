@@ -74,12 +74,13 @@ class Scoresheet3 extends Scoresheet
           'args' => [
             'source' => [
               'name' => clienttranslate('Planning action'),
-              'slot' => $this->getFirstUnscribbled($this->getSectionSlots('planningmarkers'))
             ],
           ]
         ];
       case ROBOT:
         return ['action' => BUILD_ROBOT_TUNNEL];
+      case ASTRONAUT:
+        return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => ASTRONAUT, 'slots' => $this->getSectionSlots('astronautmarkers')]];
     }
     return null;
   }
@@ -92,6 +93,18 @@ class Scoresheet3 extends Scoresheet
     $scribbles = BuildRobotTunnel::scribblesConnectedAntennas($this);
     if (!empty($scribbles)) {
       Notifications::circleAntennas($this->player, $scribbles);
+    }
+
+    if ($scribble->getNumber() === NUMBER_X) {
+      return [
+        [
+          'action' => CIRCLE_OTHER,
+          'args' => [
+            'actionType' => PLANNING,
+            'slots' => $this->getSectionSlots('planningmarkers'),
+          ]
+        ]
+      ];
     }
 
     return [];
