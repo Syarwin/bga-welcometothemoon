@@ -291,8 +291,6 @@ class Scoresheet2 extends Scoresheet
       "v" => $missionPoints + $stationPoints + $waterPoints + $maxSectionSize + $sectionMajorityPoints - $negativePoints
     ];
 
-    // Panel
-
     return $data;
   }
 }

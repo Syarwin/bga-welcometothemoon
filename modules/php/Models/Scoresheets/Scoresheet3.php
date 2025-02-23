@@ -174,4 +174,41 @@ class Scoresheet3 extends Scoresheet
 
     Globals::setFilledQuarters([]);
   }
+
+  /**
+   * UI DATA
+   */
+  public function computeUiData(): array
+  {
+    $data = [];
+
+    // Number of numbered slots
+    $nNumberedSlots = $this->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
+
+    // Missions
+    $missionPoints = $this->computeMissionsUiData($data);
+    $data[] = ["slot" => 33, "v" => $missionPoints];
+
+    // Plants/Water/Antennas TODO
+
+    // System errors
+    $scribbledErrors = $this->countScribblesInSection('errors');
+    $negativePoints = 5 * $scribbledErrors;
+    $data[] = ["slot" => 40, "v" => $negativePoints];
+    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / " . 3)];
+    $data[] = ["panel" => "errors", "v" => $scribbledErrors];
+
+
+    // Total score
+    $data[] = [
+      "slot" => 41,
+      "score" => true,
+      "overview" => "total",
+      "v" => $missionPoints - $negativePoints
+    ];
+
+    return $data;
+  }
 }

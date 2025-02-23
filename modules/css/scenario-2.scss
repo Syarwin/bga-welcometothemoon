@@ -93,41 +93,8 @@
     }
 
     &.slot-score {
-      width: 50px;
-      height: 40px;
-      font-family: "Gears of Peace";
-      text-align: center;
-      font-size: 22px;
-      line-height: 43px;
-
-      &[data-id="42"] {
+      &[data-id="41"] {
         color: #c40524;
-      }
-    }
-
-    &.slot-subscore {
-      width: 40px;
-      height: 30px;
-      font-family: "Gears of Peace";
-      text-align: center;
-      font-size: 18px;
-      line-height: 32px;
-    }
-
-    &.slot-plan {
-      width: 54px;
-      height: 54px;
-
-      .scribble-number {
-        width: 100%;
-        height: 100%;
-        font-family: "Gears of Peace";
-        text-align: center;
-        font-size: 27px;
-        line-height: 56px;
-        background: none;
-        box-shadow: none;
-        text-indent: 0px;
       }
     }
   }
