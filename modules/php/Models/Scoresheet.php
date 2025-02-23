@@ -150,7 +150,7 @@ class Scoresheet
   public function getFirstUnscribbled(array $slots, ?int $type = null): int|null
   {
     $allUnscribbled = $this->getAllUnscribbled($slots, $type);
-    return is_null($allUnscribbled) ? null : $allUnscribbled[0];
+    return $allUnscribbled ? $allUnscribbled[0] : null;
   }
 
   public function getAllUnscribbled(array $slots, ?int $type = null): array|null

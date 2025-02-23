@@ -35,13 +35,7 @@ class WriteX extends GenericPickSlot
     $player = $this->getPlayer();
     $scribble = $player->scoresheet()->addScribble($slotId, $number);
     $scribbles = [$scribble];
-
-    // Scribble the bonus slot
-    $source = $this->getCtxArg('source');
-    if (isset($source['slot'])) {
-      $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
-    }
-    Notifications::writeNumber($player, $number, $scribbles, $source['name'] ?? null);
+    Notifications::writeNumber($player, $number, $scribbles, $this->getCtxArg('source')['name'] ?? null);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble);
     if (!empty($reactions)) {

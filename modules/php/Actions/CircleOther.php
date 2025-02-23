@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario2;
+namespace Bga\Games\WelcomeToTheMoon\Actions;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -20,17 +20,12 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function isDoable(Player $player): bool
   {
     $scoresheet = $player->scoresheet();
-    foreach ($this->getSlots() as $slot) {
+    foreach ($this->getCtxArg('slots') as $slot) {
       if (!$scoresheet->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
         return true;
       }
     }
     return false;
-  }
-
-  private function getSlots()
-  {
-    return $this->isAstronautAction() ? self::$astronauts : self::$planning;
   }
 
   private function isAstronautAction()
@@ -44,7 +39,7 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function getDescription(): string
   {
-    return $this->isAstronautAction() ? clienttranslate('Circle an Astronaut symbol') : clienttranslate('Circle a Planning symbol');
+    return $this->isAstronautAction() ? clienttranslate('Cross off an Astronaut symbol') : clienttranslate('Cross off a Planning symbol');
   }
 
   public function stCircleOther()
@@ -56,29 +51,20 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
-    foreach ($this->getSlots() as $slot) {
+    $args = $this->getCtxArgs();
+    foreach ($args['slots'] as $slot) {
       if (!$scoresheet->hasScribbledSlot($slot)) {
         $scribble = $scoresheet->addScribble($slot);
         $this->isAstronautAction() ?
           Notifications::scribbleAstronaut($player, $scribble) :
           Notifications::scribblePlanning($player, $scribble);
-        if (in_array($slot, array_keys(self::$jokers))) {
-          $scribble = $scoresheet->addScribble(self::$jokers[$slot], SCRIBBLE_CIRCLE);
+        $jokers = $args['jokers'] ?? [];
+        if (!empty($jokers) && in_array($slot, array_keys($jokers))) {
+          $scribble = $scoresheet->addScribble($jokers[$slot], SCRIBBLE_CIRCLE);
           Notifications::circleJoker($player, $scribble);
         }
         break;
       }
     }
   }
-
-  private static array $astronauts = [151, 152, 154, 155, 157, 158];
-  private static array $planning = [160, 161, 163, 164, 166, 167];
-  public static array $jokers = [
-    152 => 153,
-    155 => 156,
-    158 => 159,
-    161 => 162,
-    164 => 165,
-    167 => 168,
-  ];
 }

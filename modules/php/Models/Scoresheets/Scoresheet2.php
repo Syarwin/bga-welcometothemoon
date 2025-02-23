@@ -2,9 +2,8 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CircleOther;
+use Bga\Games\WelcomeToTheMoon\Actions\CircleOther;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
-use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ImproveBonus;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
@@ -35,7 +34,7 @@ class Scoresheet2 extends Scoresheet
     35 => 73,
   ];
 
-  public array $waterTanksValues = [
+  private array $waterTanksValues = [
     62 => 4,
     63 => 4,
     64 => 5,
@@ -48,6 +47,18 @@ class Scoresheet2 extends Scoresheet
     71 => 5,
     72 => 4,
     73 => 4,
+  ];
+
+  private array $astronautsSlots = [151, 152, 154, 155, 157, 158];
+  private array $planningSlots = [160, 161, 163, 164, 166, 167];
+
+  private array $jokers = [
+    152 => 153,
+    155 => 156,
+    158 => 159,
+    161 => 162,
+    164 => 165,
+    167 => 168,
   ];
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -66,12 +77,23 @@ class Scoresheet2 extends Scoresheet
           'waterTanksValues' => $this->waterTanksValues,
         ]];
       case ASTRONAUT:
-        return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => $combination['action']]];
+        return [
+          'action' => CIRCLE_OTHER,
+          'args' => [
+            'actionType' => $combination['action'],
+            'slots' => $this->astronautsSlots,
+            'jokers' => $this->jokers,
+          ]
+        ];
       case PLANNING:
-        return ['action' => WRITE_X, 'args' => [
-          'actionType' => $combination['action'],
-          'source' => ['name' => clienttranslate('Planning action')],
-        ]];
+        return [
+          'action' => WRITE_X,
+          'args' => [
+            'actionType' => $combination['action'],
+            'slots' => $this->planningSlots,
+            'jokers' => $this->jokers,
+            'source' => ['name' => clienttranslate('Planning action')],
+          ]];
     }
     return null;
   }
@@ -151,7 +173,11 @@ class Scoresheet2 extends Scoresheet
       return [
         [
           'action' => CIRCLE_OTHER,
-          'args' => ['actionType' => PLANNING]
+          'args' => [
+            'actionType' => PLANNING,
+            'slots' => $this->planningSlots,
+            'jokers' => $this->jokers,
+          ]
         ]
       ];
     }
@@ -169,7 +195,7 @@ class Scoresheet2 extends Scoresheet
 
   public function getFirstUnscribbledJoker(): int|null
   {
-    $circledJokers = array_filter(CircleOther::$jokers, fn($jokerSlot) => $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
+    $circledJokers = array_filter($this->jokers, fn($jokerSlot) => $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
     return $this->getFirstUnscribbled($circledJokers, SCRIBBLE);
   }
 
