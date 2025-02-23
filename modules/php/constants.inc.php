@@ -61,6 +61,7 @@ const ST_CROSS_OFF_SABOTAGE = 40;
 const ST_CROSS_OFF_MULTIPLIER = 41;
 const ST_IMPROVE_BONUS = 42;
 const ST_BUILD_ROBOT_TUNNEL = 43;
+const ST_CROSS_OFF_FILLED_QUARTER_BONUS = 44;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -122,6 +123,7 @@ const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
 const IMPROVE_BONUS = 'Scenario3\ImproveBonus';
 const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
 const FILLED_QUARTER = 'Scenario3\FilledQuarter';
+const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
 
 /*
  * Actions

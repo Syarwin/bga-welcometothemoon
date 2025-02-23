@@ -123,7 +123,7 @@ class BuildRobotTunnel extends GenericPickSlot
         if ($newCol < 0 || $newCol > 10 || $newRow < 0 || $newRow > 10) continue;
 
         // If the tunnel is build, add the node in the stack
-        $tunnelSlot = static::$grid[$newRow][$newCol];
+        $tunnelSlot = Scoresheet3::$grid[$newRow][$newCol];
         if ($tunnelSlot == -1 || $scoresheet->hasScribbledSlot($tunnelSlot)) {
           $stack[] = [$newRow + $dir[0], $newCol + $dir[1]];
         }

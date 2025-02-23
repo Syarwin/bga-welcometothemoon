@@ -213,22 +213,22 @@ class Astra
     foreach (ACTIONS as $action) {
       $n = $nCardsByAction[$action];
       $categoryScore = $n * $this->multipliers[$action];
-      $data["astra-$action-count"] = $n;
-      $data["astra-$action-score"] = $categoryScore;
+      $data[] = ['slot' => "astra-$action-count", 'v' => $n];
+      $data[] = ['slot' => "astra-$action-score", 'v' => $categoryScore];
       $totalScore += $categoryScore;
     }
 
     // Fixed score
-    $data['astra-fixed-score'] = $this->fixedScore;
+    $data[] = ['slot' => 'astra-fixed-score', 'v' => $this->fixedScore];
     $totalScore += $this->fixedScore;
 
     // Level score
     $levelScore = $this->level * $this->levelMultiplier;
-    $data['astra-level-score'] = $levelScore;
+    $data[] = ['slot' => 'astra-level-score', 'v' => $levelScore];
     $totalScore += $levelScore;
 
     // Total score
-    $data['astra-total-score'] = $totalScore;
+    $data[] = ['slot' => 'astra-total-score', 'v' => $totalScore];
 
     return $data;
   }

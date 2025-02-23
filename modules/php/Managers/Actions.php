@@ -42,6 +42,7 @@ class Actions
     IMPROVE_BONUS,
     BUILD_ROBOT_TUNNEL,
     FILLED_QUARTER,
+    CROSS_OFF_FILLED_QUARTER_BONUS,
   ];
 
   public static function get($actionId, &$ctx = null)

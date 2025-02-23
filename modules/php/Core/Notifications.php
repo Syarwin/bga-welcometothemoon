@@ -400,6 +400,11 @@ class Notifications
     ]);
   }
 
+  public static function crossOffFilledQuarterBonusAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filled quarter highest bonus'));
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

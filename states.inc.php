@@ -338,6 +338,14 @@ $machinestates = [
     'possibleactions' => ['actBuildRobotTunnel', 'actRestart'],
   ],
 
+  ST_CROSS_OFF_FILLED_QUARTER_BONUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a filled quarter bonus'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'possibleactions' => ['actCrossOffFilledQuarterBonus', 'actRestart'],
+  ],
+
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
