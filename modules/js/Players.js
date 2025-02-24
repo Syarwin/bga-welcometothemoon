@@ -131,6 +131,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       const scenarioId = this.gamedatas.scenario;
       const data = SCENARIOS_DATA[scenarioId];
       this.setupOverview();
+      this.ensureSpecificGameImageLoading([`scenario-${scenarioId}.jpg`]);
 
       if (this.isSolo()) {
         $('ebd-body').dataset.solo = 1;

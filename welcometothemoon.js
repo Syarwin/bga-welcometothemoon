@@ -190,6 +190,11 @@ define([
         // Create a new div for "subtitle"
         dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
 
+        // Prevent loading all the scoresheets
+        for (let scenarioId = 1; scenarioId <= 8; scenarioId++) {
+          this.dontPreloadImage(`scenario-${scenarioId}.jpg`);
+        }
+
         // Central area
         $('game_play_area').insertAdjacentHTML(
           'beforeend',

@@ -203,7 +203,7 @@ $cardBorderRadius: 7px;
         width: 100%;
         height: 100%;
         background-image: url("img/objectives.jpg");
-        background-size: 600% 200%;
+        background-size: 800% 600%;
         border-radius: $cardBorderRadius;
         box-shadow: 1px 1px 3px #0f0f0f;
 
@@ -276,11 +276,11 @@ $cardBorderRadius: 7px;
         }
     }
 
-    @for $i from 64 through 75 {
+    @for $i from 64 through 111 {
         &[data-id="#{$i}"] .plan-card-front {
-            $col: ($i - 64) % 6;
-            $row: ($i - 64 - $col) / 6;
-            background-position: $col * 100%/5 $row * 100%/1;
+            $row: ($i - 64) % 6;
+            $col: ($i - 64 - $row) / 6;
+            background-position: $col * 100%/7 $row * 100%/5;
         }
     }
 }
