@@ -738,6 +738,20 @@
     background-size: 100%;
     background-repeat: no-repeat;
     margin: 0 0.1em; }
+  .icon-container .icon-antenna {
+    width: 1.8em;
+    height: 1.8em;
+    background-image: url("img/overview/antenna.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
+  .icon-container .icon-quarter {
+    width: 1.7em;
+    height: 1.8em;
+    background-image: url("img/overview/quarter.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
 
 .action-button.btnAction {
   background-color: #4c483e;
@@ -1510,8 +1524,9 @@ body {
 .score-sheet[data-board="3"] {
   background-image: url("img/scenario-3.jpg"); }
   .score-sheet[data-board="3"] .player-name {
-    left: 540px;
-    top: 10px; }
+    left: auto;
+    top: 5px;
+    right: 9px; }
   .score-sheet[data-board="3"] .scribble-number {
     font-size: 43px;
     line-height: 41px;
@@ -1551,8 +1566,8 @@ body {
     width: 45px;
     height: 45px; }
   .score-sheet[data-board="3"] .wttm-slot.slot-multmarker {
-    width: 26px;
-    height: 26px; }
+    width: 30px;
+    height: 30px; }
   .score-sheet[data-board="3"] .wttm-slot.slot-planningmarker {
     width: 30px;
     height: 30px; }
@@ -1689,7 +1704,7 @@ body {
           font-family: "Gears of Peace";
           text-align: center;
           font-size: 22px;
-          line-height: 43px; }
+          line-height: 45px; }
         .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-subscore {
           width: 40px;
           height: 30px;
@@ -2143,7 +2158,6 @@ body {
 #popin_showOverview {
   z-index: 2000;
   padding: 0;
-  width: 1000px;
   min-width: 1000px; }
   #popin_showOverview #popin_showOverview_contents table {
     width: 100%; }
@@ -2162,8 +2176,16 @@ body {
         font-size: 27px; }
       #popin_showOverview #popin_showOverview_contents table th i.svgicon-rocket {
         font-size: 40px; }
-      #popin_showOverview #popin_showOverview_contents table th .icon-water {
-        font-size: 0.9em; }
+      #popin_showOverview #popin_showOverview_contents table th .icon-water,
+      #popin_showOverview #popin_showOverview_contents table th .icon-planning,
+      #popin_showOverview #popin_showOverview_contents table th .icon-astronaut,
+      #popin_showOverview #popin_showOverview_contents table th .icon-plant {
+        background-color: transparent;
+        font-size: 0.9em;
+        filter: drop-shadow(0px 0px 1px black);
+        -webkit-transform: translateZ(0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden; }
       #popin_showOverview #popin_showOverview_contents table th#overview-user {
         width: auto; }
       #popin_showOverview #popin_showOverview_contents table th#overview-total, #popin_showOverview #popin_showOverview_contents table th#overview-user {
@@ -2197,7 +2219,12 @@ body {
         #popin_showOverview #popin_showOverview_contents table tbody tr td.overview-total {
           font-size: 30px; }
         #popin_showOverview #popin_showOverview_contents table tbody tr td span.details {
-          font-size: 20px; }
+          font-size: 18px;
+          letter-spacing: -1px;
+          color: #555;
+          position: relative;
+          top: 8px;
+          left: 2px; }
     #popin_showOverview #popin_showOverview_contents table tbody tr:nth-of-type(2n + 1) {
       background-color: #f2ede7; }
 

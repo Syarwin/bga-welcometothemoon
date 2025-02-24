@@ -224,24 +224,26 @@ class Scoresheet3 extends Scoresheet
       }
       // Points
       $points = $n * $mult;
-      $data[] = ["slot" => $category['slotPoints'], "v" => $points];
+      $data[] = ["slot" => $category['slotPoints'], "v" => $points, "overview" => $category['section']];
       $plantsWaterAntennasPoints += $points;
     }
 
     // Quarters
     $quarters = $this->getQuarters();
     $quartersPoints = 0;
+    $nQuartersFilled = 0;
     foreach ([51, 52, 53, 54] as $quarterId => $slotScore) {
       $points = 0;
       foreach ($quarters[$quarterId]->getPointsSlots() as $i => $slot) {
         if ($this->hasScribbledSlot($slot)) {
           $points = $i == 0 ? 15 : 5;
+          $nQuartersFilled++;
         }
       }
       $data[] = ["slot" => $slotScore, "v" => $points];
       $quartersPoints += $points;
     }
-    $data[] = ["slot" => 37, "v" => $quartersPoints];
+    $data[] = ["slot" => 37, "v" => $quartersPoints, "overview" => 'quarters', "details" => "$nQuartersFilled / 4"];
 
     // Planning
     $planningNegativePoints = 0;
@@ -252,12 +254,13 @@ class Scoresheet3 extends Scoresheet
       }
     }
     $data[] = ["slot" => 39, "v" => $planningNegativePoints];
+    $data[] = ["overview" => "planning", "v" => -$planningNegativePoints];
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;
     $data[] = ["slot" => 40, "v" => $negativePoints];
-    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / " . 3)];
+    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 3")];
     $data[] = ["panel" => "errors", "v" => $scribbledErrors];
 
 

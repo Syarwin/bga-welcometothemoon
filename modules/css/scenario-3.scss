@@ -2,8 +2,9 @@
   background-image: url("img/scenario-3.jpg");
 
   .player-name {
-    left: 540px;
-    top: 10px;
+    left: auto;
+    top: 5px;
+    right: 9px;
   }
 
   .scribble-number {
@@ -66,8 +67,8 @@
     }
 
     &.slot-multmarker {
-      width: 26px;
-      height: 26px;
+      width: 30px;
+      height: 30px;
     }
 
     &.slot-planningmarker {
