@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Managers;
 use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
@@ -164,45 +165,5 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
   {
     parent::invalidate();
     static::$astra = null;
-  }
-
-  public static function getOrderNumberMostZonesComplete(int $pId): array
-  {
-    $amount = 0;
-    $zones = [];
-    /** @var Player $player */
-    foreach (self::getAll() as $player) {
-      $completeSectionsCount = $player->scoresheet()->getCompleteSectionsCount();
-      if ($completeSectionsCount > 0) {
-        $zones[$player->getId()] = $completeSectionsCount;
-        if ($player->getId() == $pId) {
-          $amount = $completeSectionsCount;
-        }
-      }
-    }
-    if (Globals::isSolo()) {
-      $astra = Players::getAstra();
-      $zones['astra'] = intdiv($astra->getCardsByActionMap()[ENERGY], 2);
-    }
-    if (!isset($zones[$pId])) {
-      return [0, 0];
-    }
-    arsort($zones); // Sorts by value in descending order while keeping keys
-
-    $groupedPlayers = [];
-    $previousValue = null;
-    foreach ($zones as $key => $value) {
-      if ($value !== $previousValue) {
-        $groupedPlayers[] = []; // Start a new group for a new value
-      }
-      $groupedPlayers[array_key_last($groupedPlayers)][] = $key; // Add key to the latest group
-      $previousValue = $value;
-    }
-    foreach ($groupedPlayers as $key => $players) {
-      if (in_array($pId, $players)) {
-        return [$key + 1, $amount];
-      }
-    }
-    return [0, 0]; // This should never happen as we already returned 0 if pId was filtered having 0 zones
   }
 }

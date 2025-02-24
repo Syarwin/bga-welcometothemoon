@@ -14,21 +14,30 @@ abstract class Utils extends \APP_DbObject
     return mb_convert_case(str_replace('i', 'I', $tmp[0]), MB_CASE_TITLE, 'UTF-8') . ($tmp[1] ?? '');
   }
 
-  public static function filterPrivateDatas($cards)
+  public static function getRankAndAmountOfKey($array, $targetKey): array
   {
-    $t = [];
-    foreach ($cards as $card) {
-      $d = $card->jsonSerialize();
-      $t[] = [
-        'id' => -1,
-        'pId' => $d['pId'],
-        'location' => $d['location'],
-        'type' => $d['type'],
-        'level' => $d['level'] ?? 0,
-      ];
+    if (!array_key_exists($targetKey, $array)) {
+      return [0, 0];
     }
 
-    return $t;
+    arsort($array); // Sorts by value in descending order while keeping keys
+
+    $groupedPlayers = [];
+    $previousValue = null;
+    foreach ($array as $key => $value) {
+      if ($value !== $previousValue) {
+        $groupedPlayers[] = []; // Start a new group for a new value
+      }
+      $groupedPlayers[array_key_last($groupedPlayers)][] = $key; // Add key to the latest group
+      $previousValue = $value;
+    }
+    foreach ($groupedPlayers as $key => $players) {
+      if (in_array($targetKey, $players)) {
+        return [$key + 1, $array[$targetKey]];
+      }
+    }
+
+    return [0, 0];
   }
 
   public static function filter(&$data, $filter)
@@ -50,38 +59,6 @@ abstract class Utils extends \APP_DbObject
     return $entries;
   }
 
-  static function getTypesDesc($types)
-  {
-    $names = [
-      BIOMASS => \clienttranslate('Biomass'),
-      TECH => \clienttranslate('Tech'),
-      CIV => \clienttranslate('Civ'),
-      WATER => \clienttranslate('Water'),
-      ROVER => \clienttranslate('Rover'),
-      ENERGY => \clienttranslate('Energy'),
-    ];
-
-    $args = [];
-    $logs = [];
-    foreach ($types as $i => $type) {
-      $logs[] = '${type' . $i . '}';
-      $args['type' . $i] = [
-        'log' => '${type}${type_name}',
-        'args' => [
-          'type' => '',
-          'type_name' => $names[$type],
-          'i18n' => ['type_name'],
-        ],
-      ];
-      $args['i18n'][] = 'type' . $i;
-    }
-
-    return [
-      'log' => join(', ', $logs),
-      'args' => $args,
-    ];
-  }
-
   static function search($array, $test)
   {
     $found = false;
@@ -95,43 +72,6 @@ abstract class Utils extends \APP_DbObject
     }
 
     return $found;
-  }
-
-  public static function topological_sort($nodeids, $edges)
-  {
-    $L = $S = $nodes = [];
-    foreach ($nodeids as $id) {
-      $nodes[$id] = ['in' => [], 'out' => []];
-      foreach ($edges as $e) {
-        if ($id == $e[0]) {
-          $nodes[$id]['out'][] = $e[1];
-        }
-        if ($id == $e[1]) {
-          $nodes[$id]['in'][] = $e[0];
-        }
-      }
-    }
-    foreach ($nodes as $id => $n) {
-      if (empty($n['in'])) {
-        $S[] = $id;
-      }
-    }
-    while (!empty($S)) {
-      $L[] = $id = array_shift($S);
-      foreach ($nodes[$id]['out'] as $m) {
-        $nodes[$m]['in'] = array_diff($nodes[$m]['in'], [$id]);
-        if (empty($nodes[$m]['in'])) {
-          $S[] = $m;
-        }
-      }
-      $nodes[$id]['out'] = [];
-    }
-    foreach ($nodes as $n) {
-      if (!empty($n['in']) or !empty($n['out'])) {
-        return null; // not sortable as graph is cyclic
-      }
-    }
-    return $L;
   }
 
   public static function die($args = null)

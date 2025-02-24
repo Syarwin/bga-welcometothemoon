@@ -6,6 +6,7 @@ use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
@@ -266,15 +267,11 @@ class Scoresheet2 extends Scoresheet
     $data[] = ["slot" => 40, "v" => $maxSectionSize, "overview" => "longest-section"];
 
     // Most zones complete
-    list($thisPlayerOrder, $nSections) = Players::getOrderNumberMostZonesComplete($this->player->getId());
-    $sectionMajorityPoints = [
-      0 => 0,
-      1 => 20,
-      2 => 10,
-      3 => 5,
-    ][$thisPlayerOrder];
+    list($thisPlayerOrder, $nSections) = self::getMostZonesCompleteRankAndAmount($this->player->getId());
+    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
     $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "details" => $nSections];
+
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;
@@ -292,5 +289,23 @@ class Scoresheet2 extends Scoresheet
     ];
 
     return $data;
+  }
+
+  public static function getMostZonesCompleteRankAndAmount(int $pId): array
+  {
+    $zones = [];
+    /** @var Player $player */
+    foreach (Players::getAll() as $player) {
+      $completeSectionsCount = $player->scoresheet()->getCompleteSectionsCount();
+      if ($completeSectionsCount > 0) {
+        $zones[$player->getId()] = $completeSectionsCount;
+      }
+    }
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      $zones['astra'] = intdiv($astra->getCardsByActionMap()[ENERGY], 2);
+    }
+
+    return Utils::getRankAndAmountOfKey($zones, $pId);
   }
 }

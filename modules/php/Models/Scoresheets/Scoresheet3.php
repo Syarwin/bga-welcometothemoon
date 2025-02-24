@@ -9,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 
 include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
@@ -245,6 +246,12 @@ class Scoresheet3 extends Scoresheet
     }
     $data[] = ["slot" => 37, "v" => $quartersPoints, "overview" => 'quarters', "details" => "$nQuartersFilled / 4"];
 
+    // Most astronauts
+    list($thisPlayerOrder, $nAstronauts) = self::getMostAstronautsRankAndAmount($this->player->getId());
+    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
+    $data[] = ["slot" => 38, "v" => $sectionMajorityPoints];
+    $data[] = ["overview" => "astronaut", "v" => $sectionMajorityPoints, "details" => $nAstronauts];
+
     // Planning
     $planningNegativePoints = 0;
     $planningMap = [83 => 1, 84 => 3, 85 => 6, 86 => 9, 87 => 12, 88 => 16, 89 => 20, 90 => 24, 91 => 28];
@@ -273,5 +280,23 @@ class Scoresheet3 extends Scoresheet
     ];
 
     return $data;
+  }
+
+  public static function getMostAstronautsRankAndAmount(int $pId): array
+  {
+    $astronauts = [];
+    /** @var Player $player */
+    foreach (Players::getAll() as $player) {
+      $astronautsCount = $player->scoresheet()->countScribblesInSection('astronautmarkers');
+      if ($astronautsCount > 0) {
+        $astronauts[$player->getId()] = $astronautsCount;
+      }
+    }
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      $astronauts['astra'] = $astra->getCardsByActionMap()[ASTRONAUT];
+    }
+
+    return Utils::getRankAndAmountOfKey($astronauts, $pId);
   }
 }
