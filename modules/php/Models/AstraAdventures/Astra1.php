@@ -36,7 +36,7 @@ class Astra1 extends Astra
     }
   }
 
-  public function getUiData()
+  public function getUiData(): array
   {
     $data = [];
     $totalScore = 10;
