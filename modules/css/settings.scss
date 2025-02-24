@@ -3,17 +3,29 @@
     border-image: none;
     grid-column: 1;
     grid-row: 1;
+    border: 1px solid #3e3d3d;
 }
 
 #player_config {
-    padding-bottom: 8px;
-
     .player_config_row {
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding: 5px 0px;
         border-bottom: 1px solid #80502e;
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        &#scenario-name {
+            color: #b80623;
+            background: #d8bf93;
+            font-family: "Bebas";
+            font-size: 21px;
+            border-top-left-radius: 6px;
+            margin: -4px -3px 5px;
+            border-top-right-radius: 6px;
+        }
     }
 
     #cards-count {

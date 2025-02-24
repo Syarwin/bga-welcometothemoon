@@ -588,11 +588,6 @@ class Notifications
     self::notifyAll('flush', '', []);
   }
 
-  public static function scores()
-  {
-    // TODO
-  }
-
   ///////////////////////////////////////////////////////////////
   //  _   _           _       _            _
   // | | | |_ __   __| | __ _| |_ ___     / \   _ __ __ _ ___

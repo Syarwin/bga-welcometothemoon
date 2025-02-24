@@ -794,6 +794,8 @@ define([
         return `
   <div class='player-board' id="player_board_config">
     <div id="player_config" class="player_board_content">
+      <div class="player_config_row" id="scenario-name"></div>
+      
       <div class="player_config_row">
         <div id="cards-count">
           <div id="cards-count-status"></div>

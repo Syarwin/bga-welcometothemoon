@@ -56,7 +56,6 @@ class Engine
       PGlobals::setEngine($pId, []);
       //      Game::get()->sendNotifications(); TODO : put back to avoid too big notifs
     }
-    Notifications::scores();
     Log::clearUndoableStepNotifications();
   }
 

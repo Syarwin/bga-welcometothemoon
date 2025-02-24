@@ -1880,118 +1880,127 @@ body {
   position: relative;
   border-image: none;
   grid-column: 1;
-  grid-row: 1; }
+  grid-row: 1;
+  border: 1px solid #3e3d3d; }
 
-#player_config {
-  padding-bottom: 8px; }
-  #player_config .player_config_row {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 5px 0px;
-    border-bottom: 1px solid #80502e; }
-  #player_config #cards-count {
-    display: flex;
-    height: 40px;
-    width: 35px;
-    margin-left: 2px;
+#player_config .player_config_row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 0px;
+  border-bottom: 1px solid #80502e; }
+  #player_config .player_config_row:last-of-type {
+    border-bottom: none; }
+  #player_config .player_config_row#scenario-name {
+    color: #b80623;
+    background: #d8bf93;
+    font-family: "Bebas";
+    font-size: 21px;
+    border-top-left-radius: 6px;
+    margin: -4px -3px 5px;
+    border-top-right-radius: 6px; }
+#player_config #cards-count {
+  display: flex;
+  height: 40px;
+  width: 35px;
+  margin-left: 2px;
+  position: relative;
+  z-index: 1; }
+  #player_config #cards-count div,
+  #player_config #cards-count div::after,
+  #player_config #cards-count div::before {
+    width: 27px;
+    height: 35px;
+    transform-origin: left bottom; }
+  #player_config #cards-count div {
     position: relative;
-    z-index: 1; }
-    #player_config #cards-count div,
-    #player_config #cards-count div::after,
+    font-family: "Bebas";
+    font-size: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; }
+    #player_config #cards-count div::after, #player_config #cards-count div::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 6px;
+      border: 1px solid #555;
+      box-shadow: 1px 1px 1px black;
+      background-color: #8b7f73; }
     #player_config #cards-count div::before {
-      width: 27px;
-      height: 35px;
-      transform-origin: left bottom; }
-    #player_config #cards-count div {
-      position: relative;
-      font-family: "Bebas";
-      font-size: 23px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center; }
-      #player_config #cards-count div::after, #player_config #cards-count div::before {
-        content: "";
-        position: absolute;
-        z-index: -1;
-        border-radius: 6px;
-        border: 1px solid #555;
-        box-shadow: 1px 1px 1px black;
-        background-color: #8b7f73; }
-      #player_config #cards-count div::before {
-        transform: translateY(1px) translateX(2px) rotate(6deg); }
-  #player_config #help-mode-switch .checkbox {
-    display: none; }
-  #player_config #help-mode-switch .label {
-    background-color: #2c3037;
-    border-radius: 50px;
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    height: 26px;
-    width: 50px;
-    margin-right: 4px; }
-  #player_config #help-mode-switch .label .ball {
-    background-color: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    height: 22px;
-    width: 22px;
-    transform: translateX(0px);
-    transition: transform 0.2s linear, color 0.7s linear; }
-  #player_config #help-mode-switch .checkbox:checked + .label .ball {
-    transform: translateX(24px); }
-  #player_config #help-mode-switch svg {
-    width: 27px; }
-  #player_config #show-scores {
-    height: 40px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer; }
-    #player_config #show-scores:hover {
-      color: grey; }
-    #player_config #show-scores svg {
-      width: auto;
-      height: 40px; }
-  #player_config #show-settings {
-    height: 40px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer; }
-    #player_config #show-settings:hover {
-      color: grey; }
-    #player_config #show-settings svg {
-      width: auto;
-      height: 40px; }
-  #player_config #show-settings .fa-primary {
-    transform-origin: 216px 255px;
-    transition: transform 1s; }
-  #player_config #show-settings:hover .fa-primary {
-    transform: rotate(180deg); }
-  #player_config #open-scoreboard {
-    cursor: pointer; }
-    #player_config #open-scoreboard svg {
-      width: 60px;
-      height: 30px; }
-      #player_config #open-scoreboard svg path {
-        fill: #bcbdbd85;
-        fill-opacity: 1;
-        stroke: #000000;
-        stroke-width: 5;
-        stroke-linecap: round;
-        stroke-linejoin: bevel;
-        stroke-miterlimit: 4;
-        stroke-dasharray: none;
-        stroke-opacity: 1; }
-    #player_config #open-scoreboard:hover svg {
-      opacity: 0.5; }
+      transform: translateY(1px) translateX(2px) rotate(6deg); }
+#player_config #help-mode-switch .checkbox {
+  display: none; }
+#player_config #help-mode-switch .label {
+  background-color: #2c3037;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  height: 26px;
+  width: 50px;
+  margin-right: 4px; }
+#player_config #help-mode-switch .label .ball {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 22px;
+  width: 22px;
+  transform: translateX(0px);
+  transition: transform 0.2s linear, color 0.7s linear; }
+#player_config #help-mode-switch .checkbox:checked + .label .ball {
+  transform: translateX(24px); }
+#player_config #help-mode-switch svg {
+  width: 27px; }
+#player_config #show-scores {
+  height: 40px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; }
+  #player_config #show-scores:hover {
+    color: grey; }
+  #player_config #show-scores svg {
+    width: auto;
+    height: 40px; }
+#player_config #show-settings {
+  height: 40px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; }
+  #player_config #show-settings:hover {
+    color: grey; }
+  #player_config #show-settings svg {
+    width: auto;
+    height: 40px; }
+#player_config #show-settings .fa-primary {
+  transform-origin: 216px 255px;
+  transition: transform 1s; }
+#player_config #show-settings:hover .fa-primary {
+  transform: rotate(180deg); }
+#player_config #open-scoreboard {
+  cursor: pointer; }
+  #player_config #open-scoreboard svg {
+    width: 60px;
+    height: 30px; }
+    #player_config #open-scoreboard svg path {
+      fill: #bcbdbd85;
+      fill-opacity: 1;
+      stroke: #000000;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: bevel;
+      stroke-miterlimit: 4;
+      stroke-dasharray: none;
+      stroke-opacity: 1; }
+  #player_config #open-scoreboard:hover svg {
+    opacity: 0.5; }
 
 #popin_showSettings_underlay {
   background-color: black !important;

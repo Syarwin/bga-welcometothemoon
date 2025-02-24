@@ -132,6 +132,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       const data = SCENARIOS_DATA[scenarioId];
       this.setupOverview();
       this.ensureSpecificGameImageLoading([`scenario-${scenarioId}.jpg`]);
+      $('scenario-name').innerHTML = `#${scenarioId}: ${data.name}`;
 
       if (this.isSolo()) {
         $('ebd-body').dataset.solo = 1;
@@ -193,6 +194,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         // Dynamic data on overview
         if (entry.overview) {
           this.updateOverviewEntry(entry, pId);
+        }
+        // SCORE
+        if (entry.score) {
+          if (this.scoreCtrl[pId]) this.scoreCtrl[pId].toValue(entry.v);
+          else $(`player_score_${pId}`).innerHTML = entry.v;
         }
       });
     },
@@ -469,6 +475,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     getAstraAdventuresData() {
       return {
         1: {
+          name: _('The Launch'),
           fixedScore: 0,
           levelMultiplier: 0,
           nBonuses: 9,
@@ -481,6 +488,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           ),
         },
         2: {
+          name: _('The Journey'),
           fixedScore: 5,
           levelMultiplier: 1,
           nBonuses: 10,
@@ -495,6 +503,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           ),
         },
         3: {
+          name: _('The Colony'),
           fixedScore: 10,
           levelMultiplier: 3,
           nBonuses: 8,
@@ -509,6 +518,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           ),
         },
         4: {
+          name: _('The Mine'),
           fixedScore: 5,
           levelMultiplier: 2,
           nBonuses: 8,

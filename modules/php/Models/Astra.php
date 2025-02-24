@@ -233,9 +233,15 @@ class Astra
     return $data;
   }
 
-  public function getScore()
+  public function getScore(): int
   {
-    return $this->getUiData()['astra-total-score'];
+    $data = $this->getUiData();
+    foreach ($data as $entry) {
+      if ($entry['slot'] == 'astra-total-score') {
+        return $entry['v'];
+      }
+    }
+    return 0;
   }
 
   // Listener (only useful for scenario 1 probably)

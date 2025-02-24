@@ -36,6 +36,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     $scoresheet = $this->scoresheet();
     if (!is_null($scoresheet)) {
       $datas['scoresheet'] = $scoresheet->computeUiData();
+      $datas['score'] = $scoresheet->getScore();
     }
     return $datas;
   }
