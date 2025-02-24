@@ -2196,6 +2196,8 @@ body {
           position: initial; }
         #popin_showOverview #popin_showOverview_contents table tbody tr td.overview-total {
           font-size: 30px; }
+        #popin_showOverview #popin_showOverview_contents table tbody tr td span.details {
+          font-size: 20px; }
     #popin_showOverview #popin_showOverview_contents table tbody tr:nth-of-type(2n + 1) {
       background-color: #f2ede7; }
 

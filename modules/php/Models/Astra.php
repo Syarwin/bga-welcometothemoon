@@ -201,7 +201,7 @@ class Astra
   /**
    * UI DATA
    */
-  public function getUiData()
+  public function getUiData(): array
   {
     $data = [];
     $totalScore = 0;
@@ -228,7 +228,7 @@ class Astra
     $totalScore += $levelScore;
 
     // Total score
-    $data[] = ['slot' => 'astra-total-score', 'v' => $totalScore];
+    $data[] = ['slot' => 'astra-total-score', 'v' => $totalScore, 'overview' => "total"];
 
     return $data;
   }

@@ -24,4 +24,11 @@ class Astra2 extends Astra
       ]
     ];
   }
+
+  public function getUiData(): array
+  {
+    $data = parent::getUiData();
+    $data[] = ['overview' => 'most-sections', 'v' => 0, 'details' => intdiv($this->getCardsByActionMap()[ENERGY], 2)];
+    return $data;
+  }
 }

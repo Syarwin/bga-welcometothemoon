@@ -23,40 +23,22 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-// function getCardInstance($id, $data = null)
-// {
-//   $t = explode('_', $id);
-//   // First part before _ specify the type and the numbering
-//   $prefixes = [
-//     'A' => 'Animals',
-//     'S' => 'Sponsors',
-//     'P' => 'Projects',
-//     'F' => 'FinalScoring',
-//   ];
-//   $prefix = $prefixes[$t[0][0]];
-
-//   $file = "../modules/php/Cards/$prefix/$id.php";
-//   if (file_exists($file)) {
-//     require_once $file;
-//     $className = "\ARK\Cards\\$prefix\\$id";
-//     return new $className($data);
-//   } else {
-//     return null;
-//   }
-// }
-
-// include_once '../modules/php/Cards/list.inc.php';
-
-// $cards = [];
-// foreach ($cardIds as $cardId) {
-//   $card = getCardInstance($cardId);
-//   if (!is_null($card)) {
-//     $cards[$cardId] = $card->getStaticData();
-//   }
-// }
-
 $maps = [];
 foreach ([1, 2, 3] as $mapId) {
+  $json = json_decode(file_get_contents("./editor/scenario-$mapId.json"));
+
+  // Convert the array to a PHP code string with short array syntax
+  $exportedArray = var_export($json, true);
+  $exportedArray = preg_replace("#\\(object\\)#", "", $exportedArray);
+  $exportedArray = preg_replace(['/array( )?\(/', '/\)/'], ['[', ']'], $exportedArray);
+
+  // Create the PHP file content
+  $phpCode = "<?php\nconst DATAS$mapId = " . $exportedArray . ";\n";
+
+  $fp = fopen("../modules/php/Material/Scenario$mapId.php", 'w');
+  fwrite($fp, $phpCode);
+  fclose($fp);
+
   require_once "../modules/php/Models/Scoresheets/Scoresheet$mapId.php";
   $className = 'Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet' . $mapId;
   $map = new $className(null);
@@ -64,6 +46,5 @@ foreach ([1, 2, 3] as $mapId) {
 }
 
 $fp = fopen('../modules/js/data.js', 'w');
-// fwrite($fp, 'const CARDS_DATA = ' . json_encode($cards) . ';');
 fwrite($fp, 'const SCENARIOS_DATA = ' . json_encode($maps) . ';');
 fclose($fp);

@@ -291,7 +291,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       }
       // Basic display with points + star icon
       else if (config.type == 'points') {
-        let details = entry.details ? ` (${entry.details})` : '';
+        let details = entry.details !== undefined ? ` <span class='details'>(${entry.details})</span>` : '';
         o.innerHTML = `${entry.v}<i class="fa fa-star"></i>${details}`;
       }
       // Basic display with points + star icon or dash if 0

@@ -2,7 +2,6 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Actions\CircleOther;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\CirclePlant;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario2\ProgramRobot;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
@@ -10,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
+use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario2.php";
@@ -266,7 +266,7 @@ class Scoresheet2 extends Scoresheet
     $data[] = ["slot" => 40, "v" => $maxSectionSize, "overview" => "longest-section"];
 
     // Most zones complete
-    $thisPlayerOrder = Players::getOrderNumberMostZonesComplete($this->player->getId());
+    list($thisPlayerOrder, $nSections) = Players::getOrderNumberMostZonesComplete($this->player->getId());
     $sectionMajorityPoints = [
       0 => 0,
       1 => 20,
@@ -274,7 +274,7 @@ class Scoresheet2 extends Scoresheet
       3 => 5,
     ][$thisPlayerOrder];
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
-    $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "count" => 0];
+    $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "details" => $nSections];
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;

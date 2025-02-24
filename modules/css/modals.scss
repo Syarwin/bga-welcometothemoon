@@ -171,35 +171,10 @@
                         &.overview-total {
                             font-size: 30px;
                         }
-                        // &.overview-temp,
-                        // &.overview-egg {
-                        //     padding: 0px;
-                        //     display: flex;
-                        //     flex-flow: column;
-                        //     background: linear-gradient(
-                        //         to top left,
-                        //         transparent calc(50% - 1px),
-                        //         rgba(0, 0, 0, 0.2),
-                        //         transparent calc(50% + 1px)
-                        //     );
 
-                        //     div:first-child {
-                        //         text-align: left;
-                        //         position: relative;
-                        //         top: 3px;
-                        //         left: 3px;
-                        //         svg {
-                        //             width: 17px;
-                        //             height: 17px;
-                        //         }
-                        //     }
-                        //     div:last-child {
-                        //         text-align: right;
-                        //         position: relative;
-                        //         top: -3px;
-                        //         left: -5px;
-                        //     }
-                        // }
+                        span.details {
+                            font-size: 19px;
+                        }
                     }
                 }
                 tr:nth-of-type(2n + 1) {

@@ -166,14 +166,18 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     static::$astra = null;
   }
 
-  public static function getOrderNumberMostZonesComplete(int $pId): int
+  public static function getOrderNumberMostZonesComplete(int $pId): array
   {
+    $amount = 0;
     $zones = [];
     /** @var Player $player */
     foreach (self::getAll() as $player) {
       $completeSectionsCount = $player->scoresheet()->getCompleteSectionsCount();
       if ($completeSectionsCount > 0) {
         $zones[$player->getId()] = $completeSectionsCount;
+        if ($player->getId() == $pId) {
+          $amount = $completeSectionsCount;
+        }
       }
     }
     if (Globals::isSolo()) {
@@ -181,7 +185,7 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
       $zones['astra'] = intdiv($astra->getCardsByActionMap()[ENERGY], 2);
     }
     if (!isset($zones[$pId])) {
-      return 0;
+      return [0, 0];
     }
     arsort($zones); // Sorts by value in descending order while keeping keys
 
@@ -196,9 +200,9 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     }
     foreach ($groupedPlayers as $key => $players) {
       if (in_array($pId, $players)) {
-        return $key + 1;
+        return [$key + 1, $amount];
       }
     }
-    return 0; // This should never happen as we already returned 0 if pId was filtered having 0 zones
+    return [0, 0]; // This should never happen as we already returned 0 if pId was filtered having 0 zones
   }
 }
