@@ -93,6 +93,11 @@ class Scoresheet1 extends Scoresheet
   // PHASE 5
   public static function phase5Check(): void
   {
+    // Ignore this phase in solo mode
+    if (Globals::isSolo()) {
+      return;
+    }
+
     $sabotages = array_unique(Globals::getTriggeredSabotages());
     $players = Players::getAll();
 
