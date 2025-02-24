@@ -1198,6 +1198,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
 
     clientState(name, descriptionmyturn, args) {
+      this.on_client_state = true;
       this.setClientState(name, {
         descriptionmyturn,
         args,
@@ -1232,6 +1233,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           this.updatePageTitle(this.gamedatas.gamestate);
         }
       }
+    },
+
+    ntf_newPrivateState(t) {
+      this.inherited(arguments);
+      this.last_server_state.private_state = dojo.clone(t.args);
     },
 
     translate(t) {
