@@ -15,6 +15,10 @@
       "3": {
         "name": "Adventure 3: The Colony",
         "tmdisplay": "[3: The Colony]"
+      },
+      "4": {
+        "name": "Adventure 4: The Mine",
+        "tmdisplay": "[4: The Mine]"
       }
     }
   },
