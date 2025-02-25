@@ -16,9 +16,14 @@ class ImproveBonus extends GenericPickSlot
   protected function getSlots(Player $player): array
   {
     $scoresheet = $player->scoresheet();
-    return array_map(function ($dataBlock) use ($scoresheet) {
-      return $scoresheet->getFirstUnscribbled(array_keys($dataBlock['slots']));
-    }, self::getData());
+    $slots = [];
+    foreach (self::getData() as $dataBlock) {
+      $slot = $scoresheet->getFirstUnscribbled(array_keys($dataBlock['slots']));
+      if (!is_null($slot)) {
+        $slots[] = $slot;
+      }
+    }
+    return $slots;
   }
 
   public function actImproveBonus(int $slot): void
