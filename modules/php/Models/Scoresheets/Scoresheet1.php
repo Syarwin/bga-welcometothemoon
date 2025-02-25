@@ -71,7 +71,7 @@ class Scoresheet1 extends Scoresheet
 
     // Plans for overview
     foreach (PlanCards::getCurrent() as $plan) {
-      $data[] = ["overview" => $plan->getLocation(), "checkmark" => $plan->isValidated($this->player) || $plan->getLocation() == 'stack-A'];
+      $data[] = ["overview" => $plan->getLocation(), "checkmark" => $plan->isValidated($this->player)];
     }
 
     return $data;
