@@ -223,7 +223,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         let wrapper = async (args) => {
           let msg = this.formatString(this.format_string_recursive(args.log, args.args));
           if (msg != '') {
-            this.clearPossible();
+            // Partial clear possible
+            this._selectableNodes.forEach((node) => {
+              if ($(node)) dojo.removeClass(node, 'selectable selected');
+            });
+            this._selectableNodes = [];
+
             $('gameaction_status').innerHTML = msg;
             $('pagemaintitletext').innerHTML = msg;
           }

@@ -245,7 +245,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.onClick(o, () => {
           // Standard mode
           if (this._isStandard) {
-            console.log(selectableStacks[stackId]);
             // Basic case => combination selection is over
             if (selectableStacks[stackId].length == 1) {
               this.takeAtomicAction('actChooseCards', [combination]);
@@ -261,10 +260,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
           // Solo mode => we need to select another stack
           else {
-            this.clientState('chooseCardsSecondStack', _('You must choose another stack for the action'), {
-              combinations,
-              stackId,
-            });
+            this.clientState(
+              'chooseCardsSecondStack',
+              args.useJoker
+                ? _('You must choose another stack for the action before choosing how to use the joker')
+                : _('You must choose another stack for the action'),
+              {
+                combinations,
+                stackId,
+                useJoker: args.useJoker,
+              }
+            );
           }
         });
       });
@@ -318,17 +324,36 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         }
       });
 
-      let selectableStacks = [];
+      let selectableStacks = {};
+      let combinations = [];
       args.combinations.forEach((combination) => {
         if (combination.stacks[0] != args.stackId) return;
+        combinations.push(combination);
         let stackId = combination.stacks[1];
-        if (selectableStacks.includes(stackId)) return;
-        selectableStacks.push(stackId);
+        if (selectableStacks[stackId]) {
+          selectableStacks[stackId].push(combination.action);
+          return;
+        }
+        selectableStacks[stackId] = [combination.action];
 
         let o = $(`construction-cards-stack-${stackId}`);
         o.classList.remove('unselectable');
-        this.onClick(o, () => this.takeAtomicAction('actChooseCards', [combination]));
+        this.onClick(o, () => {
+          // Basic case => combination selection is over
+          if (selectableStacks[stackId].length == 1) {
+            this.takeAtomicAction('actChooseCards', [combination]);
+          }
+          // Joker card or joker bonus => need to choose the action
+          else {
+            this.clientState('chooseCardsJokerAction', _('Which action do you want to use the joker for?'), {
+              combinations,
+              combination,
+              useJoker: args.useJoker,
+            });
+          }
+        });
       });
+      console.log(selectableStacks);
     },
 
     //////////////////////////////////////
