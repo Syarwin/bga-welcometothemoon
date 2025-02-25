@@ -241,7 +241,7 @@ class Scoresheet2 extends Scoresheet
         $multiplier = 0;
       } else {
         $multiplierSlot = array_values(array_filter($stationMultipliers, function ($multiplier) {
-          return $this->hasScribbledSlot($multiplier);
+          return $this->hasScribbledSlot($multiplier, SCRIBBLE_CIRCLE);
         }))[0];
         $multiplier = ProgramRobot::$multipliersValues[$multiplierSlot];
       }
