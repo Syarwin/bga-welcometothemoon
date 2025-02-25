@@ -62,7 +62,10 @@ class Scoresheet
     $this->scribbles = Scribbles::getOfPlayer($this->player);
     $this->scribblesBySlots = [];
     foreach ($this->scribbles as $scribble) {
-      $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
+      $slot = $scribble->getSlot();
+      if (is_null($slot)) continue;
+
+      $this->scribblesBySlots[$slot][] = $scribble;
     }
   }
 

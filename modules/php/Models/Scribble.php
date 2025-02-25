@@ -28,9 +28,10 @@ class Scribble extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     return (int) explode("-", $this->id)[1];
   }
 
-  public function getSlot(): int
+  public function getSlot(): ?int
   {
-    return (int) explode('-', $this->location)[1];
+    $t = explode('-', $this->location);
+    return $t[0] == 'slot' ? ((int) $t[1]) : null;
   }
 
   public function getNumber(): int

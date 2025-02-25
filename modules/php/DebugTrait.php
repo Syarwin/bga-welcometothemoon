@@ -11,9 +11,12 @@ trait DebugTrait
 {
   function tp()
   {
-    Globals::setMode(MODE_APPLY);
-    Globals::setTurn(14);
-    Globals::setMode(MODE_PRIVATE);
+    // Globals::setMode(MODE_APPLY);
+    // Globals::setTurn(14);
+    // Globals::setMode(MODE_PRIVATE);
+    $player = Players::getCurrent();
+    $scoresheet = $player->scoresheet();
+    var_dump($scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('waters'), 6));
   }
 
 
