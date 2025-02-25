@@ -40,6 +40,7 @@ class Log extends \APP_DbObject
     if ($invalidateEngine) {
       Engine::invalidate();
     }
+    Notifications::resetCache();
   }
 
   /**
