@@ -236,7 +236,7 @@ class Scoresheet3 extends Scoresheet
     foreach ([51, 52, 53, 54] as $quarterId => $slotScore) {
       $points = 0;
       foreach ($quarters[$quarterId]->getPointsSlots() as $i => $slot) {
-        if ($this->hasScribbledSlot($slot)) {
+        if ($this->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
           $points = $i == 0 ? 15 : 5;
           $nQuartersFilled++;
         }
@@ -276,7 +276,7 @@ class Scoresheet3 extends Scoresheet
       "slot" => 41,
       "score" => true,
       "overview" => "total",
-      "v" => $missionPoints + $plantsWaterAntennasPoints + $quartersPoints - $planningNegativePoints - $negativePoints
+      "v" => $missionPoints + $plantsWaterAntennasPoints + $quartersPoints + $sectionMajorityPoints - $planningNegativePoints - $negativePoints
     ];
 
     return $data;
