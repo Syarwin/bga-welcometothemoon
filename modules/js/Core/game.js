@@ -54,7 +54,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     unsetModeInstantaneous() {
       if (this.instantaneousMode) {
         this.instantaneousMode = false;
-        dojo.style('leftright_page_wrapper', 'display', 'block');
+        $('leftright_page_wrapper').style.removeProperty('display');
         dojo.style('loader_mask', 'display', 'none');
         this.updateLayout();
       }
@@ -655,7 +655,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     wait(n) {
       return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(), n);
+        if (this.isFastMode()) {
+          resolve();
+        } else {
+          setTimeout(() => resolve(), n);
+        }
       });
     },
 

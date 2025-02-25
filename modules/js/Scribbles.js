@@ -51,7 +51,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_LINE) scribbleTpl = 'tplScribbleLine';
 
       this.place(scribbleTpl, scribble, container);
-      if (animation) {
+      if (animation && !this.isFastMode()) {
         this.playSound('welcometo_scribble');
         $(`scribble-${scribble.id}`).classList.add('animate');
       }

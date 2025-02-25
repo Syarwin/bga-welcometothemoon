@@ -246,7 +246,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           // Standard mode
           if (this._isStandard) {
             // Basic case => combination selection is over
-            if (selectableStacks[stackId].length == 1) {
+            if (selectableStacks[stackId].length == 1 && !args.useJoker) {
               this.takeAtomicAction('actChooseCards', [combination]);
             }
             // Joker card or joker bonus => need to choose the action
