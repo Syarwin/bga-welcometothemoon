@@ -25,14 +25,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     setupPlayers() {
       this.setupChangeScoreSheetArrows();
 
-      // Change No so that it fits the current player order view
-      let currentNo = this.getPlayers().reduce((carry, player) => (player.id == this.player_id ? player.no : carry), 1);
-      let nPlayers = Object.keys(this.gamedatas.players).length;
-      this.forEachPlayer((player) => (player.order = (player.no + nPlayers - currentNo) % nPlayers));
-      this.orderedPlayers = Object.values(this.gamedatas.players).sort((a, b) => a.order - b.order);
-
       // Add player board and player panel
-      this.orderedPlayers.forEach((player, i) => {
+      this.forEachOrderedPlayer((player) => {
         let pId = player.id;
 
         // Panels
@@ -139,7 +133,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         this.setupAstra();
       }
 
-      this.forEachPlayer((player) => {
+      this.forEachOrderedPlayer((player) => {
         let pId = player.id;
         // Global wrapper
         $('score-sheet-holder').insertAdjacentHTML(

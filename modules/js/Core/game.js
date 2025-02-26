@@ -1202,6 +1202,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       Object.values(this.gamedatas.players).forEach(callback);
     },
 
+    forEachOrderedPlayer(callback) {
+      // Change No so that it fits the current player order view
+      let currentNo = this.getPlayers().reduce((carry, player) => (player.id == this.player_id ? player.no : carry), 1);
+      let nPlayers = Object.keys(this.gamedatas.players).length;
+      this.forEachPlayer((player) => (player.order = (player.no + nPlayers - currentNo) % nPlayers));
+      this.orderedPlayers = Object.values(this.gamedatas.players).sort((a, b) => a.order - b.order);
+      Object.values(this.orderedPlayers).forEach(callback);
+    },
+
     getArgs() {
       return this.gamedatas.gamestate.args;
     },
