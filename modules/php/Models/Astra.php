@@ -48,7 +48,6 @@ const OPPONENTS = [
   ],
 ];
 
-include_once dirname(__FILE__) . "/../constants.inc.php";
 const ACTIONS = [ROBOT, ENERGY, PLANT, WATER, ASTRONAUT, PLANNING];
 
 class Astra
@@ -237,7 +236,7 @@ class Astra
   {
     $data = $this->getUiData();
     foreach ($data as $entry) {
-      if ($entry['slot'] == 'astra-total-score') {
+      if (($entry['slot'] ?? '') == 'astra-total-score') {
         return $entry['v'];
       }
     }

@@ -15,8 +15,6 @@
  *
  */
 
-include_once "modules/php/constants.inc.php";
-
 $machinestates = [
   // The initial state. Please do not modify.
   ST_GAME_SETUP => [

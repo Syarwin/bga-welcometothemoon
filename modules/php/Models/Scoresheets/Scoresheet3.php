@@ -11,7 +11,6 @@ use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 
-include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
 
 class Scoresheet3 extends Scoresheet

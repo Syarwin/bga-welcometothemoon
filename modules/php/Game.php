@@ -54,6 +54,8 @@ class Game extends \Table
       'mode' => 10, // DO NOT TOUCH, USED FOR SIMULATING DB MODIFICATION
     ]);
 
+    require_once dirname(__FILE__) . "/constants.inc.php";
+
     // Stats::checkExistence();
     Notifications::resetCache();
   }

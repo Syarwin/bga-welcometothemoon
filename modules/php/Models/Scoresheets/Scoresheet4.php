@@ -4,7 +4,6 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 
-include_once dirname(__FILE__) . "/../../constants.inc.php";
 include_once dirname(__FILE__) . "/../../Material/Scenario4.php";
 
 class Scoresheet4 extends Scoresheet

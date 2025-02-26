@@ -34,10 +34,6 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   public function argsChooseCards()
   {
     $player = $this->getPlayer();
-    if ($player->isZombie()) {
-      return [];
-    }
-
     $data = [];
     $data['combinations'] = $this->getPlayableCombinations($player);
     if (empty($data['combinations'])) {
