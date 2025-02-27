@@ -61,6 +61,20 @@
 
   &.scribble-circle {
     .scribble-path {
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 0;
+      stroke-width: 40;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 1400;
+      animation: drawScribble 2s ease;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-circleThin {
+    .scribble-path {
       stroke-dasharray: 1500;
       stroke-dashoffset: 0;
       stroke-width: 70;

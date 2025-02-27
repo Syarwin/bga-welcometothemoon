@@ -2692,10 +2692,18 @@ body {
   animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
   animation-fill-mode: forwards; }
 .wttm-scribble.scribble-circle .scribble-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 0;
+  stroke-width: 40; }
+.wttm-scribble.scribble-circle.animate .scribble-path {
+  stroke-dashoffset: 1400;
+  animation: drawScribble 2s ease;
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-circleThin .scribble-path {
   stroke-dasharray: 1500;
   stroke-dashoffset: 0;
   stroke-width: 70; }
-.wttm-scribble.scribble-circle.animate .scribble-path {
+.wttm-scribble.scribble-circleThin.animate .scribble-path {
   stroke-dashoffset: 1500;
   animation: drawScribble 2s ease;
   animation-fill-mode: forwards; }
