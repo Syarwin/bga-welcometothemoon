@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario3\BuildRobotTunnel;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
@@ -60,7 +61,7 @@ class Scoresheet3 extends Scoresheet
     [-1, -1, 6, 171, 12, 177, 17, 183, 22, 189, 28],
   ];
 
-  public static function getQuarters()
+  public static function getQuarters(): array
   {
     return array_map(function ($data) {
       return new Quarter($data);
@@ -72,6 +73,9 @@ class Scoresheet3 extends Scoresheet
     ]);
   }
 
+  /**
+   * @throws \BgaUserException
+   */
   public static function getQuarterOfSlot(int $slot): Quarter
   {
     foreach (self::getQuarters() as $quarter) {
@@ -79,14 +83,16 @@ class Scoresheet3 extends Scoresheet
         return $quarter;
       }
     }
-    return null;
+    throw new \BgaUserException("Quarter has not been found for slot {$slot}. Should not happen.");
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
       case WATER:
-        return ['action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot, 'waterTanksSlots' => $this->waterTanksAtSlots]];
+        return [
+          'action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot, 'waterTanksSlots' => $this->waterTanksAtSlots]
+        ];
       case PLANT:
         $quarterId = self::getQuarterOfSlot($slot)->getId();
         return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
@@ -104,7 +110,10 @@ class Scoresheet3 extends Scoresheet
       case ROBOT:
         return ['action' => BUILD_ROBOT_TUNNEL];
       case ASTRONAUT:
-        return ['action' => CIRCLE_OTHER, 'args' => ['actionType' => ASTRONAUT, 'slots' => $this->getSectionSlots('astronautmarkers')]];
+        return [
+          'action' => CIRCLE_OTHER,
+          'args' => ['actionType' => ASTRONAUT, 'slots' => $this->getSectionSlots('astronautmarkers')]
+        ];
     }
     return null;
   }
@@ -246,7 +255,7 @@ class Scoresheet3 extends Scoresheet
     $data[] = ["slot" => 37, "v" => $quartersPoints, "overview" => 'quarters', "details" => "$nQuartersFilled / 4"];
 
     // Most astronauts
-    list($thisPlayerOrder, $nAstronauts) = self::getMostAstronautsRankAndAmount($this->player->getId());
+    [$thisPlayerOrder, $nAstronauts] = self::getMostAstronautsRankAndAmount($this->player->getId());
     $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
     $data[] = ["slot" => 38, "v" => $sectionMajorityPoints];
     $data[] = ["overview" => "astronaut", "v" => $sectionMajorityPoints, "details" => $nAstronauts];
