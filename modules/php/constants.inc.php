@@ -16,9 +16,9 @@ const OPTION_CONFIRM_TIMER = 3;
 
 const OPTION_CONFIRM_UNDOABLE = 104;
 
-const OPTION_WATER_ACTION = 105;
-const OPTION_WATER_AUTOMATIC = 1;
-const OPTION_WATER_MANUAL = 0;
+const OPTION_CIRCLE_LINKED_SLOT = 105;
+const OPTION_CIRCLE_AUTOMATIC = 1;
+const OPTION_CIRCLE_MANUAL = 0;
 
 /*
  * State constants
@@ -56,7 +56,7 @@ const ST_PLACE_ENERGY_WALL = 35;
 const ST_GIVE_CARD_TO_ASTRA = 36;
 const ST_PROGRAM_ROBOT = 37;
 const ST_CIRCLE_PLANT = 38;
-const ST_STIR_WATER_TANKS = 39;
+const ST_CIRCLE_SINGLE_LINKED = 39;
 const ST_CROSS_OFF_SABOTAGE = 40;
 const ST_CROSS_OFF_MULTIPLIER = 41;
 const ST_IMPROVE_BONUS = 42;
@@ -101,8 +101,8 @@ const ACCOMPLISH_MISSION = 'AccomplishMission';
 const GIVE_CARD_TO_ASTRA = 'GiveCardToAstra';
 const REPLACE_SOLO_CARD = 'ReplaceSoloCard';
 const WRITE_X = 'WriteX';
-const STIR_WATER_TANKS = 'StirWaterTanks';
-const CIRCLE_OTHER = 'CircleOther';
+const CIRCLE_SINGLE_LINKED = 'CircleSingleLinked';
+const CIRCLE_NEXT_IN_ROW = 'CircleNextInRow';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -172,6 +172,11 @@ const SOLO_CARDS_STACKS = [
 ];
 
 const TOP_RIGHT_CORNER_SLOT = 400;
+
+const CIRCLE_TYPE_WATER = 0;
+const CIRCLE_TYPE_RUBY = 1;
+const CIRCLE_TYPE_PEARL = 2;
+const CIRCLE_TYPE_FILLING_BONUS = 3;
 
 /******************
  ****** STATS ******

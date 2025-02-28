@@ -295,13 +295,13 @@ $machinestates = [
     'possibleactions' => ['actCirclePlant', 'actRestart', 'actPassOptionalAction'],
   ],
 
-  ST_STIR_WATER_TANKS => [
-    'name' => 'stirWaterTanks',
+  ST_CIRCLE_SINGLE_LINKED => [
+    'name' => 'circleSingleLinked',
     'descriptionmyturn' => clienttranslate('${you} may choose to stir the attached water tank'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actStirWaterTanks', 'actRestart', 'actPassOptionalAction'],
+    'possibleactions' => ['actCircleSingleLinked', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CROSS_OFF_MULTIPLIER => [

@@ -91,7 +91,11 @@ class Scoresheet3 extends Scoresheet
     switch ($combination['action']) {
       case WATER:
         return [
-          'action' => STIR_WATER_TANKS, 'args' => ['slot' => $slot, 'waterTanksSlots' => $this->waterTanksAtSlots]
+          'action' => CIRCLE_SINGLE_LINKED,
+          'args' => [
+            'slot' => $this->waterTanksAtSlots[$slot],
+            'type' => CIRCLE_TYPE_WATER,
+          ]
         ];
       case PLANT:
         $quarterId = self::getQuarterOfSlot($slot)->getId();
@@ -111,7 +115,7 @@ class Scoresheet3 extends Scoresheet
         return ['action' => BUILD_ROBOT_TUNNEL];
       case ASTRONAUT:
         return [
-          'action' => CIRCLE_OTHER,
+          'action' => CIRCLE_NEXT_IN_ROW,
           'args' => ['actionType' => ASTRONAUT, 'slots' => $this->getSectionSlots('astronautmarkers')]
         ];
     }
@@ -143,7 +147,7 @@ class Scoresheet3 extends Scoresheet
     // PLANNING markers
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
       $reactions[] = [
-        'action' => CIRCLE_OTHER,
+        'action' => CIRCLE_NEXT_IN_ROW,
         'args' => [
           'actionType' => PLANNING,
           'slots' => $this->getSectionSlots('planningmarkers'),

@@ -5,7 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
-class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
+class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
   public function getState(): int
   {
@@ -42,12 +42,12 @@ class CircleOther extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return $this->isAstronautAction() ? clienttranslate('Cross off an Astronaut symbol') : clienttranslate('Cross off a Planning symbol');
   }
 
-  public function stCircleOther()
+  public function stCircleNextInRow()
   {
     return [];
   }
 
-  public function actCircleOther()
+  public function actCircleNextInRow()
   {
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
