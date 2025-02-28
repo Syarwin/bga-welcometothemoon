@@ -10,6 +10,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet3;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet4;
 
 class Scoresheet
 {
@@ -30,6 +31,9 @@ class Scoresheet
         break;
       case 3:
         Scoresheet3::phase5Check();
+        break;
+      case 4:
+        Scoresheet4::phase5Check();
         break;
       default:
         die("Unsupported phase 5 for this scenario");

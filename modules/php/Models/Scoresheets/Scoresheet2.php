@@ -71,14 +71,17 @@ class Scoresheet2 extends Scoresheet
       case PLANT:
         return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
       case WATER:
-        return ['action' => STIR_WATER_TANKS, 'args' => [
-          'slot' => $slot,
-          'waterTanksSlots' => $this->waterTanksAtSlots,
-          'waterTanksValues' => $this->waterTanksValues,
-        ]];
+        return [
+          'action' => CIRCLE_SINGLE_LINKED,
+          'args' => [
+            'slot' => $this->waterTanksAtSlots[$slot],
+            'values' => $this->waterTanksValues,
+            'type' => CIRCLE_TYPE_WATER,
+          ]
+        ];
       case ASTRONAUT:
         return [
-          'action' => CIRCLE_OTHER,
+          'action' => CIRCLE_NEXT_IN_ROW,
           'args' => [
             'actionType' => $combination['action'],
             'slots' => $this->astronautsSlots,
@@ -173,7 +176,7 @@ class Scoresheet2 extends Scoresheet
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
       return [
         [
-          'action' => CIRCLE_OTHER,
+          'action' => CIRCLE_NEXT_IN_ROW,
           'args' => [
             'actionType' => PLANNING,
             'slots' => $this->planningSlots,
@@ -266,7 +269,7 @@ class Scoresheet2 extends Scoresheet
     $data[] = ["slot" => 40, "v" => $maxSectionSize, "overview" => "longest-section"];
 
     // Most zones complete
-    list($thisPlayerOrder, $nSections) = self::getMostZonesCompleteRankAndAmount($this->player->getId());
+    [$thisPlayerOrder, $nSections] = self::getMostZonesCompleteRankAndAmount($this->player->getId());
     $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
     $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "details" => $nSections];
