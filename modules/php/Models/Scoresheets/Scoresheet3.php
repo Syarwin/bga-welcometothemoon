@@ -103,21 +103,11 @@ class Scoresheet3 extends Scoresheet
       case ENERGY:
         return ['action' => IMPROVE_BONUS];
       case PLANNING:
-        return [
-          'action' => WRITE_X,
-          'args' => [
-            'source' => [
-              'name' => clienttranslate('Planning action'),
-            ],
-          ]
-        ];
+        return $this->getStandardPlanningAction();
       case ROBOT:
         return ['action' => BUILD_ROBOT_TUNNEL];
       case ASTRONAUT:
-        return [
-          'action' => CIRCLE_NEXT_IN_ROW,
-          'args' => ['actionType' => ASTRONAUT, 'slots' => $this->getSectionSlots('astronautmarkers')]
-        ];
+        return $this->getStandardAstronautAction();
     }
     return null;
   }
@@ -146,13 +136,7 @@ class Scoresheet3 extends Scoresheet
 
     // PLANNING markers
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      $reactions[] = [
-        'action' => CIRCLE_NEXT_IN_ROW,
-        'args' => [
-          'actionType' => PLANNING,
-          'slots' => $this->getSectionSlots('planningmarkers'),
-        ]
-      ];
+      $reactions[] = $this->getStandardPlanningReaction();
     }
 
     return $reactions;
