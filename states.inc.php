@@ -295,13 +295,17 @@ $machinestates = [
     'possibleactions' => ['actCirclePlant', 'actRestart', 'actPassOptionalAction'],
   ],
 
-  ST_STIR_WATER_TANKS => [
-    'name' => 'stirWaterTanks',
-    'descriptionmyturn' => clienttranslate('${you} may choose to stir the attached water tank'),
+  ST_CIRCLE_SINGLE_LINKED => [
+    'name' => 'circleSingleLinked',
+    // In case we forgot to send descSuffix which shouldn't happen
+    'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
+    'descriptionmyturnA2Water' => clienttranslate('${you} may choose to stir the attached water tank'),
+    'descriptionmyturnA3Water' => clienttranslate('${you} may choose to circle the attached water tank'),
+    'descriptionmyturnA4Water' => clienttranslate('${you} may choose to circle the attached mineral'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actStirWaterTanks', 'actRestart', 'actPassOptionalAction'],
+    'possibleactions' => ['actCircleSingleLinked', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CROSS_OFF_MULTIPLIER => [

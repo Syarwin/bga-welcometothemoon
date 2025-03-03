@@ -218,3 +218,16 @@
   border-radius: 0px;
   border: none;
 }
+
+#main-frame.add-extractors .slot-extractor,
+#main-frame.show-extractors .slot-extractor,
+#main-frame.add-extractors #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}

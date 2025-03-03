@@ -72,13 +72,13 @@
       height: 35px;
     }
 
-    .slot-water,
-    .slot-plant,
-    .slot-pearl,
-    .slot-ruby,
-    .slot-astronaut,
-    .slot-planning,
-    .slot-resource {
+    &.slot-water,
+    &.slot-plant,
+    &.slot-pearl,
+    &.slot-ruby,
+    &.slot-astronaut,
+    &.slot-planning,
+    &.slot-resource {
       width: 40px;
       height: 40px;
     }
