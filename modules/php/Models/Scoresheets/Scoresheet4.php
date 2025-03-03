@@ -62,7 +62,7 @@ class Scoresheet4 extends Scoresheet
 
     $slot = $scribble->getSlot();
     $circle = $this->linkedResources[$slot] ?? null;
-    if (isset($circle) && $scribble->getNumber() !== NUMBER_X) {
+    if (isset($circle)) {
       $reactions[] =
         [
           'action' => CIRCLE_SINGLE_LINKED,
