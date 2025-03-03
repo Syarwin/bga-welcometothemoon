@@ -83,7 +83,7 @@ class Scoresheet2 extends Scoresheet
         // TODO: Differentiate othermarkers in this scenario to astronautmarkers and planningmarkers
         return $this->getStandardAstronautAction($this->jokers, $this->astronautsSlots);
       case PLANNING:
-        return $this->getStandardPlanningAction($this->jokers, $this->planningSlots);
+        return $this->getStandardPlanningAction();
     }
     return null;
   }
