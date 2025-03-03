@@ -58,27 +58,35 @@ class Scoresheet4 extends Scoresheet
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
+    $reactions = [];
+
     $slot = $scribble->getSlot();
-    if (isset($this->linkedResources[$slot])) {
-      $circle = $this->linkedResources[$slot];
-      return [
+    $circle = $this->linkedResources[$slot] ?? null;
+    if (isset($circle)) {
+      $reactions[] =
         [
           'action' => CIRCLE_SINGLE_LINKED,
           'args' => [
             'slot' => $circle['slot'],
             'type' => $circle['type'],
           ]
-        ]
-      ];
-    } else {
-      return [];
+        ];
     }
+
+    // PLANNING markers
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      $reactions[] = $this->getStandardPlanningReaction();
+    }
+    return $reactions;
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
-      // TODO
+      case PLANNING:
+        return $this->getStandardPlanningAction();
+      case ASTRONAUT:
+        return $this->getStandardAstronautAction();
     }
     return null;
   }

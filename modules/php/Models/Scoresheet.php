@@ -334,4 +334,46 @@ class Scoresheet
   {
     return 0;
   }
+
+  protected function getStandardPlanningAction(): array
+  {
+    return [
+      'action' => WRITE_X,
+      'args' => [
+        'source' => [
+          'name' => clienttranslate('Planning action'),
+        ],
+      ]
+    ];
+  }
+
+  protected function getStandardPlanningReaction(array $jokers = [], array $slots = []): array
+  {
+    if (empty($slots)) {
+      $slots = $this->getSectionSlots('planningmarkers');
+    }
+    return [
+      'action' => CIRCLE_NEXT_IN_ROW,
+      'args' => [
+        'actionType' => PLANNING,
+        'slots' => $slots,
+        'jokers' => $jokers,
+      ]
+    ];
+  }
+
+  protected function getStandardAstronautAction(array $jokers = [], array $slots = []): array
+  {
+    if (empty($slots)) {
+      $slots = $this->getSectionSlots('astronautmarkers');
+    }
+    return [
+      'action' => CIRCLE_NEXT_IN_ROW,
+      'args' => [
+        'actionType' => ASTRONAUT,
+        'slots' => $slots,
+        'jokers' => $jokers,
+      ]
+    ];
+  }
 }

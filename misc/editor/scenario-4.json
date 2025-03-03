@@ -1190,10 +1190,10 @@
       ]
     },
     {
-      "id": "astronauts",
-      "name": "Astronauts",
+      "id": "astronautmarkers",
+      "name": "Astronautmarkers",
       "modes": ["show", "add", "move"],
-      "eltClass": "slot-astronaut",
+      "eltClass": "slot-astronautmarker",
       "elts": [
         {
           "id": 204,
@@ -1238,10 +1238,10 @@
       ]
     },
     {
-      "id": "plannings",
-      "name": "Plannings",
+      "id": "planningmarkers",
+      "name": "Planningmarkers",
       "modes": ["show", "add", "move"],
-      "eltClass": "slot-planning",
+      "eltClass": "slot-planningmarker",
       "elts": [
         {
           "id": 212,
