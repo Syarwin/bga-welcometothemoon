@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -36,7 +37,9 @@ class CircleSingleLinked extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function argsCircleSingleLinked()
   {
-    return $this->getCtxArgs();
+    $scenario = Globals::getScenario();
+    $args = [...$this->getCtxArgs(), 'descSuffix' => "A{$scenario}Water"];
+    return $args;
   }
 
   public function actCircleSingleLinked()

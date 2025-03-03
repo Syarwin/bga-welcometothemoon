@@ -93,7 +93,7 @@ class Scoresheet3 extends Scoresheet
         return [
           'action' => CIRCLE_SINGLE_LINKED,
           'args' => [
-            'slot' => $this->waterTanksAtSlots[$slot],
+            'slot' => $this->waterTanksAtSlots[$slot] ?? null,
             'type' => CIRCLE_TYPE_WATER,
           ]
         ];

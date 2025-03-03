@@ -297,7 +297,11 @@ $machinestates = [
 
   ST_CIRCLE_SINGLE_LINKED => [
     'name' => 'circleSingleLinked',
-    'descriptionmyturn' => clienttranslate('${you} may choose to stir the attached water tank'),
+    // In case we forgot to send descSuffix which shouldn't happen
+    'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
+    'descriptionmyturnA2Water' => clienttranslate('${you} may choose to stir the attached water tank'),
+    'descriptionmyturnA3Water' => clienttranslate('${you} may choose to circle the attached water tank'),
+    'descriptionmyturnA4Water' => clienttranslate('${you} may choose to circle the attached mineral'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

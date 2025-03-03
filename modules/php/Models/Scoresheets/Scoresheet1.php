@@ -29,7 +29,9 @@ class Scoresheet1 extends Scoresheet
 
     // Compute base score
     $basePoints = 0;
-    $scoreMap = [139 => 15, 140 => 30, 141 => 45, 142 => 60, 143 => 75, 144 => 90, 145 => 105, 146 => 120, 147 => 135, 148 => 150];
+    $scoreMap = [
+      139 => 15, 140 => 30, 141 => 45, 142 => 60, 143 => 75, 144 => 90, 145 => 105, 146 => 120, 147 => 135, 148 => 150
+    ];
     foreach ($scoreMap as $slot => $points) {
       if ($this->hasScribbledSlot($slot)) {
         $basePoints = $points;

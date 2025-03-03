@@ -321,6 +321,7 @@ class Notifications
     static::addScribble($player, $scribble, $msg, [
       'waterValue' => $waterValue,
       'postfix' => $postfixes[$type],
+      'i18n' => ['postfix'],
     ]);
   }
 

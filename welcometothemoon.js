@@ -664,12 +664,12 @@ define([
         this.launchActionOnSlotClick(args.slots, args.action);
       },
 
-      onEnteringStateStirWaterTanks(args) {
+      onEnteringStateCircleSingleLinked(args) {
         this.onClick(`slot-${this.player_id}-${args.slot}`, () => {
-          this.takeAtomicAction('actStirWaterTanks');
+          this.takeAtomicAction('actCircleSingleLinked');
         });
-        this.addPrimaryActionButton('btnStir', _('Stir'), () => {
-          this.takeAtomicAction('actStirWaterTanks');
+        this.addPrimaryActionButton('btnStir', _('Do it!'), () => {
+          this.takeAtomicAction('actCircleSingleLinked');
         });
       },
 

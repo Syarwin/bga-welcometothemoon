@@ -74,7 +74,7 @@ class Scoresheet2 extends Scoresheet
         return [
           'action' => CIRCLE_SINGLE_LINKED,
           'args' => [
-            'slot' => $this->waterTanksAtSlots[$slot],
+            'slot' => $this->waterTanksAtSlots[$slot] ?? null,
             'values' => $this->waterTanksValues,
             'type' => CIRCLE_TYPE_WATER,
           ]
