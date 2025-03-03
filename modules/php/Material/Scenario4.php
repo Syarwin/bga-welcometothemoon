@@ -1243,14 +1243,14 @@ const DATAS4 = [
       ],
     ],
     13 => [
-      'id' => 'astronauts',
-      'name' => 'Astronauts',
+      'id' => 'astronautmarkers',
+      'name' => 'Astronautmarkers',
       'modes' => [
         0 => 'show',
         1 => 'add',
         2 => 'move',
       ],
-      'eltClass' => 'slot-astronaut',
+      'eltClass' => 'slot-astronautmarker',
       'elts' => [
         0 => [
           'id' => 204,
@@ -1295,14 +1295,14 @@ const DATAS4 = [
       ],
     ],
     14 => [
-      'id' => 'plannings',
-      'name' => 'Plannings',
+      'id' => 'planningmarkers',
+      'name' => 'Planningmarkers',
       'modes' => [
         0 => 'show',
         1 => 'add',
         2 => 'move',
       ],
-      'eltClass' => 'slot-planning',
+      'eltClass' => 'slot-planningmarker',
       'elts' => [
         0 => [
           'id' => 212,

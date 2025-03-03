@@ -2034,7 +2034,7 @@ body {
   width: 35px;
   height: 35px;
 }
-.score-sheet[data-board="4"] .wttm-slot.slot-water, .score-sheet[data-board="4"] .wttm-slot.slot-plant, .score-sheet[data-board="4"] .wttm-slot.slot-pearl, .score-sheet[data-board="4"] .wttm-slot.slot-ruby, .score-sheet[data-board="4"] .wttm-slot.slot-astronaut, .score-sheet[data-board="4"] .wttm-slot.slot-planning, .score-sheet[data-board="4"] .wttm-slot.slot-resource {
+.score-sheet[data-board="4"] .wttm-slot.slot-water, .score-sheet[data-board="4"] .wttm-slot.slot-plant, .score-sheet[data-board="4"] .wttm-slot.slot-pearl, .score-sheet[data-board="4"] .wttm-slot.slot-ruby, .score-sheet[data-board="4"] .wttm-slot.slot-astronautmarker, .score-sheet[data-board="4"] .wttm-slot.slot-planningmarker, .score-sheet[data-board="4"] .wttm-slot.slot-resource {
   width: 40px;
   height: 40px;
 }

@@ -80,24 +80,10 @@ class Scoresheet2 extends Scoresheet
           ]
         ];
       case ASTRONAUT:
-        return [
-          'action' => CIRCLE_NEXT_IN_ROW,
-          'args' => [
-            'actionType' => $combination['action'],
-            'slots' => $this->astronautsSlots,
-            'jokers' => $this->jokers,
-          ]
-        ];
+        // TODO: Differentiate othermarkers in this scenario to astronautmarkers and planningmarkers
+        return $this->getStandardAstronautAction($this->jokers, $this->astronautsSlots);
       case PLANNING:
-        return [
-          'action' => WRITE_X,
-          'args' => [
-            'actionType' => $combination['action'],
-            'slots' => $this->planningSlots,
-            'jokers' => $this->jokers,
-            'source' => ['name' => clienttranslate('Planning action')],
-          ]
-        ];
+        return $this->getStandardPlanningAction();
     }
     return null;
   }
@@ -174,16 +160,7 @@ class Scoresheet2 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      return [
-        [
-          'action' => CIRCLE_NEXT_IN_ROW,
-          'args' => [
-            'actionType' => PLANNING,
-            'slots' => $this->planningSlots,
-            'jokers' => $this->jokers,
-          ]
-        ]
-      ];
+      return [$this->getStandardPlanningReaction($this->jokers, $this->planningSlots)];
     }
     if (in_array($scribble->getSlot(), [44, 45])) {
       return [['action' => CIRCLE_ENERGY]];
