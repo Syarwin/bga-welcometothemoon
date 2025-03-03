@@ -53,6 +53,49 @@ class Scoresheet4 extends Scoresheet
     142 => ['slot' => 227, 'type' => CIRCLE_TYPE_FILLING_BONUS],
   ];
 
+  protected array $linkedWater = [
+    2 => [164],
+    4 => [171],
+    8 => [184],
+    11 => [196],
+    14 => [164],
+    16 => [171],
+    17 => [175],
+    19 => [182],
+    20 => [184, 186],
+    22 => [194],
+    23 => [196],
+    29 => [175],
+    31 => [182],
+    32 => [186],
+    34 => [194],
+  ];
+
+  protected array $linkedPlants = [
+    1 => [159],
+    3 => [167],
+    6 => [178],
+    9 => [188],
+    10 => [192],
+    12 => [200],
+    13 => [159, 161],
+    14 => [165],
+    15 => [167],
+    16 => [172],
+    18 => [178],
+    21 => [188, 189],
+    22 => [192],
+    23 => [197],
+    24 => [200, 202],
+    25 => [161],
+    26 => [165],
+    28 => [172],
+    33 => [189],
+    35 => [197],
+    36 => [202],
+  ];
+
+
   // PHASE 5
   public static function phase5Check(): void {}
 
@@ -87,6 +130,24 @@ class Scoresheet4 extends Scoresheet
         return $this->getStandardPlanningAction();
       case ASTRONAUT:
         return $this->getStandardAstronautAction();
+      case PLANT:
+        return [
+          'action' => S4_CIRCLE_PLANT_OR_WATER,
+          'args' =>
+            [
+              'type' => PLANT,
+              'slots' => $this->linkedPlants[$slot] ?? null,
+            ]
+        ];
+      case WATER:
+        return [
+          'action' => S4_CIRCLE_PLANT_OR_WATER,
+          'args' =>
+            [
+              'type' => WATER,
+              'slots' => $this->linkedWater[$slot] ?? null,
+            ]
+        ];
     }
     return null;
   }

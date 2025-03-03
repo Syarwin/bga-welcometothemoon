@@ -50,6 +50,6 @@ class CircleSingleLinked extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $slot = $args['slot'];
     $values = $args['values'] ?? null;
     $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    Notifications::circleSingleLinked($player, $scribble, $values[$slot] ?? null, $args['type']);
+    Notifications::circleSingleLinked($player, $scribble, $args['type'], $values[$slot] ?? null);
   }
 }

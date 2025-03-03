@@ -62,6 +62,7 @@ const ST_CROSS_OFF_MULTIPLIER = 41;
 const ST_IMPROVE_BONUS = 42;
 const ST_BUILD_ROBOT_TUNNEL = 43;
 const ST_CROSS_OFF_FILLED_QUARTER_BONUS = 44;
+const ST_S4_CIRCLE_PLANT_OR_WATER = 45;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -125,6 +126,9 @@ const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
 const FILLED_QUARTER = 'Scenario3\FilledQuarter';
 const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
 
+// SCENARIO 4
+const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
+
 /*
  * Actions
  */
@@ -173,10 +177,12 @@ const SOLO_CARDS_STACKS = [
 
 const TOP_RIGHT_CORNER_SLOT = 400;
 
-const CIRCLE_TYPE_WATER = 0;
+const CIRCLE_TYPE_WATER_S2 = 0;
 const CIRCLE_TYPE_RUBY = 1;
 const CIRCLE_TYPE_PEARL = 2;
 const CIRCLE_TYPE_FILLING_BONUS = 3;
+const CIRCLE_TYPE_WATER_S4 = 4;
+const CIRCLE_TYPE_PLANT_S4 = 5;
 
 /******************
  ****** STATS ******

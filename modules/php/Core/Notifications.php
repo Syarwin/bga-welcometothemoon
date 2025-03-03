@@ -307,19 +307,21 @@ class Notifications
     ]);
   }
 
-  public static function circleSingleLinked(Player $player, Scribble $scribble, int|null $waterValue, int $type)
+  public static function circleSingleLinked(Player $player, Scribble $scribble, int $type, int|null $value = null)
   {
     $postfixes = [
-      CIRCLE_TYPE_WATER => clienttranslate('water tank'),
+      CIRCLE_TYPE_WATER_S2 => clienttranslate('water tank'),
       CIRCLE_TYPE_RUBY => clienttranslate('ruby'),
       CIRCLE_TYPE_PEARL => clienttranslate('pearl'),
       CIRCLE_TYPE_FILLING_BONUS => clienttranslate('filling bonus'),
+      CIRCLE_TYPE_WATER_S4 => clienttranslate('water'),
+      CIRCLE_TYPE_PLANT_S4 => clienttranslate('plant'),
     ];
-    $msg = $waterValue ?
+    $msg = $value ?
       clienttranslate('${player_name} stirs a water tank with the value of ${waterValue}') :
       clienttranslate('${player_name} circles an attached ${postfix}');
     static::addScribble($player, $scribble, $msg, [
-      'waterValue' => $waterValue,
+      'waterValue' => $value,
       'postfix' => $postfixes[$type],
       'i18n' => ['postfix'],
     ]);
