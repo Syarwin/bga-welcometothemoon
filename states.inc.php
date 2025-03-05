@@ -198,6 +198,7 @@ $machinestates = [
     'descriptionmyturnimpossible1' => clienttranslate('<SYSTEM-ERROR> ${you} can\'t write any number. You must circle one System Error box <SYSTEM-ERROR>'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actChooseCards', 'actSystemError', 'actRestart'],
   ],
 
@@ -206,6 +207,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must write the number on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actWriteNumber', 'actSystemError', 'actRestart'],
   ],
 
@@ -233,6 +235,7 @@ $machinestates = [
     'descriptionmyturnskippable' => clienttranslate('${you} may write an X on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actWriteX', 'actRestart', 'actPassOptionalAction'],
   ],
 
@@ -249,6 +252,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must activate an inactive Rocket quarter bonus on your scoresheet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actRocketActivation', 'actRestart'],
   ],
 
@@ -257,6 +261,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must cross off one available Sabotage effect'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actCrossOffSabotage', 'actRestart'],
   ],
 
@@ -313,6 +318,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must cross off a multiplier'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
   ],
 
@@ -329,6 +335,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must cross off a scoring bonus for plants, water or antennas'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actImproveBonus', 'actRestart'],
   ],
 
@@ -337,6 +344,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must build a pressurized tunnel'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actBuildRobotTunnel', 'actRestart'],
   ],
 
@@ -345,6 +353,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must cross off a filled quarter bonus'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actCrossOffFilledQuarterBonus', 'actRestart'],
   ],
 
