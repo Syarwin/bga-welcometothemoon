@@ -67,4 +67,10 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
       }
     }
   }
+
+  // TODO: Revert the commit this was added after all tables will be started after 6/03/2025
+  public function actCircleOther()
+  {
+    $this->actCircleNextInRow();
+  }
 }
