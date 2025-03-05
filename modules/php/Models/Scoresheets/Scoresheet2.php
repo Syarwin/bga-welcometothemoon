@@ -76,7 +76,7 @@ class Scoresheet2 extends Scoresheet
           'args' => [
             'slot' => $this->waterTanksAtSlots[$slot] ?? null,
             'values' => $this->waterTanksValues,
-            'type' => CIRCLE_TYPE_WATER,
+            'type' => CIRCLE_TYPE_WATER_S2,
           ]
         ];
       case ASTRONAUT:
