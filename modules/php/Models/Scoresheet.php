@@ -355,9 +355,10 @@ class Scoresheet
     return [
       'action' => CIRCLE_NEXT_IN_ROW,
       'args' => [
-        'actionType' => PLANNING,
+        'symbol' => CIRCLE_SYMBOL_PLANNING,
         'slots' => $slots,
         'jokers' => $jokers,
+        'scribbleType' => SCRIBBLE,
       ]
     ];
   }
@@ -370,9 +371,10 @@ class Scoresheet
     return [
       'action' => CIRCLE_NEXT_IN_ROW,
       'args' => [
-        'actionType' => ASTRONAUT,
+        'symbol' => CIRCLE_SYMBOL_ASTRONAUT,
         'slots' => $slots,
         'jokers' => $jokers,
+        'scribbleType' => SCRIBBLE,
       ]
     ];
   }

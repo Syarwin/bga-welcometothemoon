@@ -63,6 +63,7 @@ const ST_IMPROVE_BONUS = 42;
 const ST_BUILD_ROBOT_TUNNEL = 43;
 const ST_CROSS_OFF_FILLED_QUARTER_BONUS = 44;
 const ST_S4_CIRCLE_PLANT_OR_WATER = 45;
+const ST_S4_FACTORY_UPGRADE = 46;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -128,6 +129,7 @@ const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
 
 // SCENARIO 4
 const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
+const S4_FACTORY_UPGRADE = 'Scenario4\FactoryUpgrade';
 
 /*
  * Actions
@@ -184,6 +186,17 @@ const CIRCLE_TYPE_FILLING_BONUS = 3;
 const CIRCLE_TYPE_WATER_S4 = 4;
 const CIRCLE_TYPE_PLANT_S4 = 5;
 
+const FACTORY_TYPE_MAIN = 0;
+const FACTORY_TYPE_SECONDARY = 1;
+const FACTORY_TYPE_ASTRONAUT = 2;
+const FACTORY_TYPE_PLANNING = 3;
+
+const CIRCLE_SYMBOL_ASTRONAUT = 0;
+const CIRCLE_SYMBOL_PLANNING = 1;
+const CIRCLE_SYMBOL_WATER = 2;
+const CIRCLE_SYMBOL_PLANT = 3;
+const CIRCLE_SYMBOL_RUBY = 4;
+const CIRCLE_SYMBOL_PEARL = 5;
 /******************
  ****** STATS ******
  ******************/
