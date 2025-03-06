@@ -46,6 +46,7 @@ class Actions
 
     // Scenario 4
     S4_CIRCLE_PLANT_OR_WATER,
+    S4_FACTORY_UPGRADE,
   ];
 
   public static function get($actionId, &$ctx = null)

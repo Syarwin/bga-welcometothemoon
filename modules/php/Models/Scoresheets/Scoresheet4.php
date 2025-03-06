@@ -148,6 +148,12 @@ class Scoresheet4 extends Scoresheet
               'slots' => $this->linkedWater[$slot] ?? null,
             ]
         ];
+      case ROBOT:
+      case ENERGY:
+        return [
+          'action' => S4_FACTORY_UPGRADE,
+          'args' => ['type' => $combination['action']],
+        ];
     }
     return null;
   }
