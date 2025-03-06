@@ -58,7 +58,7 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         $this->isAstronautAction() ?
           Notifications::scribbleAstronaut($player, $scribble) :
           Notifications::scribblePlanning($player, $scribble);
-        $slotId = $jokers[$slot] ?? null;
+        $slotId = $args['jokers'][$slot] ?? null;
         if (!is_null($slotId)) {
           $scribble = $scoresheet->addScribble($slotId, SCRIBBLE_CIRCLE);
           Notifications::circleJoker($player, $scribble);

@@ -182,7 +182,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             case 'robot':
               return (
                 _(
-                  'n order to dispatch the scientists and the equipment, you must create a network of pressurized tunnels connecting the buildings to one another. At the beginning of the game, you have already 2 tunnels built from the landing site of the rocket.'
+                  'In order to dispatch the scientists and the equipment, you must create a network of pressurized tunnels connecting the buildings to one another. At the beginning of the game, you have already 2 tunnels built from the landing site of the rocket.'
                 ) +
                 _(
                   'With the Robot action, draw a line on a tunnel to connect two buildings. These buildings do not necessarily have to be numbered. The line must start from a building already connected to the network. The network can branch out in multiple paths.'
