@@ -409,9 +409,17 @@ define([
           // }
         }
 
-        // Call appropriate method
-        var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
-        if (this[methodName] !== undefined) this[methodName](args.args);
+        // INCONSISTENT STATE
+        if (args.args && args.args.noNode && this.isCurrentPlayerActive()) {
+          $('pagemaintitletext').innerHTML = _(
+            'You are in an inconsistent state, please create a bug report explaining how you got there so we can fix it and then click that button to proceed'
+          );
+          this.addDangerActionButton('btnUnstuck', _('Unstuck table'), () => this.takeAction('actUnstuckGame', {}, false));
+        } else {
+          // Call appropriate method
+          var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+          if (this[methodName] !== undefined) this[methodName](args.args);
+        }
       },
 
       /////////////////////////////

@@ -221,6 +221,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////
 
     onEnteringStateChooseCards(args) {
+      if (args.noNode) return;
+
       args.useJoker = args.useJoker || false;
 
       // Clear previous choice
