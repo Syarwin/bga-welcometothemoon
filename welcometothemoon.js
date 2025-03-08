@@ -783,8 +783,8 @@ define([
         dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
         let chk = $('help-mode-chk');
         dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
-        this.addTooltip('cards-count', '', _('Number of cards remaining in deck'));
-        this.addTooltip('show-scores', '', _('Scoring table'));
+        this.addTooltip('cards-count', _('Number of cards remaining in deck'), '');
+        this.addTooltip('show-scores', '', _('Show scoring details'));
         this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode'));
 
         this._settingsModal = new customgame.modal('showSettings', {
