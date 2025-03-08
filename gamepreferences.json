@@ -52,5 +52,18 @@
         "name": "Manual"
       }
     }
+  },
+  "106": {
+    "name": "Scribbling sounds",
+    "needReload": false,
+    "default": 1,
+    "values": {
+      "1": {
+        "name": "Enabled"
+      },
+      "0": {
+        "name": "Disabled"
+      }
+    }
   }
 }

@@ -174,6 +174,11 @@ define([
 
           //////////////////////
           /////// OTHER ////////
+          scribblingSounds: {
+            type: 'pref',
+            prefId: 106,
+            section: 'other',
+          },
         };
       },
 
