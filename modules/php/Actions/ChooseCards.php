@@ -35,6 +35,10 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $data = [];
+    if (Globals::isSolo()) {
+      $data['descSuffix'] = 'solo';
+    }
+
     $data['combinations'] = $this->getPlayableCombinations($player);
     if (empty($data['combinations'])) {
       $data['systemError'] = $player->scoresheet()->getNextFreeSystemErrorSlot();

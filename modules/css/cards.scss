@@ -9,6 +9,21 @@ $cardBorderRadius: 7px;
 ******************************
 *****************************/
 
+.construction-card-tooltip {
+    h3 {
+        background-color: #4c483e;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 6px;
+        align-items: center;
+        font-family: "Gears of Peace";
+        text-transform: uppercase;
+        text-shadow: 0px 0px 1px gold;
+        font-size: 16px;
+    }
+}
+
 .construction-card-holder {
     width: $cardWidth;
     height: $cardHeight;

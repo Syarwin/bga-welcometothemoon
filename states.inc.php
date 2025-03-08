@@ -194,6 +194,7 @@ $machinestates = [
   ST_CHOOSE_CARDS => [
     'name' => 'chooseCards',
     'descriptionmyturn' => clienttranslate('${you} must pick a pair of construction cards'),
+    'descriptionmyturnsolo' => clienttranslate('${you} must first pick a card for the number'),
     'descriptionmyturnimpossible' => clienttranslate('<SYSTEM-ERROR> ${you} can\'t write any number. You must cross off one System Error box <SYSTEM-ERROR>'),
     'descriptionmyturnimpossible1' => clienttranslate('<SYSTEM-ERROR> ${you} can\'t write any number. You must circle one System Error box <SYSTEM-ERROR>'),
     'type' => 'private',
