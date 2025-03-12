@@ -13,6 +13,7 @@ class Stats extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
 {
   protected static string $table = 'stats';
   protected static string $primary = 'stats_id';
+
   protected static function cast($row)
   {
     return [
@@ -156,10 +157,12 @@ class Stats extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
           $value = $args[1];
         }
 
-        self::getFilteredQuery($id, $pId)
-          ->update(['stats_value' => $value])
-          ->run();
-        self::invalidate();
+        if (Globals::getMode() == MODE_APPLY) {
+          self::getFilteredQuery($id, $pId)
+            ->update(['stats_value' => $value])
+            ->run();
+          self::invalidate();
+        }
         return $value;
       } elseif ($match[1] == 'inc') {
         $id = null;
@@ -177,11 +180,12 @@ class Stats extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
           $pId = $args[0];
           $value = $args[1] ?? 1;
         }
-
-        self::getFilteredQuery($id, $pId)
-          ->inc(['stats_value' => $value])
-          ->run();
-        self::invalidate();
+        if (Globals::getMode() == MODE_APPLY) {
+          self::getFilteredQuery($id, $pId)
+            ->inc(['stats_value' => $value])
+            ->run();
+          self::invalidate();
+        }
         return $value;
       }
     }

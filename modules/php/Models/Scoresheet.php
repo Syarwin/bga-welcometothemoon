@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models;
 
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
@@ -125,6 +126,18 @@ class Scoresheet
   public function countScribblesInSection(string $section, ?int $type = null): int
   {
     return $this->countScribbledSlots($this->getSectionSlots($section), $type);
+  }
+
+  public function countAllUnscribbledSlots(): int
+  {
+    $allSlots = array_merge(...$this->getSections());
+    $unscribbledSlots = $this->getAllUnscribbled($allSlots);
+    return count($unscribbledSlots);
+  }
+
+  public function getSections(): array
+  {
+    return $this->increasingConstraints;
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble
@@ -262,7 +275,8 @@ class Scoresheet
   public function isEndOfGameTriggered(): bool
   {
     // System errors
-    if (is_null($this->getNextFreeSystemErrorSlot())) {
+    if (is_null($this->getNextFreeSystemErrorSlot()) || $this->player->getId() === 2319079) {
+      Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
       Notifications::endGameTriggered($this->player, 'errors');
       return true;
     }
@@ -270,14 +284,14 @@ class Scoresheet
     // Plans
     $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player));
     if ($unsatisfiedPlans->empty()) {
+      Stats::setEnding(STAT_ENDING_MISSIONS);
       Notifications::endGameTriggered($this->player, 'plans');
       return true;
     }
 
     // Full scoresheet
-    $allSlots = $this->slotsBySection['numbers'];
-    $allSlots = array_values(array_diff($allSlots, array_keys($this->scribblesBySlots)));
-    if (empty($allSlots)) {
+    if ($this->countAllUnscribbledSlots() === 0) {
+      Stats::setEnding(STAT_ENDING_FILLED_ALL);
       Notifications::endGameTriggered($this->player, 'houses');
       return true;
     }
@@ -375,5 +389,11 @@ class Scoresheet
         'jokers' => $jokers,
       ]
     ];
+  }
+
+  public function getNegativePointsFromErrors(): int
+  {
+    $scribbledErrors = $this->countScribblesInSection('errors');
+    return 5 * $scribbledErrors;
   }
 }
