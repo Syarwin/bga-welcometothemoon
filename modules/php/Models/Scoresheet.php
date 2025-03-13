@@ -269,7 +269,7 @@ class Scoresheet
   public function isEndOfGameTriggered(): bool
   {
     // System errors
-    if (is_null($this->getNextFreeSystemErrorSlot()) || $this->player->getId() === 2319079) {
+    if (is_null($this->getNextFreeSystemErrorSlot())) {
       Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
       Notifications::endGameTriggered($this->player, 'errors');
       return true;
