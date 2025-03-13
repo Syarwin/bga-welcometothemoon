@@ -130,14 +130,14 @@ class Scoresheet
 
   public function countAllUnscribbledSlots(): int
   {
-    $allSlots = array_merge(...$this->getSections());
+    $allSlots = array_merge(...$this->getNumberBlocks());
     $unscribbledSlots = $this->getAllUnscribbled($allSlots);
     return count($unscribbledSlots);
   }
 
-  public function getSections(): array
+  public function getNumberBlocks(): array
   {
-    return $this->increasingConstraints;
+    return $this->numberBlocks;
   }
 
   public function addScribble($location, $type = SCRIBBLE): Scribble
@@ -227,12 +227,7 @@ class Scoresheet
    *  - considering filled-up slots
    *  - considering increasing sequence constraint
    */
-  protected array $increasingConstraints = [];
-
-  public function getIncreasingSequencesConstraints()
-  {
-    return $this->increasingConstraints;
-  }
+  protected array $numberBlocks = [];
 
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
@@ -248,10 +243,10 @@ class Scoresheet
 
     // Check each constraint
     $forbiddenSlots = [];
-    foreach ($this->getIncreasingSequencesConstraints() as $slotSequence) {
+    foreach ($this->getNumberBlocks() as $slotSequence) {
       $curr = [];
       $previous = -1;
-      foreach ($slotSequence as $i => $slotId) {
+      foreach ($slotSequence as $slotId) {
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
@@ -270,7 +265,6 @@ class Scoresheet
     }
     return $allSlots;
   }
-
 
   public function isEndOfGameTriggered(): bool
   {

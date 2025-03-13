@@ -162,7 +162,7 @@ class Scoresheet1 extends Scoresheet
 
 
   // WRITE NUMBER
-  protected array $increasingConstraints = [
+  protected array $numberBlocks = [
     // ASTRONAUT
     [1, 2, 3],
     [4, 5, 6],
@@ -199,7 +199,7 @@ class Scoresheet1 extends Scoresheet
     // Merge these slots
     $availableSlots = [];
     foreach ($mapping[$action] as $rowIndex) {
-      $availableSlots = array_merge($availableSlots, $this->increasingConstraints[$rowIndex]);
+      $availableSlots = array_merge($availableSlots, $this->numberBlocks[$rowIndex]);
     }
     // Take the intersection
     $allSlots = array_values(array_intersect($allSlots, $availableSlots));
