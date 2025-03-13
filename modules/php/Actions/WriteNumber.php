@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 
 class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -74,6 +75,8 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     $player = $this->getPlayer();
     $scribble = $player->scoresheet()->addScribble($slot, $number);
+    Stats::incNumberedSpacesNumber($player->getId(), 1);
+    Stats::setEmptySlotsNumber($player->getId(), $player->scoresheet()->countAllUnscribbledSlots());
     Notifications::writeNumber($player, $number, [$scribble]);
 
     // Reaction to the scribble itself (filled up quarter bonuses, etc)
@@ -87,8 +90,17 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Action corresponding to the combination
     $action = $player->scoresheet()->getCombinationAtomicAction($player->getCombination(), $slot);
+    $this->incStat($player->getCombination()['action'], $player->getId());
     if (!is_null($action)) {
       $this->insertAsChild($action);
     }
   }
+
+  private function incStat(string $action, int $pId): void
+  {
+    $methodUppercased = ucfirst($action);
+    $methodName = "Bga\Games\WelcomeToTheMoon\Core\Stats::incUsed$methodUppercased";
+    call_user_func($methodName, $pId, 1);
+  }
+
 }

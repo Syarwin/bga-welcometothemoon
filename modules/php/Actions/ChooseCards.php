@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions;
 
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
@@ -92,6 +93,8 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     PGlobals::setCombination($player->getId(), []);
     $scribbleType = Globals::getScenario() == 1 ? SCRIBBLE_CIRCLE : SCRIBBLE;
     $scribble = $player->scoresheet()->addScribble($args['systemError'], $scribbleType);
+    Stats::incSystemErrorsNumber($player->getId(), 1);
+    Stats::setPointsSystemErrors($player->getId(), $player->scoresheet()->getNegativePointsFromErrors());
     Notifications::systemError($player, $scribble);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actSystemError');

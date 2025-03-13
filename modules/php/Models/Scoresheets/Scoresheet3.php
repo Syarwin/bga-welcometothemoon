@@ -18,7 +18,7 @@ class Scoresheet3 extends Scoresheet
 {
   protected int $scenario = 3;
   protected array $datas = DATAS3;
-  protected array $increasingConstraints = [
+  protected array $numberBlocks = [
     // Vertical
     [1, 2, 3, 4, 5],
     [6, 7, 8, 9, 10, 11],
