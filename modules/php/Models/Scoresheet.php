@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models;
 
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
@@ -127,6 +128,18 @@ class Scoresheet
     return $this->countScribbledSlots($this->getSectionSlots($section), $type);
   }
 
+  public function countAllUnscribbledSlots(): int
+  {
+    $allSlots = array_merge(...$this->getNumberBlocks());
+    $unscribbledSlots = $this->getAllUnscribbled($allSlots);
+    return count($unscribbledSlots);
+  }
+
+  public function getNumberBlocks(): array
+  {
+    return $this->numberBlocks;
+  }
+
   public function addScribble($location, $type = SCRIBBLE): Scribble
   {
     $scribble = Scribbles::add($this->player, [
@@ -214,12 +227,7 @@ class Scoresheet
    *  - considering filled-up slots
    *  - considering increasing sequence constraint
    */
-  protected array $increasingConstraints = [];
-
-  public function getIncreasingSequencesConstraints()
-  {
-    return $this->increasingConstraints;
-  }
+  protected array $numberBlocks = [];
 
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
@@ -235,10 +243,10 @@ class Scoresheet
 
     // Check each constraint
     $forbiddenSlots = [];
-    foreach ($this->getIncreasingSequencesConstraints() as $slotSequence) {
+    foreach ($this->getNumberBlocks() as $slotSequence) {
       $curr = [];
       $previous = -1;
-      foreach ($slotSequence as $i => $slotId) {
+      foreach ($slotSequence as $slotId) {
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
@@ -258,11 +266,11 @@ class Scoresheet
     return $allSlots;
   }
 
-
   public function isEndOfGameTriggered(): bool
   {
     // System errors
     if (is_null($this->getNextFreeSystemErrorSlot())) {
+      Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
       Notifications::endGameTriggered($this->player, 'errors');
       return true;
     }
@@ -270,14 +278,14 @@ class Scoresheet
     // Plans
     $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player));
     if ($unsatisfiedPlans->empty()) {
+      Stats::setEnding(STAT_ENDING_MISSIONS);
       Notifications::endGameTriggered($this->player, 'plans');
       return true;
     }
 
     // Full scoresheet
-    $allSlots = $this->slotsBySection['numbers'];
-    $allSlots = array_values(array_diff($allSlots, array_keys($this->scribblesBySlots)));
-    if (empty($allSlots)) {
+    if ($this->countAllUnscribbledSlots() === 0) {
+      Stats::setEnding(STAT_ENDING_FILLED_ALL);
       Notifications::endGameTriggered($this->player, 'houses');
       return true;
     }
@@ -377,5 +385,11 @@ class Scoresheet
         'scribbleType' => SCRIBBLE,
       ]
     ];
+  }
+
+  public function getNegativePointsFromErrors(): int
+  {
+    $scribbledErrors = $this->countScribblesInSection('errors');
+    return 5 * $scribbledErrors;
   }
 }

@@ -202,3 +202,7 @@ const CIRCLE_SYMBOL_PEARL = 5;
  ******************/
 
 const STAT_TURNS = 10;
+const STAT_ENDING_NONE = 0;
+const STAT_ENDING_FILLED_ALL = 1;
+const STAT_ENDING_MISSIONS = 2;
+const STAT_ENDING_SYSTEM_ERRORS = 3;

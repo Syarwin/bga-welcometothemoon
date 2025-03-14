@@ -408,7 +408,18 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       );
 
       this.addCustomTooltip('astra-effects', `<h2>${_('ASTRA EFFECT:')}</h2> ${adventureDatas.descEffects}`);
-      this.addCustomTooltip('astra-bonus', `<h2>${_('SOLO BONUS:')}</h2> ${adventureDatas.descSoloBonus}`);
+
+      const astraBonusDesc = _(
+        'Solo bonuses allows you to avoid giving a card to ASTRA. To do that, whenever you want, cross off an already circled Solo bonus. Then instead of giving ASTRA a Starship card, proceed to next round and discard remaining Starship cards.'
+      );
+      this.addCustomTooltip(
+        'astra-bonus',
+        `<h2>${_('SOLO BONUS:')}</h2> 
+        ${adventureDatas.descSoloBonus}
+        <br /> 
+        ${astraBonusDesc} 
+        `
+      );
       if (adventureDatas.descMisc) {
         this.addCustomTooltip('astra-misc', `${adventureDatas.descMisc}`);
       }

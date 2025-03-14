@@ -66,14 +66,14 @@
             // @media (max-width: $breakpoint) {
             //     background-image: url("img/construction_front_low.jpg");
             // }
-            background-size: 600% 400%;
+            background-size: 600% 500%;
             box-shadow: -2px 2px 3px rgba(20, 20, 20, 0.8);
             cursor: pointer;
 
             @for $i from 0 through 17 {
                 &[data-number="#{$i}"] {
                     background-position-x: ($i % 6) * 100%/5;
-                    background-position-y: (($i - ($i % 6)) / 6) * 100% / 3;
+                    background-position-y: (($i - ($i % 6)) / 6) * 100% / 4;
                 }
             }
 

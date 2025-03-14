@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Actions;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class WriteX extends GenericPickSlot
@@ -34,8 +35,15 @@ class WriteX extends GenericPickSlot
     $number = NUMBER_X;
     $player = $this->getPlayer();
     $scribble = $player->scoresheet()->addScribble($slotId, $number);
+    Stats::incNumberedSpacesNumber($player->getId(), 1);
+    Stats::setEmptySlotsNumber($player->getId(), $player->scoresheet()->countAllUnscribbledSlots());
     $scribbles = [$scribble];
-    Notifications::writeNumber($player, $number, $scribbles, $this->getCtxArg('source')['name'] ?? null);
+    // Scribble the bonus slot
+    $source = $this->getCtxArg('source');
+    if (isset($source['slot'])) {
+      $scribbles[] = $player->scoresheet()->addScribble($source['slot']);
+    }
+    Notifications::writeNumber($player, $number, $scribbles, $source['name'] ?? null);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actWriteX');
     if (!empty($reactions)) {

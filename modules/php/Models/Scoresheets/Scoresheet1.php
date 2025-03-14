@@ -40,8 +40,7 @@ class Scoresheet1 extends Scoresheet
 
     // Compute negative points
     $circledErrors = $this->countScribblesInSection('errors', SCRIBBLE_CIRCLE);
-    $uncrossedCircledErrors = $this->getNumberOfCircledUncrossedSystemErrors();
-    $negativePoints = $uncrossedCircledErrors * 5;
+    $negativePoints = $this->getNegativePointsOfCircledUncrossedSystemErrors();
     $data[] = ["slot" => 150, "v" => $negativePoints];
     $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($circledErrors . " / " . 8)];
     $data[] = ["panel" => "errors", "v" => $circledErrors];
@@ -79,7 +78,7 @@ class Scoresheet1 extends Scoresheet
   }
 
 
-  public function getNumberOfCircledUncrossedSystemErrors()
+  public function getNegativePointsOfCircledUncrossedSystemErrors(): int
   {
     $n = 0;
     $slots = $this->getSectionSlots('errors');
@@ -88,7 +87,7 @@ class Scoresheet1 extends Scoresheet
         $n++;
       }
     }
-    return $n;
+    return $n * 5;
   }
 
   // PHASE 5
@@ -155,7 +154,7 @@ class Scoresheet1 extends Scoresheet
     if (!$this->hasScribbledSlot(130)) return false;
 
     // Any circled system error not crossed off?
-    if ($this->getNumberOfCircledUncrossedSystemErrors() > 0) return false;
+    if ($this->getNegativePointsOfCircledUncrossedSystemErrors() > 0) return false;
 
     Notifications::endGameTriggered($this->player, 'launch');
     return true;
@@ -163,7 +162,7 @@ class Scoresheet1 extends Scoresheet
 
 
   // WRITE NUMBER
-  protected array $increasingConstraints = [
+  protected array $numberBlocks = [
     // ASTRONAUT
     [1, 2, 3],
     [4, 5, 6],
@@ -200,7 +199,7 @@ class Scoresheet1 extends Scoresheet
     // Merge these slots
     $availableSlots = [];
     foreach ($mapping[$action] as $rowIndex) {
-      $availableSlots = array_merge($availableSlots, $this->increasingConstraints[$rowIndex]);
+      $availableSlots = array_merge($availableSlots, $this->numberBlocks[$rowIndex]);
     }
     // Take the intersection
     $allSlots = array_values(array_intersect($allSlots, $availableSlots));
@@ -253,6 +252,11 @@ class Scoresheet1 extends Scoresheet
   public function isWriteXOptional(): bool
   {
     return false;
+  }
+
+  public function getNegativePointsFromErrors(): int
+  {
+    return $this->getNegativePointsOfCircledUncrossedSystemErrors();
   }
 
   public static function getQuarters()

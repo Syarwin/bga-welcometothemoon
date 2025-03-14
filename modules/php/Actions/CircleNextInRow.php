@@ -58,7 +58,7 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
       foreach ($this->getSlots($scoresheet) as $slot) {
         if (!$scoresheet->hasScribbledSlot($slot)) {
           $scribbles[] = $scoresheet->addScribble($slot, $scribbleType ?? SCRIBBLE_CIRCLE);
-          $slotId = $jokers[$slot] ?? null;
+          $slotId = $args['jokers'][$slot] ?? null;
           if (!is_null($slotId)) {
             $scribble = $scoresheet->addScribble($slotId, SCRIBBLE_CIRCLE);
             Notifications::circleJoker($player, $scribble);
@@ -69,6 +69,12 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
     Notifications::addScribbles($player, $scribbles);
     $this->sendTextNotification($player, $scribbles);
+  }
+
+  // TODO: Revert the commit this was added after all tables will be started after 6/03/2025
+  public function actCircleOther()
+  {
+    $this->actCircleNextInRow();
   }
 
   private function getSlots(Scoresheet $scoresheet): array

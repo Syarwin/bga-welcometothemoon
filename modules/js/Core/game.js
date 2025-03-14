@@ -472,7 +472,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     setupSettings() {
       dojo.connect($('show-settings'), 'onclick', () => this.toggleSettings());
-      this.addTooltip('show-settings', '', _('Display some settings about the game.'));
+      this.addTooltip('show-settings', '', _('Show game settings'));
       let container = $('settings-controls-container');
 
       if (this.getSettingsSections) {
