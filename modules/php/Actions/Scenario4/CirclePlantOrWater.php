@@ -2,11 +2,12 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario4;
 
+use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
-class CirclePlantOrWater extends \Bga\Games\WelcomeToTheMoon\Models\Action
+class CirclePlantOrWater extends GenericPickSlot
 {
   public function getState(): int
   {
@@ -18,9 +19,14 @@ class CirclePlantOrWater extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return true;
   }
 
-  public function isDoable(Player $player): bool
+  public function getSlots(Player $player): array
   {
-    return !is_null($this->getArgs()['slots']);
+    return $this->getCtxArg('slots') ?? [];
+  }
+
+  public function getArgs(): array
+  {
+    return [...parent::getArgs(), 'descSuffix' => $this->getCtxArg('type')];
   }
 
   public function getDescription(): string
@@ -36,13 +42,10 @@ class CirclePlantOrWater extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return $singleChoice && $pref === OPTION_CIRCLE_AUTOMATIC ? ['slot' => $slots[0]] : null;
   }
 
-  public function argsCirclePlantOrWater()
-  {
-    return ['slots' => $this->getCtxArg('slots'), 'descSuffix' => $this->getCtxArg('type')];
-  }
-
   public function actCirclePlantOrWater(int $slot)
   {
+    $this->sanityCheck($slot);
+
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);

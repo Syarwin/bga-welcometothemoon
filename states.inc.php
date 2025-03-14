@@ -324,7 +324,7 @@ $machinestates = [
   ],
 
   ST_S4_CIRCLE_PLANT_OR_WATER => [
-    'name' => 'circlePlantOrWater',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
     'descriptionmyturnwater' => clienttranslate('${you} may choose to circle an attached water'),
     'descriptionmyturnplant' => clienttranslate('${you} may choose to circle an attached plant'),
