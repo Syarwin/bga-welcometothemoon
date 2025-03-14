@@ -83,6 +83,22 @@
       height: 40px;
     }
 
+    &.slot-robotmarker,
+    &.slot-energymarker {
+      width: 36px;
+      height: 36px;
+    }
+
+    &.slot-factorymult {
+      width: 40px;
+      height: 32px;
+    }
+
+    &.slot-bonus {
+      width: 40px;
+      height: 32px;
+    }
+
     // &.slot-score {
     //   &[data-id="39"],
     //   &[data-id="40"] {
