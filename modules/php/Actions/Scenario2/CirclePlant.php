@@ -38,14 +38,14 @@ class CirclePlant extends GenericPickSlot
 
   private function getSectionBySlot(Scoresheet $scoresheet, int $slot): array
   {
-    $sections = $scoresheet->getIncreasingSequencesConstraints();
-    foreach ($sections as $section) {
-      if (in_array($slot, $section)) {
-        return $section;
+    $numberBlocks = $scoresheet->getNumberBlocks();
+    foreach ($numberBlocks as $numberBlock) {
+      if (in_array($slot, $numberBlock)) {
+        return $numberBlock;
       }
     }
 
-    throw new \BgaVisibleSystemException('getSectionBySlot: no section found for slot id ' . $slot);
+    throw new \BgaVisibleSystemException('getSectionBySlot: no number block found for slot id ' . $slot);
   }
 
   public function actCirclePlant(int $slot): void

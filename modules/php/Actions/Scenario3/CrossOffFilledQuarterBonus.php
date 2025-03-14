@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario3;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class CrossOffFilledQuarterBonus extends GenericPickSlot
 {
@@ -18,6 +19,11 @@ class CrossOffFilledQuarterBonus extends GenericPickSlot
     57,
     58,
   ];
+
+  public function isDoable(Player $player): bool
+  {
+    return !$player->scoresheet()->hasScribbledSomeSlots($this->slots, count($this->slots));
+  }
 
   public function actCrossOffFilledQuarterBonus(int $slot)
   {

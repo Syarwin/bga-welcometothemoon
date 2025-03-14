@@ -164,6 +164,7 @@ trait TurnTrait
     foreach (Players::getAll() as $pId => $player) {
       PGlobals::setCombination($pId, []);
       if ($player->scoresheet()->isEndOfGameTriggered()) {
+        Stats::setTriggeredEnd($player->getId(), true);
         $nextState = ST_END_SCENARIO;
       }
     }

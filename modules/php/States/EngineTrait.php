@@ -158,7 +158,12 @@ trait EngineTrait
   function stAtomicAction($pId)
   {
     $action = $this->getCurrentAtomicAction($pId);
-    return Actions::stAction($action, Engine::getNextUnresolved($pId));
+    $node = Engine::getNextUnresolved($pId);
+    if (is_null($node)) {
+      $this->gamestate->setPrivateState($pId,  ST_CONFIRM_TURN);
+      return true;
+    }
+    return Actions::stAction($action, $node);
   }
 
   /********************************
@@ -277,5 +282,16 @@ trait EngineTrait
   {
     Engine::apply();
     Engine::callback();
+  }
+
+  #[CheckAction(false)]
+  public function actUnstuckGame()
+  {
+    $pId = Players::getCurrentId();
+    $node = Engine::getNextUnresolved($pId);
+    if (!is_null($node)) {
+      throw new \BgaVisibleSystemException('You are not stuck!');
+    }
+    Engine::confirm($pId);
   }
 }

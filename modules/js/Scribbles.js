@@ -52,7 +52,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       this.place(scribbleTpl, scribble, container);
       if (animation && !this.isFastMode()) {
-        this.playSound('welcometo_scribble');
+        if (this.prefs && this.prefs[106] && this.prefs[106].value == 1) {
+          this.playSound('welcometo_scribble');
+        }
         $(`scribble-${scribble.id}`).classList.add('animate');
       }
     },

@@ -48,6 +48,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (j == 0 && this._isStandard) {
             this.flipCard(oCard, 1);
           }
+          // Solo : add the tooltip even if not flipped
+          else if (this.isSolo()) {
+            this.addConstructionCardTooltip(oCard);
+          }
         });
       });
 
@@ -111,10 +115,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       card.classList.add('flipped');
       await this.wait(1000);
       card.style.zIndex = turn;
+      this.addConstructionCardTooltip(card);
+    },
 
-      // Add tooltip
+    addConstructionCardTooltip(card) {
       let action = card.dataset.action;
-      this.addCustomTooltip(card.id, this.getActionDesc(action));
+      const actionNames = {
+        energy: _('Energy'),
+        robot: _('Robot'),
+        plant: _('Plant'),
+        water: _('Water'),
+        astronaut: _('Astronaut'),
+        planning: _('Planning'),
+      };
+      let actionName = actionNames[action];
+
+      let desc = `<div class='construction-card-tooltip'>
+        <h3>${this.formatIcon(action)} ${actionName} ${this.formatIcon(action)}</h3> 
+        ${this.getActionDesc(action)}
+      </div>`;
+      this.addCustomTooltip(card.id, desc);
     },
 
     getActionDesc(action) {
@@ -182,7 +202,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             case 'robot':
               return (
                 _(
-                  'n order to dispatch the scientists and the equipment, you must create a network of pressurized tunnels connecting the buildings to one another. At the beginning of the game, you have already 2 tunnels built from the landing site of the rocket.'
+                  'In order to dispatch the scientists and the equipment, you must create a network of pressurized tunnels connecting the buildings to one another. At the beginning of the game, you have already 2 tunnels built from the landing site of the rocket.'
                 ) +
                 _(
                   'With the Robot action, draw a line on a tunnel to connect two buildings. These buildings do not necessarily have to be numbered. The line must start from a building already connected to the network. The network can branch out in multiple paths.'
@@ -221,6 +241,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ////////////////////////////////////
 
     onEnteringStateChooseCards(args) {
+      if (args.noNode) return;
+
       args.useJoker = args.useJoker || false;
 
       // Clear previous choice
@@ -263,8 +285,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.clientState(
               'chooseCardsSecondStack',
               args.useJoker
-                ? _('You must choose another stack for the action before choosing how to use the joker')
-                : _('You must choose another stack for the action'),
+                ? _('You must now choose another card for the action before choosing how to use the joker')
+                : _('You must now choose another card for the action'),
               {
                 combinations,
                 stackId,

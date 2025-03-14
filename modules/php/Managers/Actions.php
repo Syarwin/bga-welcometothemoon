@@ -50,6 +50,10 @@ class Actions
 
   public static function get($actionId, &$ctx = null)
   {
+    // TODO: Revert the commit this was added after all tables will be started after 6/03/2025
+    $actionId = str_replace('StirWaterTanks', 'CircleSingleLinked', $actionId);
+    $actionId = str_replace('CircleOther', 'CircleNextInRow', $actionId);
+
     if (!in_array($actionId, self::$classes)) {
       // throw new \feException(print_r(debug_print_backtrace()));
       // throw new \feException(print_r(Globals::getEngine()));

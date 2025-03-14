@@ -1,8 +1,88 @@
 {
+  "value_labels": {
+    "11": [
+      "None",
+      "Ending: All spaces filled in",
+      "Ending: Three Missions accomplished",
+      "Ending: All System Errors crossed off"
+    ]
+  },
   "table": {
     "turns": {
       "id": 10,
       "name": "Number of turns",
+      "type": "int"
+    },
+    "ending": {
+      "id": 11,
+      "name": "End of game trigger",
+      "type": "int"
+    }
+  },
+  "player": {
+    "numberedSpacesNumber": {
+      "id": 101,
+      "name": "Numbered spaces amount",
+      "type": "int"
+    },
+    "emptySlotsNumber": {
+      "id": 102,
+      "name": "Number of empty slots",
+      "type": "int"
+    },
+    "systemErrorsNumber": {
+      "id": 103,
+      "name": "Number of system errors",
+      "type": "int"
+    },
+    "missionsFirstNumber": {
+      "id": 104,
+      "name": "Times the player was first to accomplish a mission",
+      "type": "int"
+    },
+    "missionsSecondNumber": {
+      "id": 105,
+      "name": "Times the player was second to accomplish a mission",
+      "type": "int"
+    },
+    "triggeredEnd": {
+      "id": 106,
+      "name": "Triggered end of game",
+      "type": "bool"
+    },
+    "usedRobot": {
+      "id": 107,
+      "name": "Number of robot actions used",
+      "type": "int"
+    },
+    "usedWater": {
+      "id": 108,
+      "name": "Number of water actions used",
+      "type": "int"
+    },
+    "usedPlant": {
+      "id": 109,
+      "name": "Number of plant actions used",
+      "type": "int"
+    },
+    "usedEnergy": {
+      "id": 110,
+      "name": "Number of energy actions used",
+      "type": "int"
+    },
+    "usedAstronaut": {
+      "id": 111,
+      "name": "Number of astronaut actions used",
+      "type": "int"
+    },
+    "usedPlanning": {
+      "id": 112,
+      "name": "Number of planning actions used",
+      "type": "int"
+    },
+    "pointsSystemErrors": {
+      "id": 113,
+      "name": "Negative points from System Errors",
       "type": "int"
     }
   }

@@ -18,6 +18,11 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return true;
   }
 
+  public function isIndependent(?Player $player = null): bool
+  {
+    return true;
+  }
+
   public function isDoable(Player $player): bool
   {
     // Conditional bonus ?

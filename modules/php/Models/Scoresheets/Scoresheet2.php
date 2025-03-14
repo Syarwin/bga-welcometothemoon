@@ -93,7 +93,7 @@ class Scoresheet2 extends Scoresheet
   /**
    * getSections: based on current walls, compute the different sections
    */
-  public function getSections(): array
+  public function getNumberBlocks(): array
   {
     $sections = [];
     $section = [1];
@@ -113,7 +113,7 @@ class Scoresheet2 extends Scoresheet
   public function getNumberedSections(): array
   {
     $sections = [];
-    foreach ($this->getSections() as $section) {
+    foreach ($this->getNumberBlocks() as $section) {
       if ($this->hasScribbledSlots($section)) {
         $sections[] = $section;
       }
@@ -129,11 +129,6 @@ class Scoresheet2 extends Scoresheet
       $sizes[count($section)][] = $section;
     }
     return $sizes;
-  }
-
-  public function getIncreasingSequencesConstraints()
-  {
-    return $this->getSections();
   }
 
   // PHASE 5

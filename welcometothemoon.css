@@ -365,6 +365,19 @@
 ******** CONSTRUCTIONS *******
 ******************************
 *****************************/
+.construction-card-tooltip h3 {
+  background-color: #4c483e;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  align-items: center;
+  font-family: "Gears of Peace";
+  text-transform: uppercase;
+  text-shadow: 0px 0px 1px gold;
+  font-size: 16px;
+}
+
 .construction-card-holder {
   width: 200px;
   height: 303.2069970845px;
@@ -408,7 +421,7 @@
 }
 .construction-card-holder .construction-card-front {
   background-image: url("img/construction-cards-front.jpg");
-  background-size: 600% 400%;
+  background-size: 600% 500%;
   position: relative;
   box-shadow: 2px 2px 3px #1c1c1c;
 }
@@ -549,51 +562,51 @@
 }
 .construction-card-holder[data-number="6"] .construction-card-front {
   background-position-x: 0%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="7"] .construction-card-front {
   background-position-x: 20%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="8"] .construction-card-front {
   background-position-x: 40%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="9"] .construction-card-front {
   background-position-x: 60%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="10"] .construction-card-front {
   background-position-x: 80%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="11"] .construction-card-front {
   background-position-x: 100%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 .construction-card-holder[data-number="12"] .construction-card-front {
   background-position-x: 0%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="13"] .construction-card-front {
   background-position-x: 20%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="14"] .construction-card-front {
   background-position-x: 40%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="15"] .construction-card-front {
   background-position-x: 60%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="16"] .construction-card-front {
   background-position-x: 80%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="17"] .construction-card-front {
   background-position-x: 100%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 .construction-card-holder[data-number="-1"] .construction-card-front, .construction-card-holder[data-number="-2"] .construction-card-front, .construction-card-holder[data-number="-3"] .construction-card-front {
   background-image: url("img/construction-cards-back.jpg");
@@ -2666,7 +2679,7 @@ body {
   margin: 10px 20px;
   width: 131.9230769231px;
   background-image: url("img/construction-cards-front.jpg");
-  background-size: 600% 400%;
+  background-size: 600% 500%;
   box-shadow: -2px 2px 3px rgba(20, 20, 20, 0.8);
   cursor: pointer;
 }
@@ -2696,51 +2709,51 @@ body {
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="6"] {
   background-position-x: 0%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="7"] {
   background-position-x: 20%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="8"] {
   background-position-x: 40%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="9"] {
   background-position-x: 60%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="10"] {
   background-position-x: 80%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="11"] {
   background-position-x: 100%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 25%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="12"] {
   background-position-x: 0%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="13"] {
   background-position-x: 20%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="14"] {
   background-position-x: 40%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="15"] {
   background-position-x: 60%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="16"] {
   background-position-x: 80%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div[data-number="17"] {
   background-position-x: 100%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 50%;
 }
 #popin_chooseNumber #popin_chooseNumber_contents div:hover {
   transform: scale(1.05) rotate(2deg);

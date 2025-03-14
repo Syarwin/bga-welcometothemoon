@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario1\CrossRockets;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
@@ -64,6 +65,9 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     // Compute the reward
     $plan = PlanCards::get($planId);
     $reward = $plan->getReward($firstValidation);
+
+    // Increment a corresponding stat
+    $firstValidation ? Stats::incMissionsFirstNumber($player->getId(), 1) : Stats::incMissionsSecondNumber($player->getId(), 1);
 
     ///// Mark the scoresheet /////
     $slotId = $player->scoresheet()->getMissionSlotNumber($plan->getStackIndex());

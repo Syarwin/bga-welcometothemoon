@@ -174,6 +174,11 @@ define([
 
           //////////////////////
           /////// OTHER ////////
+          scribblingSounds: {
+            type: 'pref',
+            prefId: 106,
+            section: 'other',
+          },
         };
       },
 
@@ -409,9 +414,17 @@ define([
           // }
         }
 
-        // Call appropriate method
-        var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
-        if (this[methodName] !== undefined) this[methodName](args.args);
+        // INCONSISTENT STATE
+        if (args.args && args.args.noNode && this.isCurrentPlayerActive()) {
+          $('pagemaintitletext').innerHTML = _(
+            'You are in an inconsistent state, please create a bug report explaining how you got there so we can fix it and then click that button to proceed'
+          );
+          this.addDangerActionButton('btnUnstuck', _('Unstuck table'), () => this.takeAction('actUnstuckGame', {}, false));
+        } else {
+          // Call appropriate method
+          var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+          if (this[methodName] !== undefined) this[methodName](args.args);
+        }
       },
 
       /////////////////////////////
@@ -783,7 +796,9 @@ define([
         dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
         let chk = $('help-mode-chk');
         dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
-        this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
+        this.addTooltip('cards-count', _('Number of cards remaining in deck'), '');
+        this.addTooltip('show-scores', '', _('Show scoring details'));
+        this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode'));
 
         this._settingsModal = new customgame.modal('showSettings', {
           class: 'welcometothemoon_popin',
