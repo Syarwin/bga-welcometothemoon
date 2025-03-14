@@ -43,6 +43,9 @@ class Actions
     BUILD_ROBOT_TUNNEL,
     FILLED_QUARTER,
     CROSS_OFF_FILLED_QUARTER_BONUS,
+
+    // Scenario 4
+    S4_CIRCLE_PLANT_OR_WATER,
   ];
 
   public static function get($actionId, &$ctx = null)

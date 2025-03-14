@@ -50,7 +50,7 @@ class CircleSingleLinked extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $slot = $args['slot'];
     $values = $args['values'] ?? null;
     $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    Notifications::circleSingleLinked($player, $scribble, $values[$slot] ?? null, $args['type'] ?? CIRCLE_TYPE_WATER);
+    Notifications::circleSingleLinked($player, $scribble, $args['type'], $values[$slot] ?? null);
   }
 
   // TODO: Revert the commit this was added after all tables will be started after 6/03/2025

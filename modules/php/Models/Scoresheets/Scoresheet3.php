@@ -94,7 +94,7 @@ class Scoresheet3 extends Scoresheet
           'action' => CIRCLE_SINGLE_LINKED,
           'args' => [
             'slot' => $this->waterTanksAtSlots[$slot] ?? null,
-            'type' => CIRCLE_TYPE_WATER,
+            'type' => CIRCLE_TYPE_WATER_S2,
           ]
         ];
       case PLANT:

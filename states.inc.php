@@ -323,6 +323,17 @@ $machinestates = [
     'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
   ],
 
+  ST_S4_CIRCLE_PLANT_OR_WATER => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
+    'descriptionmyturnwater' => clienttranslate('${you} may choose to circle an attached water'),
+    'descriptionmyturnplant' => clienttranslate('${you} may choose to circle an attached plant'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCirclePlantOrWater', 'actRestart', 'actPassOptionalAction'],
+  ],
+
   //////////////////////////////////////////////////////////
   //  ____                            _         _____ 
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ / 
