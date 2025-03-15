@@ -145,7 +145,7 @@ trait TurnTrait
 
       // Launch engine only if some players have plans to validate
       if (!empty($flows)) {
-        Engine::multipleSetup($flows, ['method' => 'stEndTurn'], 'accomplishMission');
+        Engine::multipleSetup($flows, ['state' => ST_END_TURN], 'accomplishMission');
         return;
       }
     }

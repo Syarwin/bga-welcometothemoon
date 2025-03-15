@@ -69,6 +69,7 @@ $machinestates = [
     'description' => '',
     'type' => 'game',
     'action' => 'stStartTurn',
+    'updateGameProgression' => true,
   ],
 
   //////////////////////////
