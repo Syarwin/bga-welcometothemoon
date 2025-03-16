@@ -51,17 +51,18 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
-    $scribbleType = $this->getCtxArg('scribbleType') ?? null;
-    $amount = $this->getCtxArg('amount') ?? 1;
+    $args = $this->getCtxArgs();
+    $scribbleType = $args['scribbleType'] ?? null;
+    $amount = $args['amount'] ?? 1;
     $scribbles = [];
     for ($i = 0; $i < $amount; $i++) {
       foreach ($this->getSlots($scoresheet) as $slot) {
         if (!$scoresheet->hasScribbledSlot($slot)) {
           $scribbles[] = $scoresheet->addScribble($slot, $scribbleType ?? SCRIBBLE_CIRCLE);
-          $slotId = $args['jokers'][$slot] ?? null;
-          if (!is_null($slotId)) {
-            $scribble = $scoresheet->addScribble($slotId, SCRIBBLE_CIRCLE);
-            Notifications::circleJoker($player, $scribble);
+          $jokerSlotId = $args['jokers'][$slot] ?? null;
+          if (!is_null($jokerSlotId)) {
+            $scribbles[] = $scoresheet->addScribble($jokerSlotId, SCRIBBLE_CIRCLE);
+            Notifications::pmidMessage($player, clienttranslate('${player_name} circles a Wild Action symbol'));
           }
           break;
         }

@@ -347,11 +347,6 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a Planning symbol'));
   }
 
-  public static function circleJoker(Player $player, Scribble $scribble)
-  {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} circles a Wild Action symbol'));
-  }
-
   public static function circleGreenhouse(Player $player, array $scribbles, string $quarterName)
   {
     if (count($scribbles) === 2) {
