@@ -2051,6 +2051,18 @@ body {
   width: 40px;
   height: 40px;
 }
+.score-sheet[data-board="4"] .wttm-slot.slot-robotmarker, .score-sheet[data-board="4"] .wttm-slot.slot-energymarker {
+  width: 36px;
+  height: 36px;
+}
+.score-sheet[data-board="4"] .wttm-slot.slot-factorymult {
+  width: 40px;
+  height: 32px;
+}
+.score-sheet[data-board="4"] .wttm-slot.slot-bonus {
+  width: 40px;
+  height: 32px;
+}
 
 .score-sheet-wrapper {
   width: 1128px;

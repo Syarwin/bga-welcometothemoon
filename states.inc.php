@@ -324,17 +324,6 @@ $machinestates = [
     'possibleactions' => ['actCrossOffMultiplier', 'actRestart'],
   ],
 
-  ST_S4_CIRCLE_PLANT_OR_WATER => [
-    'name' => 'pickOneSlot',
-    'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
-    'descriptionmyturnwater' => clienttranslate('${you} may choose to circle an attached water'),
-    'descriptionmyturnplant' => clienttranslate('${you} may choose to circle an attached plant'),
-    'type' => 'private',
-    'args' => 'argsAtomicAction',
-    'action' => 'stAtomicAction',
-    'possibleactions' => ['actCirclePlantOrWater', 'actRestart', 'actPassOptionalAction'],
-  ],
-
   //////////////////////////////////////////////////////////
   //  ____                            _         _____ 
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___ / 
@@ -370,6 +359,35 @@ $machinestates = [
     'possibleactions' => ['actCrossOffFilledQuarterBonus', 'actRestart'],
   ],
 
+  //////////////////////////////////////////////////////////
+  //  ____                            _         _  _
+  //   ___|  ___ ___ _ __   __ _ _ __(_) ___   | || |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | || |_
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | |__   _|
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/     |_|
+  //////////////////////////////////////////////////////////
+
+  ST_S4_CIRCLE_PLANT_OR_WATER => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} may choose to circle an attached item'),
+    'descriptionmyturnwater' => clienttranslate('${you} may choose to circle an attached water'),
+    'descriptionmyturnplant' => clienttranslate('${you} may choose to circle an attached plant'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCirclePlantOrWater', 'actRestart', 'actPassOptionalAction'],
+  ],
+
+  ST_S4_FACTORY_UPGRADE => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} may cross off a factory upgrade'),
+    'descriptionmyturnenergy' => clienttranslate('${you} may cross off an Energy symbol at any factory'),
+    'descriptionmyturnrobot' => clienttranslate('${you} may cross off a Robot symbol at any factory'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actFactoryUpgrade', 'actRestart', 'actPassOptionalAction'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
