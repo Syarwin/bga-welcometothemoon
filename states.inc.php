@@ -378,7 +378,7 @@ $machinestates = [
   ],
 
   ST_S4_FACTORY_UPGRADE => [
-    'name' => 'factoryUpgrade',
+    'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} may cross off a factory upgrade'),
     'descriptionmyturnenergy' => clienttranslate('${you} may cross off an Energy symbol at any factory'),
     'descriptionmyturnrobot' => clienttranslate('${you} may cross off a Robot symbol at any factory'),

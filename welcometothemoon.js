@@ -686,14 +686,6 @@ define([
         });
       },
 
-      onEnteringStateFactoryUpgrade(args) {
-        args.slots.forEach((slot) => {
-          this.onClick(`slot-${this.player_id}-${slot}`, () => {
-            this.takeAtomicAction('actFactoryUpgrade', [slot]);
-          });
-        })
-      },
-
       ////////////////////////////////////////////////////////////
       // _____                          _   _   _
       // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
