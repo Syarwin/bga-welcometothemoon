@@ -100,7 +100,7 @@ class Notifications
   }
 
   // Generic addScribbles notif
-  public static function addScribbles(?Player $player, array $scribbles, $msg, $args = [])
+  public static function addScribbles(?Player $player, array $scribbles, $msg = '', $args = [])
   {
     $args['scribbles'] = $scribbles;
     if (is_null($player)) {
@@ -347,11 +347,6 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a Planning symbol'));
   }
 
-  public static function circleJoker(Player $player, Scribble $scribble)
-  {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} circles a Wild Action symbol'));
-  }
-
   public static function circleGreenhouse(Player $player, array $scribbles, string $quarterName)
   {
     if (count($scribbles) === 2) {
@@ -413,6 +408,33 @@ class Notifications
   public static function crossOffFilledQuarterBonusAstra(Player $player, Scribble $scribble)
   {
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filled quarter highest bonus'));
+  }
+  //////////////////////////////////////////////////////
+  //  ____                            _         _  _
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   | || |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | || |_
+  // ___) | (_|  __/ | | | (_| | |  | | (_) | |__   _|
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/     |_|
+  //////////////////////////////////////////////////////
+
+  public static function factoryUpgrade(Player $player, Scribble $scribble, string $factoryType, string $scribbledObject): void
+  {
+    $msg = clienttranslate('${player_name} upgrades ${factoryType} crossing off ${scribbledObject} in it');
+    static::addScribble($player, $scribble, $msg, [
+      'scribbledObject' => $scribbledObject,
+      'factoryType' => $factoryType,
+      'i18n' => ['scribbledObject', 'factoryType'],
+    ]);
+  }
+
+  public static function finishFactory(Player $player, array $scribbles, string $factoryType, string $finishText): void
+  {
+    $msg = clienttranslate('${player_name} finishes upgrading ${factoryType} and ${finishText}');
+    static::addScribbles($player, $scribbles, $msg, [
+      'factoryType' => $factoryType,
+      'finishText' => $finishText,
+      'i18n' => ['factoryType', 'finishText'],
+    ]);
   }
 
   /////////////////////////////////////
