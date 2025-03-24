@@ -101,8 +101,6 @@ class Astra1 extends Astra
 
   public function getAstraEffect(string $stack, bool $isFirstDraw): array
   {
-    if (!$isFirstDraw) return [];
-
     return [
       [
         'action' => CROSS_OFF_SABOTAGE

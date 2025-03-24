@@ -16,7 +16,7 @@ class Astra3 extends Astra
 
   public function getAstraEffect(string $stack, bool $isFirstDraw): array
   {
-    if (!$isFirstDraw || $stack == 'C') return [];
+    if ($stack == 'C') return [];
 
     return [
       [
