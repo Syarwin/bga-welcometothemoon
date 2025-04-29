@@ -16,64 +16,64 @@
         }
     }
 
-    .slideshow-left,
-    .slideshow-right {
-        position: absolute;
-        width: 70px;
-        z-index: 3;
-        top: $borderSize;
-        bottom: $borderSize;
-        cursor: pointer;
-        [data-solo="1"] & {
-            display: none;
-        }
+    // .slideshow-left,
+    // .slideshow-right {
+    //     position: absolute;
+    //     width: 70px;
+    //     z-index: 3;
+    //     top: $borderSize;
+    //     bottom: $borderSize;
+    //     cursor: pointer;
+    //     [data-solo="1"] & {
+    //         display: none;
+    //     }
 
-        .arrow {
-            position: absolute;
-            height: 30px;
-            width: 30px;
-            margin-top: -15px;
-            top: 50%;
-            display: block;
-            border-width: 5px 5px 0 0;
-            border-style: solid;
-            border-color: #fafafa;
-            opacity: 0.35;
-            outline: 0;
-            z-index: 4;
+    //     .arrow {
+    //         position: absolute;
+    //         height: 30px;
+    //         width: 30px;
+    //         margin-top: -15px;
+    //         top: 50%;
+    //         display: block;
+    //         border-width: 5px 5px 0 0;
+    //         border-style: solid;
+    //         border-color: #fafafa;
+    //         opacity: 0.35;
+    //         outline: 0;
+    //         z-index: 4;
 
-            &:hover {
-                opacity: 1;
-                border-color: white;
-            }
-        }
-        &:hover .arrow {
-            opacity: 1;
-            border-color: white;
-        }
-    }
+    //         &:hover {
+    //             opacity: 1;
+    //             border-color: white;
+    //         }
+    //     }
+    //     &:hover .arrow {
+    //         opacity: 1;
+    //         border-color: white;
+    //     }
+    // }
 
-    .slideshow-left {
-        left: $borderSize;
-        background: linear-gradient(90deg, rgb(40, 40, 40) 0%, rgba(255, 255, 255, 0) 100%);
-        border-top-left-radius: 7px;
-        border-bottom-left-radius: 7px;
-        .arrow {
-            left: 25px;
-            transform: rotate(-135deg);
-        }
-    }
+    // .slideshow-left {
+    //     left: $borderSize;
+    //     background: linear-gradient(90deg, rgb(40, 40, 40) 0%, rgba(255, 255, 255, 0) 100%);
+    //     border-top-left-radius: 7px;
+    //     border-bottom-left-radius: 7px;
+    //     .arrow {
+    //         left: 25px;
+    //         transform: rotate(-135deg);
+    //     }
+    // }
 
-    .slideshow-right {
-        right: $borderSize;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgb(40, 40, 40) 100%);
-        border-top-right-radius: 7px;
-        border-bottom-right-radius: 7px;
-        .arrow {
-            right: 25px;
-            transform: rotate(45deg);
-        }
-    }
+    // .slideshow-right {
+    //     right: $borderSize;
+    //     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgb(40, 40, 40) 100%);
+    //     border-top-right-radius: 7px;
+    //     border-bottom-right-radius: 7px;
+    //     .arrow {
+    //         right: 25px;
+    //         transform: rotate(45deg);
+    //     }
+    // }
 
     .score-sheet-holder {
         width: $scoreSheetSize + 2 * $borderSize;
@@ -101,6 +101,7 @@
             .player-name {
                 position: absolute;
                 width: 150px;
+                padding: 0px 40px;
                 height: 50px;
                 word-break: break-all;
                 @include handwritten;
@@ -110,6 +111,33 @@
                 border: 2px solid black;
                 border-radius: 7px;
                 box-shadow: 1px 1px 2px #202020;
+
+                .slideshow-left,
+                .slideshow-right {
+                    position: absolute;
+                    width: 40px;
+                    z-index: 3;
+                    cursor: pointer;
+                    left: 0px;
+                    top: 0px;
+                    bottom: 0px;
+                    font-size: 37px;
+                    font-family: Robotto;
+                    user-select: none;
+
+                    [data-solo="1"] & {
+                        display: none;
+                    }
+
+                    &:hover {
+                        scale: 1.2;
+                    }
+                }
+
+                .slideshow-right {
+                    left: auto;
+                    right: 0px;
+                }
             }
 
             .wttm-slot {

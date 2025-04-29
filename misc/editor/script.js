@@ -332,7 +332,7 @@ function onClickBoard(sectionConfig, mode, pos, evt) {
 
   // ROTATE MODE
   if (mode == 'rotate') {
-    const DELTA = 90;
+    const DELTA = 3;
     let slotId = evt.target.classList.contains('wttm-slot') ? evt.target.dataset.id : null;
     if (slotId == null) return;
 

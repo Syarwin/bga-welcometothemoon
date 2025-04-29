@@ -206,9 +206,10 @@ html {
   margin-left: 15px;
 }
 
-#btnUndoLastStep {
-  background: #d97050;
-}
+// REQUIRE BY BGA
+// #btnUndoLastStep {
+//   background: #d97050;
+// }
 
 [data-undobuttons="0"] #btnUndoLastStep {
   display: none;

@@ -541,13 +541,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         $('plan-cards-container-resizable').insertAdjacentHTML('beforeend', this.tplPlanCard(plan));
 
         let desc = plan.desc.map((t) => _(t)).join('<br />');
-        this.addCustomTooltip(`plan-card-${plan.id}`, `<h3>Plan Card n°${plan.id}</h3>${desc}`);
+        this.addCustomTooltip(`plan-card-${plan.id}`, `${this.tplPlanCard(plan, true)}<h3>Plan Card n°${plan.id}</h3>${desc}`);
       });
     },
 
-    tplPlanCard(card) {
-      let id = card.id;
-      return `<div id="plan-card-${id}" data-id="${id}" class="plan-card-holder">
+    tplPlanCard(card, tooltip = false) {
+      let id = (tooltip ? 'tooltip-' : '') + card.id;
+      return `<div id="plan-card-${id}" data-id="${card.id}" class="plan-card-holder">
     <div class="plan-card-front">
       <div id="plan-card-${id}-validation" class="plan-validation"></div>
 

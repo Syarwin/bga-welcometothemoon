@@ -23,8 +23,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     setupPlayers() {
-      this.setupChangeScoreSheetArrows();
-
       // Add player board and player panel
       this.forEachOrderedPlayer((player) => {
         let pId = player.id;
@@ -68,11 +66,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     setupChangeScoreSheetArrows() {
-      let leftArrow = $(`score-sheet-wrapper`).querySelector('.slideshow-left');
-      if (leftArrow) leftArrow.addEventListener('click', () => this.switchPlayerBoard(-1));
+      $(`score-sheet-wrapper`)
+        .querySelectorAll('.slideshow-left')
+        .forEach((leftArrow) => leftArrow.addEventListener('click', () => this.switchPlayerBoard(-1)));
 
-      let rightArrow = $(`score-sheet-wrapper`).querySelector('.slideshow-right');
-      if (rightArrow) rightArrow.addEventListener('click', () => this.switchPlayerBoard(1));
+      $(`score-sheet-wrapper`)
+        .querySelectorAll('.slideshow-right')
+        .forEach((rightArrow) => rightArrow.addEventListener('click', () => this.switchPlayerBoard(1)));
     },
 
     getDeltaPlayer(pId, delta) {
@@ -139,7 +139,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         $('score-sheet-holder').insertAdjacentHTML(
           'beforeend',
           `<div id="score-sheet-${pId}" class="score-sheet" data-board="${scenarioId}" style="border-color:#${player.color}">
-            <div class='player-name' style="color:#${player.color}; border-color:#${player.color}">${player.name}</class>
+            <div class='player-name' style="color:#${player.color}; border-color:#${player.color}">
+              <div class='slideshow-left'><</div>
+              ${player.name}
+              <div class='slideshow-right'>></div>
+            </div>
             <div class="scoresheet-overlay"></div>
           </div>`
         );
@@ -172,6 +176,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         $(`system-errors-status-container-${pId}`).querySelector('.errors-scenario-amount').innerHTML = nErrors;
       });
 
+      this.setupChangeScoreSheetArrows();
       this.goToPlayerBoard(this.orderedPlayers[0].id);
     },
 

@@ -219,13 +219,7 @@ define([
         <div id="player-score-sheets-container">
           <div id="player-score-sheets-container-resizable">
             <div id="score-sheet-wrapper" class="score-sheet-wrapper">
-              <div class='slideshow-left'>
-                <div class="arrow"></div>
-              </div>
               <div id="score-sheet-holder" class="score-sheet-holder"></div>
-              <div class='slideshow-right'>
-                <div class="arrow"></div>
-              </div>
             </div>
           </div>
         </div>
@@ -369,7 +363,7 @@ define([
           if (args.args && args.args.previousSteps) {
             let lastStep = Math.max(...args.args.previousSteps);
             if (lastStep > 0)
-              this.addDangerActionButton(
+              this.addSecondaryActionButton(
                 'btnUndoLastStep',
                 _('Undo last step'),
                 () => this.undoToStep(lastStep),
