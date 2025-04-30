@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models;
 
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
@@ -39,6 +40,34 @@ class Scoresheet
       default:
         die("Unsupported phase 5 for this scenario");
     }
+  }
+
+  protected static function resolveRaceSlots(): array
+  {
+    $scribbles = [];
+    // Might be multipliers in S2, filling bonuses in S4, finished skyscrapers bonuses in S5, etc.
+    $raceSlots = array_unique(Globals::getRaceSlots());
+    if (empty($raceSlots) && Globals::getScenario() === 2) {
+      // Backward compatibility
+      // TODO: Remove after all tables will move to Globals::setRaceSlots. Maybe around September 2025?
+      $raceSlots = array_unique(Globals::getCircledMultipliers());
+      Globals::setCircledMultipliers([]);
+    }
+    if (count($raceSlots) > 0) {
+      $players = Players::getAll();
+      foreach ($raceSlots as $raceSlot) {
+        /** @var Player $player */
+        foreach ($players as $player) {
+          $scoresheet = $player->scoresheet();
+          if (!$scoresheet->hasScribbledSlot($raceSlot)) {
+            $scribbles[] = $scoresheet->addScribble($raceSlot);
+          }
+        }
+      }
+
+      Globals::setRaceSlots([]);
+    }
+    return $scribbles;
   }
 
   public function getMissionSlotNumber(int $stack): int
@@ -342,6 +371,8 @@ class Scoresheet
   {
     return 0;
   }
+
+  public function prepareForPhaseFive(array $args) {}
 
   protected function getStandardPlanningAction(): array
   {

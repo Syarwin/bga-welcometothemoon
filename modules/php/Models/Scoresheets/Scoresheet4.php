@@ -2,6 +2,9 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
@@ -164,7 +167,23 @@ class Scoresheet4 extends Scoresheet
   }
 
   // PHASE 5
-  public static function phase5Check(): void {}
+  public static function phase5Check(): void
+  {
+    $fillingBonuses = [
+      224 => ['factoryNumber' => 1, 'value' => 8],
+      225 => ['factoryNumber' => 2, 'value' => 10],
+      226 => ['factoryNumber' => 3, 'value' => 8],
+      227 => ['factoryNumber' => 4, 'value' => 12],
+    ];
+    $scribbles = static::resolveRaceSlots();
+    foreach ($scribbles as $scribble) {
+      $player = Players::get($scribble->getPId());
+      $slot = $scribble->getSlot();
+      $value = $fillingBonuses[$slot]['value'];
+      $factoryNumber = $fillingBonuses[$slot]['factoryNumber'];
+      Notifications::crossOffFillingBonus($player, $scribble, $value, $factoryNumber);
+    }
+  }
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
@@ -275,6 +294,14 @@ class Scoresheet4 extends Scoresheet
         ];
     }
     return null;
+  }
+
+  public function prepareForPhaseFive(array $args)
+  {
+    // Register for phase 5
+    $raceSlots = Globals::getRaceSlots();
+    $raceSlots[] = $args['slot'];
+    Globals::setRaceSlots($raceSlots);
   }
 
 

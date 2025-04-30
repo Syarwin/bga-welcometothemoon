@@ -299,6 +299,16 @@ class Notifications
     ]);
   }
 
+  public static function crossOffFillingBonus(Player $player, Scribble $scribble, int $value, int $factoryNumber)
+  {
+    $msg = clienttranslate('${player_name} crosses off a filling bonus of ${value} at the factory number ${factoryNumber}');
+    static::addScribble(null, $scribble, $msg, [
+      'player' => $player,
+      'value' => $value,
+      'factoryNumber' => $factoryNumber,
+    ]);
+  }
+
   public static function circlePlant(Player $player, Scribble $scribble, int $stationNumber)
   {
     $msg = clienttranslate('${player_name} circles a plant at a station number ${stationNumber}');
