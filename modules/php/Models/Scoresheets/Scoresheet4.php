@@ -105,6 +105,7 @@ class Scoresheet4 extends Scoresheet
       'multSlot' => 218,
       'bonus' => 8,
       'bonusSlot' => 224,
+      'bonusTriggerSlot' => 110,
       'UIitems' => 51,
       'UImult' => 52,
       'UIbonus' => 228,
@@ -116,6 +117,7 @@ class Scoresheet4 extends Scoresheet
       'multSlot' => 219,
       'bonus' => 10,
       'bonusSlot' => 225,
+      'bonusTriggerSlot' => 98,
       'UIitems' => 53,
       'UImult' => 54,
       'UIbonus' => 229,
@@ -127,6 +129,7 @@ class Scoresheet4 extends Scoresheet
       'multSlot' => 220,
       'bonus' => 8,
       'bonusSlot' => 226,
+      'bonusTriggerSlot' => 126,
       'UIitems' => 55,
       'UImult' => 56,
       'UIbonus' => 230,
@@ -138,6 +141,7 @@ class Scoresheet4 extends Scoresheet
       'multSlot' => 221,
       'bonus' => 12,
       'bonusSlot' => 227,
+      'bonusTriggerSlot' => 142,
       'UIitems' => 57,
       'UImult' => 58,
       'UIbonus' => 231,
@@ -194,24 +198,18 @@ class Scoresheet4 extends Scoresheet
     $slot = $scribble->getSlot();
     $circle = $this->linkedResources[$slot] ?? null;
     if (isset($circle)) {
-      $reactions[] =
-        [
-          'action' => CIRCLE_SINGLE_LINKED,
-          'args' => [
-            'slot' => $circle['slot'],
-            'type' => $circle['type'],
-          ]
-        ];
+      $reactions[] = [
+        'action' => CIRCLE_SINGLE_LINKED,
+        'args' => [
+          'slot' => $circle['slot'],
+          'type' => $circle['type'],
+        ]
+      ];
     }
 
     // PLANNING markers
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
       $reactions[] = $this->getStandardPlanningReaction();
-    }
-
-    // FACTORIES
-    foreach ($this->factories as $type => $infos) {
-      if (!in_array($slot, $this->getSectionSlots($infos['section']))) continue;
     }
 
     // EXTRACTION
@@ -249,6 +247,21 @@ class Scoresheet4 extends Scoresheet
           ]
         ];
       }
+    }
+
+    // FACTORIES
+    foreach ($this->factories as $type => $infos) {
+      $bonusTriggerSlot = $infos['bonusTriggerSlot'] ?? null;
+      if (!in_array($slot, $this->getSectionSlots($infos['section']))) continue;
+      if ($slot != $bonusTriggerSlot) continue;
+
+      $reactions[] = [
+        'action' => CIRCLE_SINGLE_LINKED,
+        'args' => [
+          'slot' => $infos['bonusSlot'],
+          'type' => CIRCLE_TYPE_FILLING_BONUS,
+        ]
+      ];
     }
 
     return [

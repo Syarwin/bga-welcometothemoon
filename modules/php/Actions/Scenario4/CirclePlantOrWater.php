@@ -36,8 +36,9 @@ class CirclePlantOrWater extends GenericPickSlot
 
   public function stCirclePlantOrWater()
   {
-    $pref = Players::getCurrent()->getPref(OPTION_CIRCLE_LINKED_SLOT);
-    $slots = $this->getCtxArg('slots');
+    $player = $this->getPlayer();
+    $pref = $player->getPref(OPTION_CIRCLE_LINKED_SLOT);
+    $slots = $this->getFreeSlots($player);
     $singleChoice = count($slots) === 1;
     return $singleChoice && $pref === OPTION_CIRCLE_AUTOMATIC ? ['slot' => $slots[0]] : null;
   }

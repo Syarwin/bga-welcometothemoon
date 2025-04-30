@@ -50,11 +50,23 @@ class CircleSingleLinked extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $slot = $args['slot'];
     $values = $args['values'] ?? null;
     $type = $args['type'] ?? null;
-    if (!$scoresheet->hasScribbledSlot($slot)) {
-      $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-      Notifications::circleSingleLinked($player, $scribble, $type, $values[$slot] ?? null);
-      if (isset($args['type']) && $args['type'] === CIRCLE_TYPE_FILLING_BONUS) { // CIRCLE_TYPE_FILLING_BONUS is used in S4 only
-        $scoresheet->prepareForPhaseFive($args);
+    if ($scoresheet->hasScribbledSlot($slot)) return;
+
+    // Circle the slot
+    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
+    Notifications::circleSingleLinked($player, $scribble, $type, $values[$slot] ?? null);
+
+    // CIRCLE_TYPE_FILLING_BONUS is used in S4 only
+    if (isset($args['type']) && $args['type'] === CIRCLE_TYPE_FILLING_BONUS) {
+      $scoresheet->prepareForPhaseFive($args);
+
+      // ASTRA
+      if (Globals::isSolo()) {
+        $astra = Players::getAstra();
+        $bonusScribbles = [];
+        $bonusScribbles[] = $astra->circleNextBonus();
+        $bonusScribbles[] = $astra->circleNextBonus();
+        Notifications::circleStationHighMultAstra($player, $bonusScribbles); // The msg is generic
       }
     }
   }

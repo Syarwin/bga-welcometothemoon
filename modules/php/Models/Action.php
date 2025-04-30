@@ -103,9 +103,9 @@ class Action
   /**
    * Insert flow as child of current node
    */
-  public function insertAsChild(array $flow): void
+  public function insertAsChild(?array $flow): void
   {
-    if (empty($flow)) return;
+    if (empty($flow) || is_null($flow)) return;
 
     if (Globals::getMode() == \MODE_PRIVATE) {
       Engine::insertAsChild($flow, $this->ctx);

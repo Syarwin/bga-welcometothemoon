@@ -81,12 +81,19 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Reaction to the scribble itself (filled up quarter bonuses, etc)
     $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actWriteNumber');
-    $this->insertAsChild($reactions);
 
     // Action corresponding to the combination
-    $action = $player->scoresheet()->getCombinationAtomicAction($player->getCombination(), $slot);
-    $this->incStat($player->getCombination()['action'], $player->getId());
-    if (!is_null($action)) {
+    $combination = $player->getCombination();
+    $action = $player->scoresheet()->getCombinationAtomicAction($combination, $slot);
+    $this->incStat($combination['action'], $player->getId());
+
+    // Insert reactions first, unless some specific cases:
+    //  - S4 : always cross off water/plant linked before extraction
+    if (in_array($combination['action'], [WATER, PLANT]) && in_array(Globals::getScenario(), [4])) {
+      $this->insertAsChild($action);
+      $this->insertAsChild($reactions);
+    } else {
+      $this->insertAsChild($reactions);
       $this->insertAsChild($action);
     }
   }
