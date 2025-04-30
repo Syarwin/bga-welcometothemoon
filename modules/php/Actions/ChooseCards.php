@@ -98,11 +98,6 @@ class ChooseCards extends \Bga\Games\WelcomeToTheMoon\Models\Action
     Notifications::systemError($player, $scribble);
 
     $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actSystemError');
-    if (!empty($reactions)) {
-      $this->insertAsChild([
-        'type' => NODE_PARALLEL,
-        'childs' => $reactions
-      ]);
-    }
+    $this->insertAsChild($reactions);
   }
 }

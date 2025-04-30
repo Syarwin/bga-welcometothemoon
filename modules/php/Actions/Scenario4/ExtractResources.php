@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario4;
 use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet4;
 
 class ExtractResources extends GenericPickSlot
 {
@@ -49,7 +50,6 @@ class ExtractResources extends GenericPickSlot
     $itemsCount = [RUBY => 0, PEARL => 0, WATER => 0, PLANT => 0];
     $slotIds = [];
     $scribbles = [];
-    $reactions = [];
     foreach ($slots as $infos) {
       $slotId = $infos['slot'];
       $type = $infos['type'];
@@ -66,9 +66,11 @@ class ExtractResources extends GenericPickSlot
       $itemsCount[$factoryType]++;
       $section = $scoresheet->getFactorySection($factoryType);
       $factorySlot = $scoresheet->getFirstUnscribbled($scoresheet->getSectionSlots($section));
-      $scribble = $scoresheet->addScribble($factorySlot);
+      $scribble = $scoresheet->addScribble($factorySlot, SCRIBBLE_CIRCLE);
       $scribbles[] = $scribble;
-      $reactions = array_merge($reactions, $scoresheet->getScribbleReactions($scribble, 'stExtractResources'));
+
+      $reactions = $scoresheet->getScribbleReactions($scribble, 'stExtractResources');
+      $this->insertAsChild($reactions);
     }
 
     // Scribble the top thing

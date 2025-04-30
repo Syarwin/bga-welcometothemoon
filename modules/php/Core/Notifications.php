@@ -440,9 +440,39 @@ class Notifications
   public static function extractResourcesFromMine(Player $player, array $scribbles, int $column, array $itemsCount): void
   {
     $msg = clienttranslate('${player_name} extracts resources from column n°${column}: ${resources_desc}');
+
+    // String resource descs
+    $types = [
+      RUBY => clienttranslate('${n} ruby(s)'),
+      PEARL => clienttranslate('${n} pearl(s)'),
+      WATER => clienttranslate('${n} water(s)'),
+      PLANT => clienttranslate('${n} plant(s)'),
+    ];
+    $args = [];
+    $logs = [];
+    $i = 0;
+    foreach ($itemsCount as $type => $count) {
+      if ($count == 0) continue;
+
+      $logs[] = '${resource_' . $i . '}';
+      $args['resource_' . $i] = [
+        'log' => $types[$type],
+        'args' => [
+          'n' => $count,
+        ]
+      ];
+      $args['i18n'][] = 'resource_' . $i;
+      $i++;
+    }
+
+
     static::addScribbles($player, $scribbles, $msg, [
-      'column' => $column,
-      'resources_desc' => '',
+      'column' => $column + 1,
+      'resources_desc' => [
+        'log' => join(', ', $logs),
+        'args' => $args,
+      ],
+      'i18n' => 'resources_desc',
     ]);
   }
 

@@ -118,8 +118,8 @@ class Scoresheet4 extends Scoresheet
       'UIbonus' => 229,
       'UItotal' => 39,
     ],
-    RUBY => [
-      'section' => 'rubies',
+    PEARL => [
+      'section' => 'pearls',
       'mults' => [2, 3],
       'multSlot' => 220,
       'bonus' => 8,
@@ -129,8 +129,8 @@ class Scoresheet4 extends Scoresheet
       'UIbonus' => 230,
       'UItotal' => 40,
     ],
-    PEARL => [
-      'section' => 'pearls',
+    RUBY => [
+      'section' => 'rubies',
       'mults' => [2, 3],
       'multSlot' => 221,
       'bonus' => 12,
@@ -220,26 +220,20 @@ class Scoresheet4 extends Scoresheet
           }
         }
 
-        // Enforce flatten node here for more fluid UX
-        return [
-          [
-            'type' => NODE_SEQ,
-            'childs' => [
-              ...$reactions,
-              [
-                'action' => S4_EXTRACT_RESOURCES,
-                'args' => [
-                  'column' => $i,
-                  'slots' => $slots,
-                ]
-              ]
-            ]
+        $reactions[] = [
+          'action' => S4_EXTRACT_RESOURCES,
+          'args' => [
+            'column' => $i,
+            'slots' => $slots,
           ]
         ];
       }
     }
 
-    return $reactions;
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array

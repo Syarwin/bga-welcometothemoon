@@ -139,7 +139,10 @@ class Scoresheet3 extends Scoresheet
       $reactions[] = $this->getStandardPlanningReaction();
     }
 
-    return $reactions;
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
 
 

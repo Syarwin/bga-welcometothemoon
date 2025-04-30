@@ -105,6 +105,8 @@ class Action
    */
   public function insertAsChild(array $flow): void
   {
+    if (empty($flow)) return;
+
     if (Globals::getMode() == \MODE_PRIVATE) {
       Engine::insertAsChild($flow, $this->ctx);
     }

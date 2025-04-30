@@ -155,10 +155,10 @@ class Scoresheet2 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      return [$this->getStandardPlanningReaction($this->jokers, $this->planningSlots)];
+      return $this->getStandardPlanningReaction($this->jokers, $this->planningSlots);
     }
     if (in_array($scribble->getSlot(), [44, 45])) {
-      return [['action' => CIRCLE_ENERGY]];
+      return ['action' => CIRCLE_ENERGY];
     }
 
     return [];

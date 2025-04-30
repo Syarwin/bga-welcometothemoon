@@ -30,7 +30,16 @@ class Scoresheet1 extends Scoresheet
     // Compute base score
     $basePoints = 0;
     $scoreMap = [
-      139 => 15, 140 => 30, 141 => 45, 142 => 60, 143 => 75, 144 => 90, 145 => 105, 146 => 120, 147 => 135, 148 => 150
+      139 => 15,
+      140 => 30,
+      141 => 45,
+      142 => 60,
+      143 => 75,
+      144 => 90,
+      145 => 105,
+      146 => 120,
+      147 => 135,
+      148 => 150
     ];
     foreach ($scoreMap as $slot => $points) {
       if ($this->hasScribbledSlot($slot)) {
@@ -227,12 +236,12 @@ class Scoresheet1 extends Scoresheet
   /**
    * Is quarter filled-up now thanks to scribble in slot $slot ??
    */
-  protected function hasFilledQuarter($slots, $slot)
+  protected function hasFilledQuarter($slots, $slot): bool
   {
     return $this->hasScribbledSlots($slots) && in_array($slot, $slots);
   }
 
-  protected function convertQuarterBonuses($quarter)
+  protected function convertQuarterBonuses($quarter): array
   {
     $actions = [];
     foreach ($quarter['bonuses'] as $slot => $bonus) {
@@ -246,7 +255,10 @@ class Scoresheet1 extends Scoresheet
       ];
     }
 
-    return $actions;
+    return [
+      'type' => NODE_PARALLEL,
+      'childs' => $actions
+    ];
   }
 
   public function isWriteXOptional(): bool
