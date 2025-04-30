@@ -134,22 +134,12 @@ class Scoresheet2 extends Scoresheet
   // PHASE 5
   public static function phase5Check(): void
   {
-    $circledMultipliersIds = array_unique(Globals::getCircledMultipliers());
-    if (count($circledMultipliersIds) > 0) {
-      $players = Players::getAll();
-      foreach ($circledMultipliersIds as $multiplierId) {
-        /** @var Player $player */
-        foreach ($players as $player) {
-          $scoresheet = $player->scoresheet();
-          if (!$scoresheet->hasScribbledSlot($multiplierId)) {
-            $scribble = $scoresheet->addScribble($multiplierId);
-            Notifications::crossOffMultiplier($player, $scribble, ProgramRobot::getMultiplierValue($multiplierId));
-          }
-        }
-      }
+    $scribbles = static::resolveRaceSlots();
+    foreach ($scribbles as $scribble) {
+      $player = Players::get($scribble->getPId());
+      $slot = $scribble->getSlot();
+      Notifications::crossOffMultiplier($player, $scribble, ProgramRobot::getMultiplierValue($slot));
     }
-
-    Globals::setCircledMultipliers([]);
   }
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
@@ -281,5 +271,13 @@ class Scoresheet2 extends Scoresheet
     }
 
     return Utils::getRankAndAmountOfKey($zones, $pId);
+  }
+
+  public function prepareForPhaseFive(array $args)
+  {
+    // Register for phase 5
+    $raceSlots = Globals::getRaceSlots();
+    $raceSlots[] = $args['slot'];
+    Globals::setRaceSlots($raceSlots);
   }
 }

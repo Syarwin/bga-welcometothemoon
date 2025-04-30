@@ -38,10 +38,7 @@ class ProgramRobot extends GenericPickSlot
         $multiplier = self::$bigToSmallMultiplierMap[$multiplier];
         $bigMultiplier = false;
       } else {
-        // Register for phase 5
-        $multipliers = Globals::getCircledMultipliers();
-        $multipliers[] = $multiplier;
-        Globals::setCircledMultipliers($multipliers);
+        $scoresheet->prepareForPhaseFive(['slot' => $multiplier]);
       }
       $scribble = $scoresheet->addScribble($multiplier, SCRIBBLE_CIRCLE);
       Notifications::circleMultiplier($player, $scribble, self::getMultiplierValue($multiplier));

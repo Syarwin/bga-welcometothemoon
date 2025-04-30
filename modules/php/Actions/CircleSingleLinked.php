@@ -49,8 +49,14 @@ class CircleSingleLinked extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $args = $this->getArgs();
     $slot = $args['slot'];
     $values = $args['values'] ?? null;
-    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    Notifications::circleSingleLinked($player, $scribble, $args['type'], $values[$slot] ?? null);
+    $type = $args['type'] ?? null;
+    if (!$scoresheet->hasScribbledSlot($slot)) {
+      $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
+      Notifications::circleSingleLinked($player, $scribble, $type, $values[$slot] ?? null);
+      if (isset($args['type']) && $args['type'] === CIRCLE_TYPE_FILLING_BONUS) { // CIRCLE_TYPE_FILLING_BONUS is used in S4 only
+        $scoresheet->prepareForPhaseFive($args);
+      }
+    }
   }
 
   // TODO: Revert the commit this was added after all tables will be started after 6/03/2025

@@ -38,38 +38,19 @@
       }
     }
 
-    .slot-error {
+    &.slot-error {
       width: 34px;
       height: 34px;
     }
 
-    .slot-plan {
+    &.slot-plan {
       width: 54px;
       height: 54px;
     }
 
-    .slot-robotmarker {
-      width: 36px;
-      height: 36px;
-    }
-    .slot-energymarker {
-      width: 35px;
-      height: 35px;
-    }
-
-    .slot-bonus {
-      width: 35px;
-      height: 35px;
-    }
-
-    .slot-factorymult {
-      width: 35px;
-      height: 35px;
-    }
-
-    .slot-factorybonus {
-      width: 35px;
-      height: 35px;
+    &.slot-factorybonus {
+      width: 33px;
+      height: 37px;
     }
 
     &.slot-water,

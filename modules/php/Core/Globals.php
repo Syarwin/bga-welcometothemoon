@@ -11,20 +11,24 @@ use Bga\Games\WelcomeToTheMoon\Game;
 class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 {
   protected static $isReplayMode = false;
+
   public static function setReplayMode()
   {
     static::$isReplayMode = true;
   }
+
   public static function unsetReplayMode()
   {
     static::$isReplayMode = false;
   }
 
   protected static $isDebugMode = false;
+
   public static function setDebugMode()
   {
     static::$isDebugMode = true;
   }
+
   public static function unsetDebugMode()
   {
     static::$isDebugMode = false;
@@ -50,15 +54,16 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
   protected static $initialized = false;
   protected static $variables = [
-    'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
-    'anytimeRecursion' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
-    'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
+    'callbackEngineResolved' => 'obj',         // DO NOT MODIFY, USED IN ENGINE MODULE
+    'anytimeRecursion' => 'int',               // DO NOT MODIFY, USED IN ENGINE MODULE
+    'customTurnOrders' => 'obj',               // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
     'engineWaitingDescriptionSuffix' => 'str', // DO NOT MODIFY, USED IN ENGINE MODULE
 
     'gameEndTriggered' => 'bool',
     'firstPlayer' => 'int',
     'turn' => 'int',
     'soloDraw' => 'int', // Are we on the first or second rotation of the deck?
+    'raceSlots' => 'obj',
 
     // Setup
     'scenario' => 'int',
@@ -79,6 +84,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
   protected static string $table = 'global_variables';
   protected static string $primary = 'name';
+
   protected static function cast($row)
   {
     if (!isset(self::$variables[$row['name']])) {
@@ -93,6 +99,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
    * Fetch all existings variables from DB
    */
   protected static $data = [];
+
   public static function fetch()
   {
     // Turn of LOG to avoid infinite loop (Globals::isLogging() calling itself for fetching)
