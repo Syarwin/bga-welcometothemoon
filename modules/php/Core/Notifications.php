@@ -419,6 +419,7 @@ class Notifications
   {
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filled quarter highest bonus'));
   }
+
   //////////////////////////////////////////////////////
   //  ____                            _         _  _
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   | || |
@@ -484,6 +485,11 @@ class Notifications
       ],
       'i18n' => 'resources_desc',
     ]);
+  }
+
+  public static function crossOffFactoryBonusAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filling bonus of a main factory'));
   }
 
   /////////////////////////////////////

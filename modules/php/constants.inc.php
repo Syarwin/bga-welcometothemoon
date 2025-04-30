@@ -64,6 +64,7 @@ const ST_BUILD_ROBOT_TUNNEL = 43;
 const ST_CROSS_OFF_FILLED_QUARTER_BONUS = 44;
 const ST_S4_CIRCLE_PLANT_OR_WATER = 45;
 const ST_S4_FACTORY_UPGRADE = 46;
+const ST_S4_CROSS_OFF_FACTORY_BONUS = 47;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -131,7 +132,7 @@ const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
 const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
 const S4_FACTORY_UPGRADE = 'Scenario4\FactoryUpgrade';
 const S4_EXTRACT_RESOURCES = 'Scenario4\ExtractResources';
-
+const S4_CROSS_OFF_FACTORY_BONUS = 'Scenario4\CrossOffFactoryBonus';
 /*
  * Actions
  */

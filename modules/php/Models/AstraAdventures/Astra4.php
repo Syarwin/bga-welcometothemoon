@@ -14,14 +14,14 @@ class Astra4 extends Astra
     $this->nBonuses = 8;
   }
 
-  // public function getAstraEffect(string $stack, bool $isFirstDraw): array
-  // {
-  //   if (!$isFirstDraw || $stack == 'C') return [];
+  public function getAstraEffect(string $stack, bool $isFirstDraw): array
+  {
+    if ($stack == 'C') return [];
 
-  //   return [
-  //     [
-  //       'action' => CROSS_OFF_FILLED_QUARTER_BONUS,
-  //     ]
-  //   ];
-  // }
+    return [
+      [
+        'action' => S4_CROSS_OFF_FACTORY_BONUS,
+      ]
+    ];
+  }
 }

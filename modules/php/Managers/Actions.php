@@ -48,6 +48,7 @@ class Actions
     S4_CIRCLE_PLANT_OR_WATER,
     S4_FACTORY_UPGRADE,
     S4_EXTRACT_RESOURCES,
+    S4_CROSS_OFF_FACTORY_BONUS,
   ];
 
   public static function get($actionId, &$ctx = null)

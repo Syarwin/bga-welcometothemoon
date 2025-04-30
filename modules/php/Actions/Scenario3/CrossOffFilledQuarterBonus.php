@@ -20,10 +20,11 @@ class CrossOffFilledQuarterBonus extends GenericPickSlot
     58,
   ];
 
-  public function isDoable(Player $player): bool
-  {
-    return !$player->scoresheet()->hasScribbledSomeSlots($this->slots, count($this->slots));
-  }
+  // SHOULDNT BE NECESSARY
+  // public function isDoable(Player $player): bool
+  // {
+  //   return !$player->scoresheet()->hasScribbledSomeSlots($this->slots, count($this->slots));
+  // }
 
   public function actCrossOffFilledQuarterBonus(int $slot)
   {

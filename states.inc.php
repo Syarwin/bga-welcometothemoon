@@ -389,6 +389,17 @@ $machinestates = [
     'possibleactions' => ['actFactoryUpgrade', 'actRestart', 'actPassOptionalAction'],
   ],
 
+
+  ST_S4_CROSS_OFF_FACTORY_BONUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a filling bonus of a main factory'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCrossOffFactoryBonus', 'actRestart'],
+  ],
+
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___
