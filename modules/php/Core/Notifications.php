@@ -437,6 +437,15 @@ class Notifications
     ]);
   }
 
+  public static function extractResourcesFromMine(Player $player, array $scribbles, int $column, array $itemsCount): void
+  {
+    $msg = clienttranslate('${player_name} extracts resources from column n°${column}: ${resources_desc}');
+    static::addScribbles($player, $scribbles, $msg, [
+      'column' => $column,
+      'resources_desc' => '',
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

@@ -95,6 +95,73 @@ class Scoresheet4 extends Scoresheet
     36 => [202],
   ];
 
+  protected array $factories = [
+    PLANT => [
+      'section' => 'plants',
+      'mults' => [2, 4],
+      'multSlot' => 218,
+      'bonus' => 8,
+      'bonusSlot' => 224,
+      'UIitems' => 51,
+      'UImult' => 52,
+      'UIbonus' => 228,
+      'UItotal' => 38,
+    ],
+    WATER => [
+      'section' => 'waters',
+      'mults' => [3, 5],
+      'multSlot' => 219,
+      'bonus' => 10,
+      'bonusSlot' => 225,
+      'UIitems' => 53,
+      'UImult' => 54,
+      'UIbonus' => 229,
+      'UItotal' => 39,
+    ],
+    RUBY => [
+      'section' => 'rubies',
+      'mults' => [2, 3],
+      'multSlot' => 220,
+      'bonus' => 8,
+      'bonusSlot' => 226,
+      'UIitems' => 55,
+      'UImult' => 56,
+      'UIbonus' => 230,
+      'UItotal' => 40,
+    ],
+    PEARL => [
+      'section' => 'pearls',
+      'mults' => [2, 3],
+      'multSlot' => 221,
+      'bonus' => 12,
+      'bonusSlot' => 227,
+      'UIitems' => 57,
+      'UImult' => 58,
+      'UIbonus' => 231,
+      'UItotal' => 41,
+    ],
+    ASTRONAUT => [
+      'section' => 'astronauts',
+      'mults' => [0, 3],
+      'multSlot' => 222,
+      'UIitems' => 59,
+      'UImult' => 60,
+      'UItotal' => 42,
+    ],
+    PLANNING => [
+      'section' => 'plannings',
+      'mults' => [3, 0],
+      'multSlot' => 223,
+      'UIitems' => 61,
+      'UImult' => 62,
+      'UItotal' => 43,
+    ],
+  ];
+
+  public function getFactorySection($type): string
+  {
+    return $this->factories[$type]['section'];
+  }
 
   // PHASE 5
   public static function phase5Check(): void {}
@@ -120,6 +187,58 @@ class Scoresheet4 extends Scoresheet
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
       $reactions[] = $this->getStandardPlanningReaction();
     }
+
+    // FACTORIES
+    foreach ($this->factories as $type => $infos) {
+      if (!in_array($slot, $this->getSectionSlots($infos['section']))) continue;
+    }
+
+    // EXTRACTION
+    if (in_array($slot, $this->getSectionSlots('numbers'))) {
+      for ($i = 0; $i < 12; $i++) {
+        $column = [$this->numberBlocks[0][$i], $this->numberBlocks[1][$i], $this->numberBlocks[2][$i]];
+        if (!in_array($slot, $column)) continue;
+        if (!$this->hasScribbledSlots($column)) continue;
+
+        $slots = [];
+        foreach ($column as $slotId) {
+          $res = $this->linkedResources[$slotId] ?? null;
+          if (!is_null($res)) $slots[] = $res;
+
+          $waters = $this->linkedWater[$slotId] ?? null;
+          if (!is_null($waters)) {
+            foreach ($waters as $water) {
+              $slots[] = ['slot' => $water, 'type' => WATER];
+            }
+          }
+
+          $plants = $this->linkedPlants[$slotId] ?? null;
+          if (!is_null($plants)) {
+            foreach ($plants as $plant) {
+              $slots[] = ['slot' => $plant, 'type' => PLANT];
+            }
+          }
+        }
+
+        // Enforce flatten node here for more fluid UX
+        return [
+          [
+            'type' => NODE_SEQ,
+            'childs' => [
+              ...$reactions,
+              [
+                'action' => S4_EXTRACT_RESOURCES,
+                'args' => [
+                  'column' => $i,
+                  'slots' => $slots,
+                ]
+              ]
+            ]
+          ]
+        ];
+      }
+    }
+
     return $reactions;
   }
 
@@ -134,19 +253,19 @@ class Scoresheet4 extends Scoresheet
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-            [
-              'type' => PLANT,
-              'slots' => $this->linkedPlants[$slot] ?? null,
-            ]
+          [
+            'type' => PLANT,
+            'slots' => $this->linkedPlants[$slot] ?? null,
+          ]
         ];
       case WATER:
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-            [
-              'type' => WATER,
-              'slots' => $this->linkedWater[$slot] ?? null,
-            ]
+          [
+            'type' => WATER,
+            'slots' => $this->linkedWater[$slot] ?? null,
+          ]
         ];
       case ROBOT:
       case ENERGY:
@@ -156,5 +275,71 @@ class Scoresheet4 extends Scoresheet
         ];
     }
     return null;
+  }
+
+
+  /**
+   * UI DATA
+   */
+  public function computeUiData(): array
+  {
+    $data = [];
+
+    // Number of numbered slots
+    $nNumberedSlots = $this->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
+
+    // Missions
+    $missionPoints = $this->computeMissionsUiData($data);
+    $data[] = ["slot" => 37, "v" => $missionPoints];
+
+    // Factories
+    $factoryPoints = 0;
+    $negativePoints = 0;
+    foreach ($this->factories as $type => $infos) {
+      // Items count
+      $n = $this->countScribblesInSection($infos['section']);
+      $data[] = ["slot" => $infos['UIitems'], "v" => $n];
+
+      // Multiplier
+      $mult = $infos['mults'][$this->hasScribbledSlot($infos['multSlot']) ? 1 : 0];
+      $data[] = ["slot" => $infos['UImult'], "v" => $mult];
+      $score = $n * $mult;
+
+      // Bonus, if any
+      if (isset($infos['bonus'])) {
+        $bonus = $this->hasScribbledSlot($infos['bonusSlot']) ? $infos['bonus'] : 0;
+        $data[] = ["slot" => $infos['UIbonus'], "v" => $bonus];
+        $score += $bonus;
+      }
+
+      $data[] = ["slot" => $infos['UItotal'], "v" => $score];
+      if ($type == PLANNING) {
+        $negativePoints += $score;
+        $data[] = ["overview" => $infos['section'], "v" => -$score];
+      } else {
+        $factoryPoints += $score;
+        $data[] = ["overview" => $infos['section'], "v" => $score];
+      }
+    }
+
+    // System errors
+    $scribbledErrors = $this->countScribblesInSection('errors');
+    $negativePoints = 5 * $scribbledErrors;
+    $data[] = ["slot" => 43, "v" => $negativePoints];
+    $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 3")];
+    $data[] = ["panel" => "errors", "v" => $scribbledErrors];
+
+
+    // Total score
+    $data[] = [
+      "slot" => 44,
+      "score" => true,
+      "overview" => "total",
+      "v" => $missionPoints, // + $plantsWaterAntennasPoints + $quartersPoints + $sectionMajorityPoints - $planningNegativePoints - $negativePoints
+    ];
+
+    return $data;
   }
 }

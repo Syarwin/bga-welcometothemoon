@@ -219,9 +219,11 @@ class Engine
       $id = array_keys($choices)[0] ?? null;
       if (
         count($choices) == 1 &&
-        count($allChoices) == 1 &&
-        array_keys($allChoices) == array_keys($choices) &&
-        count($node->getChilds()) == 1 && //=> THIS LINE TOGGLE WHETHER IT MANDATORY TO CLICK ON THE SINGLE EFFECT OR NOT
+        (
+          (count($allChoices) == 1 && array_keys($allChoices) == array_keys($choices))
+          || (count($allChoices) == 2 && $id == PASS)
+        ) &&
+        //count($node->getChilds()) == 1 && => THIS LINE TOGGLE WHETHER IT MANDATORY TO CLICK ON THE SINGLE EFFECT OR NOT
         !$choices[$id]['irreversibleAction']
       ) {
         self::chooseNode($player, $id, true);

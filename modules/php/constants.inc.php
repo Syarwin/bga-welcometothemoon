@@ -130,6 +130,7 @@ const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
 // SCENARIO 4
 const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
 const S4_FACTORY_UPGRADE = 'Scenario4\FactoryUpgrade';
+const S4_EXTRACT_RESOURCES = 'Scenario4\ExtractResources';
 
 /*
  * Actions
@@ -162,6 +163,9 @@ const ROCKET = 'rocket';
 const ACTIVATION = 'activation';
 const SYSTEM_ERROR = 'error';
 const SABOTAGE = 'sabotage';
+
+const RUBY = 'ruby';
+const PEARL = 'pearl';
 
 const NUMBER_X = 100;
 const NUMBER_6_9 = 200;
