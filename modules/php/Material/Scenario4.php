@@ -35,16 +35,26 @@ const DATAS4 = [
       'icon' => 'water',
     ],
     6 => [
+      'name' => 'pearls',
+      'type' => 'points',
+      'icon' => 'pearl',
+    ],
+    7 => [
+      'name' => 'rubies',
+      'type' => 'points',
+      'icon' => 'ruby',
+    ],
+    8 => [
       'name' => 'astronaut',
       'type' => 'points',
       'icon' => 'astronaut',
     ],
-    7 => [
+    9 => [
       'name' => 'planning',
       'type' => 'points',
       'icon' => 'planning',
     ],
-    8 => [
+    10 => [
       'name' => 'errors',
       'type' => 'points',
       'icon' => 'system-error',

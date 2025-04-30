@@ -144,7 +144,8 @@ class Scoresheet4 extends Scoresheet
       'UItotal' => 41,
     ],
     ASTRONAUT => [
-      'section' => 'astronauts',
+      'section' => 'astronautmarkers',
+      'overview' => 'astronaut',
       'mults' => [0, 3],
       'multSlot' => 222,
       'UIitems' => 59,
@@ -152,7 +153,8 @@ class Scoresheet4 extends Scoresheet
       'UItotal' => 42,
     ],
     PLANNING => [
-      'section' => 'plannings',
+      'section' => 'planningmarkers',
+      'overview' => 'planning',
       'mults' => [3, 0],
       'multSlot' => 223,
       'UIitems' => 61,
@@ -335,19 +337,19 @@ class Scoresheet4 extends Scoresheet
         $score += $bonus;
       }
 
-      $data[] = ["slot" => $infos['UItotal'], "v" => $score];
       if ($type == PLANNING) {
         $negativePoints += $score;
-        $data[] = ["overview" => $infos['section'], "v" => -$score];
+        $data[] = ["overview" => 'planning', "v" => -$score];
       } else {
+        $data[] = ["slot" => $infos['UItotal'], "v" => $score];
         $factoryPoints += $score;
-        $data[] = ["overview" => $infos['section'], "v" => $score];
+        $data[] = ["overview" => $infos['overview'] ?? $infos['section'], "v" => $score];
       }
     }
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
-    $negativePoints = 5 * $scribbledErrors;
+    $negativePoints += 5 * $scribbledErrors;
     $data[] = ["slot" => 43, "v" => $negativePoints];
     $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 3")];
     $data[] = ["panel" => "errors", "v" => $scribbledErrors];
@@ -358,7 +360,7 @@ class Scoresheet4 extends Scoresheet
       "slot" => 44,
       "score" => true,
       "overview" => "total",
-      "v" => $missionPoints, // + $plantsWaterAntennasPoints + $quartersPoints + $sectionMajorityPoints - $planningNegativePoints - $negativePoints
+      "v" => $missionPoints + $factoryPoints - $negativePoints,
     ];
 
     return $data;

@@ -34,6 +34,16 @@
       "icon": "water"
     },
     {
+      "name": "pearls",
+      "type": "points",
+      "icon": "pearl"
+    },
+    {
+      "name": "rubies",
+      "type": "points",
+      "icon": "ruby"
+    },
+    {
       "name": "astronaut",
       "type": "points",
       "icon": "astronaut"

@@ -66,12 +66,7 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
             Notifications::pmidMessage($player, clienttranslate('${player_name} circles a Wild Action symbol'));
           }
           $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actCircleNextInRow');
-          if (!empty($reactions)) {
-            $this->insertAsChild([
-              'type' => NODE_PARALLEL,
-              'childs' => $reactions
-            ]);
-          }
+          $this->insertAsChild($reactions);
           break;
         }
       }

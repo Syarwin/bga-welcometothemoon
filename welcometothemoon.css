@@ -764,6 +764,20 @@
     background-size: 100%;
     background-repeat: no-repeat;
     margin: 0 0.1em; }
+  .icon-container .icon-ruby {
+    width: 1.1em;
+    height: 1.6em;
+    background-image: url("img/overview/ruby.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
+  .icon-container .icon-pearl {
+    width: 1.2em;
+    height: 1.4em;
+    background-image: url("img/overview/pearl.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
 
 .action-button.btnAction {
   background-color: #4c483e;
@@ -1623,27 +1637,15 @@ body {
       border: 1px solid #00ff0091;
       background-color: #00ff0091;
       box-shadow: 0px 0px 4px 1px #04a604; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-error {
+  .score-sheet[data-board="4"] .wttm-slot.slot-error {
     width: 34px;
     height: 34px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-plan {
+  .score-sheet[data-board="4"] .wttm-slot.slot-plan {
     width: 54px;
     height: 54px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-robotmarker {
-    width: 36px;
-    height: 36px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-energymarker {
-    width: 35px;
-    height: 35px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-bonus {
-    width: 35px;
-    height: 35px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-factorymult {
-    width: 35px;
-    height: 35px; }
-  .score-sheet[data-board="4"] .wttm-slot .slot-factorybonus {
-    width: 35px;
-    height: 35px; }
+  .score-sheet[data-board="4"] .wttm-slot.slot-factorybonus {
+    width: 33px;
+    height: 37px; }
   .score-sheet[data-board="4"] .wttm-slot.slot-water, .score-sheet[data-board="4"] .wttm-slot.slot-plant, .score-sheet[data-board="4"] .wttm-slot.slot-pearl, .score-sheet[data-board="4"] .wttm-slot.slot-ruby, .score-sheet[data-board="4"] .wttm-slot.slot-astronautmarker, .score-sheet[data-board="4"] .wttm-slot.slot-planningmarker, .score-sheet[data-board="4"] .wttm-slot.slot-resource {
     width: 40px;
     height: 40px; }
