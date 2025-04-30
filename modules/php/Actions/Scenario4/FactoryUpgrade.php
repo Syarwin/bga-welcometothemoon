@@ -70,7 +70,7 @@ class FactoryUpgrade extends GenericPickSlot
     throw new \BgaVisibleSystemException('findFactoryBySlot: no factory found for slot id ' . $slot);
   }
 
-  private static array $factories = [
+  public static array $factories = [
     ['type' => FACTORY_TYPE_MAIN, 'slots' => [85, 69, 70, 71], 'bonus' => ['slots' => [218]]],
     ['type' => FACTORY_TYPE_MAIN, 'slots' => [86, 72, 73], 'bonus' => ['slots' => [219]]],
     ['type' => FACTORY_TYPE_MAIN, 'slots' => [87, 88, 74], 'bonus' => ['slots' => [220]]],

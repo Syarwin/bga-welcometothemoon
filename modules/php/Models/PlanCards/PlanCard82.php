@@ -11,13 +11,14 @@ class PlanCard82 extends PlanCard
   {
     parent::__construct($row);
     $this->desc = [
-      clienttranslate('')
+      clienttranslate('In the mine, complete 5 extraction columns.')
     ];
     $this->rewards = [9, 5];
   }
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    return $scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('extractors'), 5);
   }
 }

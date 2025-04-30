@@ -11,13 +11,14 @@ class PlanCard87 extends PlanCard
   {
     parent::__construct($row);
     $this->desc = [
-      clienttranslate('')
+      clienttranslate('Circle 5 waters in the mine, whether they are extracted or not.')
     ];
     $this->rewards = [9, 5];
   }
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    return $scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('waters'), 5, SCRIBBLE_CIRCLE);
   }
 }

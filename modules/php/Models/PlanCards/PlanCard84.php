@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
+use Bga\Games\WelcomeToTheMoon\Actions\Scenario4\FactoryUpgrade;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
@@ -11,13 +12,20 @@ class PlanCard84 extends PlanCard
   {
     parent::__construct($row);
     $this->desc = [
-      clienttranslate('')
+      clienttranslate('Activate the 5 secondary factories located on the top of your sheet.')
     ];
     $this->rewards = [9, 5];
   }
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    foreach (FactoryUpgrade::$factories as $factory) {
+      if ($factory['type'] != FACTORY_TYPE_SECONDARY) continue;
+
+      if (!$scoresheet->hasScribbledSlots($factory['slots'])) return false;
+    }
+
+    return true;
   }
 }
