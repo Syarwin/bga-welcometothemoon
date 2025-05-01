@@ -19,6 +19,10 @@
       "4": {
         "name": "Adventure 4: The Mine",
         "tmdisplay": "[4: The Mine]"
+      },
+      "5": {
+        "name": "Adventure 5: The Dome",
+        "tmdisplay": "[5: The Dome]"
       }
     }
   },

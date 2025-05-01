@@ -14,7 +14,7 @@ class PlanCard84 extends PlanCard
     $this->desc = [
       clienttranslate('Activate the 5 secondary factories located on the top of your sheet.')
     ];
-    $this->rewards = [9, 5];
+    $this->rewards = [11, 6];
   }
 
   public function canAccomplish(Player $player): bool

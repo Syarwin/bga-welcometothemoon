@@ -13,7 +13,7 @@ class PlanCard87 extends PlanCard
     $this->desc = [
       clienttranslate('Circle 5 waters in the mine, whether they are extracted or not.')
     ];
-    $this->rewards = [9, 5];
+    $this->rewards = [10, 4];
   }
 
   public function canAccomplish(Player $player): bool

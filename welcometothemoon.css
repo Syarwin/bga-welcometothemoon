@@ -1662,6 +1662,35 @@ body {
     width: 50px;
     height: 50px; }
 
+.score-sheet[data-board="5"] {
+  background-image: url("img/scenario-5.jpg"); }
+  .score-sheet[data-board="5"] .player-name {
+    left: auto;
+    top: 5px;
+    right: 9px; }
+  .score-sheet[data-board="5"] .scribble-number {
+    font-size: 43px;
+    line-height: 41px;
+    text-indent: -11px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.8);
+    letter-spacing: -2px; }
+    .score-sheet[data-board="5"] .scribble-number.selectable {
+      border: none; }
+  .score-sheet[data-board="5"] .wttm-slot.selectable {
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0px 0px 2px 0px red;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 3px;
+    margin: -3px; }
+    .score-sheet[data-board="5"] .wttm-slot.selectable:hover {
+      border: 1px solid #00ff0091;
+      background-color: #00ff0091;
+      box-shadow: 0px 0px 4px 1px #04a604; }
+
 .score-sheet-wrapper {
   width: 1128px;
   height: 1128px;

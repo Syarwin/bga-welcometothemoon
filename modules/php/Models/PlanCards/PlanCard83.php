@@ -13,7 +13,7 @@ class PlanCard83 extends PlanCard
     $this->desc = [
       clienttranslate('In the mine, complete 4 adjacent extraction columns.')
     ];
-    $this->rewards = [9, 5];
+    $this->rewards = [9, 4];
   }
 
   public function canAccomplish(Player $player): bool

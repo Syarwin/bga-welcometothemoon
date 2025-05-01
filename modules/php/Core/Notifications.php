@@ -20,6 +20,7 @@ class Notifications
       2 => clienttranslate("The Journey"),
       3 => clienttranslate("The Colony"),
       4 => clienttranslate("The Mine"),
+      5 => clienttranslate("The Dome"),
     ];
     self::notifyAll('message', clienttranslate('Starting scenario ${n}: ${name}'), [
       'n' => $scenario,
