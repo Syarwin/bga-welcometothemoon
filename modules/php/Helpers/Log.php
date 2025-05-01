@@ -31,9 +31,9 @@ class Log extends \APP_DbObject
   {
     Globals::fetch();
     PGlobals::fetch();
+    ConstructionCards::invalidate();
     Players::invalidate();
     PlanCards::invalidate();
-    ConstructionCards::invalidate();
     Scribbles::invalidate();
     // Stats::invalidate();
 

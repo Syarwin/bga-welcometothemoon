@@ -233,6 +233,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the Planning scoring area at the bottom of your sheet. The Planning action is powerful to quickly establish your colony, but it will cost you some points at the end of the game.'
               );
           }
+
+        // Scenario 4
+        case 4:
+          switch (action) {
+            case 'energy':
+            case 'robot':
+              return (
+                _('Using a Robot or an Energy action, you can cross off an Energy or Robot symbol in any factory.') +
+                _(
+                  'As soon as you have crossed off all the energies and robots of a main factory, cross off the scoring box located at the top of the factory. At the end of the game, the scoring box at the bottom of the factory will be the one taken into account'
+                ) +
+                _(
+                  'As soon as you have crossed off all the energies and all the robots of a secondary factory, you activate bonuses that you must immediately use.'
+                )
+              );
+            case 'plant':
+            case 'water':
+              return _(
+                'Both plant and water work in the same way. With the corresponding action, you can circle 1 water or 1 plant, immediately above or below the excavation where you have written down the number of your combination'
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover cross off 1 Astronaut symbol in the planning control center.'
+              );
+            case 'planning':
+              return _(
+                'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the planning control center.'
+              );
+          }
       }
     },
 

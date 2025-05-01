@@ -662,6 +662,7 @@ class Notifications
       'players' => $datas['players'],
       'scribbles' => $datas['scribbles'],
       'constructionCards' => $datas['constructionCards'],
+      'astra' => $datas['astra'],
     ];
 
     self::notify($pId, 'refreshUI', '', [

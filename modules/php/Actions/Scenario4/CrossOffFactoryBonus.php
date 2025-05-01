@@ -9,7 +9,7 @@ class CrossOffFactoryBonus extends GenericPickSlot
 {
   public function getState(): int
   {
-    return ST_CROSS_OFF_FILLED_QUARTER_BONUS;
+    return ST_S4_CROSS_OFF_FACTORY_BONUS;
   }
 
   protected array $slots = [

@@ -465,11 +465,12 @@ define([
       notif_refreshUI(args) {
         debug('Notif: refresh UI', args);
         this.clearPossible();
-        ['scribbles', 'players', 'constructionCards'].forEach((value) => {
+        ['scribbles', 'players', 'constructionCards', 'astra'].forEach((value) => {
           this.gamedatas[value] = args.datas[value];
         });
         this.setupScribbles();
         this.setupConstructionCards();
+        this.updateAstra();
 
         // this.forEachPlayer((player) => {
         //   this._scoreCounters[player.id].toValue(player.newScore);
