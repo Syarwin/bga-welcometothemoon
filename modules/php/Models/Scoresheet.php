@@ -13,6 +13,10 @@ use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet3;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet4;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet5;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet7;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 
 class Scoresheet
 {
@@ -36,6 +40,18 @@ class Scoresheet
         break;
       case 4:
         Scoresheet4::phase5Check();
+        break;
+      case 5:
+        Scoresheet5::phase5Check();
+        break;
+      case 6:
+        Scoresheet6::phase5Check();
+        break;
+      case 5:
+        Scoresheet7::phase5Check();
+        break;
+      case 5:
+        Scoresheet8::phase5Check();
         break;
       default:
         die("Unsupported phase 5 for this scenario");

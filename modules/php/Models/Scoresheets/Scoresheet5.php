@@ -15,10 +15,32 @@ class Scoresheet5 extends Scoresheet
   protected int $scenario = 5;
   protected array $datas = DATAS5;
   protected array $numberBlocks = [
-    // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    // [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-    // [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    [30, 31, 32, 33, 34, 35, 36, 37, 38],
   ];
+
+  public function getAvailableSlotsForNumber(int $number, string $action)
+  {
+    $slots = parent::getAvailableSlotsForNumber($number, $action);
+    if (empty($slots)) return [];
+
+    // Slots much be touching a previous number, or be on base ground
+    $neighbourSlots = [6, 7, 13, 14, 22, 23, 34, 35];
+    foreach ($this->numberBlocks as $skyscraper) {
+      foreach ($skyscraper as $i => $slotId) {
+        $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
+        if (is_null($scribble)) continue;
+
+        if ($i > 0) $neighbourSlots[] = $skyscraper[$i - 1];
+        if ($i < count($skyscraper) - 1) $neighbourSlots[] = $skyscraper[$i + 1];
+      }
+    }
+
+    return array_values(array_intersect($slots, $neighbourSlots));
+  }
+
 
   // PHASE 5
   public static function phase5Check(): void
