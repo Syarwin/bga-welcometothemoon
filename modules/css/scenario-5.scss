@@ -21,6 +21,13 @@
     }
   }
 
+  .wttm-scribble.scribble-line.scribble-line-orthogonal {
+    rotate: 90deg;
+    width: 5px;
+    height: 60px;
+    top: calc(50% - 30px);
+  }
+
   .wttm-slot {
     &.selectable {
       border: 1px solid red;
@@ -36,6 +43,17 @@
         background-color: #00ff0091;
         box-shadow: 0px 0px 4px 1px #04a604;
       }
+    }
+
+    &.slot-dome {
+      width: 11px;
+      height: 140px;
+      transform-origin: center center;
+    }
+
+    &.slot-subdome {
+      width: 9px;
+      height: 70px;
     }
   }
 }

@@ -4,6 +4,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const SCRIBBLE_CIRCLE = 302;
   const SCRIBBLE_CHECKMARK = 303;
   const SCRIBBLE_LINE = 304;
+  const SCRIBBLE_LINE_ORTHOGONAL = 305;
 
   const BGA_URL = dojoConfig.packages.reduce((r, p) => (p.name == 'bgagame' ? p.location : r), null);
   return declare('welcometothemoon.scribbles', null, {
@@ -49,6 +50,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_CIRCLE) scribbleTpl = 'tplScribbleCircle';
       if (scribble.type == SCRIBBLE_CHECKMARK) scribbleTpl = 'tplScribbleCheckmark';
       if (scribble.type == SCRIBBLE_LINE) scribbleTpl = 'tplScribbleLine';
+      if (scribble.type == SCRIBBLE_LINE_ORTHOGONAL) scribbleTpl = 'tplScribbleLineOrthogonal';
 
       this.place(scribbleTpl, scribble, container);
       if (animation && !this.isFastMode()) {
@@ -156,6 +158,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplScribbleLine(scribble) {
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.874146 238.29044" class="wttm-scribble scribble-line" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path clip-path="url(#scribble-line-clip-path)" class="scribble-path"
+         d="M 11.407509,0.58584784 C -3.6095602,79.522236 12.506111,162.69193 5.411485,238.21108" />
+      </svg>`;
+    },
+    tplScribbleLineOrthogonal(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.874146 238.29044" class="wttm-scribble scribble-line scribble-line-orthogonal" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
         <path clip-path="url(#scribble-line-clip-path)" class="scribble-path"
          d="M 11.407509,0.58584784 C -3.6095602,79.522236 12.506111,162.69193 5.411485,238.21108" />
       </svg>`;

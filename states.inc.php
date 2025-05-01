@@ -400,6 +400,33 @@ $machinestates = [
   ],
 
 
+  ////////////////////////////////////////////////////////
+  //  ____                            _         ____  
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   | ___| 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  |___ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  ___) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |____/ 
+  ////////////////////////////////////////////////////////
+
+  ST_S5_SPLIT_DOME => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must choose a dome section to split'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actSplitDome', 'actRestart', 'actPassOptionalAction'],
+  ],
+
+  ST_S5_BUILD_DOME => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must choose a dome section to build'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actBuildDome', 'actRestart', 'actPassOptionalAction'],
+  ],
+
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

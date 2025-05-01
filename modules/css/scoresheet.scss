@@ -148,6 +148,9 @@
                 position: absolute;
                 display: block;
                 z-index: 100;
+                &.selectable {
+                    z-index: 101;
+                }
 
                 &.slot-number {
                     width: 46px;

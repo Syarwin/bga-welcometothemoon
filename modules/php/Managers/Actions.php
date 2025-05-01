@@ -49,6 +49,10 @@ class Actions
     S4_FACTORY_UPGRADE,
     S4_EXTRACT_RESOURCES,
     S4_CROSS_OFF_FACTORY_BONUS,
+
+    // Scenario 5
+    S5_SPLIT_DOME,
+    S5_BUILD_DOME,
   ];
 
   public static function get($actionId, &$ctx = null)

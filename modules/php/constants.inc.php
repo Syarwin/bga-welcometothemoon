@@ -65,6 +65,8 @@ const ST_CROSS_OFF_FILLED_QUARTER_BONUS = 44;
 const ST_S4_CIRCLE_PLANT_OR_WATER = 45;
 const ST_S4_FACTORY_UPGRADE = 46;
 const ST_S4_CROSS_OFF_FACTORY_BONUS = 47;
+const ST_S5_SPLIT_DOME = 48;
+const ST_S5_BUILD_DOME = 49;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -133,6 +135,11 @@ const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
 const S4_FACTORY_UPGRADE = 'Scenario4\FactoryUpgrade';
 const S4_EXTRACT_RESOURCES = 'Scenario4\ExtractResources';
 const S4_CROSS_OFF_FACTORY_BONUS = 'Scenario4\CrossOffFactoryBonus';
+
+// SCENARIO 5
+const S5_SPLIT_DOME = 'Scenario5\SplitDome';
+const S5_BUILD_DOME = 'Scenario5\BuildDome';
+
 /*
  * Actions
  */
@@ -175,6 +182,7 @@ const SCRIBBLE_ARROW = 301;
 const SCRIBBLE_CIRCLE = 302;
 const SCRIBBLE_CHECKMARK = 303;
 const SCRIBBLE_LINE = 304;
+const SCRIBBLE_LINE_ORTHOGONAL = 305;
 
 const SOLO_CARDS_STACKS = [
   112 => 'A',

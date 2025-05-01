@@ -20,6 +20,16 @@ class Scoresheet5 extends Scoresheet
     [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
     [30, 31, 32, 33, 34, 35, 36, 37, 38],
   ];
+  protected array $subdomes = [
+    114 => [122, 123],
+    115 => [124, 125],
+    116 => [126, 127],
+    117 => [128, 129],
+    118 => [130, 131],
+    119 => [132, 133],
+    120 => [134, 135],
+    121 => [136, 137],
+  ];
 
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
@@ -39,6 +49,32 @@ class Scoresheet5 extends Scoresheet
     }
 
     return array_values(array_intersect($slots, $neighbourSlots));
+  }
+
+  public function getUnbuiltDomeSections(): array
+  {
+    $sections = [];
+    foreach ($this->getSectionSlots('domes') as $i => $slotId) {
+      $parity = ($i + 1) % 2;
+
+      // Normal line => it's built
+      if ($this->hasScribbledSlot($slotId, SCRIBBLE_LINE)) continue;
+
+      // Orthogonal line => check subsections
+      if ($this->hasScribbledSlot($slotId, SCRIBBLE_LINE_ORTHOGONAL)) {
+        foreach ($this->subdomes[$slotId] as $slot) {
+          if (!$this->hasScribbledSlot($slot)) {
+            $sections[] = [$slot, $parity];
+          }
+        }
+      }
+      // Otherwise, normal unbuilt section
+      else {
+        $sections[] = [$slotId, $parity];
+      }
+    }
+
+    return $sections;
   }
 
 
@@ -68,36 +104,42 @@ class Scoresheet5 extends Scoresheet
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
-    // switch ($combination['action']) {
-    //   case PLANNING:
-    //     return $this->getStandardPlanningAction();
-    //   case ASTRONAUT:
-    //     return $this->getStandardAstronautAction();
-    //   case PLANT:
-    //     return [
-    //       'action' => S4_CIRCLE_PLANT_OR_WATER,
-    //       'args' =>
-    //       [
-    //         'type' => PLANT,
-    //         'slots' => $this->linkedPlants[$slot] ?? null,
-    //       ]
-    //     ];
-    //   case WATER:
-    //     return [
-    //       'action' => S4_CIRCLE_PLANT_OR_WATER,
-    //       'args' =>
-    //       [
-    //         'type' => WATER,
-    //         'slots' => $this->linkedWater[$slot] ?? null,
-    //       ]
-    //     ];
-    //   case ROBOT:
-    //   case ENERGY:
-    //     return [
-    //       'action' => S4_FACTORY_UPGRADE,
-    //       'args' => ['type' => $combination['action']],
-    //     ];
-    // }
+    switch ($combination['action']) {
+      case PLANNING:
+        return [
+          'type' => NODE_SEQ,
+          'childs' => [
+            $this->getStandardPlanningAction(),
+            ['action' => S5_SPLIT_DOME]
+          ]
+        ];
+      case ROBOT:
+        return [
+          'action' => S5_BUILD_DOME,
+          'args' => ['parity' => $combination['number'] % 2],
+        ];
+      case ASTRONAUT:
+        return $this->getStandardAstronautAction();
+        //   case PLANT:
+        //     return [
+        //       'action' => S4_CIRCLE_PLANT_OR_WATER,
+        //       'args' =>
+        //       [
+        //         'type' => PLANT,
+        //         'slots' => $this->linkedPlants[$slot] ?? null,
+        //       ]
+        //     ];
+        //   case WATER:
+        //     return [
+        //       'action' => S4_CIRCLE_PLANT_OR_WATER,
+        //       'args' =>
+        //       [
+        //         'type' => WATER,
+        //         'slots' => $this->linkedWater[$slot] ?? null,
+        //       ]
+        //     ];
+        // case ENERGY:
+    }
     return null;
   }
 

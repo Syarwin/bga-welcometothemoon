@@ -496,6 +496,25 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filling bonus of a main factory'));
   }
 
+
+  //////////////////////////////////////////////////////
+  //  ____                            _         ____  
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   | ___| 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  |___ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |  ___) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/  |____/ 
+  //////////////////////////////////////////////////////
+
+  public static function splitDome(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} splits one dome section in two'));
+  }
+
+  public static function buildDome(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} builds one section of his dome'));
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
