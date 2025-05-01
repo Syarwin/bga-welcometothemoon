@@ -23,6 +23,18 @@
       "5": {
         "name": "Adventure 5: The Dome",
         "tmdisplay": "[5: The Dome]"
+      },
+      "6": {
+        "name": "Adventure 6: The Virus",
+        "tmdisplay": "[6: The Virus]"
+      },
+      "7": {
+        "name": "Adventure 7: The Escape",
+        "tmdisplay": "[7: The Escape]"
+      },
+      "8": {
+        "name": "Adventure 8: The Battle",
+        "tmdisplay": "[8: The Battle]"
       }
     }
   },
