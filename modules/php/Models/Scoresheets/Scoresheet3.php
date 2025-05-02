@@ -247,7 +247,7 @@ class Scoresheet3 extends Scoresheet
 
     // Most astronauts
     [$thisPlayerOrder, $nAstronauts] = self::getMostAstronautsRankAndAmount($this->player->getId());
-    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
+    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder] ?? 0;
     $data[] = ["slot" => 38, "v" => $sectionMajorityPoints];
     $data[] = ["overview" => "astronaut", "v" => $sectionMajorityPoints, "details" => $nAstronauts];
 
@@ -279,23 +279,5 @@ class Scoresheet3 extends Scoresheet
     ];
 
     return $data;
-  }
-
-  public static function getMostAstronautsRankAndAmount(int $pId): array
-  {
-    $astronauts = [];
-    /** @var Player $player */
-    foreach (Players::getAll() as $player) {
-      $astronautsCount = $player->scoresheet()->countScribblesInSection('astronautmarkers');
-      if ($astronautsCount > 0) {
-        $astronauts[$player->getId()] = $astronautsCount;
-      }
-    }
-    if (Globals::isSolo()) {
-      $astra = Players::getAstra();
-      $astronauts['astra'] = $astra->getCardsByActionMap()[ASTRONAUT];
-    }
-
-    return Utils::getRankAndAmountOfKey($astronauts, $pId);
   }
 }

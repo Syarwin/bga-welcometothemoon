@@ -550,7 +550,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             'Whenever you get the highest bonus at the top or at the bottom of a skyscraper, circle one Solo bonus on the ASTRA Adventure card.'
           ),
           descMisc: _(
-            'At the end of the game, if your number of crossed off astronauts is higher than or equal to the number of Astronaut cards given to ASTRA, then you are in the lead and you earn 20 points. Otherwise, you are second and you earn only 10 points. You do not earn any points if you have not crossed off at least one astronaut. ASTRA does not receive any additional points for that.'
+            'At the end of the game, if your number of crossed off astronauts is higher than or equal to the number of Astronaut cards given to ASTRA, then you are in the lead. Otherwise, you are second and you earn the corresponding points. You do not earn any points if you have not crossed off at least one astronaut. ASTRA does not receive any additional points for that.'
           ),
         },
         6: {

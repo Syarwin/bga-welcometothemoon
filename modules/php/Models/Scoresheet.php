@@ -8,6 +8,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet1;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet2;
@@ -452,6 +453,25 @@ class Scoresheet
     $scribbledErrors = $this->countScribblesInSection('errors');
     return 5 * $scribbledErrors;
   }
+
+  public static function getMostAstronautsRankAndAmount(int $pId): array
+  {
+    $astronauts = [];
+    /** @var Player $player */
+    foreach (Players::getAll() as $player) {
+      $astronautsCount = $player->scoresheet()->countScribblesInSection('astronautmarkers');
+      if ($astronautsCount > 0) {
+        $astronauts[$player->getId()] = $astronautsCount;
+      }
+    }
+    if (Globals::isSolo()) {
+      $astra = Players::getAstra();
+      $astronauts['astra'] = $astra->getCardsByActionMap()[ASTRONAUT];
+    }
+
+    return Utils::getRankAndAmountOfKey($astronauts, $pId);
+  }
+
 
 
   ////// SPECIFIC SCENARIO FUNCTION - TO AVOID IDE SCREAMS //////

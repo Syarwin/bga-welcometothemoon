@@ -322,6 +322,12 @@ class Scoresheet5 extends Scoresheet
     }
     $data[] = ["slot" => 43, "v" => $scoreSkyscraper];
 
+    // Most astronauts
+    [$thisPlayerOrder, $nAstronauts] = self::getMostAstronautsRankAndAmount($this->player->getId());
+    $sectionMajorityPoints = $thisPlayerOrder == 1 ? $this->getMultiplierOfType('astronautFirst') : $this->getMultiplierOfType('astronautSecond');
+    if ($thisPlayerOrder == 0) $sectionMajorityPoints = 0;
+    $data[] = ["slot" => 44, "v" => $sectionMajorityPoints];
+    $data[] = ["overview" => "astronaut", "v" => $sectionMajorityPoints, "details" => $nAstronauts];
 
     // Missing domes
     $nUnbuiltDomes = count($this->getUnbuiltDomeSections());
@@ -342,7 +348,7 @@ class Scoresheet5 extends Scoresheet
       "slot" => 47,
       "score" => true,
       "overview" => "total",
-      "v" => $missionPoints + $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper - $negativeDomePoints - $negativePoints,
+      "v" => $missionPoints + $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper + $sectionMajorityPoints - $negativeDomePoints - $negativePoints,
     ];
 
     return $data;
