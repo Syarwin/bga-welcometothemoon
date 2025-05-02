@@ -1723,6 +1723,9 @@ body {
     font-size: 15px !important; }
   .score-sheet[data-board="5"] .wttm-slot.slot-score[data-id="45"], .score-sheet[data-board="5"] .wttm-slot.slot-score[data-id="46"] {
     color: #c40524; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-plansymbol {
+    width: 36px;
+    height: 36px; }
 
 .score-sheet[data-board="6"] {
   background-image: url("img/scenario-6.jpg"); }

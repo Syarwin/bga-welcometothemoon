@@ -233,8 +233,10 @@ class Scoresheet
     $key = $this->getFirstUnscribbled(array_keys($multPerSlots));
     return is_null($key) ? $maxMult : $multPerSlots[$key];
   }
-  public function getMultiplierAux(array $infos): int
+  protected array $multipliers = [];
+  public function getMultiplierOfType(string $type): int
   {
+    $infos = $this->multipliers[$type];
     return $this->getMultiplier($infos['mults'], $infos['maxMult']);
   }
 

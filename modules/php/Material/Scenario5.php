@@ -3,43 +3,6 @@ const DATAS5 = [
   'id' => 'scenario-5',
   'name' => 'The Dome',
   'jpgUrl' => './scenarios/scenario-5.jpg',
-  'overview' => [
-    0 => [
-      'name' => 'numbers',
-      'type' => '/',
-      'icon' => 'slot-number',
-    ],
-    1 => [
-      'name' => 'stack-A',
-      'type' => 'points-or-dash',
-      'icon' => 'stack-A',
-    ],
-    2 => [
-      'name' => 'stack-B',
-      'type' => 'points-or-dash',
-      'icon' => 'stack-B',
-    ],
-    3 => [
-      'name' => 'stack-C',
-      'type' => 'points-or-dash',
-      'icon' => 'stack-C',
-    ],
-    4 => [
-      'name' => 'astronaut',
-      'type' => 'points',
-      'icon' => 'astronaut',
-    ],
-    5 => [
-      'name' => 'dome',
-      'type' => 'points',
-      'icon' => 'dome',
-    ],
-    6 => [
-      'name' => 'errors',
-      'type' => 'points',
-      'icon' => 'system-error',
-    ],
-  ],
   'sections' => [
     0 => [
       'id' => 'numbers',
@@ -1137,6 +1100,48 @@ const DATAS5 = [
           'id' => 181,
           'x' => 299,
           'y' => 925,
+        ],
+      ],
+    ],
+    14 => [
+      'id' => 'plansymbols',
+      'name' => 'Plansymbols',
+      'modes' => [
+        0 => 'show',
+        1 => 'add',
+        2 => 'move',
+      ],
+      'eltClass' => 'slot-plansymbol',
+      'elts' => [
+        0 => [
+          'id' => 182,
+          'x' => 179,
+          'y' => 824,
+        ],
+        1 => [
+          'id' => 183,
+          'x' => 219,
+          'y' => 825,
+        ],
+        2 => [
+          'id' => 184,
+          'x' => 180,
+          'y' => 888,
+        ],
+        3 => [
+          'id' => 185,
+          'x' => 219,
+          'y' => 889,
+        ],
+        4 => [
+          'id' => 186,
+          'x' => 179,
+          'y' => 954,
+        ],
+        5 => [
+          'id' => 187,
+          'x' => 221,
+          'y' => 955,
         ],
       ],
     ],

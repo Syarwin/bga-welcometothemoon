@@ -9,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Core\PGlobals;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet5;
 
 class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
 {
@@ -39,6 +40,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     $player = $this->getPlayer();
+    $scoresheet = $player->scoresheet();
     $scenarioId = Globals::getScenario();
     $scribbles = [];
 
@@ -70,12 +72,18 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $firstValidation ? Stats::incMissionsFirstNumber($player->getId(), 1) : Stats::incMissionsSecondNumber($player->getId(), 1);
 
     ///// Mark the scoresheet /////
-    $slotId = $player->scoresheet()->getMissionSlotNumber($plan->getStackIndex());
+    $slotId = $scoresheet->getMissionSlotNumber($plan->getStackIndex());
     // SCENARIO 1 => reward are rockets, not points, just put a checkmark instead
     if ($scenarioId == 1) {
-      $scribbles[] = $player->scoresheet()->addScribble($slotId, SCRIBBLE_CHECKMARK);
+      $scribbles[] = $scoresheet->addScribble($slotId, SCRIBBLE_CHECKMARK);
+    }
+    // SCENARIO 5 => checkmark + circle symbol instead
+    else if ($scenarioId == 5) {
+      $scribbles[] = $scoresheet->addScribble($slotId, SCRIBBLE_CHECKMARK);
+      $symbolSlotId = Scoresheet5::$planSymbols[$slotId][$firstValidation ? 0 : 1];
+      $scribbles[] = $scoresheet->addScribble($symbolSlotId, SCRIBBLE_CIRCLE);
     } else {
-      $scribbles[] = $player->scoresheet()->addScribble($slotId, $reward);
+      $scribbles[] = $scoresheet->addScribble($slotId, $reward);
     }
 
     // Notify

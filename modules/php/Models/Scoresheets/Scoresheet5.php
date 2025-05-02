@@ -106,6 +106,11 @@ class Scoresheet5 extends Scoresheet
       'maxMult' => 2,
     ],
   ];
+  public static array $planSymbols = [
+    51 => [182, 183],
+    52 => [184, 185],
+    53 => [186, 187]
+  ];
 
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
@@ -261,9 +266,13 @@ class Scoresheet5 extends Scoresheet
     $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
     $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
 
-    // // Missions
-    // $missionPoints = $this->computeMissionsUiData($data);
-    // $data[] = ["slot" => 37, "v" => $missionPoints];
+    // Missions
+    $nPlanFirst = $this->countScribbledSlots([182, 184, 186], SCRIBBLE_CIRCLE);
+    $multPlanFirst = $this->getMultiplierOfType('planFirst');
+    $nPlanSecond = $this->countScribbledSlots([183, 185, 187], SCRIBBLE_CIRCLE);
+    $multPlanSecond = $this->getMultiplierOfType('planSecond');
+    $missionPoints = $nPlanFirst * $multPlanFirst + $nPlanSecond * $multPlanSecond;
+    $data[] = ["slot" => 39, "v" => $missionPoints];
 
 
     // Water/plants
@@ -277,15 +286,15 @@ class Scoresheet5 extends Scoresheet
     $data[] = ["slot" => 55, "v" => $waterPlantCounts[2]];
     $data[] = ["slot" => 56, "v" => $waterPlantCounts[3]];
 
-    $waterPlantMult1 = $this->getMultiplierAux($this->multipliers['waterPlant1']);
+    $waterPlantMult1 = $this->getMultiplierOfType('waterPlant1');
     $scoreWaterPlant1 = $waterPlantCounts[1] * $waterPlantMult1;
     $data[] = ["slot" => 40, "v" => $scoreWaterPlant1];
 
-    $waterPlantMult2 = $this->getMultiplierAux($this->multipliers['waterPlant2']);
+    $waterPlantMult2 = $this->getMultiplierOfType('waterPlant2');
     $scoreWaterPlant2 = $waterPlantCounts[2] * $waterPlantMult2;
     $data[] = ["slot" => 41, "v" => $scoreWaterPlant2];
 
-    $waterPlantMult3 = $this->getMultiplierAux($this->multipliers['waterPlant3']);
+    $waterPlantMult3 = $this->getMultiplierOfType('waterPlant3');
     $scoreWaterPlant3 = $waterPlantCounts[3] * $waterPlantMult3;
     $data[] = ["slot" => 42, "v" => $scoreWaterPlant3];
 
@@ -317,7 +326,7 @@ class Scoresheet5 extends Scoresheet
     // Missing domes
     $nUnbuiltDomes = count($this->getUnbuiltDomeSections());
     $data[] = ["slot" => 65, "v" => $nUnbuiltDomes];
-    $negativeDomePoints = $nUnbuiltDomes * $this->getMultiplierAux($this->multipliers['dome']);
+    $negativeDomePoints = $nUnbuiltDomes * $this->getMultiplierOfType('dome');
     $data[] = ["slot" => 45, "v" => $negativeDomePoints];
 
     // System errors
@@ -333,7 +342,7 @@ class Scoresheet5 extends Scoresheet
       "slot" => 47,
       "score" => true,
       "overview" => "total",
-      "v" => $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper - $negativeDomePoints - $negativePoints,
+      "v" => $missionPoints + $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper - $negativeDomePoints - $negativePoints,
     ];
 
     return $data;
