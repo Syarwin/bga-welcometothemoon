@@ -20,6 +20,48 @@ class Scoresheet5 extends Scoresheet
     [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
     [30, 31, 32, 33, 34, 35, 36, 37, 38],
   ];
+  protected array $levels = [
+    [
+      'numbers' => [17, 26, 38],
+      'plants' => [66, 67],
+      'waters' => [82],
+    ],
+    [
+      'numbers' => [9, 16, 25, 37],
+      'plants' => [68, 69],
+      'waters' => [83],
+    ],
+    [
+      'numbers' => [8, 15, 24, 36],
+      'plants' => [70, 71],
+      'waters' => [84],
+    ],
+    [
+      'numbers' => [7, 14, 23, 35],
+      'plants' => [72, 73],
+      'waters' => [85],
+    ],
+    [
+      'numbers' => [6, 13, 22, 34],
+      'plants' => [74, 75],
+      'waters' => [86],
+    ],
+    [
+      'numbers' => [5, 12, 21, 33],
+      'plants' => [76, 77],
+      'waters' => [87],
+    ],
+    [
+      'numbers' => [4, 11, 20, 32],
+      'plants' => [78, 79],
+      'waters' => [88],
+    ],
+    [
+      'numbers' => [3, 10, 31],
+      'plants' => [80, 81],
+      'waters' => [89],
+    ],
+  ];
   protected array $subdomes = [
     114 => [122, 123],
     115 => [124, 125],
@@ -120,24 +162,23 @@ class Scoresheet5 extends Scoresheet
         return [
           'action' => S5_ENERGY_UPGRADE
         ];
-        //   case PLANT:
-        //     return [
-        //       'action' => S4_CIRCLE_PLANT_OR_WATER,
-        //       'args' =>
-        //       [
-        //         'type' => PLANT,
-        //         'slots' => $this->linkedPlants[$slot] ?? null,
-        //       ]
-        //     ];
-        //   case WATER:
-        //     return [
-        //       'action' => S4_CIRCLE_PLANT_OR_WATER,
-        //       'args' =>
-        //       [
-        //         'type' => WATER,
-        //         'slots' => $this->linkedWater[$slot] ?? null,
-        //       ]
-        //     ];
+
+      case PLANT:
+      case WATER:
+        $action = $combination['action'];
+        $symbol = $action == PLANT ? CIRCLE_SYMBOL_PLANT : CIRCLE_SYMBOL_WATER;
+        foreach ($this->levels as $level) {
+          if (in_array($slot, $level['numbers'])) {
+            return [
+              'action' => CIRCLE_NEXT_IN_ROW,
+              'args' => [
+                'slots' => $level[$action == PLANT ? 'plants' : 'waters'],
+                'symbol' => $symbol,
+              ],
+            ];
+          }
+        }
+        return null;
     }
     return null;
   }
