@@ -450,4 +450,11 @@ class Scoresheet
     $scribbledErrors = $this->countScribblesInSection('errors');
     return 5 * $scribbledErrors;
   }
+
+
+  ////// SPECIFIC SCENARIO FUNCTION - TO AVOID IDE SCREAMS //////
+  public function getUnbuiltDomeSections(): array
+  {
+    return [];
+  }
 }

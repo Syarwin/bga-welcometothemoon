@@ -18,6 +18,12 @@ class PlanCard88 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
+    $scoresheet = $player->scoresheet();
+    foreach ($scoresheet->getNumberBlocks() as $skyscraper) {
+      if ($scoresheet->hasScribbledSlots($skyscraper)) {
+        return true;
+      }
+    }
     return false;
   }
 }

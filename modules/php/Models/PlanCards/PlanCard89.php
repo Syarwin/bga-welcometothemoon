@@ -18,6 +18,6 @@ class PlanCard89 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    return $player->scoresheet()->hasScribbledSomeSlots([9, 19, 29, 38], 2);
   }
 }

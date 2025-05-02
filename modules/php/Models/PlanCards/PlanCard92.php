@@ -18,6 +18,6 @@ class PlanCard92 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    return empty($player->scoresheet()->getUnbuiltDomeSections());
   }
 }

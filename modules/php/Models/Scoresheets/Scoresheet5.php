@@ -20,7 +20,7 @@ class Scoresheet5 extends Scoresheet
     [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
     [30, 31, 32, 33, 34, 35, 36, 37, 38],
   ];
-  protected array $levels = [
+  public static array $levels = [
     [
       'numbers' => [17, 26, 38],
       'plants' => [66, 67],
@@ -201,7 +201,7 @@ class Scoresheet5 extends Scoresheet
       case WATER:
         $action = $combination['action'];
         $symbol = $action == PLANT ? CIRCLE_SYMBOL_PLANT : CIRCLE_SYMBOL_WATER;
-        foreach ($this->levels as $level) {
+        foreach (self::$levels as $level) {
           if (in_array($slot, $level['numbers'])) {
             return [
               'action' => CIRCLE_NEXT_IN_ROW,
@@ -268,7 +268,7 @@ class Scoresheet5 extends Scoresheet
 
     // Water/plants
     $waterPlantCounts = [0, 0, 0, 0];
-    foreach ($this->levels as $level) {
+    foreach (self::$levels as $level) {
       $slots = array_merge($level['plants'], $level['waters']);
       $n = $this->countScribbledSlots($slots);
       $waterPlantCounts[$n]++;

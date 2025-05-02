@@ -18,6 +18,6 @@ class PlanCard93 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    return $player->scoresheet()->countScribblesInSection('numbers', NUMBER_X) >= 4;
   }
 }

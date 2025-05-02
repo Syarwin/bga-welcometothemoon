@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet5;
 
 class PlanCard91 extends PlanCard
 {
@@ -18,6 +19,15 @@ class PlanCard91 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
+    $scoresheet = $player->scoresheet();
+    $n = 0;
+    foreach (Scoresheet5::$levels as $level) {
+      if ($scoresheet->hasScribbledSlots(array_merge($level['waters'], $level['plants']))) {
+        $n++;
+      }
+
+      if ($n >= 2) return true;
+    }
     return false;
   }
 }
