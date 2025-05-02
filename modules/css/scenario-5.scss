@@ -55,5 +55,23 @@
       width: 9px;
       height: 70px;
     }
+
+    &.slot-astronautmarker {
+      width: 40px;
+      height: 40px;
+    }
+
+    &.slot-energymarker {
+      width: 28px;
+      height: 26px;
+    }
+    &.slot-energydoublemarker {
+      width: 64px;
+      height: 26px;
+    }
+    &.slot-energytriplemarker {
+      width: 145px;
+      height: 26px;
+    }
   }
 }

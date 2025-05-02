@@ -120,6 +120,10 @@ class Scoresheet5 extends Scoresheet
         ];
       case ASTRONAUT:
         return $this->getStandardAstronautAction();
+      case ENERGY:
+        return [
+          'action' => S5_ENERGY_UPGRADE
+        ];
         //   case PLANT:
         //     return [
         //       'action' => S4_CIRCLE_PLANT_OR_WATER,
@@ -138,7 +142,6 @@ class Scoresheet5 extends Scoresheet
         //         'slots' => $this->linkedWater[$slot] ?? null,
         //       ]
         //     ];
-        // case ENERGY:
     }
     return null;
   }

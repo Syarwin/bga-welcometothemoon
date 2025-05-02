@@ -53,6 +53,7 @@ class Actions
     // Scenario 5
     S5_SPLIT_DOME,
     S5_BUILD_DOME,
+    S5_ENERGY_UPGRADE,
   ];
 
   public static function get($actionId, &$ctx = null)

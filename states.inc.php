@@ -426,6 +426,14 @@ $machinestates = [
     'possibleactions' => ['actBuildDome', 'actRestart', 'actPassOptionalAction'],
   ],
 
+  ST_S5_ENERGY_UPGRADE => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must choose field to upgrade'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actEnergyUpgrade', 'actRestart', 'actPassOptionalAction'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

@@ -67,6 +67,7 @@ const ST_S4_FACTORY_UPGRADE = 46;
 const ST_S4_CROSS_OFF_FACTORY_BONUS = 47;
 const ST_S5_SPLIT_DOME = 48;
 const ST_S5_BUILD_DOME = 49;
+const ST_S5_ENERGY_UPGRADE = 50;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -139,6 +140,7 @@ const S4_CROSS_OFF_FACTORY_BONUS = 'Scenario4\CrossOffFactoryBonus';
 // SCENARIO 5
 const S5_SPLIT_DOME = 'Scenario5\SplitDome';
 const S5_BUILD_DOME = 'Scenario5\BuildDome';
+const S5_ENERGY_UPGRADE = 'Scenario5\EnergyUpgrade';
 
 /*
  * Actions

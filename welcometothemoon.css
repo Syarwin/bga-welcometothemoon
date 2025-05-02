@@ -1702,6 +1702,18 @@ body {
   .score-sheet[data-board="5"] .wttm-slot.slot-subdome {
     width: 9px;
     height: 70px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-astronautmarker {
+    width: 40px;
+    height: 40px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-energymarker {
+    width: 28px;
+    height: 26px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-energydoublemarker {
+    width: 64px;
+    height: 26px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-energytriplemarker {
+    width: 145px;
+    height: 26px; }
 
 .score-sheet[data-board="6"] {
   background-image: url("img/scenario-6.jpg"); }

@@ -16,7 +16,7 @@ class GenericPickSlot extends \Bga\Games\WelcomeToTheMoon\Models\Action
   {
     return $this->slots;
   }
-  public function getFreeSlots(Player $player)
+  public function getFreeSlots(Player $player): array
   {
     $scoresheet = $player->scoresheet();
     $slots = [];
@@ -28,7 +28,7 @@ class GenericPickSlot extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return $slots;
   }
 
-  public function getArgs()
+  public function getArgs(): array
   {
     if (is_null($this->args)) {
       $player = $this->getPlayer();

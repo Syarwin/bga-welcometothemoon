@@ -515,6 +515,18 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} builds one section of his dome'));
   }
 
+  public static function s5EnergyUpgrade(Player $player, string $sectionType, array $scribbles)
+  {
+    $msgs = [
+      'plan' => clienttranslate('${player_name} upgrades accomplished missions multipliers with energy action'),
+      WATER => clienttranslate('${player_name} upgrades plant & water multipliers with energy action'),
+      ASTRONAUT => clienttranslate('${player_name} upgrades astronauts multipliers with energy action'),
+      'dome' => clienttranslate('${player_name} upgrades dome multiplier with energy action'),
+    ];
+
+    static::addScribbles($player, $scribbles, $msgs[$sectionType]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
