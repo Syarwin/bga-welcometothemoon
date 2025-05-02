@@ -141,6 +141,7 @@ const S4_CROSS_OFF_FACTORY_BONUS = 'Scenario4\CrossOffFactoryBonus';
 const S5_SPLIT_DOME = 'Scenario5\SplitDome';
 const S5_BUILD_DOME = 'Scenario5\BuildDome';
 const S5_ENERGY_UPGRADE = 'Scenario5\EnergyUpgrade';
+const S5_FILLED_SKYSCRAPER = 'Scenario5\FilledSkyscraper';
 
 /*
  * Actions

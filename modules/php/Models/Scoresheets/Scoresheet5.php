@@ -77,42 +77,38 @@ class Scoresheet5 extends Scoresheet
     return $sections;
   }
 
-
-  // PHASE 5
-  public static function phase5Check(): void
-  {
-    // $fillingBonuses = [
-    //   224 => ['factoryNumber' => 1, 'value' => 8],
-    //   225 => ['factoryNumber' => 2, 'value' => 10],
-    //   226 => ['factoryNumber' => 3, 'value' => 8],
-    //   227 => ['factoryNumber' => 4, 'value' => 12],
-    // ];
-    // $scribbles = static::resolveRaceSlots();
-    // foreach ($scribbles as $scribble) {
-    //   $player = Players::get($scribble->getPId());
-    //   $slot = $scribble->getSlot();
-    //   $value = $fillingBonuses[$slot]['value'];
-    //   $factoryNumber = $fillingBonuses[$slot]['factoryNumber'];
-    //   Notifications::crossOffFillingBonus($player, $scribble, $value, $factoryNumber);
-    // }
-  }
-
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
-    return [];
+    $slot = $scribble->getSlot();
+    if (!in_array($slot, $this->getSectionSlots('numbers'))) return [];
+
+    $reactions = [];
+
+    // PLANNING markers
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      $reactions[] =             ['action' => S5_SPLIT_DOME];
+    }
+
+
+    // Check full skyscraper
+    if (in_array($slot, [1, 9, 10, 19, 20, 29, 30, 38])) {
+      $reactions[] = [
+        'action' => S5_FILLED_SKYSCRAPER,
+        'args' => ['slot' => $slot]
+      ];
+    }
+
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
       case PLANNING:
-        return [
-          'type' => NODE_SEQ,
-          'childs' => [
-            $this->getStandardPlanningAction(),
-            ['action' => S5_SPLIT_DOME]
-          ]
-        ];
+        return $this->getStandardPlanningAction();
       case ROBOT:
         return [
           'action' => S5_BUILD_DOME,
@@ -148,10 +144,33 @@ class Scoresheet5 extends Scoresheet
 
   public function prepareForPhaseFive(array $args)
   {
-    // // Register for phase 5
-    // $raceSlots = Globals::getRaceSlots();
-    // $raceSlots[] = $args['slot'];
-    // Globals::setRaceSlots($raceSlots);
+    // Register for phase 5
+    $raceSlots = Globals::getRaceSlots();
+    $raceSlots[] = $args['slot'];
+    Globals::setRaceSlots($raceSlots);
+  }
+
+  // PHASE 5
+  public static function phase5Check(): void
+  {
+    $fillingBonuses = [
+      92 => [1, 20],
+      90 => [1, 6],
+      96 => [2, 10],
+      94 => [2, 20],
+      100 => [3, 6],
+      98 => [3, 25],
+      104 => [4, 15],
+      102 => [4, 10],
+    ];
+
+    $scribbles = static::resolveRaceSlots();
+    foreach ($scribbles as $scribble) {
+      $player = Players::get($scribble->getPId());
+      $slot = $scribble->getSlot();
+      [$value, $skyscraper] = $fillingBonuses[$slot];
+      Notifications::crossOffSkyscraperFillingBonus($player, $scribble, $value, $skyscraper);
+    }
   }
 
 

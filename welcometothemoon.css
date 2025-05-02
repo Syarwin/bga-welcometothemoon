@@ -1665,9 +1665,8 @@ body {
 .score-sheet[data-board="5"] {
   background-image: url("img/scenario-5.jpg"); }
   .score-sheet[data-board="5"] .player-name {
-    left: auto;
-    top: 5px;
-    right: 9px; }
+    left: 90px;
+    top: 5px; }
   .score-sheet[data-board="5"] .scribble-number {
     font-size: 43px;
     line-height: 41px;
@@ -1714,6 +1713,9 @@ body {
   .score-sheet[data-board="5"] .wttm-slot.slot-energytriplemarker {
     width: 145px;
     height: 26px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-towerbonus {
+    width: 40px;
+    height: 40px; }
 
 .score-sheet[data-board="6"] {
   background-image: url("img/scenario-6.jpg"); }

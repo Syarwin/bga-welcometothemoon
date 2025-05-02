@@ -2,9 +2,8 @@
   background-image: url("img/scenario-5.jpg");
 
   .player-name {
-    left: auto;
+    left: 90px;
     top: 5px;
-    right: 9px;
   }
 
   .scribble-number {
@@ -72,6 +71,11 @@
     &.slot-energytriplemarker {
       width: 145px;
       height: 26px;
+    }
+
+    &.slot-towerbonus {
+      width: 40px;
+      height: 40px;
     }
   }
 }

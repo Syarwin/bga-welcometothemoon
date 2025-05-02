@@ -527,6 +527,27 @@ class Notifications
     static::addScribbles($player, $scribbles, $msgs[$sectionType]);
   }
 
+  public static function filledSkyscraper(Player $player, Scribble $scribble, string $msg)
+  {
+    static::addScribble($player, $scribble, $msg);
+  }
+
+  public static function circleSkyscraperHighMultAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
+  }
+
+  public static function crossOffSkyscraperFillingBonus(Player $player, Scribble $scribble, int $value, int $skyscraperNumber)
+  {
+    $msg = clienttranslate('${player_name} crosses off a filling bonus of ${value} at the skyscraper number ${skyscraperNumber}');
+    static::addScribble(null, $scribble, $msg, [
+      'player' => $player,
+      'value' => $value,
+      'skyscraperNumber' => $skyscraperNumber,
+    ]);
+  }
+
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
