@@ -227,6 +227,17 @@ class Scoresheet
     return array_values(array_filter($slots, fn($slot) => !$this->hasScribbledSlot($slot, $type)));
   }
 
+  // Given a map : slot => mult, return the mult corresponding to the first unscribbled slot
+  public function getMultiplier(array $multPerSlots, int $maxMult): int
+  {
+    $key = $this->getFirstUnscribbled(array_keys($multPerSlots));
+    return is_null($key) ? $maxMult : $multPerSlots[$key];
+  }
+  public function getMultiplierAux(array $infos): int
+  {
+    return $this->getMultiplier($infos['mults'], $infos['maxMult']);
+  }
+
   public function isWriteXOptional(): bool
   {
     return true;

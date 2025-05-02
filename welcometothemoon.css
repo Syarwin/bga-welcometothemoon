@@ -1719,6 +1719,10 @@ body {
   .score-sheet[data-board="5"] .wttm-slot.slot-water, .score-sheet[data-board="5"] .wttm-slot.slot-plant {
     width: 40px;
     height: 40px; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="57"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="58"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="59"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="60"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="61"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="62"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="63"], .score-sheet[data-board="5"] .wttm-slot.slot-subscore[data-id="64"] {
+    font-size: 15px !important; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-score[data-id="45"], .score-sheet[data-board="5"] .wttm-slot.slot-score[data-id="46"] {
+    color: #c40524; }
 
 .score-sheet[data-board="6"] {
   background-image: url("img/scenario-6.jpg"); }

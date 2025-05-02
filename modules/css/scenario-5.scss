@@ -83,5 +83,25 @@
       width: 40px;
       height: 40px;
     }
+
+    &.slot-subscore {
+      &[data-id="57"],
+      &[data-id="58"],
+      &[data-id="59"],
+      &[data-id="60"],
+      &[data-id="61"],
+      &[data-id="62"],
+      &[data-id="63"],
+      &[data-id="64"] {
+        font-size: 15px !important;
+      }
+    }
+
+    &.slot-score {
+      &[data-id="45"],
+      &[data-id="46"] {
+        color: #c40524;
+      }
+    }
   }
 }

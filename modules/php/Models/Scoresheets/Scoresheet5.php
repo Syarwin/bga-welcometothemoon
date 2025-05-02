@@ -72,6 +72,40 @@ class Scoresheet5 extends Scoresheet
     120 => [134, 135],
     121 => [136, 137],
   ];
+  protected array $multipliers = [
+    'planFirst' => [
+      'mults' => [138 => 8, 140 => 10, 142 => 12, 144 => 15],
+      'maxMult' => 18,
+    ],
+    'planSecond' => [
+      'mults' => [139 => 4, 141 => 6, 143 => 8, 145 => 9],
+      'maxMult' => 10,
+    ],
+    'waterPlant1' => [
+      'mults' => [146 => 2, 149 => 2, 152 => 3, 155 => 3],
+      'maxMult' => 4,
+    ],
+    'waterPlant2' => [
+      'mults' => [147 => 5, 150 => 6, 153 => 7, 156 => 8],
+      'maxMult' => 10,
+    ],
+    'waterPlant3' => [
+      'mults' => [148 => 9, 151 => 10, 154 => 12, 157 => 15],
+      'maxMult' => 18,
+    ],
+    'astronautFirst' => [
+      'mults' => [158 => -10, 160 => 0, 162 => 10, 164 => 20],
+      'maxMult' => 30,
+    ],
+    'astronautSecond' => [
+      'mults' => [159 => 0, 161 => 2, 163 => 4, 165 => 7],
+      'maxMult' => 10,
+    ],
+    'dome' => [
+      'mults' => [166 => 6, 167 => 5, 168 => 4, 169 => 3],
+      'maxMult' => 2,
+    ],
+  ];
 
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
@@ -232,6 +266,60 @@ class Scoresheet5 extends Scoresheet
     // $data[] = ["slot" => 37, "v" => $missionPoints];
 
 
+    // Water/plants
+    $waterPlantCounts = [0, 0, 0, 0];
+    foreach ($this->levels as $level) {
+      $slots = array_merge($level['plants'], $level['waters']);
+      $n = $this->countScribbledSlots($slots);
+      $waterPlantCounts[$n]++;
+    }
+    $data[] = ["slot" => 54, "v" => $waterPlantCounts[1]];
+    $data[] = ["slot" => 55, "v" => $waterPlantCounts[2]];
+    $data[] = ["slot" => 56, "v" => $waterPlantCounts[3]];
+
+    $waterPlantMult1 = $this->getMultiplierAux($this->multipliers['waterPlant1']);
+    $scoreWaterPlant1 = $waterPlantCounts[1] * $waterPlantMult1;
+    $data[] = ["slot" => 40, "v" => $scoreWaterPlant1];
+
+    $waterPlantMult2 = $this->getMultiplierAux($this->multipliers['waterPlant2']);
+    $scoreWaterPlant2 = $waterPlantCounts[2] * $waterPlantMult2;
+    $data[] = ["slot" => 41, "v" => $scoreWaterPlant2];
+
+    $waterPlantMult3 = $this->getMultiplierAux($this->multipliers['waterPlant3']);
+    $scoreWaterPlant3 = $waterPlantCounts[3] * $waterPlantMult3;
+    $data[] = ["slot" => 42, "v" => $scoreWaterPlant3];
+
+    // Scryscraper
+    $scoreSkyscraper = 0;
+    $fillingBonuses = [
+      57 => [90 => 6, 91 => 3],
+      58 => [92 => 20, 93 => 10],
+      59 => [94 => 20, 95 => 10],
+      60 => [96 => 10, 97 => 5],
+      61 => [98 => 25, 99 => 12],
+      62 => [100 => 6, 101 => 3],
+      63 => [102 => 10, 103 => 5],
+      64 => [104 => 15, 105 => 7],
+    ];
+    foreach ($fillingBonuses as $slot => $bonuses) {
+      $bonus = 0;
+      foreach ($bonuses as $bonusSlot => $bonusValue) {
+        if ($this->hasScribbledSlot($bonusSlot, SCRIBBLE_CIRCLE)) {
+          $bonus = $bonusValue;
+        }
+      }
+      $scoreSkyscraper += $bonus;
+      $data[] = ["slot" => $slot, "v" => $bonus > 0 ? $bonus : ""];
+    }
+    $data[] = ["slot" => 43, "v" => $scoreSkyscraper];
+
+
+    // Missing domes
+    $nUnbuiltDomes = count($this->getUnbuiltDomeSections());
+    $data[] = ["slot" => 65, "v" => $nUnbuiltDomes];
+    $negativeDomePoints = $nUnbuiltDomes * $this->getMultiplierAux($this->multipliers['dome']);
+    $data[] = ["slot" => 45, "v" => $negativeDomePoints];
+
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;
@@ -245,7 +333,7 @@ class Scoresheet5 extends Scoresheet
       "slot" => 47,
       "score" => true,
       "overview" => "total",
-      "v" => -$negativePoints,
+      "v" => $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper - $negativeDomePoints - $negativePoints,
     ];
 
     return $data;

@@ -152,7 +152,7 @@
   position: absolute;
   width: 28px;
   height: 26px;
-  background: url("img/scribble.png");
+  /* background: url("img/scribble.png"); */
   background-color: rgba(255, 0, 0, 0.541);
   background-size: 100%;
   border-radius: 0px;
@@ -170,7 +170,7 @@
   border-radius: 0px;
   border: none;
 }
-#main-frame.add-energymtriplearkers .slot-energytriplemarker,
+#main-frame.add-energytriplemarkers .slot-energytriplemarker,
 #main-frame.show-energytriplemarkers .slot-energytriplemarker,
 #main-frame.add-energytriplemarkers #hover-indicator {
   display: block;
