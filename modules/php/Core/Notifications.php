@@ -547,6 +547,13 @@ class Notifications
     ]);
   }
 
+  public static function crossOffSkyscraperBonusAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filling bonus of a skyscraper'));
+  }
+
+
+
 
   /////////////////////////////////////
   //   ____           _          

@@ -435,6 +435,15 @@ $machinestates = [
     'possibleactions' => ['actEnergyUpgrade', 'actRestart', 'actPassOptionalAction'],
   ],
 
+  ST_S5_CROSS_OFF_SKYSCRAPER_BONUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a skyscraper bonus'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCrossOffSkyscraperBonus', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

@@ -55,6 +55,7 @@ class Actions
     S5_BUILD_DOME,
     S5_ENERGY_UPGRADE,
     S5_FILLED_SKYSCRAPER,
+    S5_CROSS_OFF_SKYSCRAPER_BONUS,
   ];
 
   public static function get($actionId, &$ctx = null)

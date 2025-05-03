@@ -16,8 +16,10 @@ class Astra5 extends Astra
 
   public function getAstraEffect(string $stack, bool $isFirstDraw): array
   {
-    if ($stack == 'C') return [];
-
-    return [];
+    return [
+      [
+        'action' => S5_CROSS_OFF_SKYSCRAPER_BONUS,
+      ]
+    ];
   }
 }
