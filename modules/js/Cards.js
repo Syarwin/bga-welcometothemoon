@@ -242,7 +242,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               return (
                 _('Using a Robot or an Energy action, you can cross off an Energy or Robot symbol in any factory.') +
                 _(
-                  'As soon as you have crossed off all the energies and robots of a main factory, cross off the scoring box located at the top of the factory. At the end of the game, the scoring box at the bottom of the factory will be the one taken into account'
+                  'As soon as you have crossed off all the energies and robots of a main factory, cross off the scoring box located at the top of the factory. At the end of the game, the scoring box at the bottom of the factory will be the one taken into account.'
                 ) +
                 _(
                   'As soon as you have crossed off all the energies and all the robots of a secondary factory, you activate bonuses that you must immediately use.'
@@ -251,7 +251,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             case 'plant':
             case 'water':
               return _(
-                'Both plant and water work in the same way. With the corresponding action, you can circle 1 water or 1 plant, immediately above or below the excavation where you have written down the number of your combination'
+                'Both plant and water actions work in the same way. With the corresponding action, you can circle 1 water or 1 plant, immediately above or below the excavation where you have written down the number of your combination.'
               );
             case 'astronaut':
               return _(
@@ -260,6 +260,56 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             case 'planning':
               return _(
                 'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the planning control center.'
+              );
+          }
+
+        // Scenario 5
+        case 5:
+          switch (action) {
+            case 'energy':
+              return (
+                _(
+                  'With this action you can upgrade one of these 4 fields: the result of your accomplished missions, the plant & water research tower, the efficiency of your astronauts, and of your dome.'
+                ) +
+                _(
+                  'For that purpose, cross off one scoring box in your scoring area of your choice at the bottom of your sheet. You must cross off the boxes from top to bottom.'
+                ) +
+                _(
+                  'The field of the plant & water tower has a triple scoring area. With one Energy action you can cross off 3 boxes at the same level.'
+                ) +
+                _(
+                  'The missions and the astronauts follow the same logic with a double scoring area: cross off 2 boxes at the same level.'
+                )
+              );
+            case 'robot':
+              return (
+                _(
+                  'This action allows you to build a section of the dome. To do that, draw one section of the dome according to the following rules.'
+                ) +
+                _(
+                  'You can build only one of the 2 sections at the surface level or one section adjacent to an already built section.'
+                ) +
+                _(
+                  'Moreover, each section has a requirement. A section with 1 circle at each end is an odd section type. A section with 2 circles at each end is an even section type. If the number of your combination that you have just written down is even, you can only build an even section type. Likewise, with an odd number, you can only build an odd section type.'
+                )
+              );
+            case 'plant':
+            case 'water':
+              return _(
+                'Both plant and water actions work in the same way. Some skyscraper levels are connected to the same levels of the Water & Plant research tower. With a Water or Plant action you can circle a Water or Plant symbol in the level of the tower connected to the skyscraper level where you have just written the number of your combination.'
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover cross off 1 Astronaut symbol in scoring area at the bottom of your sheet.'
+              );
+            case 'planning':
+              return (
+                _(
+                  'The Planning action speeds up the construction of the skyscrapers, but slows down the construction of the dome. The Planning action allows you to fill in a level with an X in addition to the number of your combination: either one of the two starting levels of a skyscraper, or a level adjacent to an already numbered level.'
+                ) +
+                _(
+                  'In addition to that, with a line, you must cut in half one unbuilt section of the dome of your choice 7 . This way, you end up with 2 sections to build instead of one. Both new sections keep the odd/even type of the original section. One section can only be cut up in half once. If there is no more unbuilt section to cut up in half, then you can use the Planning action without having to be subjected to this penalty.'
+                )
               );
           }
       }
@@ -469,6 +519,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
             let newCard = $(`construction-card-${card.id}`);
             newCard.style.zIndex = 100 - args.turn;
+            this.addConstructionCardTooltip(newCard);
             return this.slideFromLeft(newCard);
           }
         })
@@ -550,6 +601,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(args.newCard));
       let newCard = $(`construction-card-${args.newCard.id}`);
       newCard.style.zIndex = 100 - args.turn;
+      this.addConstructionCardTooltip(newCard);
       this.updateDeckCount(args.deckCount);
       return this.slideFromLeft(newCard);
     },
