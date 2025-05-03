@@ -3,6 +3,53 @@ const DATAS5 = [
   'id' => 'scenario-5',
   'name' => 'The Dome',
   'jpgUrl' => './scenarios/scenario-5.jpg',
+  'overview' => [
+    0 => [
+      'name' => 'numbers',
+      'type' => '/',
+      'icon' => 'slot-number',
+    ],
+    1 => [
+      'name' => 'stack-A',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-A',
+    ],
+    2 => [
+      'name' => 'stack-B',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-B',
+    ],
+    3 => [
+      'name' => 'stack-C',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-C',
+    ],
+    4 => [
+      'name' => 'waterplants',
+      'type' => 'points',
+      'icon' => 'plant/water',
+    ],
+    5 => [
+      'name' => 'skyscrapers',
+      'type' => 'points',
+      'icon' => 'skyscraper',
+    ],
+    6 => [
+      'name' => 'astronaut',
+      'type' => 'points',
+      'icon' => 'astronaut',
+    ],
+    7 => [
+      'name' => 'domes',
+      'type' => 'points',
+      'icon' => 'dome',
+    ],
+    8 => [
+      'name' => 'errors',
+      'type' => 'points',
+      'icon' => 'system-error',
+    ],
+  ],
   'sections' => [
     0 => [
       'id' => 'numbers',

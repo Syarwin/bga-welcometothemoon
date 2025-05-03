@@ -2,6 +2,53 @@
   "id": "scenario-5",
   "name": "The Dome",
   "jpgUrl": "./scenarios/scenario-5.jpg",
+  "overview": [
+    {
+      "name": "numbers",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "stack-A",
+      "type": "points-or-dash",
+      "icon": "stack-A"
+    },
+    {
+      "name": "stack-B",
+      "type": "points-or-dash",
+      "icon": "stack-B"
+    },
+    {
+      "name": "stack-C",
+      "type": "points-or-dash",
+      "icon": "stack-C"
+    },
+    {
+      "name": "waterplants",
+      "type": "points",
+      "icon": "plant/water"
+    },
+    {
+      "name": "skyscrapers",
+      "type": "points",
+      "icon": "skyscraper"
+    },
+    {
+      "name": "astronaut",
+      "type": "points",
+      "icon": "astronaut"
+    },
+    {
+      "name": "domes",
+      "type": "points",
+      "icon": "dome"
+    },
+    {
+      "name": "errors",
+      "type": "points",
+      "icon": "system-error"
+    }
+  ],
   "sections": [
     {
       "id": "numbers",

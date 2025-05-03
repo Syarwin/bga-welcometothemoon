@@ -267,13 +267,24 @@ class Scoresheet5 extends Scoresheet
     $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
 
     // Missions
-    $nPlanFirst = $this->countScribbledSlots([182, 184, 186], SCRIBBLE_CIRCLE);
+    $planFirstSlots = [182, 184, 186];
+    $nPlanFirst = $this->countScribbledSlots($planFirstSlots, SCRIBBLE_CIRCLE);
     $multPlanFirst = $this->getMultiplierOfType('planFirst');
-    $nPlanSecond = $this->countScribbledSlots([183, 185, 187], SCRIBBLE_CIRCLE);
+
+    $planSecondSlots = [183, 185, 187];
+    $nPlanSecond = $this->countScribbledSlots($planSecondSlots, SCRIBBLE_CIRCLE);
     $multPlanSecond = $this->getMultiplierOfType('planSecond');
+
     $missionPoints = $nPlanFirst * $multPlanFirst + $nPlanSecond * $multPlanSecond;
     $data[] = ["slot" => 39, "v" => $missionPoints];
 
+    $stacks = ['stack-A', 'stack-B', 'stack-C'];
+    foreach ($stacks as $i => $stack) {
+      $missionPoint = 0;
+      if ($this->hasScribbledSlot($planFirstSlots[$i], SCRIBBLE_CIRCLE)) $missionPoint = $multPlanFirst;
+      if ($this->hasScribbledSlot($planSecondSlots[$i], SCRIBBLE_CIRCLE)) $missionPoint = $multPlanSecond;
+      $data[] = ['overview' => $stack, 'v' => $missionPoint];
+    }
 
     // Water/plants
     $waterPlantCounts = [0, 0, 0, 0];
@@ -298,6 +309,9 @@ class Scoresheet5 extends Scoresheet
     $scoreWaterPlant3 = $waterPlantCounts[3] * $waterPlantMult3;
     $data[] = ["slot" => 42, "v" => $scoreWaterPlant3];
 
+    $scoreWaterPlants = $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3;
+    $data[] = ['overview' => 'waterplants', 'v' => $scoreWaterPlants];
+
     // Scryscraper
     $scoreSkyscraper = 0;
     $fillingBonuses = [
@@ -321,6 +335,7 @@ class Scoresheet5 extends Scoresheet
       $data[] = ["slot" => $slot, "v" => $bonus > 0 ? $bonus : ""];
     }
     $data[] = ["slot" => 43, "v" => $scoreSkyscraper];
+    $data[] = ['overview' => 'skyscrapers', 'v' => $scoreSkyscraper];
 
     // Most astronauts
     [$thisPlayerOrder, $nAstronauts] = self::getMostAstronautsRankAndAmount($this->player->getId());
@@ -334,6 +349,7 @@ class Scoresheet5 extends Scoresheet
     $data[] = ["slot" => 65, "v" => $nUnbuiltDomes];
     $negativeDomePoints = $nUnbuiltDomes * $this->getMultiplierOfType('dome');
     $data[] = ["slot" => 45, "v" => $negativeDomePoints];
+    $data[] = ['overview' => 'domes', 'v' => -$negativeDomePoints, "details" => $nUnbuiltDomes];
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
@@ -348,7 +364,7 @@ class Scoresheet5 extends Scoresheet
       "slot" => 47,
       "score" => true,
       "overview" => "total",
-      "v" => $missionPoints + $scoreWaterPlant1 + $scoreWaterPlant2 + $scoreWaterPlant3 + $scoreSkyscraper + $sectionMajorityPoints - $negativeDomePoints - $negativePoints,
+      "v" => $missionPoints + $scoreWaterPlants + $scoreSkyscraper + $sectionMajorityPoints - $negativeDomePoints - $negativePoints,
     ];
 
     return $data;

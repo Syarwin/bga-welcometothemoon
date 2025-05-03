@@ -243,7 +243,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this._overviewEntries = {};
       data.overview.forEach((entry) => {
         this._overviewEntries[entry.name] = entry;
-        overview += `<th id='overview-${entry.name}'>${this.formatIcon(entry.icon)}</th>`;
+        let icons = '';
+        entry.icon.split('/').forEach((icon) => (icons += this.formatIcon(icon)));
+        overview += `<th id='overview-${entry.name}'>${icons}</th>`;
       });
 
       let rows = '';
