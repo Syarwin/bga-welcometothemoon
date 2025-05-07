@@ -22,6 +22,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return this.getPlayers().length == 1;
     },
 
+    isScenario8() {
+      return this.gamedatas.scenario == 8;
+    },
+
     setupPlayers() {
       // Add player board and player panel
       this.forEachOrderedPlayer((player) => {
@@ -55,9 +59,20 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       if (v == 0) {
         // Tabbed view
         this._focusedPlayer = pId;
-        [...$('score-sheet-holder').querySelectorAll('.score-sheet')].forEach((board) =>
-          board.classList.toggle('active', board.id == `score-sheet-${pId}`)
-        );
+        let oScoresheets = [...$('score-sheet-holder').querySelectorAll('.score-sheet')];
+        let nextIndex = null;
+        oScoresheets.forEach((board, i) => {
+          board.classList.toggle('active', board.id == `score-sheet-${pId}`);
+          board.classList.remove('second-active');
+
+          if (board.id == `score-sheet-${pId}` && this.isScenario8()) {
+            nextIndex = (i + 1) % oScoresheets.length;
+          }
+        });
+
+        if (nextIndex !== null) {
+          oScoresheets[nextIndex].classList.add('second-active');
+        }
       } else if (v == 1) {
         // Multiple view
         this._focusedPlayer = null;
@@ -133,6 +148,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         this.setupAstra();
       }
 
+      // Specific setup for scenario8
+      if (scenarioId == 8) {
+        this.setupScoreSheetsScenario8();
+        return;
+      }
+
       this.forEachOrderedPlayer((player) => {
         let pId = player.id;
         // Global wrapper
@@ -178,6 +199,82 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       this.setupChangeScoreSheetArrows();
       this.goToPlayerBoard(this.orderedPlayers[0].id);
+    },
+
+    setupScoreSheetsScenario8() {
+      const scenarioId = 8;
+      const data = SCENARIOS_DATA[scenarioId];
+      $('score-sheet-holder').dataset.board = scenarioId;
+
+      let players = this.orderedPlayers;
+
+      if (this.isSolo()) {
+        debug('TODO SOMETHING HERE');
+        players.push({
+          id: 0,
+          name: 'Astra',
+          color: 'black',
+        });
+      }
+
+      let n = players.length;
+      for (let i = 0; i < n; i++) {
+        let player1 = players[i];
+        let player2 = players[(i - 1 + n) % n];
+        let pId = player1.id;
+
+        // Global wrapper
+        $('score-sheet-holder').insertAdjacentHTML(
+          'beforeend',
+          `<div id="score-sheet-${pId}" class="score-sheet" data-board="${scenarioId}" style="border-color:#${player1.color}">
+            <div class="gradient-border" style="background: linear-gradient(to bottom, #${player2.color}, #${player1.color});"></div>
+            <div class="background-holder"></div>
+            <div class="scoresheet-rotate">${this.formatIcon('reshuffle')}</div>
+            <div class="scoresheet-rotate bottom-right">${this.formatIcon('reshuffle')}</div>
+            <div class='player-name2' style="color:#${player1.color}; border-color:#${player1.color}">
+              <div class='slideshow-left'><</div>
+              ${player1.name}
+              <div class='slideshow-right'>></div>
+            </div>
+            <div class='player-name' style="color:#${player2.color}; border-color:#${player2.color}">
+              <div class='slideshow-left'><</div>
+              ${player2.name}
+              <div class='slideshow-right'>></div>
+            </div>
+            <div class="scoresheet-overlay"></div>
+          </div>`
+        );
+
+        // Slots
+        let nNumbers = 0,
+          nErrors = 0;
+        data.sections.forEach((section) => {
+          if (section.id == 'numbers') nNumbers = section.elts.length;
+          if (section.id == 'errors') nErrors = section.elts.length;
+
+          let className = section.eltClass;
+          section.elts.forEach((elt) => {
+            $(`score-sheet-${pId}`).insertAdjacentHTML(
+              'beforeend',
+              `<div class='wttm-slot ${className}' id='slot-${pId}-${elt.id}' data-id='${elt.id}' style="left:${elt.x}px; top:${elt.y}px"></div>`
+            );
+
+            if (elt.r) {
+              $(`slot-${pId}-${elt.id}`).style.transform = `rotate(${elt.r}deg)`;
+            }
+          });
+        });
+
+        // Scoresheet dynamic data
+        this.updateComputedScoresheetData(pId);
+      }
+
+      this.setupChangeScoreSheetArrows();
+      this.goToPlayerBoard(this.orderedPlayers[0].id);
+
+      $(`score-sheet-wrapper`)
+        .querySelectorAll('.scoresheet-rotate')
+        .forEach((rotate) => rotate.addEventListener('click', () => $('score-sheet-holder').classList.toggle('rotated')));
     },
 
     updateComputedScoresheetData(pId) {

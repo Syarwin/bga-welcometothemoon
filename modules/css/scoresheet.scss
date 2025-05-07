@@ -85,6 +85,20 @@
         position: relative;
         // overflow: hidden;
         transform-origin: top left;
+        &[data-board="8"] {
+            transform-origin: bottom center;
+            transition: rotate 0.6s;
+            .score-sheet > *:not(.background-holder):not(.gradient-border) {
+                transition: rotate 0.6s;
+            }
+
+            &.rotated {
+                rotate: 180deg;
+                .score-sheet > *:not(.background-holder):not(.gradient-border) {
+                    rotate: 180deg;
+                }
+            }
+        }
 
         .score-sheet {
             width: $scoreSheetSize;
@@ -97,13 +111,19 @@
             border: $borderSize solid black;
             border-radius: 7px;
             box-shadow: 1px 1px 3px black;
-            &:not(.active) {
+            &:not(.active):not(.second-active) {
                 display: none;
+            }
+            // Useful for scenario 8 only
+            [data-player-boards-layout="0"] &.second-active {
+                top: $scoreSheetSize;
             }
 
             /////////// CITY NAME ////////////
-            .player-name {
+            .player-name,
+            .player-name2 {
                 position: absolute;
+                z-index: 2;
                 width: 150px;
                 padding: 0px 40px;
                 height: 50px;
@@ -230,6 +250,9 @@
 
         .score-sheet-holder {
             height: auto;
+            &[data-board="8"] {
+                transform-origin: center center;
+            }
 
             .score-sheet {
                 position: relative;

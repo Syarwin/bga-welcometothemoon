@@ -60,6 +60,12 @@ class Astra
   protected array $scribblesByLocation;
   protected int $nBonuses;
 
+  // Make this function compatible with Player class for scoresheet
+  public function getId(): int
+  {
+    return 0;
+  }
+
   public function __construct()
   {
     $this->level = Globals::getAstraLevel();

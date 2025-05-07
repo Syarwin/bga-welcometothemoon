@@ -8,6 +8,7 @@ use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use BgaUserException;
 
 /*
  * Players manager : allows to easily access players ...
@@ -81,17 +82,43 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return parent::get($id ?? self::getActiveId());
   }
 
-  public static function getNextId($player)
+  public static function getNextId(Player|int $player): int
   {
     $pId = is_int($player) ? $player : $player->getId();
     $table = Game::get()->getNextPlayerTable();
     return $table[$pId];
   }
 
-  public static function getNext($player)
+  public static function getNext(Player $player): Player
   {
     return self::get(self::getNextId($player));
   }
+
+  public static function getNextOrAstra(Player $player): Player|Astra
+  {
+    return Globals::isSolo() ? self::getAstra() : self::getNext($player);
+  }
+
+  public static function getPrevId(Player|int $player): int
+  {
+    $pId = is_int($player) ? $player : $player->getId();
+    $table = Game::get()->getNextPlayerTable();
+    foreach ($table as $pId1 => $pId2) {
+      if ($pId == $pId2) return $pId1;
+    }
+    throw new \BgaUserException('No prev player, shouldnt happen');
+  }
+
+  public static function getPrev(Player $player): Player
+  {
+    return self::get(self::getPrevId($player));
+  }
+
+  public static function getPrevOrAstra(Player $player): Player|Astra
+  {
+    return Globals::isSolo() ? self::getAstra() : self::getPrev($player);
+  }
+
 
   /*
    * Return the number of players

@@ -9,6 +9,8 @@ use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Managers\Actions;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 
 /*
  * Player: all utility functions concerning a player
@@ -66,9 +68,22 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 
   public function scoresheet(): ?Scoresheet
   {
-    if (is_null($this->scoresheet) && Globals::getScenario() != 0) {
-      $className = 'Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet' . Globals::getScenario();
-      $this->scoresheet = new $className($this);
+    $scenarioId = Globals::getScenario();
+    if (is_null($this->scoresheet) && $scenarioId != 0) {
+      // Scenario 8 has this weird double player thing
+      if ($scenarioId == 8) {
+        // Even turn, play on "my" sheet
+        if (Globals::getTurn() % 2 == 0) {
+          $this->scoresheet = new Scoresheet8($this, Players::getNextOrAstra($this));
+        } else {
+          $this->scoresheet = new Scoresheet8(Players::getPrevOrAstra($this), $this);
+        }
+      }
+      // Otherwise it's just as usual
+      else {
+        $className = 'Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet' . $scenarioId;
+        $this->scoresheet = new $className($this);
+      }
     }
     return $this->scoresheet;
   }

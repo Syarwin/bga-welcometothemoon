@@ -29,7 +29,7 @@ trait SetupTrait
   // SETUP BRANCH : might be useful for later and can be used for debugging launch
   public function stSetupBranch()
   {
-    $debug = false;
+    $debug = true;
     if ($debug) {
       $this->gamestate->jumpToState(ST_SETUP_DEBUG);
       return;

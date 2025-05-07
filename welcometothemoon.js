@@ -892,7 +892,8 @@ define([
         const tabbed = this.settings.playerBoardsLayout == 0;
         $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
         $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-        $('player-score-sheets-container').style.height = `${(tabbed ? 1 : this.getPlayers().length) * newSheetWidth}px`;
+        $('player-score-sheets-container').style.height =
+          `${(tabbed ? (this.isScenario8() ? 2 : 1) : this.getPlayers().length) * newSheetWidth}px`;
 
         const cardsWidth = this._isStandard ? 420 : 208;
         const cardsHeight = 963;
@@ -925,7 +926,8 @@ define([
         const tabbed = this.settings.playerBoardsLayout == 0;
         $('player-score-sheets-container-resizable').style.transform = `scale(${sheetScale})`;
         $('player-score-sheets-container').style.width = `${newSheetWidth}px`;
-        $('player-score-sheets-container').style.height = `${(tabbed ? 1 : this.getPlayers().length) * newSheetWidth}px`;
+        $('player-score-sheets-container').style.height =
+          `${(tabbed ? (this.isScenario8() ? 2 : 1) : this.getPlayers().length) * newSheetWidth}px`;
 
         const cardsWidth = this._isStandard ? 1289 : 900;
         const plansWidth = 654;

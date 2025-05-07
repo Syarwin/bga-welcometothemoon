@@ -1,0 +1,119 @@
+/** NUMBERS **/
+#main-frame.add-numbers .slot-number,
+#main-frame.show-numbers .slot-number,
+#main-frame.add-numbers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+/** SCORES **/
+#main-frame.add-scores .slot-score,
+#main-frame.show-scores .slot-score,
+#main-frame.add-scores #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 1px;
+}
+#main-frame.add-subscores .slot-subscore,
+#main-frame.show-subscores .slot-subscore,
+#main-frame.add-subscores #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 1px 1px 3px black;
+  border: 1px solid black;
+  border-radius: 1px;
+}
+
+/** ERRORS **/
+#main-frame.add-errors .slot-error,
+#main-frame.show-errors .slot-error,
+#main-frame.add-errors #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+/** PLAN **/
+#main-frame.add-plans .slot-plan,
+#main-frame.show-plans .slot-plan,
+#main-frame.add-plans #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border: 1px solid black;
+  box-shadow: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+#main-frame.add-waters .slot-water,
+#main-frame.show-waters .slot-water,
+#main-frame.add-waters #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-plants .slot-plant,
+#main-frame.show-plants .slot-plant,
+#main-frame.add-plants #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+#main-frame.add-astronautmarkers .slot-astronautmarker,
+#main-frame.show-astronautmarkers .slot-astronautmarker,
+#main-frame.add-astronautmarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+#main-frame.add-energymarkers .slot-energymarker,
+#main-frame.show-energymarkers .slot-energymarker,
+#main-frame.add-energymarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 28px;
+  height: 26px;
+  /* background: url("img/scribble.png"); */
+  background-color: rgba(255, 0, 0, 0.541);
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
