@@ -15,6 +15,7 @@ include_once dirname(__FILE__) . "/../../Material/Scenario8.php";
 
 class Scoresheet8 extends Scoresheet
 {
+
   protected int $scenario = 8;
   protected array $datas = DATAS8;
   protected array $numberBlocks = [
@@ -26,40 +27,47 @@ class Scoresheet8 extends Scoresheet
     [26, 27, 28, 29, 30],
     [31, 32, 33]
   ];
+  protected array $allowedBlocksByNumber = [
+    0 => [0],
+    1 => [0],
+    2 => [0],
+    3 => [0, 1],
+    4 => [1],
+    5 => [1, 2],
+    6 => [2],
+    7 => [2, 3],
+    8 => [3],
+    9 => [3, 4],
+    10 => [4],
+    11 => [4, 5],
+    12 => [5],
+    13 => [5, 6],
+    14 => [6],
+    15 => [6],
+    16 => [6],
+    17 => [6]
+  ];
 
 
-  protected Player|Astra $player1; // Player at the BOTTOM
-  protected Player|Astra $player2; // Player at the TOP
-
-  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null)
+  public function setupScenario(): void
   {
-    if (is_null($player1)) return; // Used to extract datas
-    $this->player1 = $player1;
-    $this->player2 = $player2;
-    $this->fetch();
-
-    // Extract info from datas
-    foreach ($this->datas['sections'] as $section) {
-      $this->slotsBySection[$section['id']] = [];
-      foreach ($section['elts'] as $elt) {
-        $this->slotsBySection[$section['id']][] = $elt['id'];
-      }
-    }
+    $this->addScribble(221, SCRIBBLE_INSIGNAS[$this->player2->getNo()], true);
+    $this->addScribble(222, SCRIBBLE_INSIGNAS[$this->player1->getNo()], true);
   }
 
-  public function fetch(): void
+
+  public function getAvailableSlotsForNumber(int $number, string $action): array
   {
-    // Fetch scribbles
-    $this->scribbles = Scribbles::getOfPlayer($this->player1->getId());
-    $this->scribblesBySlots = [];
-    foreach ($this->scribbles as $scribble) {
-      $slot = $scribble->getSlot();
-      if (is_null($slot)) continue;
-
-      $this->scribblesBySlots[$slot][] = $scribble;
+    // Merge available block for that number
+    $blocks = $this->allowedBlocksByNumber[$number];
+    $slots = [];
+    foreach ($blocks as $blockId) {
+      $slot = $this->getFirstUnscribbled($this->numberBlocks[$blockId]);
+      if (!is_null($slot)) $slots[] = $slot;
     }
-  }
 
+    return $slots;
+  }
 
 
 
@@ -114,4 +122,84 @@ class Scoresheet8 extends Scoresheet
 
     return $data;
   }
+
+
+  //////////////////////////////////////////
+  /////// HANDLE DOUBLE PLAYER /////////////
+  //////////////////////////////////////////
+  protected Player|Astra $player1; // Player at the BOTTOM
+  protected Player|Astra $player2; // Player at the TOP
+
+  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null)
+  {
+    if (is_null($player1)) return; // Used to extract datas
+    $this->player1 = $player1;
+    $this->player2 = $player2;
+    $this->fetch();
+
+    // Extract info from datas
+    foreach ($this->datas['sections'] as $section) {
+      $this->slotsBySection[$section['id']] = [];
+      foreach ($section['elts'] as $elt) {
+        $this->slotsBySection[$section['id']][] = $elt['id'];
+      }
+    }
+  }
+
+  public function getPId(): int
+  {
+    return $this->player1->getId();
+  }
+
+  public function addScribble($location, $type = SCRIBBLE, $isSetup = false): Scribble
+  {
+    if (!$isSetup) {
+      $currentPlayer = Globals::getTurn() % 2 == 0 ? $this->player2 : $this->player1;
+      $currentInsigna = SCRIBBLE_INSIGNAS[$currentPlayer->getNo()];
+      if (!in_array($type, [SCRIBBLE, SCRIBBLE_CIRCLE])) {
+        $type = $currentInsigna;
+      }
+    }
+
+    $scribble = Scribbles::add($this->player1, [
+      'type' => $type,
+      'location' => "slot-$location",
+    ]);
+    $this->scribbles[$scribble->getId()] = $scribble;
+    $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
+    return $scribble;
+  }
+
+
+  public function isEndOfGameTriggered(): bool
+  {
+    // // System errors
+    // if (is_null($this->getNextFreeSystemErrorSlot())) {
+    //   Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
+    //   Notifications::endGameTriggered($this->player, 'errors');
+    //   return true;
+    // }
+
+    // // Plans
+    // $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player));
+    // if ($unsatisfiedPlans->empty()) {
+    //   Stats::setEnding(STAT_ENDING_MISSIONS);
+    //   Notifications::endGameTriggered($this->player, 'plans');
+    //   return true;
+    // }
+
+    // // Full scoresheet
+    // if ($this->countAllUnscribbledSlots() === 0) {
+    //   Stats::setEnding(STAT_ENDING_FILLED_ALL);
+    //   Notifications::endGameTriggered($this->player, 'houses');
+    //   return true;
+    // }
+
+    return false;
+  }
+
+  //////////////////////////////////////////
+  //////////////////////////////////////////
+  //////////////////////////////////////////
+
 }

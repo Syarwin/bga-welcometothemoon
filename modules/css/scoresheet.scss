@@ -97,6 +97,10 @@
                 .score-sheet > *:not(.background-holder):not(.gradient-border) {
                     rotate: 180deg;
                 }
+
+                .score-sheet {
+                    box-shadow: -1px -1px 3px black;
+                }
             }
         }
 

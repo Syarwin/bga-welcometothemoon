@@ -56,6 +56,8 @@ define([
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
         this.cardStatuses = {};
+
+        this.scoresheet_id = this.player_id;
       },
       notif_midMessage() {
         return this.wait(1000);
@@ -415,6 +417,16 @@ define([
           );
           this.addDangerActionButton('btnUnstuck', _('Unstuck table'), () => this.takeAction('actUnstuckGame', {}, false));
         } else {
+          if (args.args && args.args.scoresheetPId) {
+            this.scoresheet_id = args.args.scoresheetPId;
+          }
+          $('score-sheet-holder').classList.toggle('rotated', this.scoresheet_id != this.player_id);
+
+          let prevWrittable = $('score-sheet-holder').querySelector('.writtable');
+          if (prevWrittable) prevWrittable.classList.remove('writtable');
+          let newWrittable = $(`score-sheet-${this.scoresheet_id}`);
+          if (newWrittable) newWrittable.classList.add('writtable');
+
           // Call appropriate method
           var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
           if (this[methodName] !== undefined) this[methodName](args.args);
@@ -608,7 +620,7 @@ define([
             // Init click listener
             if (!numbersBySlots[slotId]) {
               numbersBySlots[slotId] = [];
-              this.onClick(`slot-${this.player_id}-${slotId}`, () => {
+              this.onClick(`slot-${this.scoresheet_id}-${slotId}`, () => {
                 const numbers = numbersBySlots[slotId];
 
                 //  Only one choice possible => take action
@@ -624,7 +636,7 @@ define([
                     closeIcon: 'fa-times',
                     title: _('Choose the number you want to write'),
                     openAnimation: true,
-                    openAnimationTarget: `slot-${this.player_id}-${slotId}`,
+                    openAnimationTarget: `slot-${this.scoresheet_id}-${slotId}`,
                   });
 
                   numbers.forEach((number) => {
@@ -657,7 +669,7 @@ define([
        */
       launchActionOnSlotClick(slots, action, callback = null) {
         slots.forEach((slotId) => {
-          this.onClick(`slot-${this.player_id}-${slotId}`, () => {
+          this.onClick(`slot-${this.scoresheet_id}-${slotId}`, () => {
             if (action !== null) {
               this.takeAtomicAction(action, [slotId]);
             } else {
@@ -673,7 +685,7 @@ define([
       },
 
       onEnteringStateCircleSingleLinked(args) {
-        this.onClick(`slot-${this.player_id}-${args.slot}`, () => {
+        this.onClick(`slot-${this.scoresheet_id}-${args.slot}`, () => {
           this.takeAtomicAction('actCircleSingleLinked');
         });
         this.addPrimaryActionButton('btnStir', _('Do it!'), () => {

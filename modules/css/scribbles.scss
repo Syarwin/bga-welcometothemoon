@@ -128,4 +128,88 @@
       animation-fill-mode: forwards;
     }
   }
+
+  &.scribble-insignaSquare {
+    .scribble-path {
+      stroke-dasharray: 550;
+      stroke-dashoffset: 0;
+      stroke-width: 25;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 550;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-insignaCircle {
+    .scribble-path {
+      stroke-dasharray: 450;
+      stroke-dashoffset: 0;
+      stroke-width: 20;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 450;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-insignaTriangle {
+    .scribble-path {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 0;
+      stroke-width: 25;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 400;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-insignaStar {
+    .scribble-path {
+      stroke-dasharray: 450;
+      stroke-dashoffset: 0;
+      stroke-width: 20;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 450;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-insignaSpiral {
+    .scribble-path {
+      stroke-dasharray: 680;
+      stroke-dashoffset: 0;
+      stroke-width: 17;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 680;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.scribble-insignaHeart {
+    .scribble-path {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 0;
+      stroke-width: 18;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 400;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
 }

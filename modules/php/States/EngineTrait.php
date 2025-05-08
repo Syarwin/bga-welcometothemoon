@@ -34,6 +34,11 @@ trait EngineTrait
 
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);
     $args['previousSteps'] = Log::getUndoableSteps($pId);
+
+    // Scenario 8
+    if (Globals::getScenario() == 8) {
+      $args['scoresheetPId'] = Players::get($pId)->scoresheet()->getPId();
+    }
   }
 
   /**

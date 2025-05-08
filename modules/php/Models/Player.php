@@ -65,7 +65,6 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   }
 
   protected ?Scoresheet $scoresheet = null;
-
   public function scoresheet(): ?Scoresheet
   {
     $scenarioId = Globals::getScenario();
@@ -74,9 +73,9 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
       if ($scenarioId == 8) {
         // Even turn, play on "my" sheet
         if (Globals::getTurn() % 2 == 0) {
-          $this->scoresheet = new Scoresheet8($this, Players::getNextOrAstra($this));
+          $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this);
         } else {
-          $this->scoresheet = new Scoresheet8(Players::getPrevOrAstra($this), $this);
+          $this->scoresheet = new Scoresheet8($this, Players::getPrevOrAstra($this));
         }
       }
       // Otherwise it's just as usual
@@ -86,6 +85,10 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
       }
     }
     return $this->scoresheet;
+  }
+  public function refreshScoresheet(): void
+  {
+    $this->scoresheet = null;
   }
 
   public function getCombination()

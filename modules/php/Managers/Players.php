@@ -82,11 +82,25 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return parent::get($id ?? self::getActiveId());
   }
 
+  public static $nextTable = [];
+  public static $prevTable = [];
+  public static function initTables(): void
+  {
+    if (!empty(static::$nextTable)) return;
+
+    $pIds = Players::getAll()->getIds();
+    for ($i = 0; $i < count($pIds); $i++) {
+      static::$nextTable[$pIds[$i]] = $pIds[($i + 1) % count($pIds)];
+      static::$prevTable[$pIds[$i]] = $pIds[($i - 1 + count($pIds)) % count($pIds)];
+    }
+  }
+
+
   public static function getNextId(Player|int $player): int
   {
     $pId = is_int($player) ? $player : $player->getId();
-    $table = Game::get()->getNextPlayerTable();
-    return $table[$pId];
+    static::initTables();
+    return static::$nextTable[$pId];
   }
 
   public static function getNext(Player $player): Player
@@ -102,11 +116,8 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
   public static function getPrevId(Player|int $player): int
   {
     $pId = is_int($player) ? $player : $player->getId();
-    $table = Game::get()->getNextPlayerTable();
-    foreach ($table as $pId1 => $pId2) {
-      if ($pId == $pId2) return $pId1;
-    }
-    throw new \BgaUserException('No prev player, shouldnt happen');
+    static::initTables();
+    return static::$prevTable[$pId];
   }
 
   public static function getPrev(Player $player): Player

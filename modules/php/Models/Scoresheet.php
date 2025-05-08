@@ -26,6 +26,13 @@ class Scoresheet
   protected Collection $scribbles;
   protected array $scribblesBySlots;
 
+  public function setupScenario(): void {}
+
+  public function getPId(): int
+  {
+    return $this->player->getId();
+  }
+
   // PHASE 5
   public static function phase5Check(): void
   {
@@ -48,10 +55,10 @@ class Scoresheet
       case 6:
         Scoresheet6::phase5Check();
         break;
-      case 5:
+      case 7:
         Scoresheet7::phase5Check();
         break;
-      case 5:
+      case 8:
         Scoresheet8::phase5Check();
         break;
       default:
@@ -110,7 +117,7 @@ class Scoresheet
   public function fetch(): void
   {
     // Fetch scribbles
-    $this->scribbles = Scribbles::getOfPlayer($this->player);
+    $this->scribbles = Scribbles::getOfPlayer($this->getPId());
     $this->scribblesBySlots = [];
     foreach ($this->scribbles as $scribble) {
       $slot = $scribble->getSlot();

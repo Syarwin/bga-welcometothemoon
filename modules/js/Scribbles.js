@@ -6,6 +6,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const SCRIBBLE_LINE = 304;
   const SCRIBBLE_LINE_ORTHOGONAL = 305;
 
+  const SCRIBBLE_INSIGNA_CIRCLE = 310;
+  const SCRIBBLE_INSIGNA_SQUARE = 311;
+  const SCRIBBLE_INSIGNA_TRIANGLE = 312;
+  const SCRIBBLE_INSIGNA_STAR = 313;
+  const SCRIBBLE_INSIGNA_SPIRAL = 314;
+  const SCRIBBLE_INSIGNA_HEART = 315;
+
   const BGA_URL = dojoConfig.packages.reduce((r, p) => (p.name == 'bgagame' ? p.location : r), null);
   return declare('welcometothemoon.scribbles', null, {
     setupScribbles() {
@@ -51,6 +58,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_CHECKMARK) scribbleTpl = 'tplScribbleCheckmark';
       if (scribble.type == SCRIBBLE_LINE) scribbleTpl = 'tplScribbleLine';
       if (scribble.type == SCRIBBLE_LINE_ORTHOGONAL) scribbleTpl = 'tplScribbleLineOrthogonal';
+
+      if (scribble.type == SCRIBBLE_INSIGNA_SQUARE) scribbleTpl = 'tplScribbleInsignaSquare';
+      if (scribble.type == SCRIBBLE_INSIGNA_CIRCLE) scribbleTpl = 'tplScribbleInsignaCircle';
+      if (scribble.type == SCRIBBLE_INSIGNA_SPIRAL) scribbleTpl = 'tplScribbleInsignaSpiral';
+      if (scribble.type == SCRIBBLE_INSIGNA_STAR) scribbleTpl = 'tplScribbleInsignaStar';
+      if (scribble.type == SCRIBBLE_INSIGNA_HEART) scribbleTpl = 'tplScribbleInsignaHear';
+      if (scribble.type == SCRIBBLE_INSIGNA_TRIANGLE) scribbleTpl = 'tplScribbleInsignaTriangle';
 
       this.place(scribbleTpl, scribble, container);
       if (animation && !this.isFastMode()) {
@@ -180,6 +194,48 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" class="wttm-scribble scribble-arrow" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
         <path clip-path="url(#scribble-arrow-clip-path)" class="scribble-path"
          d="M 4.6711468,37.770392 30.106729,8.6026853 37.269727,17.074382 5.4537347,37.774811 8.4858451,10.903111 33.453563,41.036228 Z" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaSquare(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaSquare" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="M 11.072523,12.21772 H 133.60448 V 134.74966 H 11.072523 Z" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaCircle(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaCircle" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="M 135.77829,73.676404 A 62.915088,62.915088 0 0 1 72.863194,136.5915 62.915088,62.915088 0 0 1 9.9481048,73.676404 62.915088,62.915088 0 0 1 72.863194,10.761316 62.915088,62.915088 0 0 1 135.77829,73.676404 Z" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaTriangle(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaTriangle" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="m 22.08325,122.77364 -10.457306,0.0421 29.351633,-51.659138 29.854289,-51.197628 29.411294,51.453389 29.4113,51.453387 -113.155772,-0.0409" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaStar(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaStar" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="m 105.53007,58.498562 26.5018,3.612373 -28.41446,28.460466 7.33647,39.541819 -35.848062,-18.22898 -35.339413,19.19649 6.259135,-39.7266 -29.177428,-27.677737 39.71642,-6.323402 17.306771,-36.302274 18.286962,35.818521 19.936805,2.620849" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaSpiral(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaSpiral" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="m 69.66848,75.088219 c 2.805412,1.543885 -0.697035,4.543338 -2.566038,4.662779 -5.064885,0.323679 -7.597697,-5.54941 -6.759521,-9.794856 1.499301,-7.594107 10.14218,-10.939704 17.023674,-8.856261 10.098869,3.057535 14.356846,14.788612 10.953002,24.252491 C 83.78281,97.966235 68.866637,103.15694 56.838288,98.402116 41.701838,92.418657 35.570476,74.276545 41.691804,59.691988 49.105551,42.028136 70.494584,34.951994 87.630749,42.448763 107.82513,51.283446 115.84853,75.93161 106.97072,95.616526 96.720929,118.34354 68.805893,127.31583 46.574134,117.05323 21.312997,105.39222 11.390694,74.205094 23.040686,49.427835 36.110216,21.631494 70.573125,10.758354 97.894902,23.797645 128.22725,38.27373 140.05185,76.015124 125.62183,105.88068" />
+      </svg>`;
+    },
+
+    tplScribbleInsignaHeart(scribble) {
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 145" class="wttm-scribble scribble-insignaHeart" data-turn="${scribble.turn}" id="scribble-${scribble.id}" data-id="${scribble.id}">
+        <path  class="scribble-path"
+         d="M 68.409412,123.49629 C 60.014241,115.46565 37.052622,93.466451 28.118445,84.767242 20.482385,77.33201 15.830047,70.486494 13.386711,63.090744 11.957657,58.765133 11.688048,56.747211 11.841795,51.527636 c 0.180482,-6.127175 1.008075,-9.760439 3.278331,-14.392379 3.861479,-7.878468 11.544193,-13.278859 21.370247,-15.021732 3.554052,-0.630391 10.378662,-0.639621 13.03925,-0.01763 2.647536,0.618936 5.746237,1.730717 8.046781,2.887102 3.628895,1.824087 9.863934,6.32311 13.476933,9.724557 l 1.602502,1.508673 1.836689,-1.721235 c 3.538355,-3.315937 9.670079,-7.727399 13.191516,-9.490625 2.414157,-1.208798 6.256524,-2.56247 8.590058,-3.02629 2.42517,-0.482034 9.418368,-0.414133 12.359188,0.120003 7.22093,1.311525 12.52669,3.981507 16.84238,8.475476 3.90089,4.062033 6.0478,8.247223 7.36957,14.366248 0.71834,3.325471 0.90249,10.36435 0.34935,13.353483 -1.47878,7.991318 -5.69239,15.620214 -12.83405,23.236562 -4.12202,4.395999 -45.208568,43.845601 -46.03614,44.202001 -0.99023,0.42644 -2.426469,0.42285 -3.390726,-0.008 v -4.8e-4 c -0.300366,-0.13435 -6.537084,-6.02378 -14.932256,-14.05442" />
       </svg>`;
     },
 

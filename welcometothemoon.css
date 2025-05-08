@@ -1817,6 +1817,8 @@ body {
     bottom: 0;
     top: 0;
     z-index: 1; }
+  .score-sheet[data-board="8"].writtable .background-holder {
+    box-shadow: inset 0px 0px 11px 5px yellow; }
   .score-sheet[data-board="8"] .scoresheet-rotate {
     position: absolute;
     top: -20px;
@@ -1890,7 +1892,7 @@ body {
     letter-spacing: -2px; }
     .score-sheet[data-board="8"] .scribble-number.selectable {
       border: none; }
-  .score-sheet[data-board="8"] .wttm-slot.selectable {
+  .score-sheet[data-board="8"] .wttm-slot.selectable:not(.slot-number) {
     border: 1px solid red;
     background-color: rgba(255, 0, 0, 0.5);
     box-shadow: 0px 0px 2px 0px red;
@@ -1898,10 +1900,34 @@ body {
     cursor: pointer;
     padding: 3px;
     margin: -3px; }
-    .score-sheet[data-board="8"] .wttm-slot.selectable:hover {
+    .score-sheet[data-board="8"] .wttm-slot.selectable:not(.slot-number):hover {
       border: 1px solid #00ff0091;
       background-color: #00ff0091;
       box-shadow: 0px 0px 4px 1px #04a604; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-number {
+    width: 40px !important;
+    height: 40px !important; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-insigna, .score-sheet[data-board="8"] .wttm-slot.slot-asteroid {
+    width: 40px;
+    height: 40px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-moon, .score-sheet[data-board="8"] .wttm-slot.slot-flag {
+    width: 32px;
+    height: 32px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-error, .score-sheet[data-board="8"] .wttm-slot.slot-asteroidbonus {
+    width: 34px;
+    height: 34px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-planetsymbol {
+    width: 36px;
+    height: 36px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-water, .score-sheet[data-board="8"] .wttm-slot.slot-plant {
+    width: 30px;
+    height: 30px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-astronautmarker {
+    width: 40px;
+    height: 40px; }
+  .score-sheet[data-board="8"] .wttm-slot.slot-energymarker, .score-sheet[data-board="8"] .wttm-slot.slot-planningmarker {
+    width: 30px;
+    height: 30px; }
 
 .score-sheet-wrapper {
   width: 1128px;
@@ -1925,6 +1951,8 @@ body {
         rotate: 180deg; }
         .score-sheet-wrapper .score-sheet-holder[data-board="8"].rotated .score-sheet > *:not(.background-holder):not(.gradient-border) {
           rotate: 180deg; }
+        .score-sheet-wrapper .score-sheet-holder[data-board="8"].rotated .score-sheet {
+          box-shadow: -1px -1px 3px black; }
     .score-sheet-wrapper .score-sheet-holder .score-sheet {
       width: 1122px;
       height: 1122px;
@@ -2990,6 +3018,54 @@ body {
   stroke-width: 14; }
 .wttm-scribble.scribble-arrow.animate .scribble-path {
   stroke-dashoffset: 200;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaSquare .scribble-path {
+  stroke-dasharray: 550;
+  stroke-dashoffset: 0;
+  stroke-width: 25; }
+.wttm-scribble.scribble-insignaSquare.animate .scribble-path {
+  stroke-dashoffset: 550;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaCircle .scribble-path {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 0;
+  stroke-width: 20; }
+.wttm-scribble.scribble-insignaCircle.animate .scribble-path {
+  stroke-dashoffset: 450;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaTriangle .scribble-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 0;
+  stroke-width: 25; }
+.wttm-scribble.scribble-insignaTriangle.animate .scribble-path {
+  stroke-dashoffset: 400;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaStar .scribble-path {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 0;
+  stroke-width: 20; }
+.wttm-scribble.scribble-insignaStar.animate .scribble-path {
+  stroke-dashoffset: 450;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaSpiral .scribble-path {
+  stroke-dasharray: 680;
+  stroke-dashoffset: 0;
+  stroke-width: 17; }
+.wttm-scribble.scribble-insignaSpiral.animate .scribble-path {
+  stroke-dashoffset: 680;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-insignaHeart .scribble-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 0;
+  stroke-width: 18; }
+.wttm-scribble.scribble-insignaHeart.animate .scribble-path {
+  stroke-dashoffset: 400;
   animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
   animation-fill-mode: forwards; }
 

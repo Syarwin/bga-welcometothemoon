@@ -23,6 +23,13 @@ trait TurnTrait
     Notifications::newTurn(Globals::getTurn(), $cards);
     Log::checkpoint();
 
+    // Scenario 8 => clear cache for scoresheet to allow alternating
+    if (Globals::getScenario() == 8) {
+      foreach (Players::getAll() as $player) {
+        $player->refreshScoresheet();
+      }
+    }
+
     // Any pending solo cards to resolve ?
     if (ConstructionCards::getPendingSoloCards()->count() > 0) {
       $this->stResolveSoloCards();

@@ -29,7 +29,7 @@ trait SetupTrait
   // SETUP BRANCH : might be useful for later and can be used for debugging launch
   public function stSetupBranch()
   {
-    $debug = true;
+    $debug = false;
     if ($debug) {
       $this->gamestate->jumpToState(ST_SETUP_DEBUG);
       return;
@@ -54,6 +54,13 @@ trait SetupTrait
 
     if (Globals::isSolo()) {
       Players::getAstra()->setupScenario();
+    }
+
+    // Scenario 8 => add INSIGNAS
+    if ($scenario == 8) {
+      foreach (Players::getAll() as $player) {
+        $player->scoresheet()->setupScenario();
+      }
     }
 
     $this->gamestate->jumpToState(ST_START_TURN);

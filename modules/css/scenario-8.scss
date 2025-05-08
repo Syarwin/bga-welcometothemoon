@@ -19,6 +19,9 @@
     top: 0;
     z-index: 1;
   }
+  &.writtable .background-holder {
+    box-shadow: inset 0px 0px 11px 5px yellow;
+  }
 
   .scoresheet-rotate {
     position: absolute;
@@ -132,7 +135,7 @@
   }
 
   .wttm-slot {
-    &.selectable {
+    &.selectable:not(.slot-number) {
       border: 1px solid red;
       background-color: rgba(255, 0, 0, 0.5);
       box-shadow: 0px 0px 2px 0px red;
@@ -146,6 +149,49 @@
         background-color: #00ff0091;
         box-shadow: 0px 0px 4px 1px #04a604;
       }
+    }
+
+    &.slot-number {
+      width: 40px !important;
+      height: 40px !important;
+    }
+
+    &.slot-insigna,
+    &.slot-asteroid {
+      width: 40px;
+      height: 40px;
+    }
+    &.slot-moon,
+    &.slot-flag {
+      width: 32px;
+      height: 32px;
+    }
+
+    &.slot-error,
+    &.slot-asteroidbonus {
+      width: 34px;
+      height: 34px;
+    }
+
+    &.slot-planetsymbol {
+      width: 36px;
+      height: 36px;
+    }
+
+    &.slot-water,
+    &.slot-plant {
+      width: 30px;
+      height: 30px;
+    }
+
+    &.slot-astronautmarker {
+      width: 40px;
+      height: 40px;
+    }
+    &.slot-energymarker,
+    &.slot-planningmarker {
+      width: 30px;
+      height: 30px;
     }
   }
 }
