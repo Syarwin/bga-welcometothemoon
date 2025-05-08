@@ -624,7 +624,7 @@ define([
                 const numbers = numbersBySlots[slotId];
 
                 //  Only one choice possible => take action
-                if (numbers.length == 1) {
+                if (numbers.length == 1 || this.isScenario8()) {
                   // Only one number, we can call the callback directly
                   this.takeAtomicAction('actWriteNumber', [slotId, numbers[0]]);
                 }

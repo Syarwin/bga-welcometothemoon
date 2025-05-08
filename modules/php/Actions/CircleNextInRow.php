@@ -103,6 +103,11 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         CIRCLE_SYMBOL_RUBY => clienttranslate('${player_name} circles a ruby'),
         CIRCLE_SYMBOL_PEARL => clienttranslate('${player_name} circles a pearl'),
       ][$symbol];
+
+      // Scenario 8 => astronaut symbol are circled first, not crossed
+      if ($symbol == CIRCLE_SYMBOL_ASTRONAUT && $this->getCtxArg('scribbleType') == SCRIBBLE_CIRCLE) {
+        $msg = clienttranslate('${player_name} circles an Astronaut symbol');
+      }
     } else {
       // If at any time we'll start to scribble more than 1 symbol for astronauts and/or planning, add them here
       $msg = [

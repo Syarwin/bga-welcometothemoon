@@ -73,9 +73,9 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
       if ($scenarioId == 8) {
         // Even turn, play on "my" sheet
         if (Globals::getTurn() % 2 == 0) {
-          $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this);
+          $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
         } else {
-          $this->scoresheet = new Scoresheet8($this, Players::getPrevOrAstra($this));
+          $this->scoresheet = new Scoresheet8($this, Players::getPrevOrAstra($this), 1);
         }
       }
       // Otherwise it's just as usual

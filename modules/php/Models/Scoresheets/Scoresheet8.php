@@ -81,6 +81,32 @@ class Scoresheet8 extends Scoresheet
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
+
+    switch ($combination['action']) {
+      case ASTRONAUT:
+        return [
+          'action' => CIRCLE_NEXT_IN_ROW,
+          'args' => [
+            'symbol' => CIRCLE_SYMBOL_ASTRONAUT,
+            'slots' => $this->getPlayerSectionSlots('astronautmarkers'),
+            'scribbleType' => SCRIBBLE_CIRCLE,
+          ]
+        ];
+        // case PLANNING:
+        //   return $this->getStandardPlanningAction();
+        // case ROBOT:
+        //   return [
+        //     'action' => S5_BUILD_DOME,
+        //     'args' => ['parity' => $combination['number'] % 2],
+        //   ];
+        // case ENERGY:
+        //   return [
+        //     'action' => S5_ENERGY_UPGRADE
+        //   ];
+
+        // case PLANT:
+        // case WATER:
+    }
     return null;
   }
 
@@ -129,12 +155,14 @@ class Scoresheet8 extends Scoresheet
   //////////////////////////////////////////
   protected Player|Astra $player1; // Player at the BOTTOM
   protected Player|Astra $player2; // Player at the TOP
+  protected int $whoIsPlaying = 0;
 
-  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null)
+  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null, int $whoIsPlaying)
   {
     if (is_null($player1)) return; // Used to extract datas
     $this->player1 = $player1;
     $this->player2 = $player2;
+    $this->whoIsPlaying = $whoIsPlaying;
     $this->fetch();
 
     // Extract info from datas
@@ -168,6 +196,12 @@ class Scoresheet8 extends Scoresheet
     $this->scribbles[$scribble->getId()] = $scribble;
     $this->scribblesBySlots[$scribble->getSlot()][] = $scribble;
     return $scribble;
+  }
+
+  // Useful for section slots that are mirrored on top and bottom
+  public function getPlayerSectionSlots(string $section): array
+  {
+    return $this->slotsBySection[$section . $this->whoIsPlaying] ?? [];
   }
 
 
