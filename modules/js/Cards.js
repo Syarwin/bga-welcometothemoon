@@ -576,10 +576,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       if (args.mayUseSoloBonus) {
-        this.addPrimaryActionButton('actUseSoloBonus', _('Use one solo bonus instead'), () =>
-          this.takeAtomicAction('actUseSoloBonus', [])
-        );
+        this.addPrimaryActionButton('actUseSoloBonus', _('Use one solo bonus instead'), () => {
+          if (args.stacks.length == 1) {
+            this.takeAtomicAction('actUseSoloBonus', [args.stacks[0]]);
+          } else {
+            this.clientState('removeCardAstra', _('Which card do you want to permanently remove from the deck?'), args);
+          }
+        });
       }
+    },
+
+    removeCardAstra(args) {
+      args.stacks.forEach((stackId) => {
+        let o = $(`construction-cards-stack-${stackId}`);
+        this.onClick(o, () => this.takeAtomicAction('actUseSoloBonus', [stackId]));
+        this.addPrimaryActionButton(
+          `btnCard${stackId}`,
+          this.formatIcon(o.querySelector('.construction-card-holder').dataset.action),
+          () => this.takeAtomicAction('actUseSoloBonus', [stackId])
+        );
+        $(`btnCard${stackId}`).classList.add('btnAction');
+      });
     },
 
     notif_giveCardToAstra(args) {
@@ -589,6 +606,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return this.slide(o, $('astra-container').querySelector('.astra-scores'), {
         destroy: true,
       });
+    },
+
+    async notif_useSoloBonus(args) {
+      await Promise.all([this.notif_giveCardToAstra(args), this.notif_addScribble(args)]);
     },
 
     async notif_replaceSoloCard(args) {

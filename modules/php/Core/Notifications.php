@@ -174,9 +174,26 @@ class Notifications
     ]);
   }
 
-  public static function useSoloBonus(Player $player, Scribble $scribble)
+  public static function useSoloBonus(Player $player, Scribble $scribble, ConstructionCard $card)
   {
-    self::addScribble($player, $scribble, clienttranslate('${player_name} uses a solo bonus instead of giving a card to ASTRA.'));
+    $names = [
+      ASTRONAUT => clienttranslate('Astronaut'),
+      ROBOT => clienttranslate('Robot'),
+      PLANT => clienttranslate('Plant'),
+      WATER => clienttranslate('Water'),
+      PLANNING => clienttranslate('Planning'),
+      ENERGY => clienttranslate('Energy'),
+      JOKER => clienttranslate('Joker'),
+    ];
+
+    self::pnotify($player, 'useSoloBonus', clienttranslate('${player_name} uses a solo bonus to discard a ${action}${action_icon} instead of giving it to ASTRA.'), [
+      'player' => $player,
+      'i18n' => ['action'],
+      'card' => $card,
+      'action' => $names[$card->getAction()],
+      'action_icon' => "",
+      'scribble' => $scribble,
+    ]);
   }
 
   public static function replaceSoloCard($player, $stack, $card, $drawnCard)

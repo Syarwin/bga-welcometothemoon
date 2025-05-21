@@ -44,6 +44,7 @@ define([
           'resolveSabotage',
           'accomplishMission',
           'giveCardToAstra',
+          'useSoloBonus',
           'replaceSoloCard',
           'newTurn',
           'endGameTriggered',
@@ -56,8 +57,6 @@ define([
         // Fix mobile viewport (remove CSS zoom)
         this.default_viewport = 'width=740';
         this.cardStatuses = {};
-
-        this.scoresheet_id = this.player_id;
       },
       notif_midMessage() {
         return this.wait(1000);
@@ -193,6 +192,7 @@ define([
        *	- mixed gamedatas : contains all datas retrieved by the getAllDatas PHP method.
        */
       setup(gamedatas) {
+        this.scoresheet_id = this.player_id;
         debug('SETUP', gamedatas);
         // Create a new div for "subtitle"
         dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');

@@ -65,12 +65,24 @@ class GiveCardToAstra extends \Bga\Games\WelcomeToTheMoon\Models\Action
   }
 
 
-  public function actUseSoloBonus()
+  public function actUseSoloBonus($stack)
   {
     $player = $this->getPlayer();
     $astra = Players::getAstra();
     $location = $astra->getNextAvailableSoloBonus();
     $scribble = $astra->addScribble($location);
-    Notifications::useSoloBonus($player, $scribble);
+
+    $args = $this->getArgs();
+    if (!in_array($stack, $args['stacks'])) {
+      throw new \BgaUserException('You cannot select this stack. Should not happen.');
+    }
+
+    $card = ConstructionCards::getInLocation("stack-$stack")->first();
+    if (is_null($card)) {
+      throw new \BgaUserException('No card in this stack. Should not happen.');
+    }
+
+    $card->setLocation('box');
+    Notifications::useSoloBonus($player, $scribble, $card);
   }
 }
