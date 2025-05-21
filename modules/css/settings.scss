@@ -131,6 +131,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        display: none; // Asked by BGA
 
         &:hover {
             color: grey;

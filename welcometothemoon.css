@@ -2262,6 +2262,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  display: none;
   cursor: pointer; }
   #player_config #show-settings:hover {
     color: grey; }
@@ -3155,6 +3156,30 @@ body {
 
 #restartAction {
   margin-left: 15px; }
+
+#more-settings {
+  margin: 5px 10px;
+  height: 40px;
+  cursor: pointer;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer; }
+  #more-settings:hover {
+    color: grey; }
+  #more-settings svg {
+    width: auto;
+    height: 35px;
+    margin-left: 10px; }
+  #more-settings .fa-primary {
+    transform-origin: 216px 255px;
+    transition: transform 1s; }
+  #more-settings:hover .fa-primary {
+    transform: rotate(180deg); }
 
 [data-undobuttons="0"] #btnUndoLastStep {
   display: none; }
