@@ -385,7 +385,7 @@ class Notifications
     } else {
       $msg = clienttranslate('${player_name} circles next greenhouse in the ${quarterName} quarter');
     }
-    static::addScribbles($player, $scribbles, $msg, ['quarterName' => $quarterName]);
+    static::addScribbles($player, $scribbles, $msg, ['quarterName' => $quarterName, 'i18n' => ['quarterName']]);
   }
 
   //////////////////////////////////////////////////////
@@ -419,7 +419,7 @@ class Notifications
   {
     $msg = $firstToFill ?
       clienttranslate('${player_name} have filled the ${quarter} quarter first and gets 15 points')
-      : clienttranslate('${player_name} have filled the ${quarter} quarter and gets 5 points');;
+      : clienttranslate('${player_name} have filled the ${quarter} quarter and gets 5 points');
     static::addScribble($player, $scribble, $msg, [
       'quarter' => $quarter->getName(),
       'i18n' => ['quarter']
