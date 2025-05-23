@@ -586,7 +586,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
     },
 
-    removeCardAstra(args) {
+    onEnteringStateRemoveCardAstra(args) {
       args.stacks.forEach((stackId) => {
         let o = $(`construction-cards-stack-${stackId}`);
         this.onClick(o, () => this.takeAtomicAction('actUseSoloBonus', [stackId]));
