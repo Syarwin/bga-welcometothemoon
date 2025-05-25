@@ -308,7 +308,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                   'The Planning action speeds up the construction of the skyscrapers, but slows down the construction of the dome. The Planning action allows you to fill in a level with an X in addition to the number of your combination: either one of the two starting levels of a skyscraper, or a level adjacent to an already numbered level.'
                 ) +
                 _(
-                  'In addition to that, with a line, you must cut in half one unbuilt section of the dome of your choice 7 . This way, you end up with 2 sections to build instead of one. Both new sections keep the odd/even type of the original section. One section can only be cut up in half once. If there is no more unbuilt section to cut up in half, then you can use the Planning action without having to be subjected to this penalty.'
+                  'In addition to that, with a line, you must cut in half one unbuilt section of the dome of your choice. This way, you end up with 2 sections to build instead of one. Both new sections keep the odd/even type of the original section. One section can only be cut up in half once. If there is no more unbuilt section to cut up in half, then you can use the Planning action without having to be subjected to this penalty.'
                 )
               );
           }

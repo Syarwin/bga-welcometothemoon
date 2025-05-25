@@ -151,7 +151,7 @@ class Astra
       $validationScribble = Scribbles::getSingle("0-$planId", false);
 
       // Mark the plan as validated
-      if (is_null($validationScribble)) {
+      if (is_null($validationScribble) || $validationScribble->getLocation() != "plan-$planId") {
         $scribble = Scribbles::add(0, [
           'location' => "plan-$planId",
           'type' => SCRIBBLE,
