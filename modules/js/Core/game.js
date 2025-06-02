@@ -242,7 +242,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
         dojo.subscribe(notif, this, wrapper);
         this.notifqueue.setSynchronous(notif);
-        this.notifqueue.setIgnoreNotificationCheck(notif, (n) => n.args.ignore && n.args.ignore == this.player_id);
+        this.notifqueue.setIgnoreNotificationCheck(notif, (n) => {
+          if (n.args && n.args.infos) {
+            this.updateInfosFromNotif(n.args.infos);
+          }
+
+          return n.args.ignore && n.args.ignore == this.player_id;
+        });
       });
     },
 

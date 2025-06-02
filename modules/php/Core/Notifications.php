@@ -206,6 +206,14 @@ class Notifications
     ]);
   }
 
+  public static function setFinalScore($player, $score)
+  {
+    self::notifyAll('midMessage', clienttranslate('${player_name}\'s final score is ${score}'), [
+      'player' => $player,
+      'score' => $score
+    ]);
+  }
+
   ///////////////////////////////////////////////////
   //  ____                            _         _ 
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   / |

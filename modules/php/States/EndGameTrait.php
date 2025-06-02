@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\States;
 
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 
 trait EndGameTrait
 {
@@ -17,6 +18,7 @@ trait EndGameTrait
         $score -= $astra->getScore();
       }
       $player->setScore($score);
+      Notifications::setFinalScore($player, $score);
     }
 
     $this->gamestate->nextState('');
