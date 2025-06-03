@@ -214,7 +214,7 @@ class Scoresheet2 extends Scoresheet
       $stationPoints += $points;
       $data[] = ["slot" => 168 + $station, "v" => $points];
     }
-    $data[] = ["slot" => 38, "v" => $stationPoints];
+    $data[] = ["slot" => 38, "v" => $stationPoints, "overview" => "plants"];
 
     // Water
     $waterPoints = 0;

@@ -24,6 +24,11 @@
       "icon": "stack-C"
     },
     {
+      "name": "plants",
+      "type": "points",
+      "icon": "plant"
+    },
+    {
       "name": "waters",
       "type": "points",
       "icon": "water"

@@ -157,7 +157,7 @@ class Scoresheet8 extends Scoresheet
   protected Player|Astra $player2; // Player at the TOP
   protected int $whoIsPlaying = 0;
 
-  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null, int $whoIsPlaying)
+  public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null, int|null $whoIsPlaying = null)
   {
     if (is_null($player1)) return; // Used to extract datas
     $this->player1 = $player1;

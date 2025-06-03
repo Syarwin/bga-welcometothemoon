@@ -25,21 +25,26 @@ const DATAS2 = [
       'icon' => 'stack-C',
     ],
     4 => [
+      'name' => 'plants',
+      'type' => 'points',
+      'icon' => 'plant',
+    ],
+    5 => [
       'name' => 'waters',
       'type' => 'points',
       'icon' => 'water',
     ],
-    5 => [
+    6 => [
       'name' => 'longest-section',
       'type' => 'points',
       'icon' => 'longest-section',
     ],
-    6 => [
+    7 => [
       'name' => 'most-sections',
       'type' => 'points',
       'icon' => 'most-sections',
     ],
-    7 => [
+    8 => [
       'name' => 'errors',
       'type' => 'points',
       'icon' => 'system-error',
