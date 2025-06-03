@@ -121,8 +121,8 @@ class CrossRockets extends \Bga\Games\WelcomeToTheMoon\Models\Action
           // Empty rocket found => scribble it
           $scribbles[] = $scoresheet->addScribble($slot);
           $mRockets++;
-          // End of row slot
-          if ($i == count($slots) - 1) {
+          // End of row slot (201 is a fake slot for end of top rockets line)
+          if ($i == count($slots) - 1 && $scoreslot != 201) {
             $scribbles[] = $scoresheet->addScribble($scoreslot);
           }
 
