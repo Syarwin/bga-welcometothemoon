@@ -23,6 +23,10 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return PlanCards::getAccomplishablePlans($player)->count() > 0;
   }
 
+  public function isOptional(): bool
+  {
+    return true;
+  }
 
   public function argsAccomplishMission()
   {

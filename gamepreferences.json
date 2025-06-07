@@ -15,7 +15,7 @@
   "103": {
     "name": "Turn confirmation",
     "needReload": false,
-    "default": 0,
+    "default": 2,
     "values": {
       "2": {
         "name": "Enabled"
