@@ -52,14 +52,14 @@ class Scoresheet6 extends Scoresheet
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;
-    $data[] = ["slot" => 46, "v" => $negativePoints];
+    $data[] = ["slot" => 64, "v" => $negativePoints];
     $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 3")];
     $data[] = ["panel" => "errors", "v" => $scribbledErrors];
 
 
     // Total score
     $data[] = [
-      "slot" => 47,
+      "slot" => 65,
       "score" => true,
       "overview" => "total",
       "v" => -$negativePoints,

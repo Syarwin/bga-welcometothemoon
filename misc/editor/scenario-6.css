@@ -90,6 +90,54 @@
   border-radius: 0px;
   border: none;
 }
+#main-frame.add-plantmarkers .slot-plantmarker,
+#main-frame.show-plantmarkers .slot-plantmarker,
+#main-frame.add-plantmarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-watermarkers .slot-watermarker,
+#main-frame.show-watermarkers .slot-watermarker,
+#main-frame.add-watermarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-scoremarkers .slot-scoremarker,
+#main-frame.show-scoremarkers .slot-scoremarker,
+#main-frame.add-scoremarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+#main-frame.add-bonuses .slot-bonus,
+#main-frame.show-bonuses .slot-bonus,
+#main-frame.add-bonuses #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
 
 #main-frame.add-astronautmarkers .slot-astronautmarker,
 #main-frame.show-astronautmarkers .slot-astronautmarker,
@@ -104,16 +152,81 @@
   border: none;
 }
 
+#main-frame.add-othermarkers .slot-othermarker,
+#main-frame.show-othermarkers .slot-othermarker,
+#main-frame.add-othermarkers #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
 #main-frame.add-energymarkers .slot-energymarker,
 #main-frame.show-energymarkers .slot-energymarker,
 #main-frame.add-energymarkers #hover-indicator {
   display: block;
   position: absolute;
-  width: 28px;
-  height: 26px;
-  /* background: url("img/scribble.png"); */
-  background-color: rgba(255, 0, 0, 0.541);
+  width: 40px;
+  height: 40px;
+  background: url("img/circled.png");
   background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+#main-frame.add-walkways .slot-walkway,
+#main-frame.show-walkways .slot-walkway,
+#main-frame.add-walkways #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 45px;
+  background: url("img/line_segment.svg");
+  background-size: 100% auto;
+  /* background-color: red; */
+  border-radius: 0px;
+  border: none;
+  transform-origin: center center;
+}
+
+#main-frame.add-viruses .slot-virus,
+#main-frame.show-viruses .slot-virus,
+#main-frame.add-viruses #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: url("img/circled.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+#main-frame.add-missionviruses .slot-missionvirus,
+#main-frame.show-missionviruses .slot-missionvirus,
+#main-frame.add-missionviruses #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url("img/scribble.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
+
+#main-frame.add-quarters .slot-quarter,
+#main-frame.show-quarters .slot-quarter,
+#main-frame.add-quarters #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 280px;
+  height: 128px;
+  background: url("img/rectangle.png");
+  background-size: 100% auto;
   border-radius: 0px;
   border: none;
 }

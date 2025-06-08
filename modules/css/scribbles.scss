@@ -129,6 +129,20 @@
     }
   }
 
+  &.scribble-rectangle {
+    .scribble-path {
+      stroke-dasharray: 800;
+      stroke-dashoffset: 0;
+      stroke-width: 14;
+    }
+
+    &.animate .scribble-path {
+      stroke-dashoffset: 800;
+      animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-fill-mode: forwards;
+    }
+  }
+
   &.scribble-insignaSquare {
     .scribble-path {
       stroke-dasharray: 550;
