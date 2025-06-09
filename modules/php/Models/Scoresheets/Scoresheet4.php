@@ -281,19 +281,19 @@ class Scoresheet4 extends Scoresheet
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-          [
-            'type' => PLANT,
-            'slots' => $this->linkedPlants[$slot] ?? null,
-          ]
+            [
+              'type' => PLANT,
+              'slots' => $this->linkedPlants[$slot] ?? null,
+            ]
         ];
       case WATER:
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-          [
-            'type' => WATER,
-            'slots' => $this->linkedWater[$slot] ?? null,
-          ]
+            [
+              'type' => WATER,
+              'slots' => $this->linkedWater[$slot] ?? null,
+            ]
         ];
       case ROBOT:
       case ENERGY:
@@ -345,7 +345,7 @@ class Scoresheet4 extends Scoresheet
 
       // Bonus, if any
       if (isset($infos['bonus'])) {
-        $bonus = $this->hasScribbledSlot($infos['bonusSlot']) ? $infos['bonus'] : 0;
+        $bonus = $this->hasScribbledSlot($infos['bonusSlot'], SCRIBBLE_CIRCLE) ? $infos['bonus'] : 0;
         $data[] = ["slot" => $infos['UIbonus'], "v" => $bonus];
         $score += $bonus;
       }
