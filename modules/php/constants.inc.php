@@ -204,6 +204,10 @@ const SCRIBBLE_INSIGNAS = [
   SCRIBBLE_INSIGNA_HEART,
 ];
 
+const SUBSECTION_WATERS = 'resources/waters';
+const SUBSECTION_PLANTS = 'resources/plants';
+const SUBSECTIONS = [SUBSECTION_WATERS, SUBSECTION_PLANTS];
+
 const SOLO_CARDS_STACKS = [
   112 => 'A',
   113 => 'B',

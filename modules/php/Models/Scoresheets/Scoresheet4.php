@@ -167,6 +167,23 @@ class Scoresheet4 extends Scoresheet
     ],
   ];
 
+  public function getSectionSlots(string $section): array
+  {
+    if (in_array($section, SUBSECTIONS)) {
+      switch ($section) {
+        case SUBSECTION_WATERS:
+          return array_unique(array_merge(...array_values($this->linkedWater)));
+        case SUBSECTION_PLANTS:
+          return array_unique(array_merge(...array_values($this->linkedPlants)));
+        default:
+          // Should be impossible
+          return [];
+      }
+    } else {
+      return parent::getSectionSlots($section);
+    }
+  }
+
   public function getFactorySection($type): string
   {
     return $this->factories[$type]['section'];
