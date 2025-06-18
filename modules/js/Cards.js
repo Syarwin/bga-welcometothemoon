@@ -312,6 +312,78 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 )
               );
           }
+
+        // Scenario 6
+        case 6:
+          switch (action) {
+            case 'energy':
+              return _(
+                'Circle one energy in the quarter where you have written down the number of your combination. Note that at the start of the game, there is already one circled energy in each quarter'
+              );
+            case 'robot':
+              return (
+                _('With this action, you can quarantine quarters to slow down the propagation of the viruses.') +
+                _('Close one walkway of your choice, wherever on your sheet, with a line that will close the walkway.') +
+                _(
+                  'This way, the quarters that were connected with this walkway are no longer connected. This will prevent the propagation of the viruses from one quarter to another.'
+                ) +
+                _(
+                  'Closing a walkway that connects two quarters of the same floor does not divide the zone and you must still number the whole floor in ascending order.'
+                )
+              );
+            case 'plant':
+              return (
+                _(
+                  'Circle a plant in the quarter where you have written down the number of your number/plant combination. Then cross off a Plant symbol in the scoring area.'
+                ) +
+                _(
+                  'In the scoring area, you must cross off the Plant and Water symbols from left to right, and from top to bottom starting from the top line.'
+                ) +
+                _(
+                  'Whenever you cross off the last symbol of a line of the scoring area, cross off the scoring box at the end of this line, as well as the Robot or Energy symbol that you must immediately use.'
+                ) +
+                _(
+                  'Whenever you cross off a symbol (Plant or Water) with a virus activation symbol, everyone must immediately activate it on their sheet by circling the corresponding virus target. Everyone must also cross off the same activation symbol on their sheet, because each virus can only be activated once.'
+                ) +
+                _(
+                  'Whenever a virus is activated, a propagation of all active viruses must be triggered for every player during phase 5.'
+                ) +
+                _(
+                  'Whenever you circle a symbol (Plant or Water) with a Propagation symbol, everyone must cross off this symbol on their sheet, because it can only be activated once.'
+                ) +
+                _('A propagation of all active viruses must be triggered only for your opponents during phase 5')
+              );
+            case 'water':
+              return (
+                _(
+                  'Circle the water tank if you have written down the number of your number/water combination in a housing space with a water tank. Then cross off a Water symbol in the scoring area.'
+                ) +
+                _(
+                  'In the scoring area, you must cross off the Plant and Water symbols from left to right, and from top to bottom starting from the top line.'
+                ) +
+                _(
+                  'Whenever you cross off the last symbol of a line of the scoring area, cross off the scoring box at the end of this line, as well as the Robot or Energy symbol that you must immediately use.'
+                ) +
+                _(
+                  'Whenever you cross off a symbol (Plant or Water) with a virus activation symbol, everyone must immediately activate it on their sheet by circling the corresponding virus target. Everyone must also cross off the same activation symbol on their sheet, because each virus can only be activated once.'
+                ) +
+                _(
+                  'Whenever a virus is activated, a propagation of all active viruses must be triggered for every player during phase 5.'
+                ) +
+                _(
+                  'Whenever you circle a symbol (Plant or Water) with a Propagation symbol, everyone must cross off this symbol on their sheet, because it can only be activated once.'
+                ) +
+                _('A propagation of all active viruses must be triggered only for your opponents during phase 5')
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover, cross off 1 Astronaut symbol on the right side of your sheet. Whenever you have 2 crossed off Astronauts, circle a Wild Action symbol'
+              );
+            case 'planning':
+              return _(
+                'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, cross off 1 Planning symbol on the right side of your sheet. Whenever you have 2 crossed off Planning, circle a Wild Action symbol. Note that you cannot cross off a Planning symbol without writing down an X in an empty space.'
+              );
+          }
       }
     },
 
