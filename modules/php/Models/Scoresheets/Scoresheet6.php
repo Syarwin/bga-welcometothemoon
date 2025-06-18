@@ -14,22 +14,65 @@ class Scoresheet6 extends Scoresheet
 {
   protected int $scenario = 6;
   protected array $datas = DATAS6;
-  protected array $numberBlocks = [];
+  protected array $numberBlocks = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+    [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+    [46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+  ];
 
   // PHASE 5
   public static function phase5Check(): void {}
+  public function prepareForPhaseFive(array $args) {}
 
-  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
-  {
-    return [];
-  }
+  private array $astronautsSlots = [80, 81, 83, 84, 86, 87];
+  private array $planningSlots = [89, 90, 92, 93, 95, 96];
+
+  protected array $jokers = [
+    81 => 82,
+    84 => 85,
+    87 => 88,
+    90 => 91,
+    93 => 94,
+    96 => 97,
+  ];
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
+    switch ($combination['action']) {
+      // case ENERGY:
+      //   return ['action' => CIRCLE_ENERGY];
+      // case ROBOT:
+      //   return ['action' => PROGRAM_ROBOT];
+      // case PLANT:
+      //   return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
+      // case WATER:
+      //   return [
+      //     'action' => CIRCLE_SINGLE_LINKED,
+      //     'args' => [
+      //       'slot' => $this->waterTanksAtSlots[$slot] ?? null,
+      //       'values' => $this->waterTanksValues,
+      //       'type' => CIRCLE_TYPE_WATER_S2,
+      //     ]
+      //   ];
+      case ASTRONAUT:
+        return $this->getStandardAstronautAction($this->jokers, $this->astronautsSlots);
+      case PLANNING:
+        return $this->getStandardPlanningAction();
+    }
     return null;
   }
 
-  public function prepareForPhaseFive(array $args) {}
+  public function getScribbleReactions(Scribble $scribble, string $methodSource): array
+  {
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      return $this->getStandardPlanningReaction($this->jokers, $this->planningSlots);
+    }
+
+    return [];
+  }
+
 
 
   /**

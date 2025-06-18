@@ -797,6 +797,9 @@
   background-color: #4c483e;
   padding: 6px; }
 
+#btnUseJoker {
+  padding: 6px 3px; }
+
 .card-number {
   width: 1em;
   height: 1.2em;
@@ -1744,9 +1747,8 @@ body {
 .score-sheet[data-board="6"] {
   background-image: url("img/scenario-6.jpg"); }
   .score-sheet[data-board="6"] .player-name {
-    left: auto;
-    top: 5px;
-    right: 9px; }
+    top: 654px;
+    left: 10px; }
   .score-sheet[data-board="6"] .scribble-number {
     font-size: 43px;
     line-height: 41px;
@@ -1769,6 +1771,22 @@ body {
       border: 1px solid #00ff0091;
       background-color: #00ff0091;
       box-shadow: 0px 0px 4px 1px #04a604; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-water, .score-sheet[data-board="6"] .wttm-slot.slot-plant, .score-sheet[data-board="6"] .wttm-slot.slot-othermarker, .score-sheet[data-board="6"] .wttm-slot.slot-energymarker, .score-sheet[data-board="6"] .wttm-slot.slot-missionvirus {
+    width: 40px;
+    height: 40px; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-plantmarker, .score-sheet[data-board="6"] .wttm-slot.slot-watermarker, .score-sheet[data-board="6"] .wttm-slot.slot-scoremarker, .score-sheet[data-board="6"] .wttm-slot.slot-bonus {
+    width: 35px;
+    height: 35px; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-walkway {
+    width: 10px;
+    height: 45px;
+    transform-origin: center center; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-virus {
+    width: 55px;
+    height: 55px; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-quarter {
+    width: 280px;
+    height: 128px; }
 
 .score-sheet[data-board="7"] {
   background-image: url("img/scenario-7.jpg"); }
@@ -3019,6 +3037,14 @@ body {
   stroke-width: 14; }
 .wttm-scribble.scribble-arrow.animate .scribble-path {
   stroke-dashoffset: 200;
+  animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-fill-mode: forwards; }
+.wttm-scribble.scribble-rectangle .scribble-path {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 0;
+  stroke-width: 14; }
+.wttm-scribble.scribble-rectangle.animate .scribble-path {
+  stroke-dashoffset: 800;
   animation: drawScribble 2s cubic-bezier(0.215, 0.61, 0.355, 1);
   animation-fill-mode: forwards; }
 .wttm-scribble.scribble-insignaSquare .scribble-path {

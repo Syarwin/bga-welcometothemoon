@@ -2,9 +2,8 @@
   background-image: url("img/scenario-6.jpg");
 
   .player-name {
-    left: auto;
-    top: 5px;
-    right: 9px;
+    top: 654px;
+    left: 10px;
   }
 
   .scribble-number {
@@ -36,6 +35,36 @@
         background-color: #00ff0091;
         box-shadow: 0px 0px 4px 1px #04a604;
       }
+    }
+
+    &.slot-water,
+    &.slot-plant,
+    &.slot-othermarker,
+    &.slot-energymarker,
+    &.slot-missionvirus {
+      width: 40px;
+      height: 40px;
+    }
+    &.slot-plantmarker,
+    &.slot-watermarker,
+    &.slot-scoremarker,
+    &.slot-bonus {
+      width: 35px;
+      height: 35px;
+    }
+    &.slot-walkway {
+      width: 10px;
+      height: 45px;
+      transform-origin: center center;
+    }
+
+    &.slot-virus {
+      width: 55px;
+      height: 55px;
+    }
+    &.slot-quarter {
+      width: 280px;
+      height: 128px;
     }
   }
 }

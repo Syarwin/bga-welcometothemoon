@@ -52,7 +52,7 @@ class Scoresheet2 extends Scoresheet
   private array $astronautsSlots = [151, 152, 154, 155, 157, 158];
   private array $planningSlots = [160, 161, 163, 164, 166, 167];
 
-  private array $jokers = [
+  protected array $jokers = [
     152 => 153,
     155 => 156,
     158 => 159,
@@ -152,17 +152,6 @@ class Scoresheet2 extends Scoresheet
     }
 
     return [];
-  }
-
-  public function canUseJoker(): bool
-  {
-    return $this->getFirstUnscribbledJoker() !== null;
-  }
-
-  public function getFirstUnscribbledJoker(): int|null
-  {
-    $circledJokers = array_filter($this->jokers, fn($jokerSlot) => $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
-    return $this->getFirstUnscribbled($circledJokers, SCRIBBLE);
   }
 
   public function getCompleteSectionsCount(): int

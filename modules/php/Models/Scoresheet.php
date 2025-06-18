@@ -214,15 +214,18 @@ class Scoresheet
     return null;
   }
 
+  protected array $jokers = [];
   public function canUseJoker(): bool
   {
-    return false;
+    return $this->getFirstUnscribbledJoker() !== null;
   }
 
   public function getFirstUnscribbledJoker(): int|null
   {
-    return null;
+    $circledJokers = array_filter($this->jokers, fn($jokerSlot) => $this->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
+    return $this->getFirstUnscribbled($circledJokers, SCRIBBLE);
   }
+
 
   public function getFirstUnscribbled(array $slots, ?int $type = null): int|null
   {

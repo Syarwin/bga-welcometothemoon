@@ -381,11 +381,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
 
       if (args.jokerCombinations) {
-        this.addSecondaryActionButton('btnUseJoker', _('Use joker'), () => {
-          args.useJoker = !args.useJoker;
-          this.clearPossible();
-          this.onEnteringStateChooseCards(args);
-        });
+        this.addSecondaryActionButton(
+          'btnUseJoker',
+          this.formatIcon('bonus') + '&nbsp' + _('Use joker') + '&nbsp' + this.formatIcon('bonus'),
+          () => {
+            args.useJoker = !args.useJoker;
+            this.clearPossible();
+            this.onEnteringStateChooseCards(args);
+          }
+        );
 
         $('btnUseJoker').classList.toggle('selected', args.useJoker);
       }
