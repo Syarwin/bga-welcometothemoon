@@ -102,6 +102,8 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         CIRCLE_SYMBOL_PLANT => clienttranslate('${player_name} circles a plant symbol'),
         CIRCLE_SYMBOL_RUBY => clienttranslate('${player_name} circles a ruby'),
         CIRCLE_SYMBOL_PEARL => clienttranslate('${player_name} circles a pearl'),
+
+        CROSS_SYMBOL_WATER => clienttranslate('${player_name} crosses off a water symbol'),
       ][$symbol];
 
       // Scenario 8 => astronaut symbol are circled first, not crossed

@@ -234,6 +234,9 @@ const CIRCLE_SYMBOL_WATER = 2;
 const CIRCLE_SYMBOL_PLANT = 3;
 const CIRCLE_SYMBOL_RUBY = 4;
 const CIRCLE_SYMBOL_PEARL = 5;
+
+const CROSS_SYMBOL_WATER = 10;
+
 /******************
  ****** STATS ******
  ******************/
