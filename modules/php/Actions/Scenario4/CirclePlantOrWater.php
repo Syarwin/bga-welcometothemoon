@@ -50,7 +50,7 @@ class CirclePlantOrWater extends GenericPickSlot
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    $type = $this->getCtxArg('descSuffix') === WATER ? CIRCLE_TYPE_WATER_S4 : CIRCLE_TYPE_PLANT_S4;
+    $type = $this->getCtxArg('type') === WATER ? CIRCLE_TYPE_WATER_S4 : CIRCLE_TYPE_PLANT_S4;
     Notifications::circleSingleLinked($player, $scribble, $type);
   }
 }

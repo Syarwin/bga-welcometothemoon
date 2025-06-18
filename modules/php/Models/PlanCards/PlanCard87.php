@@ -19,6 +19,6 @@ class PlanCard87 extends PlanCard
   public function canAccomplish(Player $player): bool
   {
     $scoresheet = $player->scoresheet();
-    return $scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('waters'), 5, SCRIBBLE_CIRCLE);
+    return $scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('resources/waters'), 5, SCRIBBLE_CIRCLE);
   }
 }
