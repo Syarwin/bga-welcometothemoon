@@ -22,20 +22,6 @@ class Scoresheet6 extends Scoresheet
     [46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
   ];
 
-  private array $waterTanksAtSlots = [
-    1 => 136,
-    7 => 137,
-    13 => 138,
-    20 => 139,
-    23 => 140,
-    34 => 141,
-    37 => 142,
-    43 => 143,
-    47 => 144,
-    53 => 145,
-  ];
-
-
   // PHASE 5
   public static function phase5Check(): void {}
   public function prepareForPhaseFive(array $args) {}
@@ -54,35 +40,20 @@ class Scoresheet6 extends Scoresheet
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
+    $quarter = intdiv($slot - 1, 5);
+
     switch ($combination['action']) {
       // case ENERGY:
       //   return ['action' => CIRCLE_ENERGY];
       // case ROBOT:
       //   return ['action' => PROGRAM_ROBOT];
-      // case PLANT:
-      //   return ['action' => CIRCLE_PLANT, 'args' => ['slot' => $slot]];
+      case PLANT:
       case WATER:
-        $slot = $this->waterTanksAtSlots[$slot] ?? null;
-        if (is_null($slot)) return null;
-
         return [
-          'type' => NODE_SEQ,
-          'childs' => [
-            [
-              'action' => CIRCLE_SINGLE_LINKED,
-              'args' => [
-                'slot' => $slot,
-                'type' => CIRCLE_TYPE_WATER_S2,
-              ],
-            ],
-            [
-              'action' => CIRCLE_NEXT_IN_ROW,
-              'args' => [
-                'slots' => $this->getSectionSlots('watermarkers'),
-                'scribbleType' => SCRIBBLE,
-                'symbol' => CROSS_SYMBOL_WATER,
-              ],
-            ]
+          'action' => S6_CIRCLE_SYMBOL,
+          'args' => [
+            'slot' => $slot,
+            'type' => $combination['action'],
           ]
         ];
       case ASTRONAUT:

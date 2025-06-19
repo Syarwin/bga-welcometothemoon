@@ -145,6 +145,9 @@ const S5_ENERGY_UPGRADE = 'Scenario5\EnergyUpgrade';
 const S5_FILLED_SKYSCRAPER = 'Scenario5\FilledSkyscraper';
 const S5_CROSS_OFF_SKYSCRAPER_BONUS = 'Scenario5\CrossOffSkyscraperBonus';
 
+// SCENARIO 6
+const S6_CIRCLE_SYMBOL = 'Scenario6\CircleSymbol';
+
 /*
  * Actions
  */
