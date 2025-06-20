@@ -5,6 +5,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const SCRIBBLE_CHECKMARK = 303;
   const SCRIBBLE_LINE = 304;
   const SCRIBBLE_LINE_ORTHOGONAL = 305;
+  const SCRIBBLE_PLAN_MARKER = 306;
 
   const SCRIBBLE_INSIGNA_CIRCLE = 310;
   const SCRIBBLE_INSIGNA_SQUARE = 311;
@@ -109,7 +110,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`slot-${pId}-${t[1]}`);
       }
       if (t[0] == 'plan') {
-        if (pId != this.player_id) {
+        if (scribble.type == SCRIBBLE_PLAN_MARKER || pId != this.player_id) {
           return $(`plan-card-${t[1]}`);
         } else {
           return $(`plan-card-${t[1]}-validation`);

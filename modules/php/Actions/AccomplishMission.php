@@ -54,9 +54,9 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Mark the plan as validated
     if (is_null($validationScribble)) {
-      $scribbles[] = Scribbles::add(0, [
+      $scribbles[] = Scribbles::add($player, [
         'location' => "plan-$planId",
-        'type' => SCRIBBLE,
+        'type' => SCRIBBLE_PLAN_MARKER,
       ]);
     }
 
