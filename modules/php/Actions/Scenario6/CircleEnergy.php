@@ -64,7 +64,15 @@ class CircleEnergy extends GenericPickSlot
 
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
-    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    Notifications::circleEnergy($player, $scribble, false);
+    $scribbles = [];
+    $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
+
+    // Bonus slot?
+    $bonusSlot = $this->getCtxArg('bonusSlot');
+    if (!is_null($bonusSlot)) {
+      $scribbles[] = $scoresheet->addScribble($bonusSlot);
+    }
+
+    Notifications::circleEnergySymbol($player, $scribbles, false);
   }
 }

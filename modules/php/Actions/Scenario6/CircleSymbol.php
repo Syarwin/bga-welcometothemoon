@@ -52,19 +52,19 @@ class CircleSymbol extends Action
 
   // End lines : scoremarker slot / bonus slot / type of bonus
   private array $linkedBonus = [
-    169 => [194, 205, ROBOT],
-    171 => [195, 206, ROBOT],
-    174 => [196, 207, ROBOT],
-    177 => [197, 208, ROBOT],
-    180 => [198, 209, ROBOT],
-    183 => [199, 210, ROBOT],
+    169 => [194, 205, S6_CLOSE_WALKWAY],
+    171 => [195, 206, S6_CLOSE_WALKWAY],
+    174 => [196, 207, S6_CLOSE_WALKWAY],
+    177 => [197, 208, S6_CLOSE_WALKWAY],
+    180 => [198, 209, S6_CLOSE_WALKWAY],
+    183 => [199, 210, S6_CLOSE_WALKWAY],
 
-    185 => [200, 211, ENERGY],
-    187 => [201, 212, ENERGY],
-    189 => [202, 213, ENERGY],
-    191 => [203, 214, ENERGY],
-    193 => [204, 215, ENERGY],
-    195 => [205, 216, ENERGY]
+    185 => [200, 211, S6_CIRCLE_ENERGY],
+    187 => [201, 212, S6_CIRCLE_ENERGY],
+    189 => [202, 213, S6_CIRCLE_ENERGY],
+    191 => [203, 214, S6_CIRCLE_ENERGY],
+    193 => [204, 215, S6_CIRCLE_ENERGY],
+    195 => [205, 216, S6_CIRCLE_ENERGY]
   ];
 
 
@@ -116,9 +116,11 @@ class CircleSymbol extends Action
     $scribbles[] = $scribble;
 
     // Scribble on the bottom of the scoresheet
-    $scoreSlot = $scoresheet->getFirstUnscribbled($scoresheet->getSectionSlots($type == WATER ? 'watermarkers' : 'plantmarkers'));
+    $section = [WATER => 'watermarkers', PLANT => 'plantmarkers'][$type];
+    $scoreSlot = $scoresheet->getFirstUnscribbled($scoresheet->getSectionSlots($section));
     $scribble = $scoresheet->addScribble($scoreSlot, SCRIBBLE);
     $scribbles[] = $scribble;
+    $msg = [WATER => clienttranslate('${player_name} circles a water tank'), PLANT => clienttranslate('${player_name} circles a plant')][$type];
 
     // Any linked end-of-line bonus?
     $bonus = $this->linkedBonus[$scoreSlot] ?? null;
@@ -128,11 +130,18 @@ class CircleSymbol extends Action
       $scribble = $scoresheet->addScribble($markerSlot, SCRIBBLE);
       $scribbles[] = $scribble;
       // Add the action
-      die("TODO");
+      $this->insertAsChild([
+        'action' => $bonusType,
+        'args' => ['bonusSlot' => $bonusSlot]
+      ]);
+      $msg = [
+        WATER => clienttranslate('${player_name} circles a water tank, finishes a scoring line and gains an energy bonus'),
+        PLANT => clienttranslate('${player_name} circles a plant, finishes a scoring line and gains a robot bonus')
+      ][$type];
     }
 
     // TODO : linked virus/weird propagation
 
-    Notifications::addScribbles($player, $scribbles, "TODO");
+    Notifications::addScribbles($player, $scribbles, $msg);
   }
 }

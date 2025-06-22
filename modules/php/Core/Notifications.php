@@ -585,10 +585,24 @@ class Notifications
   // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/ 
   ///////////////////////////////////////////////////////////
 
-  public static function closeWalkway(Player $player, Scribble $scribble)
+  public static function closeWalkway(Player $player, array $scribbles)
   {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} closes a walkway'));
+    $msg = count($scribbles) == 1 ?
+      clienttranslate('${player_name} closes a walkway')
+      : clienttranslate('${player_name} closes a walkway (bonus action)');
+
+    static::addScribbles($player, $scribbles, $msg);
   }
+
+  public static function circleEnergySymbol(Player $player, array $scribbles)
+  {
+    $msg = count($scribbles) == 1 ?
+      clienttranslate('${player_name} circles one Energy symbol <ENERGY>')
+      : clienttranslate('${player_name} circles one Energy symbol <ENERGY> (bonus action)');
+
+    static::addScribbles($player, $scribbles, $msg);
+  }
+
 
   /////////////////////////////////////
   //   ____           _          
