@@ -69,6 +69,7 @@ const ST_S5_SPLIT_DOME = 48;
 const ST_S5_BUILD_DOME = 49;
 const ST_S5_ENERGY_UPGRADE = 50;
 const ST_S5_CROSS_OFF_SKYSCRAPER_BONUS = 51;
+const ST_S6_CIRCLE_ENERGY = 52;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -147,6 +148,7 @@ const S5_CROSS_OFF_SKYSCRAPER_BONUS = 'Scenario5\CrossOffSkyscraperBonus';
 
 // SCENARIO 6
 const S6_CIRCLE_SYMBOL = 'Scenario6\CircleSymbol';
+const S6_CIRCLE_ENERGY = 'Scenario6\CircleEnergy';
 
 /*
  * Actions

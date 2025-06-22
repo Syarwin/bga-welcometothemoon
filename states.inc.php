@@ -444,6 +444,24 @@ $machinestates = [
     'possibleactions' => ['actCrossOffSkyscraperBonus', 'actRestart'],
   ],
 
+
+  ///////////////////////////////////////////////////////////
+  //  ____                            _          __   
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___    / /_  
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | '_ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | | (_) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/ 
+  ///////////////////////////////////////////////////////////
+
+  ST_S6_CIRCLE_ENERGY => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must circle an energy in a non-complete quarter'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCircleEnergy', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___
