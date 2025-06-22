@@ -577,8 +577,18 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filling bonus of a skyscraper'));
   }
 
+  ///////////////////////////////////////////////////////////
+  //  ____                            _          __   
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___    / /_  
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \  | '_ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | | (_) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/ 
+  ///////////////////////////////////////////////////////////
 
-
+  public static function closeWalkway(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} closes a walkway'));
+  }
 
   /////////////////////////////////////
   //   ____           _          

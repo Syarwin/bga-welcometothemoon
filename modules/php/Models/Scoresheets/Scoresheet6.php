@@ -68,8 +68,8 @@ class Scoresheet6 extends Scoresheet
     switch ($combination['action']) {
       case ENERGY:
         return ['action' => S6_CIRCLE_ENERGY, 'args' => ['quarter' => $quarter]];
-        // case ROBOT:
-        //   return ['action' => PROGRAM_ROBOT];
+      case ROBOT:
+        return ['action' => S6_CLOSE_WALKWAY];
       case PLANT:
       case WATER:
         return [

@@ -462,6 +462,15 @@ $machinestates = [
     'possibleactions' => ['actCircleEnergy', 'actRestart'],
   ],
 
+  ST_S6_CLOSE_WALKWAY =>  [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must close a walkway'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCloseWalkway', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

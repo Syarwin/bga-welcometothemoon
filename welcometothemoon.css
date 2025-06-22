@@ -1781,6 +1781,9 @@ body {
     width: 10px;
     height: 45px;
     transform-origin: center center; }
+    .score-sheet[data-board="6"] .wttm-slot.slot-walkway .scribble-line {
+      transform: scaleY(1.2) scaleX(3);
+      transform-origin: center center; }
   .score-sheet[data-board="6"] .wttm-slot.slot-virus {
     width: 55px;
     height: 55px; }

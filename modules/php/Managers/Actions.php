@@ -60,6 +60,7 @@ class Actions
     // Scenario 6
     S6_CIRCLE_SYMBOL,
     S6_CIRCLE_ENERGY,
+    S6_CLOSE_WALKWAY,
   ];
 
   public static function get($actionId, &$ctx = null)

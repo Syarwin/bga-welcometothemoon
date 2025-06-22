@@ -56,6 +56,10 @@
       width: 10px;
       height: 45px;
       transform-origin: center center;
+      .scribble-line {
+        transform: scaleY(1.2) scaleX(3);
+        transform-origin: center center;
+      }
     }
 
     &.slot-virus {
