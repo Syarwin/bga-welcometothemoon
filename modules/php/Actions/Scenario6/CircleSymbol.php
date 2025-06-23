@@ -2,9 +2,11 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario6;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Models\Action;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
 
 class CircleSymbol extends Action
 {
@@ -112,14 +114,12 @@ class CircleSymbol extends Action
 
     // Scribble in the quarter
     $slot = $this->getLinkedSlot($player);
-    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
-    $scribbles[] = $scribble;
+    $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE_CIRCLE);
 
     // Scribble on the bottom of the scoresheet
     $section = [WATER => 'watermarkers', PLANT => 'plantmarkers'][$type];
     $scoreSlot = $scoresheet->getFirstUnscribbled($scoresheet->getSectionSlots($section));
-    $scribble = $scoresheet->addScribble($scoreSlot, SCRIBBLE);
-    $scribbles[] = $scribble;
+    $scribbles[] = $scoresheet->addScribble($scoreSlot, SCRIBBLE);
     $msg = [WATER => clienttranslate('${player_name} circles a water tank'), PLANT => clienttranslate('${player_name} circles a plant')][$type];
 
     // Any linked end-of-line bonus?
@@ -127,8 +127,7 @@ class CircleSymbol extends Action
     if (!is_null($bonus)) {
       [$markerSlot, $bonusSlot, $bonusType] = $bonus;
       // Mark the score
-      $scribble = $scoresheet->addScribble($markerSlot, SCRIBBLE);
-      $scribbles[] = $scribble;
+      $scribbles[] = $scoresheet->addScribble($markerSlot, SCRIBBLE);
       // Add the action
       $this->insertAsChild([
         'action' => $bonusType,
@@ -141,6 +140,24 @@ class CircleSymbol extends Action
     }
 
     // TODO : linked virus/weird propagation
+    $virusType = [172 => VIRUS_GREEN, 186 => VIRUS_BLUE][$scoreSlot] ?? null;
+    if (!is_null($virusType)) {
+      $infos = Scoresheet6::getViruses()[$virusType];
+      [$linkedVirusSlot, $virusSlot] = $infos;
+      // Cross the slot
+      $scribbles[] = $scoresheet->addScribble($linkedVirusSlot, SCRIBBLE);
+      // Activate the virus
+      $scribbles[] = $scoresheet->addScribble($virusSlot, SCRIBBLE_CIRCLE);
+      // Register for phase5
+      $viruses = Globals::getActivatedViruses();
+      $viruses[] = $virusType;
+      Globals::setActivatedViruses($viruses);
+
+      $msg = [
+        VIRUS_BLUE => clienttranslate('${player_name} circles a water tank and activates the blue virus!'),
+        VIRUS_GREEN => clienttranslate('${player_name} circles a plant and activates the green virus!')
+      ][$virusType];
+    }
 
     Notifications::addScribbles($player, $scribbles, $msg);
   }

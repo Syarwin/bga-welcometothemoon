@@ -44,10 +44,51 @@ class Scoresheet6 extends Scoresheet
     ];
   }
 
+  public static function getViruses(): array
+  {
+    return [
+      VIRUS_GREEN => [216, 224],
+      VIRUS_BLUE => [219, 228],
+      VIRUS_RED => [242, 223],
+      VIRUS_PURPLE => [243, 226],
+      VIRUS_YELLOW => [244, 229]
+    ];
+  }
+
 
   // PHASE 5
-  public static function phase5Check(): void {}
   public function prepareForPhaseFive(array $args) {}
+
+  public static function phase5Check(): void
+  {
+    // Keep track of how many propagation each player must go through
+    $propagations = [];
+    foreach (Players::getAll() as $pId => $player) {
+      $propagations[$pId] = 0;
+    }
+
+    // Viruses
+    $viruses = array_unique(Globals::getActivatedViruses());
+    foreach ($viruses as $virus) {
+      $scribbles = [];
+      [$linkedVirusSlot, $virusSlot] = self::getViruses()[$virus];
+      foreach (Players::getAll() as $pId => $player) {
+        $propagations[$pId]++;
+        $scoresheet = $player->scoresheet();
+
+        if (!$scoresheet->hasScribbledSlot($linkedVirusSlot)) {
+          $scribbles[] = $scoresheet->addScribble($linkedVirusSlot, SCRIBBLE);
+        }
+        if (!$scoresheet->hasScribbledSlot($virusSlot)) {
+          $scribbles[] = $scoresheet->addScribble($virusSlot, SCRIBBLE_CIRCLE);
+        }
+      }
+      Notifications::activateVirus($virus, $scribbles);
+    }
+
+    Globals::setPropagations($propagations);
+  }
+
 
   private array $astronautsSlots = [80, 81, 83, 84, 86, 87];
   private array $planningSlots = [89, 90, 92, 93, 95, 96];

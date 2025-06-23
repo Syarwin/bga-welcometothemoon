@@ -153,6 +153,7 @@ const S6_INIT_GREY_VIRUS = 'Scenario6\InitGreyVirus';
 const S6_CIRCLE_SYMBOL = 'Scenario6\CircleSymbol';
 const S6_CIRCLE_ENERGY = 'Scenario6\CircleEnergy';
 const S6_CLOSE_WALKWAY = 'Scenario6\CloseWalkway';
+const S6_PROPAGATE = 'Scenario6\Propagate';
 
 /*
  * Actions

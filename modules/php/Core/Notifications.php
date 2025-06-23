@@ -611,6 +611,18 @@ class Notifications
     static::addScribbles($player, $scribbles, $msg);
   }
 
+  public static function activateVirus(int $virus, array $scribbles)
+  {
+    $msgs = [
+      VIRUS_GREEN => clienttranslate('The green virus has been activated, every player must trigger a propagation of all active viruses!'),
+      VIRUS_BLUE => clienttranslate('The blue virus has been activated, every player must trigger a propagation of all active viruses!'),
+      VIRUS_RED => clienttranslate('The red virus has been activated, every player must trigger a propagation of all active viruses!'),
+      VIRUS_PURPLE => clienttranslate('The purple virus has been activated, every player must trigger a propagation of all active viruses!'),
+      VIRUS_YELLOW => clienttranslate('The yellow virus has been activated, every player must trigger a propagation of all active viruses!'),
+    ];
+    static::addScribbles(null, $scribbles, $msgs[$virus]);
+  }
+
 
   /////////////////////////////////////
   //   ____           _          

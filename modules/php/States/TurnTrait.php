@@ -135,24 +135,38 @@ trait TurnTrait
     // Phase 5
     Scoresheet::phase5Check();
 
-    // SCENARIO 1 AND 6 HAVE A PHASE 5 EFFECT
+    // SCENARIO 1 HAS A PHASE 5 EFFECT
     // THAT WE MUST RESOLVE BEFORE CHECKING MISSION SATISFACTION
-    if (in_array(Globals::getScenario(), [1, 6])) {
+    if (Globals::getScenario() == 1) {
+      $this->stCheckAccomplishablePlans();
+      return;
+    }
 
-      // Mission accomplishment
+    // SCENARIO 6 HAS A PHASE 5 EFFECT
+    // THAT WE MUST RESOLVE BEFORE CHECKING MISSION SATISFACTION
+    if (Globals::getScenario() == 6) {
+      $propagations = Globals::getPropagations();
       $players = Players::getAll();
       $flows = [];
       foreach ($players as $pId => $player) {
-        if (PlanCards::getAccomplishablePlans($player)->count() > 0) {
+        $childs = [];
+        for ($i = 0; $i < $propagations[$pId]; $i++) {
+          $childs[] = [
+            'action' => S6_PROPAGATE,
+          ];
+        }
+
+        if (!empty($childs)) {
           $flows[$pId] = [
-            'action' => ACCOMPLISH_MISSION,
+            'type' => NODE_SEQ,
+            'childs' => $childs,
           ];
         }
       }
+      Globals::setPropagations([]);
 
-      // Launch engine only if some players have plans to validate
       if (!empty($flows)) {
-        Engine::multipleSetup($flows, ['state' => ST_END_TURN], 'accomplishMission');
+        Engine::multipleSetup($flows, ['method' => 'stCheckAccomplishablePlans'], 'accomplishMission');
         return;
       }
     }
@@ -160,6 +174,27 @@ trait TurnTrait
     $this->stEndTurn();
   }
 
+
+  // Mission accomplishment
+  function stCheckAccomplishablePlans()
+  {
+    $players = Players::getAll();
+    $flows = [];
+    foreach ($players as $pId => $player) {
+      if (PlanCards::getAccomplishablePlans($player)->count() > 0) {
+        $flows[$pId] = [
+          'action' => ACCOMPLISH_MISSION,
+        ];
+      }
+    }
+
+    // Launch engine only if some players have plans to validate
+    if (!empty($flows)) {
+      Engine::multipleSetup($flows, ['state' => ST_END_TURN], 'accomplishMission');
+    } else {
+      $this->stEndTurn();
+    }
+  }
 
   // Now that everyone is done, proceed to the end of turn
   public function stEndTurn()
