@@ -71,6 +71,7 @@ const ST_S5_ENERGY_UPGRADE = 50;
 const ST_S5_CROSS_OFF_SKYSCRAPER_BONUS = 51;
 const ST_S6_CIRCLE_ENERGY = 52;
 const ST_S6_CLOSE_WALKWAY = 53;
+const ST_S6_INIT_GREY_VIRUS = 54;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -148,6 +149,7 @@ const S5_FILLED_SKYSCRAPER = 'Scenario5\FilledSkyscraper';
 const S5_CROSS_OFF_SKYSCRAPER_BONUS = 'Scenario5\CrossOffSkyscraperBonus';
 
 // SCENARIO 6
+const S6_INIT_GREY_VIRUS = 'Scenario6\InitGreyVirus';
 const S6_CIRCLE_SYMBOL = 'Scenario6\CircleSymbol';
 const S6_CIRCLE_ENERGY = 'Scenario6\CircleEnergy';
 const S6_CLOSE_WALKWAY = 'Scenario6\CloseWalkway';
@@ -242,8 +244,14 @@ const CIRCLE_SYMBOL_WATER = 2;
 const CIRCLE_SYMBOL_PLANT = 3;
 const CIRCLE_SYMBOL_RUBY = 4;
 const CIRCLE_SYMBOL_PEARL = 5;
-
 const CROSS_SYMBOL_WATER = 10;
+
+const VIRUS_GREY = 0;
+const VIRUS_RED = 1;
+const VIRUS_GREEN = 2;
+const VIRUS_PURPLE = 3;
+const VIRUS_BLUE = 4;
+const VIRUS_YELLOW = 5;
 
 /******************
  ****** STATS ******

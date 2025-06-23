@@ -58,6 +58,7 @@ class Actions
     S5_CROSS_OFF_SKYSCRAPER_BONUS,
 
     // Scenario 6
+    S6_INIT_GREY_VIRUS,
     S6_CIRCLE_SYMBOL,
     S6_CIRCLE_ENERGY,
     S6_CLOSE_WALKWAY,

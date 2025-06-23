@@ -453,6 +453,15 @@ $machinestates = [
   // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/ 
   ///////////////////////////////////////////////////////////
 
+  ST_S6_INIT_GREY_VIRUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must choose a quarter for the grey virus and its first infection'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actInitGreyVirus', 'actRestart'],
+  ],
+
   ST_S6_CIRCLE_ENERGY => [
     'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must circle an energy in a non-complete quarter'),

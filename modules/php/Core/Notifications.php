@@ -585,6 +585,14 @@ class Notifications
   // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/ 
   ///////////////////////////////////////////////////////////
 
+
+  public static function initGreyVirus($player, $scribbles, $quarterId)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} places grey virus in quarter n°${quarter}'), [
+      'quarter' => $quarterId + 1
+    ]);
+  }
+
   public static function closeWalkway(Player $player, array $scribbles)
   {
     $msg = count($scribbles) == 1 ?

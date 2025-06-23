@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\States;
 
+use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
@@ -62,7 +63,23 @@ trait SetupTrait
         $player->scoresheet()->setupScenario();
       }
     }
+    // Scenario 6 => initGreyVirus
+    if ($scenario == 6) {
+      $players = Players::getAll();
+      $flows = [];
+      foreach ($players as $pId => $player) {
+        $flows[$pId] = ['action' => S6_INIT_GREY_VIRUS];
+      }
 
+      Engine::multipleSetup($flows, ['method' => 'stEndInitScenario6']);
+      return;
+    }
+
+    $this->gamestate->jumpToState(ST_START_TURN);
+  }
+
+  public function stEndInitScenario6()
+  {
     $this->gamestate->jumpToState(ST_START_TURN);
   }
 }
