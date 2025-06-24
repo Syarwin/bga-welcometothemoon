@@ -640,6 +640,14 @@ class Notifications
     ]);
   }
 
+  public static function evacuateQuarter(Player $player, array $scribbles, int $score, int $quarterId)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} evacuates quarter n°${quarter}, scoring ${score} points'), [
+      'quarter' => $quarterId + 1,
+      'score' => $score,
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

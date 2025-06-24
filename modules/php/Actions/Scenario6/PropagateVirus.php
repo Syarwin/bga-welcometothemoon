@@ -90,7 +90,10 @@ class PropagateVirus extends Action
 
     $scribbles = [];
     foreach ($slots as $slot) {
-      $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE);
+      $scribble = $scoresheet->addScribble($slot, SCRIBBLE);
+      $scribbles[] = $scribble;
+      $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actPropagateVirus');
+      $this->insertAsChild($reactions);
     }
 
     Notifications::propagateVirus($player, $scribbles, $this->getVirusName());

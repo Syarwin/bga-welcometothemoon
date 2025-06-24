@@ -156,6 +156,8 @@ const S6_CIRCLE_ENERGY = 'Scenario6\CircleEnergy';
 const S6_CLOSE_WALKWAY = 'Scenario6\CloseWalkway';
 const S6_PROPAGATE = 'Scenario6\Propagate';
 const S6_PROPAGATE_VIRUS = 'Scenario6\PropagateVirus';
+const S6_EVACUATE_QUARTER = 'Scenario6\EvacuateQuarter';
+
 /*
  * Actions
  */
@@ -200,6 +202,7 @@ const SCRIBBLE_CHECKMARK = 303;
 const SCRIBBLE_LINE = 304;
 const SCRIBBLE_LINE_ORTHOGONAL = 305;
 const SCRIBBLE_PLAN_MARKER = 306;
+const SCRIBBLE_RECTANGLE = 307;
 
 const SCRIBBLE_INSIGNA_CIRCLE = 310;
 const SCRIBBLE_INSIGNA_SQUARE = 311;

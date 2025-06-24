@@ -44,6 +44,17 @@ class Scoresheet6 extends Scoresheet
     ];
   }
 
+  public static function getQuarterOfSlot(int $slot): int
+  {
+    foreach (self::getQuarters() as $quarterId => $quarter) {
+      if (in_array($slot, $quarter[2])) {
+        return $quarterId;
+      }
+    }
+
+    return 0;
+  }
+
   public static function getViruses(): array
   {
     return [
@@ -96,6 +107,7 @@ class Scoresheet6 extends Scoresheet
       Notifications::activateVirus($virus, $scribbles);
     }
 
+    Globals::setActivatedViruses([]);
     Globals::setPropagations($propagations);
   }
 
@@ -140,14 +152,31 @@ class Scoresheet6 extends Scoresheet
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
-    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      return $this->getStandardPlanningReaction($this->jokers, $this->planningSlots);
+    $slot = $scribble->getSlot();
+    if (!in_array($slot, $this->getSectionSlots('numbers'))) return [];
+
+    $reactions = [];
+
+    // Check full quarter
+    $quarterId = self::getQuarterOfSlot($slot);
+    $quarter = self::getQuarters()[$quarterId];
+    if ($this->hasScribbledSlots($quarter[2])) {
+      $reactions[] = [
+        'action' => S6_EVACUATE_QUARTER,
+        'args' => ['quarter' => $quarterId]
+      ];
     }
 
-    return [];
+    // PLANNING markers
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      $reactions[] = $this->getStandardPlanningReaction($this->jokers, $this->planningSlots);
+    }
+
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
-
-
 
   /**
    * UI DATA

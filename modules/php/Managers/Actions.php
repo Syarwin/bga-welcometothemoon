@@ -64,6 +64,7 @@ class Actions
     S6_CLOSE_WALKWAY,
     S6_PROPAGATE,
     S6_PROPAGATE_VIRUS,
+    S6_EVACUATE_QUARTER,
   ];
 
   public static function get($actionId, &$ctx = null)

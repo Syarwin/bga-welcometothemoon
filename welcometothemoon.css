@@ -1790,6 +1790,12 @@ body {
   .score-sheet[data-board="6"] .wttm-slot.slot-quarter {
     width: 280px;
     height: 128px; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-subscore .scribble-number {
+    font-size: 23px;
+    line-height: 33px;
+    text-indent: 3px;
+    background-color: transparent;
+    box-shadow: none; }
 
 .score-sheet[data-board="7"] {
   background-image: url("img/scenario-7.jpg"); }

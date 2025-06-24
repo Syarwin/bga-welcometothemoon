@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const SCRIBBLE_LINE = 304;
   const SCRIBBLE_LINE_ORTHOGONAL = 305;
   const SCRIBBLE_PLAN_MARKER = 306;
+  const SCRIBBLE_RECTANGLE = 307;
 
   const SCRIBBLE_INSIGNA_CIRCLE = 310;
   const SCRIBBLE_INSIGNA_SQUARE = 311;
@@ -59,6 +60,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_CHECKMARK) scribbleTpl = 'tplScribbleCheckmark';
       if (scribble.type == SCRIBBLE_LINE) scribbleTpl = 'tplScribbleLine';
       if (scribble.type == SCRIBBLE_LINE_ORTHOGONAL) scribbleTpl = 'tplScribbleLineOrthogonal';
+      if (scribble.type == SCRIBBLE_RECTANGLE) scribbleTpl = 'tplScribbleRectangle';
 
       if (scribble.type == SCRIBBLE_INSIGNA_SQUARE) scribbleTpl = 'tplScribbleInsignaSquare';
       if (scribble.type == SCRIBBLE_INSIGNA_CIRCLE) scribbleTpl = 'tplScribbleInsignaCircle';

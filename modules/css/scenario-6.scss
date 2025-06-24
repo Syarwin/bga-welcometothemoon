@@ -70,5 +70,13 @@
       width: 280px;
       height: 128px;
     }
+
+    &.slot-subscore .scribble-number {
+      font-size: 23px;
+      line-height: 33px;
+      text-indent: 3px;
+      background-color: transparent;
+      box-shadow: none;
+    }
   }
 }
