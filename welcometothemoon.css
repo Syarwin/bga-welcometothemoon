@@ -2058,6 +2058,9 @@ body {
             .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selectable:hover {
               background-color: rgba(255, 255, 255, 0.8);
               box-shadow: 0px 0px 1px 1px green; }
+          .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selected, .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number.selected:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 0px 8px 2px #259e00; }
           .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-number .scribble-number {
             height: 100%;
             width: 100%;
@@ -3229,7 +3232,7 @@ body {
   opacity: 0.5;
   background: linear-gradient(rgba(189, 189, 189, 0.59), rgba(166, 165, 165, 0.45));
   cursor: not-allowed;
-  pointer-events: all; }
+  pointer-events: none; }
 
 #customActions .bgabutton.selected {
   background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89)); }

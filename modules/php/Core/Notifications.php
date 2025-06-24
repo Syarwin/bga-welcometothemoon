@@ -631,6 +631,15 @@ class Notifications
     ]);
   }
 
+  public static function propagateVirus(Player $player, array $scribbles, string $virusName)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} propagates ${virus_name} and crosses-off ${n} housing space(s)'), [
+      'virus_name' => $virusName,
+      'i18n' => ['virus_name'],
+      'n' => count($scribbles),
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

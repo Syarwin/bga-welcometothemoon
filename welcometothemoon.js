@@ -693,6 +693,24 @@ define([
         });
       },
 
+      onEnteringStatePropagateVirus(args) {
+        let selection = {};
+
+        args.slots.forEach((quarterSlots, i) => {
+          quarterSlots.forEach((slot) => {
+            this.onClick(`slot-${this.scoresheet_id}-${slot}`, () => {
+              if (selection[i]) $(`slot-${this.scoresheet_id}-${selection[i]}`).classList.remove('selected');
+              selection[i] = slot;
+              $(`slot-${this.scoresheet_id}-${slot}`).classList.add('selected');
+              $('btnConfirm').classList.toggle('disabled', Object.keys(selection).length < args.slots.length);
+            });
+          });
+        });
+
+        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPropagateVirus', [selection]));
+        $('btnConfirm').classList.add('disabled');
+      },
+
       ////////////////////////////////////////////////////////////
       // _____                          _   _   _
       // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _

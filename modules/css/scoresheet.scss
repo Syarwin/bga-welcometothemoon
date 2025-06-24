@@ -196,6 +196,11 @@
                             box-shadow: 0px 0px 1px 1px green;
                         }
                     }
+                    &.selected,
+                    &.selected:hover {
+                        background-color: rgba(255, 255, 255, 0.8);
+                        box-shadow: 0px 0px 8px 2px rgb(37, 158, 0);
+                    }
 
                     .scribble-number {
                         height: 100%;
