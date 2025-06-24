@@ -63,6 +63,7 @@ class Actions
     S6_CIRCLE_ENERGY,
     S6_CLOSE_WALKWAY,
     S6_PROPAGATE,
+    S6_PROPAGATE_VIRUS,
   ];
 
   public static function get($actionId, &$ctx = null)

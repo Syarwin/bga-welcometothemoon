@@ -72,6 +72,7 @@ const ST_S5_CROSS_OFF_SKYSCRAPER_BONUS = 51;
 const ST_S6_CIRCLE_ENERGY = 52;
 const ST_S6_CLOSE_WALKWAY = 53;
 const ST_S6_INIT_GREY_VIRUS = 54;
+const ST_S6_PROPAGATE_VIRUS = 55;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -154,7 +155,7 @@ const S6_CIRCLE_SYMBOL = 'Scenario6\CircleSymbol';
 const S6_CIRCLE_ENERGY = 'Scenario6\CircleEnergy';
 const S6_CLOSE_WALKWAY = 'Scenario6\CloseWalkway';
 const S6_PROPAGATE = 'Scenario6\Propagate';
-
+const S6_PROPAGATE_VIRUS = 'Scenario6\PropagateVirus';
 /*
  * Actions
  */

@@ -480,6 +480,15 @@ $machinestates = [
     'possibleactions' => ['actCloseWalkway', 'actRestart'],
   ],
 
+  ST_S6_PROPAGATE_VIRUS => [
+    'name' => 'propagateVirus',
+    'descriptionmyturn' => clienttranslate('${you} must propagate ${virus_name}'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPropagateVirus', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

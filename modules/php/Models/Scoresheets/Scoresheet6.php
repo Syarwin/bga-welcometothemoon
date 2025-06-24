@@ -55,6 +55,16 @@ class Scoresheet6 extends Scoresheet
     ];
   }
 
+  public static function getVirusOfQuarter(int $slot): int
+  {
+    foreach (self::getViruses() as $virus => $infos) {
+      if ($infos[1] == $slot) {
+        return $virus;
+      }
+    }
+
+    return VIRUS_GREY;
+  }
 
   // PHASE 5
   public function prepareForPhaseFive(array $args) {}

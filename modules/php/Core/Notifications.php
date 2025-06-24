@@ -623,6 +623,13 @@ class Notifications
     static::addScribbles(null, $scribbles, $msgs[$virus]);
   }
 
+  public static function startPropagation(Player $player, array $viruses)
+  {
+    static::pmidMessage($player, clienttranslate('Starting propagation for ${player_name} with the following viruses: ${viruses_names}'), [
+      'player' => $player,
+      'viruses' => $viruses,
+    ]);
+  }
 
   /////////////////////////////////////
   //   ____           _          
@@ -852,6 +859,30 @@ class Notifications
       ];
       $data['i18n'][] = 'players_names';
       unset($data['players']);
+    }
+
+    if (isset($data['viruses'])) {
+      $names = [
+        VIRUS_BLUE => clienttranslate('blue virus'),
+        VIRUS_RED => clienttranslate('red virus'),
+        VIRUS_GREEN => clienttranslate('green virus'),
+        VIRUS_YELLOW => clienttranslate('yellow virus'),
+        VIRUS_PURPLE => clienttranslate('purple virus'),
+        VIRUS_GREY => clienttranslate('grey virus'),
+      ];
+      $args = [];
+      $logs = [];
+      foreach ($data['viruses'] as $i => $virus) {
+        $logs[] = '${virus_name' . $i . '}';
+        $args['virus_name' . $i] = $names[$virus];
+        $args['i18n'][] = 'virus_name' . $i;
+      }
+      $data['viruses_names'] = [
+        'log' => join(', ', $logs),
+        'args' => $args,
+      ];
+      $data['i18n'][] = 'viruses_names';
+      unset($data['viruses']);
     }
   }
 }
