@@ -112,7 +112,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`slot-${pId}-${t[1]}`);
       }
       if (t[0] == 'plan') {
-        if (scribble.type == SCRIBBLE_PLAN_MARKER || pId != this.player_id) {
+        if (scribble.type == SCRIBBLE_PLAN_MARKER || pId == 0) {
+          // pId == 0 => fallback code
           return $(`plan-card-${t[1]}`);
         } else {
           return $(`plan-card-${t[1]}-validation`);
