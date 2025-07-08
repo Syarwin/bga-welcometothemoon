@@ -69,7 +69,7 @@ class Astra
   public function __construct()
   {
     $this->level = Globals::getAstraLevel();
-    $opponent = OPPONENTS[$this->level];
+    $opponent = OPPONENTS[$this->level] ?? OPPONENTS[1];
     $this->name = $opponent['name'];
     $this->multipliers = [];
     foreach (ACTIONS as $i => $action) {

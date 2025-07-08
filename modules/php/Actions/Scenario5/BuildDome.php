@@ -17,6 +17,10 @@ class BuildDome extends GenericPickSlot
   protected function getSlots(Player $player): array
   {
     $sections = $player->scoresheet()->getUnbuiltDomeSections();
+    if (empty($sections)) {
+      return [];
+    }
+
     // Keep only first and last unbuilt sections
     $sections = [$sections[0], $sections[count($sections) - 1]];
     // Check parity

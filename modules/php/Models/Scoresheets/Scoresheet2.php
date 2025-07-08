@@ -221,7 +221,7 @@ class Scoresheet2 extends Scoresheet
 
     // Most zones complete
     [$thisPlayerOrder, $nSections] = self::getMostZonesCompleteRankAndAmount($this->player->getId());
-    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder];
+    $sectionMajorityPoints = [0 => 0, 1 => 20, 2 => 10, 3 => 5][$thisPlayerOrder] ?? 0;
     $data[] = ["slot" => 41, "v" => $sectionMajorityPoints];
     $data[] = ["overview" => "most-sections", "v" => $sectionMajorityPoints, "details" => $nSections];
 
