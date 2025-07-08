@@ -1711,6 +1711,9 @@ body {
       border: 1px solid #00ff0091;
       background-color: #00ff0091;
       box-shadow: 0px 0px 4px 1px #04a604; }
+  .score-sheet[data-board="5"] .wttm-slot.slot-error {
+    width: 34px;
+    height: 34px; }
   .score-sheet[data-board="5"] .wttm-slot.slot-dome {
     width: 11px;
     height: 140px;
