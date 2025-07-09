@@ -163,6 +163,8 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
     },
 
     adjustSize() {
+      if (!$('popin_' + this.id + '_container')) return;
+
       let bdy = dojo.position(this.container);
       dojo.style('popin_' + this.id + '_container', {
         width: bdy.w + 'px',

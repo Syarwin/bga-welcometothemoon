@@ -26,7 +26,8 @@
       },
       "5": {
         "name": "Adventure 5: The Dome",
-        "tmdisplay": "[5: The Dome]"
+        "tmdisplay": "[5: The Dome]",
+        "alpha": true
       },
       "6": {
         "name": "Adventure 6: The Virus",
