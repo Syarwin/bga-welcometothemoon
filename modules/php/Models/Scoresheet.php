@@ -215,6 +215,7 @@ class Scoresheet
   }
 
   protected array $jokers = [];
+
   public function canUseJoker(): bool
   {
     return $this->getFirstUnscribbledJoker() !== null;
@@ -244,7 +245,9 @@ class Scoresheet
     $key = $this->getFirstUnscribbled(array_keys($multPerSlots));
     return is_null($key) ? $maxMult : $multPerSlots[$key];
   }
+
   protected array $multipliers = [];
+
   public function getMultiplierOfType(string $type): int
   {
     $infos = $this->multipliers[$type];
@@ -301,7 +304,6 @@ class Scoresheet
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
     $allSlots = $this->slotsBySection['numbers'];
-
     // Remove already used slots
     $allSlots = array_values(array_diff($allSlots, array_keys($this->scribblesBySlots)));
 
@@ -327,7 +329,7 @@ class Scoresheet
           $previous = $scribble->getNumber();
         }
       }
-      if ($number <= $previous) {
+      if ($previous <= 17 && $number <= $previous) {
         $forbiddenSlots = array_merge($forbiddenSlots, $curr);
       }
       $allSlots = array_values(array_diff($allSlots, $forbiddenSlots));
@@ -481,7 +483,6 @@ class Scoresheet
 
     return Utils::getRankAndAmountOfKey($astronauts, $pId);
   }
-
 
 
   ////// SPECIFIC SCENARIO FUNCTION - TO AVOID IDE SCREAMS //////
