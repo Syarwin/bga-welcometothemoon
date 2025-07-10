@@ -165,7 +165,7 @@ trait EngineTrait
     $action = $this->getCurrentAtomicAction($pId);
     $node = Engine::getNextUnresolved($pId);
     if (is_null($node)) {
-      $this->gamestate->setPrivateState($pId,  ST_CONFIRM_TURN);
+      $this->gamestate->setPrivateState($pId, ST_CONFIRM_TURN);
       return true;
     }
     return Actions::stAction($action, $node);

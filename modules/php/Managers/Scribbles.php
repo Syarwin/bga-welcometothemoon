@@ -3,11 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Managers;
 
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Helpers\UserException;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
-use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
-use Bga\Games\WelcomeToTheMoon\Models\Planet;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class Scribbles extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedPieces
@@ -26,7 +22,9 @@ class Scribbles extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedPieces
 
   public static function getUiData()
   {
-    return self::getAll()->toArray();
+    return self::getAll()->order(function ($a, $b) {
+      return $a->getTurn() > $b->getTurn();
+    })->toArray();
   }
 
   public static function getOfPlayer(Player|int $player, $type = null)
