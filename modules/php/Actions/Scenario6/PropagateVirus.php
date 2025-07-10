@@ -58,8 +58,7 @@ class PropagateVirus extends Action
           $slots[] = $quarterSlots;
         }
       }
-    }
-    // Non-evacuated quarter
+    } // Non-evacuated quarter
     else {
       $quarterSlots = $quarter[2];
       Utils::filter($quarterSlots, fn($slot) => !$scoresheet->hasScribbledSlot($slot));
@@ -90,7 +89,7 @@ class PropagateVirus extends Action
 
     $scribbles = [];
     foreach ($slots as $slot) {
-      $scribble = $scoresheet->addScribble($slot, SCRIBBLE);
+      $scribble = $scoresheet->addScribble($slot);
       $scribbles[] = $scribble;
       $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actPropagateVirus');
       $this->insertAsChild($reactions);

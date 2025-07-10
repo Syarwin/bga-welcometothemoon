@@ -318,6 +318,7 @@ class Scoresheet
       $curr = [];
       $previous = -1;
       foreach ($slotSequence as $slotId) {
+        /** @var Scribble $scribble */
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
         if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
@@ -326,10 +327,10 @@ class Scoresheet
             $forbiddenSlots = array_merge($forbiddenSlots, $curr);
           }
           $curr = [];
-          $previous = $scribble->getNumber();
+          $previous = $scribble->getNumber() === SCRIBBLE ? -1 : $scribble->getNumber();
         }
       }
-      if ($previous <= 17 && $number <= $previous) {
+      if ($number <= $previous) {
         $forbiddenSlots = array_merge($forbiddenSlots, $curr);
       }
       $allSlots = array_values(array_diff($allSlots, $forbiddenSlots));
