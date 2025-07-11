@@ -306,21 +306,9 @@ class Scoresheet6 extends Scoresheet
     // Evacuated quarters
     $quartersTotal = 0;
     foreach (self::getQuarters() as $quarterData) {
-      if ($this->hasScribbledSlot($quarterData[0], SCRIBBLE_RECTANGLE)) {
-        $quarterScore = 0;
-        foreach ($quarterData[2] as $slot) {
-          // Should be a number, neither X nor virus nor empty
-          if (isset($this->scribblesBySlots[$slot]) && $this->scribblesBySlots[$slot][0]->getType() <= 17) {
-            $quarterScore += 1;
-          }
-        }
-        $amountOfEnergiesCircled = $this->countScribbledSlots($quarterData[3], SCRIBBLE_CIRCLE);
-        $quarterScore = $quarterScore * ($amountOfEnergiesCircled + 1);
-        if ($quarterScore !== 0) {
-          $quartersTotal += $quarterScore;
-          $data[] = ["slot" => $quarterData[1], "v" => $quarterScore];
-        }
-      }
+      $scribble = $this->scribblesBySlots[$quarterData[1]][0] ?? null;
+      $quarterScore = is_null($scribble) ? 0 : $scribble->getNumber();
+      $quartersTotal += $quarterScore;
     }
     $data[] = ["slot" => 62, "v" => $quartersTotal];
 
