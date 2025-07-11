@@ -96,7 +96,7 @@ class Scoresheet6 extends Scoresheet
     foreach ($propagationsErrors as $pId => $slot) {
       $propagations[$pId]++;
       $msg = [
-        78 =>  clienttranslate('${player_name} has circled their second System Error <SYSTEM-ERROR>, triggering one more virus propagation on their sheet'),
+        78 => clienttranslate('${player_name} has circled their second System Error <SYSTEM-ERROR>, triggering one more virus propagation on their sheet'),
         79 => clienttranslate('${player_name} has circled their last System Error <SYSTEM-ERROR>, triggering one more virus propagation on their sheet')
       ][$slot];
 
@@ -252,6 +252,65 @@ class Scoresheet6 extends Scoresheet
     // $missionPoints = $this->computeMissionsUiData($data);
     // $data[] = ["slot" => 37, "v" => $missionPoints];
 
+    // Plants
+    $plantsScore = 0;
+    $waterScoreThresholds = [
+      199 => 80,
+      198 => 55,
+      197 => 35,
+      196 => 20,
+      195 => 10,
+      194 => 5,
+    ];
+    foreach ($waterScoreThresholds as $slot => $threshold) {
+      if ($this->hasScribbledSlot($slot)) {
+        $plantsScore = $threshold;
+        break;
+      }
+    }
+    $data[] = ["slot" => 60, "v" => $plantsScore];
+
+    $waterScore = 0;
+    $waterScoreThresholds = [
+      204 => 80,
+      203 => 55,
+      202 => 35,
+      201 => 20,
+      200 => 10,
+    ];
+    foreach ($waterScoreThresholds as $slot => $threshold) {
+      if ($this->hasScribbledSlot($slot)) {
+        $waterScore = $threshold;
+        break;
+      }
+    }
+    $data[] = ["slot" => 61, "v" => $waterScore];
+
+    // Evacuated quarters
+    $quartersTotal = 0;
+    foreach (self::getQuarters() as $quarterData) {
+      if ($this->hasScribbledSlot($quarterData[0], SCRIBBLE_RECTANGLE)) {
+        $quarterScore = 0;
+        foreach ($quarterData[2] as $slot) {
+          // Should be a number, neither X nor virus nor empty
+          if (isset($this->scribblesBySlots[$slot]) && $this->scribblesBySlots[$slot][0]->getType() <= 17) {
+            $quarterScore += 1;
+          }
+        }
+        $amountOfEnergiesCircled = $this->countScribbledSlots($quarterData[3], SCRIBBLE_CIRCLE);
+        $quarterScore = $quarterScore * ($amountOfEnergiesCircled + 1);
+        if ($quarterScore !== 0) {
+          $quartersTotal += $quarterScore;
+          $data[] = ["slot" => $quarterData[1], "v" => $quarterScore];
+        }
+      }
+    }
+    $data[] = ["slot" => 62, "v" => $quartersTotal];
+
+
+    // Infected housing spaces
+    $infectedAmount = $this->countScribblesInSection('numbers', SCRIBBLE);
+    $data[] = ["slot" => 63, "v" => $infectedAmount];
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
@@ -266,7 +325,7 @@ class Scoresheet6 extends Scoresheet
       "slot" => 65,
       "score" => true,
       "overview" => "total",
-      "v" => -$negativePoints,
+      "v" => $plantsScore + $waterScore + $quartersTotal - $infectedAmount - $negativePoints,
     ];
 
     return $data;
