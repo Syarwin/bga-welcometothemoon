@@ -215,6 +215,7 @@ class Scoresheet
   }
 
   protected array $jokers = [];
+
   public function canUseJoker(): bool
   {
     return $this->getFirstUnscribbledJoker() !== null;
@@ -244,7 +245,9 @@ class Scoresheet
     $key = $this->getFirstUnscribbled(array_keys($multPerSlots));
     return is_null($key) ? $maxMult : $multPerSlots[$key];
   }
+
   protected array $multipliers = [];
+
   public function getMultiplierOfType(string $type): int
   {
     $infos = $this->multipliers[$type];
@@ -301,7 +304,6 @@ class Scoresheet
   public function getAvailableSlotsForNumber(int $number, string $action)
   {
     $allSlots = $this->slotsBySection['numbers'];
-
     // Remove already used slots
     $allSlots = array_values(array_diff($allSlots, array_keys($this->scribblesBySlots)));
 
@@ -316,8 +318,9 @@ class Scoresheet
       $curr = [];
       $previous = -1;
       foreach ($slotSequence as $slotId) {
+        /** @var Scribble $scribble */
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
-        if (is_null($scribble) || $scribble->getType() == SCRIBBLE || $scribble->getNumber() == NUMBER_X) {
+        if (is_null($scribble) || in_array($scribble->getNumber(), [NUMBER_X, SCRIBBLE])) {
           $curr[] = $slotId;
         } else {
           if ($scribble->getNumber() <= $number || $previous >= $number) {
@@ -420,6 +423,11 @@ class Scoresheet
     Globals::setRaceSlots($raceSlots);
   }
 
+  public function getVirusLinkedToPlantOrWater(int $slot): ?int
+  {
+    return null;
+  }
+
   protected function getStandardPlanningAction(): array
   {
     return [
@@ -487,7 +495,6 @@ class Scoresheet
 
     return Utils::getRankAndAmountOfKey($astronauts, $pId);
   }
-
 
 
   ////// SPECIFIC SCENARIO FUNCTION - TO AVOID IDE SCREAMS //////

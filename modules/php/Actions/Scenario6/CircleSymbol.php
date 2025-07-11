@@ -79,8 +79,7 @@ class CircleSymbol extends Action
     // Water
     if ($this->getCtxArg('type') == WATER) {
       return $this->waterTanksAtSlots[$slot] ?? null;
-    }
-    // Plant
+    } // Plant
     else {
       foreach ($this->plantsByQuarter[$quarter] as $slot) {
         if (!$scoresheet->hasScribbledSlot($slot, SCRIBBLE_CIRCLE)) {
@@ -120,14 +119,17 @@ class CircleSymbol extends Action
     $section = [WATER => 'watermarkers', PLANT => 'plantmarkers'][$type];
     $scoreSlot = $scoresheet->getFirstUnscribbled($scoresheet->getSectionSlots($section));
     $scribbles[] = $scoresheet->addScribble($scoreSlot, SCRIBBLE);
-    $msg = [WATER => clienttranslate('${player_name} circles a water tank'), PLANT => clienttranslate('${player_name} circles a plant')][$type];
+    $msg = [
+      WATER => clienttranslate('${player_name} circles a water tank'),
+      PLANT => clienttranslate('${player_name} circles a plant')
+    ][$type];
 
     // Any linked end-of-line bonus?
     $bonus = $this->linkedBonus[$scoreSlot] ?? null;
     if (!is_null($bonus)) {
       [$markerSlot, $bonusSlot, $bonusType] = $bonus;
       // Mark the score
-      $scribbles[] = $scoresheet->addScribble($markerSlot, SCRIBBLE);
+      $scribbles[] = $scoresheet->addScribble($markerSlot);
       // Add the action
       $this->insertAsChild([
         'action' => $bonusType,
@@ -139,13 +141,12 @@ class CircleSymbol extends Action
       ][$type];
     }
 
-    // Linked virus
-    $virusType = [172 => VIRUS_GREEN, 186 => VIRUS_BLUE][$scoreSlot] ?? null;
+    $virusType = $scoresheet->getVirusLinkedToPlantOrWater($scoreSlot);
     if (!is_null($virusType)) {
       $infos = Scoresheet6::getViruses()[$virusType];
       [$linkedVirusSlot, $virusSlot] = $infos;
       // Cross the slot
-      $scribbles[] = $scoresheet->addScribble($linkedVirusSlot, SCRIBBLE);
+      $scribbles[] = $scoresheet->addScribble($linkedVirusSlot);
       // Activate the virus
       $scribbles[] = $scoresheet->addScribble($virusSlot, SCRIBBLE_CIRCLE);
       // Register for phase5
