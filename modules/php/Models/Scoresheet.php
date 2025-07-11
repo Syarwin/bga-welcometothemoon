@@ -320,14 +320,14 @@ class Scoresheet
       foreach ($slotSequence as $slotId) {
         /** @var Scribble $scribble */
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
-        if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
+        if (is_null($scribble) || in_array($scribble->getNumber(), [NUMBER_X, SCRIBBLE])) {
           $curr[] = $slotId;
         } else {
           if ($scribble->getNumber() <= $number || $previous >= $number) {
             $forbiddenSlots = array_merge($forbiddenSlots, $curr);
           }
           $curr = [];
-          $previous = $scribble->getNumber() === SCRIBBLE ? -1 : $scribble->getNumber();
+          $previous = $scribble->getNumber();
         }
       }
       if ($number <= $previous) {
