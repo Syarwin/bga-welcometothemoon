@@ -298,19 +298,19 @@ class Scoresheet4 extends Scoresheet
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-            [
-              'type' => PLANT,
-              'slots' => $this->linkedPlants[$slot] ?? null,
-            ]
+          [
+            'type' => PLANT,
+            'slots' => $this->linkedPlants[$slot] ?? null,
+          ]
         ];
       case WATER:
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-            [
-              'type' => WATER,
-              'slots' => $this->linkedWater[$slot] ?? null,
-            ]
+          [
+            'type' => WATER,
+            'slots' => $this->linkedWater[$slot] ?? null,
+          ]
         ];
       case ROBOT:
       case ENERGY:
@@ -321,15 +321,6 @@ class Scoresheet4 extends Scoresheet
     }
     return null;
   }
-
-  public function prepareForPhaseFive(array $args)
-  {
-    // Register for phase 5
-    $raceSlots = Globals::getRaceSlots();
-    $raceSlots[] = $args['slot'];
-    Globals::setRaceSlots($raceSlots);
-  }
-
 
   /**
    * UI DATA

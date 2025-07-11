@@ -84,6 +84,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     // Scenario 6
     'activatedViruses' => 'obj',
     'propagations' => 'obj',
+    'propagationsFromErrors' => 'obj',
   ];
 
   protected static string $table = 'global_variables';

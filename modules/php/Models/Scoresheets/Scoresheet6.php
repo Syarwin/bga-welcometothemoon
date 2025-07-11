@@ -78,14 +78,46 @@ class Scoresheet6 extends Scoresheet
   }
 
   // PHASE 5
-  public function prepareForPhaseFive(array $args) {}
-
   public static function phase5Check(): void
   {
     // Keep track of how many propagation each player must go through
     $propagations = [];
     foreach (Players::getAll() as $pId => $player) {
       $propagations[$pId] = 0;
+    }
+
+
+    // Propagations from errors
+    $propagationsErrors = Globals::getPropagationsFromErrors();
+    foreach ($propagationsErrors as $pId => $slot) {
+      $propagations[$pId]++;
+      $msg = [
+        78 =>  clienttranslate('${player_name} has circled their second System Error <SYSTEM-ERROR>, triggering one more virus propagation on their sheet'),
+        79 => clienttranslate('${player_name} has circled their last System Error <SYSTEM-ERROR>, triggering one more virus propagation on their sheet')
+      ][$slot];
+
+      Notifications::midMessage($msg, ['player' => Players::get($pId)]);
+    }
+    Globals::setPropagationsFromErrors([]);
+
+    // propagationsFromErrors
+
+    // Water & plant propagation
+    $msgs = [
+      217 => clienttranslate('${player_name} crosses off the first propagation symbol on the plant track, triggering one more virus propagation on their sheet'),
+      218 => clienttranslate('${player_name} crosses off the second propagation symbol on the plant track, triggering one more virus propagation on their sheet'),
+      220 => clienttranslate('${player_name} crosses off the first propagation symbol on the water track, triggering one more virus propagation on their sheet'),
+      221 => clienttranslate('${player_name} crosses off the second propagation symbol on the plant track, triggering one more virus propagation on their sheet'),
+    ];
+
+    $scribbles = static::resolveRaceSlots();
+    foreach ($scribbles as $scribble) {
+      $pId = $scribble->getPId();
+      $player = Players::get($pId);
+      $slot = $scribble->getSlot();
+      $msg = $msgs[$slot];
+      $propagations[$pId]++;
+      Notifications::crossOffPropagationSymbol($player, $scribble, $msg);
     }
 
     // Viruses
@@ -153,6 +185,16 @@ class Scoresheet6 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     $slot = $scribble->getSlot();
+
+    // System errors
+    if (in_array($slot, [78, 79])) {
+      $propagations = Globals::getPropagationsFromErrors();
+      $propagations[$this->getPId()] = $slot;
+      Globals::setPropagationsFromErrors($propagations);
+      return [];
+    }
+
+
     if (!in_array($slot, $this->getSectionSlots('numbers'))) return [];
 
     $reactions = [];

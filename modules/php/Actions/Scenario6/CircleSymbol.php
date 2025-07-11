@@ -139,7 +139,7 @@ class CircleSymbol extends Action
       ][$type];
     }
 
-    // TODO : linked virus/weird propagation
+    // Linked virus
     $virusType = [172 => VIRUS_GREEN, 186 => VIRUS_BLUE][$scoreSlot] ?? null;
     if (!is_null($virusType)) {
       $infos = Scoresheet6::getViruses()[$virusType];
@@ -157,6 +157,20 @@ class CircleSymbol extends Action
         VIRUS_BLUE => clienttranslate('${player_name} circles a water tank and activates the blue virus!'),
         VIRUS_GREEN => clienttranslate('${player_name} circles a plant and activates the green virus!')
       ][$virusType];
+    }
+
+    // Linked propagations
+    $linkedPropagationSlot = [175 => 217, 178 => 218, 188 => 220, 190 => 221][$scoreSlot] ?? null;
+    if (!is_null($linkedPropagationSlot)) {
+      // Cross the slot
+      $scribbles[] = $scoresheet->addScribble($linkedPropagationSlot, SCRIBBLE);
+      // Register for phase5 (race slot)
+      $scoresheet->prepareForPhaseFive(['slot' => $linkedPropagationSlot]);
+
+      $msg = [
+        WATER => clienttranslate('${player_name} circles a water tank and triggers a propagation for everyone else!'),
+        PLANT => clienttranslate('${player_name} circles a plant  and triggers a propagation for everyone else!')
+      ][$type];
     }
 
     Notifications::addScribbles($player, $scribbles, $msg);

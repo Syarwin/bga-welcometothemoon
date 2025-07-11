@@ -623,6 +623,14 @@ class Notifications
     static::addScribbles(null, $scribbles, $msgs[$virus]);
   }
 
+  public static function crossOffPropagationSymbol(Player $player, Scribble $scribble, string $msg)
+  {
+    static::addScribble(null, $scribble, $msg, [
+      'player' => $player,
+    ]);
+  }
+
+
   public static function startPropagation(Player $player, array $viruses)
   {
     static::pmidMessage($player, clienttranslate('Starting propagation for ${player_name} with the following viruses: ${viruses_names}'), [
@@ -633,11 +641,19 @@ class Notifications
 
   public static function propagateVirus(Player $player, array $scribbles, string $virusName)
   {
-    static::addScribbles($player, $scribbles, clienttranslate('${player_name} propagates ${virus_name} and crosses-off ${n} housing space(s)'), [
-      'virus_name' => $virusName,
-      'i18n' => ['virus_name'],
-      'n' => count($scribbles),
-    ]);
+    if (empty($scribbles)) {
+      static::pmidMessage($player, clienttranslate('${player_name} has fully quarantined ${virus_name}, preventing it from propagating further'), [
+        'player' => $player,
+        'virus_name' => $virusName,
+        'i18n' => ['virus_name'],
+      ]);
+    } else {
+      static::addScribbles($player, $scribbles, clienttranslate('${player_name} propagates ${virus_name} and crosses-off ${n} housing space(s)'), [
+        'virus_name' => $virusName,
+        'i18n' => ['virus_name'],
+        'n' => count($scribbles),
+      ]);
+    }
   }
 
   public static function evacuateQuarter(Player $player, array $scribbles, int $score, int $quarterId)

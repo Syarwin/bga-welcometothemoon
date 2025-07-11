@@ -222,14 +222,6 @@ class Scoresheet5 extends Scoresheet
     return null;
   }
 
-  public function prepareForPhaseFive(array $args)
-  {
-    // Register for phase 5
-    $raceSlots = Globals::getRaceSlots();
-    $raceSlots[] = $args['slot'];
-    Globals::setRaceSlots($raceSlots);
-  }
-
   // PHASE 5
   public static function phase5Check(): void
   {

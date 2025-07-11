@@ -317,7 +317,7 @@ class Scoresheet
       $previous = -1;
       foreach ($slotSequence as $slotId) {
         $scribble = $this->scribblesBySlots[$slotId][0] ?? null;
-        if (is_null($scribble) || $scribble->getNumber() == NUMBER_X) {
+        if (is_null($scribble) || $scribble->getType() == SCRIBBLE || $scribble->getNumber() == NUMBER_X) {
           $curr[] = $slotId;
         } else {
           if ($scribble->getNumber() <= $number || $previous >= $number) {
@@ -412,7 +412,13 @@ class Scoresheet
     return 0;
   }
 
-  public function prepareForPhaseFive(array $args) {}
+  public function prepareForPhaseFive(array $args)
+  {
+    // Register for phase 5
+    $raceSlots = Globals::getRaceSlots();
+    $raceSlots[] = $args['slot'];
+    Globals::setRaceSlots($raceSlots);
+  }
 
   protected function getStandardPlanningAction(): array
   {

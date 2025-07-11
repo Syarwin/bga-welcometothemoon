@@ -261,12 +261,4 @@ class Scoresheet2 extends Scoresheet
 
     return Utils::getRankAndAmountOfKey($zones, $pId);
   }
-
-  public function prepareForPhaseFive(array $args)
-  {
-    // Register for phase 5
-    $raceSlots = Globals::getRaceSlots();
-    $raceSlots[] = $args['slot'];
-    Globals::setRaceSlots($raceSlots);
-  }
 }

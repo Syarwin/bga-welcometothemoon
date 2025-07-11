@@ -37,6 +37,11 @@
       }
     }
 
+    &.slot-error {
+      width: 34px;
+      height: 34px;
+    }
+
     &.slot-water,
     &.slot-plant,
     &.slot-othermarker,

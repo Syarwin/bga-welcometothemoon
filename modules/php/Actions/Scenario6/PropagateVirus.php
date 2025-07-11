@@ -35,6 +35,20 @@ class PropagateVirus extends Action
     return $names[$this->getVirus()];
   }
 
+  public function isAutomatic(?Player $player = null): bool
+  {
+    $args = $this->getArgs();
+    return empty($args['slots']);
+  }
+
+  public function stPropagateVirus()
+  {
+    $args = $this->getArgs();
+    if (empty($args['slots'])) {
+      return [[]];
+    }
+  }
+
   public function argsPropagateVirus()
   {
     $quarters = Scoresheet6::getQuarters();
@@ -42,8 +56,6 @@ class PropagateVirus extends Action
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $slots = [];
-
-    // TODO : handle quarter completely quarantined + make it automatic in this case
 
     // Evacuated quarter
     if ($scoresheet->hasScribbledSlot($quarter[0])) {

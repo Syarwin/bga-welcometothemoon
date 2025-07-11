@@ -110,9 +110,6 @@ class Scoresheet8 extends Scoresheet
     return null;
   }
 
-  public function prepareForPhaseFive(array $args) {}
-
-
   /**
    * UI DATA
    */
