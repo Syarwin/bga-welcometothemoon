@@ -417,6 +417,11 @@ class Scoresheet
 
   public function prepareForPhaseFive(array $args) {}
 
+  public function getVirusLinkedToPlantOrWater(int $slot): ?int
+  {
+    return null;
+  }
+
   protected function getStandardPlanningAction(): array
   {
     return [

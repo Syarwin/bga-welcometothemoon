@@ -148,8 +148,7 @@ class Scoresheet5 extends Scoresheet
             $sections[] = [$slot, $parity];
           }
         }
-      }
-      // Otherwise, normal unbuilt section
+      } // Otherwise, normal unbuilt section
       else {
         $sections[] = [$slotId, $parity];
       }
@@ -167,7 +166,7 @@ class Scoresheet5 extends Scoresheet
 
     // PLANNING markers
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      $reactions[] =             ['action' => S5_SPLIT_DOME];
+      $reactions[] = ['action' => S5_SPLIT_DOME];
     }
 
 

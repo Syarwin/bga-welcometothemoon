@@ -22,6 +22,8 @@ class Scoresheet6 extends Scoresheet
     [46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
   ];
 
+  protected array $plantWaterViruses = [172 => VIRUS_GREEN, 186 => VIRUS_BLUE];
+
   public static function getQuarters(): array
   {
     // Slot / score / numbers / energy / links / virus
@@ -33,7 +35,9 @@ class Scoresheet6 extends Scoresheet
       3 => [234, 69, [16, 17, 18, 19, 20], [152, 153], [104 => 2, 116 => 6, 110 => 10], 225],
       //
       4 => [235, 70, [21, 22, 23, 24, 25], [154, 155], [99 => 0, 100 => 1, 106 => 5, 107 => 8, 117 => 7], null],
-      5 => [236, 71, [26, 27, 28, 29, 30], [156, 157], [118 => 2, 102 => 1, 109 => 6, 111 => 9, 108 => 8, 106 => 4], 226],
+      5 => [
+        236, 71, [26, 27, 28, 29, 30], [156, 157], [118 => 2, 102 => 1, 109 => 6, 111 => 9, 108 => 8, 106 => 4], 226
+      ],
       6 => [237, 72, [31, 32, 33, 34, 35], [158, 159], [109 => 5, 105 => 2, 116 => 3, 112 => 10, 115 => 9], null],
       //
       7 => [238, 73, [36, 37, 38, 39, 40], [160, 161], [98 => 0, 117 => 4, 114 => 8], 227],
@@ -176,6 +180,18 @@ class Scoresheet6 extends Scoresheet
       'type' => NODE_SEQ,
       'childs' => $reactions
     ];
+  }
+
+  public function getVirusLinkedToPlantOrWater(int $slot): ?int
+  {
+    $virus = $this->plantWaterViruses[$slot] ?? null;
+    if (!is_null($virus)) {
+      [$linkedVirusSlot,] = self::getViruses()[$virus];
+      if (!$this->hasScribbledSlot($linkedVirusSlot)) {
+        return $virus;
+      }
+    }
+    return null;
   }
 
   /**
