@@ -18,6 +18,23 @@ class PlanCard99 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
+    $scoresheet = $player->scoresheet();
+    $floors = [
+      [136, 137, 120, 121],
+      [138, 139, 122, 123, 124],
+      [140, 141, 125, 126, 127, 128, 129, 130],
+      [142, 143, 131, 132, 133],
+      [144, 145, 134, 135],
+    ];
+
+    $n = 0;
+    foreach ($floors as $slots) {
+      if ($scoresheet->hasScribbledSlots($slots)) {
+        $n++;
+        if ($n >= 2) return true;
+      }
+    }
+
     return false;
   }
 }

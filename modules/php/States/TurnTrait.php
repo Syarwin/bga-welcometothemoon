@@ -167,8 +167,10 @@ trait TurnTrait
 
       if (!empty($flows)) {
         Engine::multipleSetup($flows, ['method' => 'stCheckAccomplishablePlans'], 'accomplishMission');
-        return;
+      } else {
+        $this->stCheckAccomplishablePlans();
       }
+      return;
     }
 
     $this->stEndTurn();
@@ -199,6 +201,13 @@ trait TurnTrait
   // Now that everyone is done, proceed to the end of turn
   public function stEndTurn()
   {
+    // SCENARIO 6 => we might have to go to phase 5 check again!
+    if (Globals::getScenario() == 6 && !empty(Globals::getActivatedViruses())) {
+      $this->stEndTurnEngine();
+      return;
+    }
+    ///////////////////////////////////
+
     ConstructionCards::endOfTurn();
 
     // Check end of scenario

@@ -44,6 +44,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
 
     $player = $this->getPlayer();
+    $plan = PlanCards::get($planId);
     $scoresheet = $player->scoresheet();
     $scenarioId = Globals::getScenario();
     $scribbles = [];
@@ -51,6 +52,14 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     // Was the plan already validated or not ?
     $validationScribble = Scribbles::getInLocation("plan-$planId")->first();
     $firstValidation = is_null($validationScribble) || $validationScribble->getTurn() == Globals::getTurn();
+    // SCENARIO 6 => might revalidate a plan during the same turn -_-'
+    if ($scenarioId == 6 && $firstValidation) {
+      $i = $plan->getStackIndex();
+      $slot = $scoresheet->getSectionSlots('missionviruses')[$i];
+      // Check if it's REALLY the first validation
+      $firstValidation = !$scoresheet->hasScribbledSlot($slot);
+    }
+
 
     // Mark the plan as validated
     $scribbles[] = Scribbles::add($player, [
@@ -67,7 +76,6 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     ]);
 
     // Compute the reward
-    $plan = PlanCards::get($planId);
     $reward = $plan->getReward($firstValidation);
 
     // Increment a corresponding stat
@@ -84,6 +92,18 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
       $scribbles[] = $scoresheet->addScribble($slotId, SCRIBBLE_CHECKMARK);
       $symbolSlotId = Scoresheet5::$planSymbols[$slotId][$firstValidation ? 0 : 1];
       $scribbles[] = $scoresheet->addScribble($symbolSlotId, SCRIBBLE_CIRCLE);
+    }
+    // SCENARIO 6 => might trigger a virus!
+    else if ($scenarioId == 6 && $firstValidation) {
+      $i = $plan->getStackIndex();
+      $slot = $scoresheet->getSectionSlots('missionviruses')[$i];
+      $scribbles[] = $scoresheet->addScribble($slot);
+
+      // register for phase5 again
+      $virusType = [VIRUS_RED, VIRUS_PURPLE, VIRUS_YELLOW][$i];
+      $viruses = Globals::getActivatedViruses();
+      $viruses[] = $virusType;
+      Globals::setActivatedViruses($viruses);
     } else {
       $scribbles[] = $scoresheet->addScribble($slotId, $reward);
     }
@@ -92,6 +112,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     Notifications::accomplishMission($player, $plan, $scribbles, $firstValidation);
 
     // SPECIAL REWARD FOR SOME SCENARIO
+    // SCENARIO 1 => cross reward
     if ($scenarioId == 1) {
       CrossRockets::crossRocketAux($player, $reward, clienttranslate("accomplished mission"));
     }

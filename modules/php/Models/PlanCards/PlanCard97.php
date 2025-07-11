@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
 
 class PlanCard97 extends PlanCard
 {
@@ -18,6 +19,17 @@ class PlanCard97 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $quarantinedQuarters = 0;
+    $scoresheet = $player->scoresheet();
+    $quarters = Scoresheet6::getQuarters();
+    $quarters = [$quarters[2], $quarters[8]];
+    foreach ($quarters as $quarter) {
+      foreach ($quarter[4] as $linkSlot => $linkedQuarter) {
+        if (!$scoresheet->hasScribbledSlot($linkSlot)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
