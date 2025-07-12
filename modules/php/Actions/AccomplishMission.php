@@ -52,14 +52,6 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     // Was the plan already validated or not ?
     $validationScribble = Scribbles::getInLocation("plan-$planId")->first();
     $firstValidation = is_null($validationScribble) || $validationScribble->getTurn() == Globals::getTurn();
-    // SCENARIO 6 => might revalidate a plan during the same turn -_-'
-    if ($scenarioId == 6 && $firstValidation) {
-      $i = $plan->getStackIndex();
-      $slot = $scoresheet->getSectionSlots('missionviruses')[$i];
-      // Check if it's REALLY the first validation
-      $firstValidation = !$scoresheet->hasScribbledSlot($slot);
-    }
-
 
     // Mark the plan as validated
     $scribbles[] = Scribbles::add($player, [
@@ -95,15 +87,21 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
     }
     // SCENARIO 6 => might trigger a virus!
     else if ($scenarioId == 6 && $firstValidation) {
+      // Reward
+      $scribbles[] = $scoresheet->addScribble($slotId, $reward);
+
+      // Check if it's REALLY the first validation
       $i = $plan->getStackIndex();
       $slot = $scoresheet->getSectionSlots('missionviruses')[$i];
-      $scribbles[] = $scoresheet->addScribble($slot);
+      if (!$scoresheet->hasScribbledSlot($slot)) {
+        $scribbles[] = $scoresheet->addScribble($slot);
 
-      // register for phase5 again
-      $virusType = [VIRUS_RED, VIRUS_PURPLE, VIRUS_YELLOW][$i];
-      $viruses = Globals::getActivatedViruses();
-      $viruses[] = $virusType;
-      Globals::setActivatedViruses($viruses);
+        // register for phase5 again
+        $virusType = [VIRUS_RED, VIRUS_PURPLE, VIRUS_YELLOW][$i];
+        $viruses = Globals::getActivatedViruses();
+        $viruses[] = $virusType;
+        Globals::setActivatedViruses($viruses);
+      }
     } else {
       $scribbles[] = $scoresheet->addScribble($slotId, $reward);
     }

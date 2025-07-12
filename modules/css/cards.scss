@@ -274,20 +274,32 @@ $cardBorderRadius: 7px;
         }
     }
 
-    &[data-validation="0"] .plan-validation-1 {
-        &::before {
-            background: #e3d7bf;
-        }
-        .stamp {
-            display: block;
-        }
-    }
-    &[data-validation="1"] .plan-validation-0 {
-        &::before {
-            background: #ece1cd;
-        }
-        .stamp {
-            display: block;
+    // &[data-validation="0"] .plan-validation-1 {
+    //     &::before {
+    //         background: #e3d7bf;
+    //     }
+    //     .stamp {
+    //         display: block;
+    //     }
+    // }
+    // &[data-validation="1"] .plan-validation-0 {
+    //     &::before {
+    //         background: #ece1cd;
+    //     }
+    //     .stamp {
+    //         display: block;
+    //     }
+    // }
+
+    &[data-validation="0"],
+    &[data-validation="1"] {
+        .plan-validation-0 {
+            &::before {
+                background: #ece1cd;
+            }
+            .stamp {
+                display: block;
+            }
         }
     }
 

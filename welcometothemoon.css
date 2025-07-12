@@ -584,13 +584,9 @@
     .plan-card-holder .plan-card-front .plan-validation-1 {
       top: 220px;
       left: 113px; }
-  .plan-card-holder[data-validation="0"] .plan-validation-1::before {
-    background: #e3d7bf; }
-  .plan-card-holder[data-validation="0"] .plan-validation-1 .stamp {
-    display: block; }
-  .plan-card-holder[data-validation="1"] .plan-validation-0::before {
+  .plan-card-holder[data-validation="0"] .plan-validation-0::before, .plan-card-holder[data-validation="1"] .plan-validation-0::before {
     background: #ece1cd; }
-  .plan-card-holder[data-validation="1"] .plan-validation-0 .stamp {
+  .plan-card-holder[data-validation="0"] .plan-validation-0 .stamp, .plan-card-holder[data-validation="1"] .plan-validation-0 .stamp {
     display: block; }
   .plan-card-holder[data-id="64"] .plan-card-front {
     background-position: 0% 0%; }

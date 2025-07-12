@@ -772,6 +772,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (validationScribble) {
             oPlan.querySelectorAll('.wttm-scribble.scribble-checkmark').forEach((oScribble) => {
               let pId = parseInt(oScribble.dataset.id.split('-')[0]);
+              oScribble.style.display = pId == this.player_id ? 'block' : 'none';
               let name = this.gamedatas.players[pId].name;
               let firstValidation = oScribble.dataset.turn == validationScribble.dataset.turn;
               if (pId == this.player_id) {

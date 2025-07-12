@@ -265,9 +265,9 @@ class Scoresheet6 extends Scoresheet
     $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
     $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
 
-    // // Missions
-    // $missionPoints = $this->computeMissionsUiData($data);
-    // $data[] = ["slot" => 37, "v" => $missionPoints];
+    // Missions
+    $missionPoints = $this->computeMissionsUiData($data);
+    $data[] = ["slot" => 59, "v" => $missionPoints];
 
     // Plants
     $plantsScore = 0;
