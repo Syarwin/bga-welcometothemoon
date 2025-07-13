@@ -470,7 +470,7 @@ $machinestates = [
     'possibleactions' => ['actCircleEnergy', 'actRestart'],
   ],
 
-  ST_S6_CLOSE_WALKWAY =>  [
+  ST_S6_CLOSE_WALKWAY => [
     'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must close a walkway'),
     'type' => 'private',
@@ -486,6 +486,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actPropagateVirus', 'actRestart'],
+  ],
+
+  ST_S6_CROSS_OFF_PROPAGATION_SYMBOL => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a Propagation symbol'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCrossOffPropagationSymbol', 'actRestart'],
   ],
 
   //////////////////////////////////////////////////////////////////

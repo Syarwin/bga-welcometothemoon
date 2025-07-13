@@ -65,6 +65,7 @@ class Actions
     S6_PROPAGATE,
     S6_PROPAGATE_VIRUS,
     S6_EVACUATE_QUARTER,
+    S6_CROSS_OFF_PROPAGATION_SYMBOL,
   ];
 
   public static function get($actionId, &$ctx = null)
