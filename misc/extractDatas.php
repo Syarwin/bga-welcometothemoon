@@ -24,7 +24,7 @@ $swdNamespaceAutoload = function ($class) {
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
 $maps = [];
-foreach ([1, 2, 3, 4, 5, 6, 8] as $mapId) {
+foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $mapId) {
   $json = json_decode(file_get_contents("./editor/scenario-$mapId.json"));
 
   // Convert the array to a PHP code string with short array syntax
