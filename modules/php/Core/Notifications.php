@@ -272,7 +272,7 @@ class Notifications
   }
 
 
-  public static function resolveSabotageAstra(Player $player, Scribble $scribble)
+  public static function gainOneSoloBonus(Player $player, Scribble $scribble)
   {
     static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
   }
@@ -555,11 +555,6 @@ class Notifications
   public static function filledSkyscraper(Player $player, Scribble $scribble, string $msg)
   {
     static::addScribble($player, $scribble, $msg);
-  }
-
-  public static function circleSkyscraperHighMultAstra(Player $player, Scribble $scribble)
-  {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} gains one solo bonus'));
   }
 
   public static function crossOffSkyscraperFillingBonus(Player $player, Scribble $scribble, int $value, int $skyscraperNumber)

@@ -44,7 +44,7 @@ class FilledSkyscraper extends Action
 
   protected function getMsgs(): array
   {
-    return  [
+    return [
       1 => [
         clienttranslate('${player_name} have reached the lowest level of skyscraper n°1 first and gets 20 points'),
         clienttranslate('${player_name} have reached the lowest level of skyscraper n°1 and gets 10 points'),
@@ -105,7 +105,7 @@ class FilledSkyscraper extends Action
       if (Globals::isSolo() && $firstToFill) {
         $astra = Players::getAstra();
         $bonusScribble = $astra->circleNextBonus();
-        Notifications::circleSkyscraperHighMultAstra($player, $bonusScribble);
+        Notifications::gainOneSoloBonus($player, $bonusScribble);
       }
       break;
     }

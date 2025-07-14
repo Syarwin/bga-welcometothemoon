@@ -59,7 +59,7 @@ class ActivateSabotage extends \Bga\Games\WelcomeToTheMoon\Models\Action
     if (Globals::isSolo()) {
       $astra = Players::getAstra();
       $bonusScribble = $astra->circleNextBonus();
-      Notifications::resolveSabotageAstra($player, $bonusScribble);
+      Notifications::gainOneSoloBonus($player, $bonusScribble);
     }
   }
 }

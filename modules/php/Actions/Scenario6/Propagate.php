@@ -2,7 +2,9 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario6;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Action;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
@@ -40,6 +42,12 @@ class Propagate extends Action
           'args' => ['quarter' => $i]
         ];
       }
+    }
+
+    // ASTRA BONUS
+    if (Globals::isSolo()) {
+      $bonusScribble = Players::getAstra()->circleNextBonus();
+      Notifications::gainOneSoloBonus($player, $bonusScribble);
     }
 
     $this->insertAsChild([
