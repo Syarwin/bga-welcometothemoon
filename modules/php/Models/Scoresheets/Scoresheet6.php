@@ -257,6 +257,11 @@ class Scoresheet6 extends Scoresheet
     return null;
   }
 
+  public function getLinkedPropagationSlot(int $slot): ?int
+  {
+    return [175 => 217, 178 => 218, 188 => 220, 190 => 221][$slot] ?? null;
+  }
+
   /**
    * UI DATA
    */

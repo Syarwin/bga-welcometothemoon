@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario6;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Action;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
@@ -161,17 +162,22 @@ class CircleSymbol extends Action
     }
 
     // Linked propagations
-    $linkedPropagationSlot = [175 => 217, 178 => 218, 188 => 220, 190 => 221][$scoreSlot] ?? null;
+    $linkedPropagationSlot = $scoresheet->getLinkedPropagationSlot($scoreSlot);
     if (!is_null($linkedPropagationSlot)) {
       // Cross the slot
-      $scribbles[] = $scoresheet->addScribble($linkedPropagationSlot, SCRIBBLE);
+      $scribbles[] = $scoresheet->addScribble($linkedPropagationSlot);
       // Register for phase5 (race slot)
       $scoresheet->prepareForPhaseFive(['slot' => $linkedPropagationSlot]);
 
       $msg = [
         WATER => clienttranslate('${player_name} circles a water tank and triggers a propagation for everyone else!'),
-        PLANT => clienttranslate('${player_name} circles a plant  and triggers a propagation for everyone else!')
+        PLANT => clienttranslate('${player_name} circles a plant and triggers a propagation for everyone else!')
       ][$type];
+      if (Globals::isSolo()) {
+        $msg = ''; // We don't need to tell the only player about propagation for everyone else :)
+        $bonusScribble = Players::getAstra()->circleNextBonus();
+        Notifications::gainOneSoloBonus($player, $bonusScribble);
+      }
     }
 
     Notifications::addScribbles($player, $scribbles, $msg);

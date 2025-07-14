@@ -428,6 +428,11 @@ class Scoresheet
     return null;
   }
 
+  public function getLinkedPropagationSlot(int $slot): ?int
+  {
+    return null;
+  }
+
   protected function getStandardPlanningAction(): array
   {
     return [

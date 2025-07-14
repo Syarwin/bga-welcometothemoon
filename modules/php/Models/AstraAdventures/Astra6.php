@@ -40,6 +40,9 @@ class Astra6 extends Astra
     $states = [
       [
         'action' => S6_PROPAGATE,
+        'args' => [
+          'isAstra' => true,
+        ]
       ]
     ];
 

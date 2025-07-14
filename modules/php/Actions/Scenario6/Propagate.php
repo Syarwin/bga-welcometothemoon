@@ -45,7 +45,7 @@ class Propagate extends Action
     }
 
     // ASTRA BONUS
-    if (Globals::isSolo()) {
+    if (Globals::isSolo() && !$this->getCtxArg('isAstra')) {
       $bonusScribble = Players::getAstra()->circleNextBonus();
       Notifications::gainOneSoloBonus($player, $bonusScribble);
     }
