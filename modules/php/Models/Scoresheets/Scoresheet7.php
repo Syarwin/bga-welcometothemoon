@@ -166,7 +166,8 @@ class Scoresheet7 extends Scoresheet
 
     // Number slots with robot bonus action
     $robotBonusSlots = [1, 8, 12, 19, 24, 28, 38, 40];
-    if (in_array($slot, $robotBonusSlots)) {
+    $systemErrorsWithRobots = [69, 70];
+    if (in_array($slot, [...$robotBonusSlots, ...$systemErrorsWithRobots])) {
       return ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
     }
 
