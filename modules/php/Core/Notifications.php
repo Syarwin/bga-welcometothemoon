@@ -681,6 +681,11 @@ class Notifications
     static::addScribbles($player, $scribbles, $msg);
   }
 
+  public static function circleGreenhouseMultiplier(Player $player, Scribble $scribble, string $msg)
+  {
+    static::addScribble($player, $scribble, $msg);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 

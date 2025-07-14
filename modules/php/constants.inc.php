@@ -165,6 +165,7 @@ const S6_CROSS_OFF_VIRUS = 'Scenario6\CrossOffVirus';
 
 // SCENARIO 7
 const S7_ACTIVATE_AIRLOCK = 'Scenario7\ActivateAirlock';
+const S7_CIRCLE_GREENHOUSE_MULTIPLIER = 'Scenario7\CircleGreenhouseMultiplier';
 
 /*
  * Actions

@@ -70,6 +70,7 @@ class Actions
 
     // Scenario 7
     S7_ACTIVATE_AIRLOCK,
+    S7_CIRCLE_GREENHOUSE_MULTIPLIER,
   ];
 
   public static function get($actionId, &$ctx = null)

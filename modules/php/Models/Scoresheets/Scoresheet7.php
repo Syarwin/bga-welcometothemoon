@@ -2,9 +2,7 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
@@ -58,12 +56,12 @@ class Scoresheet7 extends Scoresheet
   ];
 
   private array $x2Bonuses = [
-    3 => 154,
-    16 => 155,
-    20 => 156,
-    29 => 157,
-    36 => 158,
     43 => 159,
+    36 => 158,
+    29 => 157,
+    20 => 156,
+    16 => 155,
+    5 => 154,
   ];
 
   // Starship / Type / slots / links
@@ -153,9 +151,14 @@ class Scoresheet7 extends Scoresheet
     return null;
   }
 
-
   // PHASE 5
-  public static function phase5Check(): void {}
+  public static function phase5Check(): void
+  {
+    $raceScribbles = static::resolveRaceSlots();
+    foreach ($raceScribbles as $raceScribble) {
+      Notifications::addScribble(null, $raceScribble);
+    }
+  }
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
@@ -165,6 +168,14 @@ class Scoresheet7 extends Scoresheet
     $robotBonusSlots = [1, 8, 12, 19, 24, 28, 38, 40];
     if (in_array($slot, $robotBonusSlots)) {
       return ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
+    }
+
+    // Check greenhouse x2 bonus
+    if (in_array($slot, array_keys($this->x2Bonuses))) {
+      return [
+        'action' => S7_CIRCLE_GREENHOUSE_MULTIPLIER,
+        'args' => ['slot' => $this->x2Bonuses[$slot]]
+      ];
     }
 
     return [];
