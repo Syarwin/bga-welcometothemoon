@@ -513,6 +513,7 @@ $machinestates = [
   //  ___) | (_|  __/ | | | (_| | |  | | (_) |   / /  
   // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   /_/   
   /////////////////////////////////////////////////////////
+
   ST_S7_ACTIVATE_AIRLOCK => [
     'name' => 'pickOneSlot',
     'descriptionmyturn' => clienttranslate('${you} must activate an airlock'),
@@ -522,6 +523,14 @@ $machinestates = [
     'possibleactions' => ['actActivateAirlock', 'actRestart'],
   ],
 
+  ST_S7_CROSS_OFF_MULTIPLIER => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off one x2 multiplier'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCrossOffx2Multiplier', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

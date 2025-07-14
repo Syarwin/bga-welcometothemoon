@@ -572,11 +572,6 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off one filling bonus of a skyscraper'));
   }
 
-  public static function crossOffPropagationSymbolAstra(Player $player, Scribble $scribble)
-  {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a Propagation symbol'));
-  }
-
   ///////////////////////////////////////////////////////////
   //  ____                            _          __   
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___    / /_  
@@ -630,6 +625,10 @@ class Notifications
     ]);
   }
 
+  public static function crossOffPropagationSymbolAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a Propagation symbol'));
+  }
 
   public static function startPropagation(Player $player, array $viruses)
   {
@@ -684,6 +683,11 @@ class Notifications
   public static function circleGreenhouseMultiplier(Player $player, Scribble $scribble, string $msg)
   {
     static::addScribble($player, $scribble, $msg);
+  }
+
+  public static function crossOffx2MultiplierAstra(Player $player, Scribble $scribble)
+  {
+    static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a greenhouse x2 multiplier'));
   }
 
   /////////////////////////////////////

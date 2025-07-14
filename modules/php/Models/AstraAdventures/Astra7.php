@@ -16,8 +16,10 @@ class Astra7 extends Astra
 
   public function getAstraEffect(string $stack, bool $isFirstDraw): array
   {
-    if ($stack == 'C') return [];
-
-    return [];
+    return [
+      [
+        'action' => S7_CROSS_OFF_MULTIPLIER,
+      ]
+    ];
   }
 }

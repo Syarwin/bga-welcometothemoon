@@ -76,6 +76,7 @@ const ST_S6_PROPAGATE_VIRUS = 55;
 const ST_S6_CROSS_OFF_PROPAGATION_SYMBOL = 56;
 const ST_S6_CROSS_OFF_VIRUS = 58;
 const ST_S7_ACTIVATE_AIRLOCK = 57;
+const ST_S7_CROSS_OFF_MULTIPLIER = 59;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -166,6 +167,7 @@ const S6_CROSS_OFF_VIRUS = 'Scenario6\CrossOffVirus';
 // SCENARIO 7
 const S7_ACTIVATE_AIRLOCK = 'Scenario7\ActivateAirlock';
 const S7_CIRCLE_GREENHOUSE_MULTIPLIER = 'Scenario7\CircleGreenhouseMultiplier';
+const S7_CROSS_OFF_MULTIPLIER = 'Scenario7\CrossOffx2Multiplier';
 
 /*
  * Actions
