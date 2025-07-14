@@ -349,7 +349,7 @@ class Notifications
   public static function circleSingleLinked(Player $player, Scribble $scribble, int $type, int|null $value = null)
   {
     $postfixes = [
-      CIRCLE_TYPE_WATER_S2 => clienttranslate('water tank'),
+      CIRCLE_TYPE_WATER_TANK => clienttranslate('water tank'),
       CIRCLE_TYPE_RUBY => clienttranslate('ruby'),
       CIRCLE_TYPE_PEARL => clienttranslate('pearl'),
       CIRCLE_TYPE_FILLING_BONUS => clienttranslate('filling bonus'),

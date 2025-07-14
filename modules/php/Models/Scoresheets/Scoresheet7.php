@@ -48,12 +48,29 @@ class Scoresheet7 extends Scoresheet
     5 => [129],
   ];
 
+  private array $greenhousePlants = [
+    0 => [85, 86, 87],
+    1 => [88, 89, 90],
+    2 => [91, 92],
+    3 => [93, 94],
+    4 => [95, 96],
+    5 => [97],
+  ];
+
+  private array $x2Bonuses = [
+    3 => 154,
+    16 => 155,
+    20 => 156,
+    29 => 157,
+    36 => 158,
+    43 => 159,
+  ];
 
   // Starship / Type / slots / links
   protected static array $blocks = [
     0 => [0, BLOCK_MODULE, [1, 2, 3, 4], [132 => 3, 133 => 4, 130 => 1]],
     1 => [0, BLOCK_GREENHOUSE, [5], [130 => 0, 131 => 2]],
-    2 => [0, BLOCK_MODULE, [6, 7, 8, 9], [131 => 2, 134 => 6]],
+    2 => [0, BLOCK_MODULE, [6, 7, 8, 9], [131 => 1, 134 => 6]],
     //
     3 => [1, BLOCK_MODULE, [10, 11, 12], [132 => 0, 135 => 4, 138 => 8]],
     4 => [1, BLOCK_MODULE, [13, 14, 15], [135 => 3, 133 => 0, 136 => 5, 139 => 9]],
@@ -175,20 +192,21 @@ class Scoresheet7 extends Scoresheet
         ];
       case ROBOT:
         return ['action' => S7_ACTIVATE_AIRLOCK];
-      // case PLANT:
-      //   return [
-      //     'action' => S6_CIRCLE_SYMBOL,
-      //     'args' => [
-      //       'slot' => $slot,
-      //       'type' => $combination['action'],
-      //     ]
-      //   ];
+      case PLANT:
+        $starshipNumber = static::getBlockBySlot($slot)['starship'];
+        return [
+          'action' => CIRCLE_NEXT_IN_ROW,
+          'args' => [
+            'slots' => $this->greenhousePlants[$starshipNumber],
+            'symbol' => CIRCLE_SYMBOL_PLANT,
+          ]
+        ];
       case WATER:
         return [
           'action' => CIRCLE_SINGLE_LINKED,
           'args' => [
             'slot' => $this->waterTanksAtSlots[$slot] ?? null,
-            'type' => CIRCLE_TYPE_WATER_S2,
+            'type' => CIRCLE_TYPE_WATER_TANK,
           ]
         ];
       case ASTRONAUT:
