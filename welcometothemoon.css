@@ -1827,6 +1827,19 @@ body {
       border: 1px solid #00ff0091;
       background-color: #00ff0091;
       box-shadow: 0px 0px 4px 1px #04a604; }
+  .score-sheet[data-board="7"] .wttm-slot.slot-error {
+    width: 34px;
+    height: 34px; }
+  .score-sheet[data-board="7"] .wttm-slot.slot-water, .score-sheet[data-board="7"] .wttm-slot.slot-plant, .score-sheet[data-board="7"] .wttm-slot.slot-plantbonus .score-sheet[data-board="7"] .wttm-slot.slot-energymarker, .score-sheet[data-board="7"] .wttm-slot.slot-astronautmarker, .score-sheet[data-board="7"] .wttm-slot.slot-jokermarker {
+    width: 40px;
+    height: 40px; }
+  .score-sheet[data-board="7"] .wttm-slot.slot-airlock {
+    width: 10px;
+    height: 45px;
+    transform-origin: center center; }
+    .score-sheet[data-board="7"] .wttm-slot.slot-airlock .scribble-line {
+      transform: scaleY(1.2) scaleX(3);
+      transform-origin: center center; }
 
 .score-sheet[data-board="8"] {
   border-color: transparent !important; }

@@ -66,6 +66,9 @@ class Actions
     S6_PROPAGATE_VIRUS,
     S6_EVACUATE_QUARTER,
     S6_CROSS_OFF_PROPAGATION_SYMBOL,
+
+    // Scenario 7
+    S7_ACTIVATE_AIRLOCK,
   ];
 
   public static function get($actionId, &$ctx = null)

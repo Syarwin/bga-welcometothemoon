@@ -497,6 +497,24 @@ $machinestates = [
     'possibleactions' => ['actCrossOffPropagationSymbol', 'actRestart'],
   ],
 
+  /////////////////////////////////////////////////////////
+  //  ____                            _         _____ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___  |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \     / / 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |   / /  
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   /_/   
+  /////////////////////////////////////////////////////////
+  ST_S7_ACTIVATE_AIRLOCK => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must activate an airlock'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actActivateAirlock', 'actRestart'],
+  ],
+
+
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

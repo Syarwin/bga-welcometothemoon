@@ -37,5 +37,28 @@
         box-shadow: 0px 0px 4px 1px #04a604;
       }
     }
+
+    &.slot-error {
+      width: 34px;
+      height: 34px;
+    }
+
+    &.slot-water,
+    &.slot-plant,
+    &.slot-plantbonus &.slot-energymarker,
+    &.slot-astronautmarker,
+    &.slot-jokermarker {
+      width: 40px;
+      height: 40px;
+    }
+    &.slot-airlock {
+      width: 10px;
+      height: 45px;
+      transform-origin: center center;
+      .scribble-line {
+        transform: scaleY(1.2) scaleX(3);
+        transform-origin: center center;
+      }
+    }
   }
 }

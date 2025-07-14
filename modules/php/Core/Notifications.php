@@ -669,6 +669,23 @@ class Notifications
     ]);
   }
 
+  ///////////////////////////////////////////////////////
+  //  ____                            _         _____ 
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___  |
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \     / / 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |   / /  
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   /_/   
+  ///////////////////////////////////////////////////////
+
+  public static function activateAirlock(Player $player, array $scribbles, bool $isBonus)
+  {
+    $msg = $isBonus ?
+      clienttranslate('${player_name} activates an airlock (bonus action)')
+      : clienttranslate('${player_name} activates an airlock');
+
+    static::addScribbles($player, $scribbles, $msg);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
