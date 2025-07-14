@@ -2277,7 +2277,7 @@ body {
   width: 34px;
   height: 34px;
 }
-.score-sheet[data-board="7"] .wttm-slot.slot-water, .score-sheet[data-board="7"] .wttm-slot.slot-plant, .score-sheet[data-board="7"] .wttm-slot.slot-plantbonus .score-sheet[data-board="7"] .wttm-slot.slot-energymarker, .score-sheet[data-board="7"] .wttm-slot.slot-astronautmarker, .score-sheet[data-board="7"] .wttm-slot.slot-jokermarker {
+.score-sheet[data-board="7"] .wttm-slot.slot-water, .score-sheet[data-board="7"] .wttm-slot.slot-plant, .score-sheet[data-board="7"] .wttm-slot.slot-plantbonus, .score-sheet[data-board="7"] .wttm-slot.slot-energymarker, .score-sheet[data-board="7"] .wttm-slot.slot-astronautmarker, .score-sheet[data-board="7"] .wttm-slot.slot-jokermarker {
   width: 40px;
   height: 40px;
 }

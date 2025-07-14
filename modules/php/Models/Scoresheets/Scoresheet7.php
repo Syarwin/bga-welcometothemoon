@@ -39,6 +39,15 @@ class Scoresheet7 extends Scoresheet
     41 => 84
   ];
 
+  private array $energyIconsByStarship = [
+    0 => [118, 117, 116],
+    1 => [121, 120, 119],
+    2 => [124, 123, 122],
+    3 => [126, 125],
+    4 => [128, 127],
+    5 => [129],
+  ];
+
 
   // Starship / Type / slots / links
   protected static array $blocks = [
@@ -67,6 +76,7 @@ class Scoresheet7 extends Scoresheet
     17 => [5, BLOCK_MODULE, [41, 42], [152 => 16, 151 => 15, 153 => 18]],
     18 => [5, BLOCK_GREENHOUSE, [43], [153 => 17]],
   ];
+
   public static function getBlockInfos(): array
   {
     $infos = [];
@@ -116,6 +126,16 @@ class Scoresheet7 extends Scoresheet
     return array_values(array_intersect($slots, $validSlots));
   }
 
+  public function getBlockBySlot(int $slot): ?array
+  {
+    foreach (static::getBlockInfos() as $block) {
+      if (in_array($slot, $block['slots'])) {
+        return $block;
+      }
+    }
+    return null;
+  }
+
 
   // PHASE 5
   public static function phase5Check(): void {}
@@ -144,18 +164,25 @@ class Scoresheet7 extends Scoresheet
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
     switch ($combination['action']) {
-      // case ENERGY:
-      //   return ['action' => S6_CIRCLE_ENERGY, 'args' => ['quarter' => $quarter]];
+      case ENERGY:
+        $starshipNumber = static::getBlockBySlot($slot)['starship'];
+        return [
+          'action' => CIRCLE_NEXT_IN_ROW,
+          'args' => [
+            'slots' => $this->energyIconsByStarship[$starshipNumber],
+            'symbol' => CIRCLE_SYMBOL_REACTOR,
+          ]
+        ];
       case ROBOT:
         return ['action' => S7_ACTIVATE_AIRLOCK];
-        // case PLANT:
-        //   return [
-        //     'action' => S6_CIRCLE_SYMBOL,
-        //     'args' => [
-        //       'slot' => $slot,
-        //       'type' => $combination['action'],
-        //     ]
-        //   ];
+      // case PLANT:
+      //   return [
+      //     'action' => S6_CIRCLE_SYMBOL,
+      //     'args' => [
+      //       'slot' => $slot,
+      //       'type' => $combination['action'],
+      //     ]
+      //   ];
       case WATER:
         return [
           'action' => CIRCLE_SINGLE_LINKED,
