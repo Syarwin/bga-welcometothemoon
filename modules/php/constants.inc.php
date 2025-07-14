@@ -74,6 +74,7 @@ const ST_S6_CLOSE_WALKWAY = 53;
 const ST_S6_INIT_GREY_VIRUS = 54;
 const ST_S6_PROPAGATE_VIRUS = 55;
 const ST_S6_CROSS_OFF_PROPAGATION_SYMBOL = 56;
+const ST_S6_CROSS_OFF_VIRUS = 58;
 const ST_S7_ACTIVATE_AIRLOCK = 57;
 
 // Engine state
@@ -160,6 +161,7 @@ const S6_PROPAGATE = 'Scenario6\Propagate';
 const S6_PROPAGATE_VIRUS = 'Scenario6\PropagateVirus';
 const S6_EVACUATE_QUARTER = 'Scenario6\EvacuateQuarter';
 const S6_CROSS_OFF_PROPAGATION_SYMBOL = 'Scenario6\CrossOffPropagationSymbol';
+const S6_CROSS_OFF_VIRUS = 'Scenario6\CrossOffVirus';
 
 // SCENARIO 7
 const S7_ACTIVATE_AIRLOCK = 'Scenario7\ActivateAirlock';

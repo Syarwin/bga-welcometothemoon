@@ -497,6 +497,15 @@ $machinestates = [
     'possibleactions' => ['actCrossOffPropagationSymbol', 'actRestart'],
   ],
 
+  ST_S6_CROSS_OFF_VIRUS => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must cross off a Blue or a Green virus icon'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCrossOffVirus', 'actRestart'],
+  ],
+
   /////////////////////////////////////////////////////////
   //  ____                            _         _____ 
   // / ___|  ___ ___ _ __   __ _ _ __(_) ___   |___  |
@@ -512,7 +521,6 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'possibleactions' => ['actActivateAirlock', 'actRestart'],
   ],
-
 
 
   //////////////////////////////////////////////////////////////////

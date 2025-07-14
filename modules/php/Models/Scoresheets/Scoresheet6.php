@@ -90,7 +90,7 @@ class Scoresheet6 extends Scoresheet
   public static function getVirusOfQuarter(int $slot): int
   {
     foreach (self::getViruses() as $virus => $infos) {
-      if ($infos[1] == $slot) {
+      if (in_array($slot, $infos)) {
         return $virus;
       }
     }
@@ -143,6 +143,11 @@ class Scoresheet6 extends Scoresheet
 
     // Viruses
     $viruses = array_unique(Globals::getActivatedViruses());
+    static::activateViruses($viruses, $propagations);
+  }
+
+  public static function activateViruses(array $viruses, array $propagations): void
+  {
     foreach ($viruses as $virus) {
       $scribbles = [];
       [$linkedVirusSlot, $virusSlot] = self::getViruses()[$virus];
@@ -163,7 +168,6 @@ class Scoresheet6 extends Scoresheet
     Globals::setActivatedViruses([]);
     Globals::setPropagations($propagations);
   }
-
 
   private array $astronautsSlots = [80, 81, 83, 84, 86, 87];
   private array $planningSlots = [89, 90, 92, 93, 95, 96];
