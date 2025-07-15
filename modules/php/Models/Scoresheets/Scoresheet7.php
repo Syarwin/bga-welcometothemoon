@@ -46,24 +46,6 @@ class Scoresheet7 extends Scoresheet
     5 => [129],
   ];
 
-  private array $greenhousePlants = [
-    0 => [85, 86, 87],
-    1 => [88, 89, 90],
-    2 => [91, 92],
-    3 => [93, 94],
-    4 => [95, 96],
-    5 => [97],
-  ];
-
-  private array $x2Bonuses = [
-    43 => 159,
-    36 => 158,
-    29 => 157,
-    20 => 156,
-    16 => 155,
-    5 => 154,
-  ];
-
   // Starship / Type / slots / links
   protected static array $blocks = [
     0 => [0, BLOCK_MODULE, [1, 2, 3, 4], [132 => 3, 133 => 4, 130 => 1]],
@@ -90,6 +72,15 @@ class Scoresheet7 extends Scoresheet
     16 => [5, BLOCK_MODULE, [39, 40], [150 => 13, 152 => 17]],
     17 => [5, BLOCK_MODULE, [41, 42], [152 => 16, 151 => 15, 153 => 18]],
     18 => [5, BLOCK_GREENHOUSE, [43], [153 => 17]],
+  ];
+
+  private array $greenhouses = [
+    ['starship' => 0, 'plants' => [85, 86, 87], 'numberSlot' => 5, 'x2Slot' => 154, 'scoreSlot' => 62],
+    ['starship' => 1, 'plants' => [88, 89, 90], 'numberSlot' => 16, 'x2Slot' => 155, 'scoreSlot' => 59],
+    ['starship' => 2, 'plants' => [91, 92], 'numberSlot' => 20, 'x2Slot' => 156, 'scoreSlot' => 61],
+    ['starship' => 3, 'plants' => [93, 94], 'numberSlot' => 29, 'x2Slot' => 157, 'scoreSlot' => 58],
+    ['starship' => 4, 'plants' => [95, 96], 'numberSlot' => 36, 'x2Slot' => 158, 'scoreSlot' => 60],
+    ['starship' => 5, 'plants' => [97], 'numberSlot' => 43, 'x2Slot' => 159, 'scoreSlot' => 57],
   ];
 
   public static function getBlockInfos(): array
@@ -172,14 +163,25 @@ class Scoresheet7 extends Scoresheet
     }
 
     // Check greenhouse x2 bonus
-    if (in_array($slot, array_keys($this->x2Bonuses))) {
+    $greenhousesNumberSlots = array_map(fn($gh) => $gh['numberSlot'], $this->greenhouses);
+    if (in_array($slot, $greenhousesNumberSlots)) {
       return [
         'action' => S7_CIRCLE_GREENHOUSE_MULTIPLIER,
-        'args' => ['slot' => $this->x2Bonuses[$slot]]
+        'args' => ['slot' => $this->getGreenhouseByNumberSlot($slot)['x2Slot']]
       ];
     }
 
     return [];
+  }
+
+  private function getGreenhouseByNumberSlot($slot): ?array
+  {
+    foreach ($this->greenhouses as $greenhouse) {
+      if ($greenhouse['numberSlot'] === $slot) {
+        return $greenhouse;
+      }
+    }
+    return null;
   }
 
   private array $astronautsSlots = [98, 99, 100, 101, 102, 103];
@@ -188,7 +190,6 @@ class Scoresheet7 extends Scoresheet
     101 => 105,
     103 => 106,
   ];
-
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
@@ -209,7 +210,7 @@ class Scoresheet7 extends Scoresheet
         return [
           'action' => CIRCLE_NEXT_IN_ROW,
           'args' => [
-            'slots' => $this->greenhousePlants[$starshipNumber],
+            'slots' => $this->greenhouses[$starshipNumber]['plants'],
             'symbol' => CIRCLE_SYMBOL_PLANT,
           ]
         ];
@@ -245,6 +246,34 @@ class Scoresheet7 extends Scoresheet
     // $missionPoints = $this->computeMissionsUiData($data);
     // $data[] = ["slot" => 37, "v" => $missionPoints];
 
+    // Greenhouses
+    $greenhousesScores = [];
+    foreach ($this->greenhouses as $greenhouse) {
+      if ($this->hasScribbledSlot($greenhouse['numberSlot'])) {
+        $plantsScoreMap = [0 => 0, 1 => 2, 2 => 4, 3 => 7];
+        $alreadyCircledCount = 3 - count($greenhouse['plants']);
+        $score = $plantsScoreMap[$this->countScribbledSlots($greenhouse['plants']) + $alreadyCircledCount];
+        if ($this->hasScribbledSlot($greenhouse['x2Slot'], SCRIBBLE_CIRCLE)) {
+          $score = $score * 2;
+        }
+        $data[] = ["slot" => $greenhouse['scoreSlot'], "v" => $score];
+        $greenhousesScores[$greenhouse['scoreSlot']] = $score;
+      }
+    }
+
+    $pairsOfGreenhousesMapping = [
+      48 => [57, 60],
+      49 => [58, 61],
+      50 => [59, 62],
+    ];
+    $greenhousesTotal = 0;
+    foreach ($pairsOfGreenhousesMapping as $scoreSlot => $slots) {
+      $pair = array_map(function ($slot) use ($greenhousesScores) {
+        return $greenhousesScores[$slot] ?? 0;
+      }, $slots);
+      $data[] = ["slot" => $scoreSlot, "v" => array_sum($pair)];
+      $greenhousesTotal += array_sum($pair);
+    }
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
@@ -256,10 +285,10 @@ class Scoresheet7 extends Scoresheet
 
     // Total score
     $data[] = [
-      "slot" => 47,
+      "slot" => 56,
       "score" => true,
       "overview" => "total",
-      "v" => -$negativePoints,
+      "v" => $greenhousesTotal - $negativePoints,
     ];
 
     return $data;
