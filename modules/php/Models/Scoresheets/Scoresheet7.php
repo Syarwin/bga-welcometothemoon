@@ -37,7 +37,7 @@ class Scoresheet7 extends Scoresheet
     41 => 84
   ];
 
-  private array $energyIconsByStarship = [
+  private array $reactorsByStarship = [
     0 => [118, 117, 116],
     1 => [121, 120, 119],
     2 => [124, 123, 122],
@@ -82,6 +82,16 @@ class Scoresheet7 extends Scoresheet
     ['starship' => 4, 'plants' => [95, 96], 'numberSlot' => 36, 'x2Slot' => 158, 'scoreSlot' => 60],
     ['starship' => 5, 'plants' => [97], 'numberSlot' => 43, 'x2Slot' => 159, 'scoreSlot' => 57],
   ];
+
+  public function getGreenhouses(): array
+  {
+    return $this->greenhouses;
+  }
+
+  public function getReactors()
+  {
+    return $this->reactorsByStarship;
+  }
 
   public static function getBlockInfos(): array
   {
@@ -174,6 +184,18 @@ class Scoresheet7 extends Scoresheet
     return [];
   }
 
+  public function getCircledPlants(array $greenhouse): int
+  {
+    $builtInCircleCount = 3 - count($greenhouse['plants']);
+    return $this->countScribbledSlots($greenhouse['plants']) + $builtInCircleCount;
+  }
+
+  public function isCompletelyNumbered(int $blockId): bool
+  {
+    $block = static::getBlockInfos()[$blockId];
+    return $this->countScribbledSlots($block['slots']) === count($block['slots']);
+  }
+
   private function getGreenhouseByNumberSlot($slot): ?array
   {
     foreach ($this->greenhouses as $greenhouse) {
@@ -199,7 +221,7 @@ class Scoresheet7 extends Scoresheet
         return [
           'action' => CIRCLE_NEXT_IN_ROW,
           'args' => [
-            'slots' => $this->energyIconsByStarship[$starshipNumber],
+            'slots' => $this->reactorsByStarship[$starshipNumber],
             'symbol' => CIRCLE_SYMBOL_REACTOR,
           ]
         ];
@@ -242,17 +264,16 @@ class Scoresheet7 extends Scoresheet
     $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
     $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
 
-    // // Missions
-    // $missionPoints = $this->computeMissionsUiData($data);
-    // $data[] = ["slot" => 37, "v" => $missionPoints];
+    // Missions
+    $missionPoints = $this->computeMissionsUiData($data);
+    $data[] = ["slot" => 47, "v" => $missionPoints];
 
     // Greenhouses
     $greenhousesScores = [];
     foreach ($this->greenhouses as $greenhouse) {
       if ($this->hasScribbledSlot($greenhouse['numberSlot'])) {
         $plantsScoreMap = [0 => 0, 1 => 2, 2 => 4, 3 => 7];
-        $alreadyCircledCount = 3 - count($greenhouse['plants']);
-        $score = $plantsScoreMap[$this->countScribbledSlots($greenhouse['plants']) + $alreadyCircledCount];
+        $score = $plantsScoreMap[$this->getCircledPlants($greenhouse)];
         if ($this->hasScribbledSlot($greenhouse['x2Slot'], SCRIBBLE_CIRCLE)) {
           $score = $score * 2;
         }
@@ -288,8 +309,8 @@ class Scoresheet7 extends Scoresheet
           $starshipsScoresMap[$starship] = 0;
         }
         // Find out how many reactors are circled
-        $alreadyCircledCount = 3 - count($this->energyIconsByStarship[$starship]);
-        $reactorsCircled = $this->countScribbledSlots($this->energyIconsByStarship[$starship]) + $alreadyCircledCount;
+        $builtInCircleCount = 3 - count($this->reactorsByStarship[$starship]);
+        $reactorsCircled = $this->countScribbledSlots($this->reactorsByStarship[$starship]) + $builtInCircleCount;
         $score = $modulesScoreMap[$reactorsCircled];
 
         // If a linked water tank circled - double the score
@@ -346,7 +367,7 @@ class Scoresheet7 extends Scoresheet
       "slot" => 56,
       "score" => true,
       "overview" => "total",
-      "v" => $greenhousesTotal + $starshipsTotal - $planningNegativePoints - $negativePoints,
+      "v" => $missionPoints + $greenhousesTotal + $starshipsTotal - $planningNegativePoints - $negativePoints,
     ];
 
     return $data;

@@ -18,6 +18,8 @@ class PlanCard101 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $greenhouse = $scoresheet->getGreenhouses()[5];
+    return $scoresheet->hasScribbledSlot($greenhouse['numberSlot']) && $scoresheet->getCircledPlants($greenhouse) === 3;
   }
 }

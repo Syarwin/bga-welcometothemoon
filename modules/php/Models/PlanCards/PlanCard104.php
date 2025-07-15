@@ -18,6 +18,11 @@ class PlanCard104 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    $scoresheet = $player->scoresheet();
+    $starshipReactorsAll = $scoresheet->getReactors();
+    $starshipsFinished = array_map(function ($reactorsOfStarship) use ($scoresheet) {
+      return $scoresheet->countScribbledSlots($reactorsOfStarship) === count($reactorsOfStarship);
+    }, $starshipReactorsAll);
+    return count(array_filter($starshipsFinished)) >= 3;
   }
 }
