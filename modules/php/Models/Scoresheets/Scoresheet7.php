@@ -275,10 +275,20 @@ class Scoresheet7 extends Scoresheet
       $greenhousesTotal += array_sum($pair);
     }
 
+    $planningNegativePoints = 0;
+    $planningMap = [107 => 1, 108 => 3, 109 => 6, 110 => 9, 111 => 12, 112 => 16, 113 => 20, 114 => 24, 115 => 28];
+    foreach ($planningMap as $slot => $points) {
+      if ($this->hasScribbledSlot($slot)) {
+        $planningNegativePoints = $points;
+      }
+    }
+    $data[] = ["slot" => 54, "v" => $planningNegativePoints];
+    $data[] = ["overview" => "planning", "v" => -$planningNegativePoints];
+
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');
     $negativePoints = 5 * $scribbledErrors;
-    $data[] = ["slot" => 46, "v" => $negativePoints];
+    $data[] = ["slot" => 55, "v" => $negativePoints];
     $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 3")];
     $data[] = ["panel" => "errors", "v" => $scribbledErrors];
 
