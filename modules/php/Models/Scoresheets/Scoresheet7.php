@@ -268,13 +268,61 @@ class Scoresheet7 extends Scoresheet
     ];
     $greenhousesTotal = 0;
     foreach ($pairsOfGreenhousesMapping as $scoreSlot => $slots) {
-      $pair = array_map(function ($slot) use ($greenhousesScores) {
+      $scoresPair = array_map(function ($slot) use ($greenhousesScores) {
         return $greenhousesScores[$slot] ?? 0;
       }, $slots);
-      $data[] = ["slot" => $scoreSlot, "v" => array_sum($pair)];
-      $greenhousesTotal += array_sum($pair);
+      $data[] = ["slot" => $scoreSlot, "v" => array_sum($scoresPair)];
+      $greenhousesTotal += array_sum($scoresPair);
     }
 
+    // Starships
+    $blockInfos = array_filter(static::getBlockInfos(), function ($block) {
+      return $block['type'] === BLOCK_MODULE;
+    });
+    $modulesScoreMap = [0 => 0, 1 => 2, 2 => 4, 3 => 7];
+    $starshipsScoresMap = [];
+    foreach ($blockInfos as $blockInfo) {
+      $starship = $blockInfo['starship'];
+      if ($this->countScribbledSlots($blockInfo['slots']) === count($blockInfo['slots'])) { // All are numbered
+        if (!isset($starshipsScoresMap[$starship])) {
+          $starshipsScoresMap[$starship] = 0;
+        }
+        // Find out how many reactors are circled
+        $alreadyCircledCount = 3 - count($this->energyIconsByStarship[$starship]);
+        $reactorsCircled = $this->countScribbledSlots($this->energyIconsByStarship[$starship]) + $alreadyCircledCount;
+        $score = $modulesScoreMap[$reactorsCircled];
+
+        // If a linked water tank circled - double the score
+        $linkedWaterTankKey = array_values(array_intersect($blockInfo['slots'], array_keys($this->waterTanksAtSlots)))[0];
+        $linkedWaterTankSlot = $this->waterTanksAtSlots[$linkedWaterTankKey];
+        if ($this->hasScribbledSlot($linkedWaterTankSlot, SCRIBBLE_CIRCLE)) {
+          $score = $score * 2;
+        }
+        $starshipsScoresMap[$starship] += $score;
+      }
+    }
+
+    $starshipsTotal = 0;
+    $scoreSlotsByStarship = [68, 65, 67, 64, 66, 63];
+    $pairsOfStarshipsMapping = [
+      51 => [4, 5],
+      52 => [2, 3],
+      53 => [0, 1],
+    ];
+    foreach ($pairsOfStarshipsMapping as $scoreSlot => $starshipsPair) {
+      $scoresPair = array_map(function ($slot) use ($starshipsScoresMap) {
+        return $starshipsScoresMap[$slot] ?? 0;
+      }, $starshipsPair);
+      foreach ($starshipsPair as $starshipId) {
+        if (isset($starshipsScoresMap[$starshipId])) {
+          $data[] = ["slot" => $scoreSlotsByStarship[$starshipId], "v" => $starshipsScoresMap[$starshipId]];
+        }
+      }
+      $data[] = ["slot" => $scoreSlot, "v" => array_sum($scoresPair)];
+      $starshipsTotal += array_sum($scoresPair);
+    }
+
+    // Planning
     $planningNegativePoints = 0;
     $planningMap = [107 => 1, 108 => 3, 109 => 6, 110 => 9, 111 => 12, 112 => 16, 113 => 20, 114 => 24, 115 => 28];
     foreach ($planningMap as $slot => $points) {
@@ -298,7 +346,7 @@ class Scoresheet7 extends Scoresheet
       "slot" => 56,
       "score" => true,
       "overview" => "total",
-      "v" => $greenhousesTotal - $negativePoints,
+      "v" => $greenhousesTotal + $starshipsTotal - $planningNegativePoints - $negativePoints,
     ];
 
     return $data;
