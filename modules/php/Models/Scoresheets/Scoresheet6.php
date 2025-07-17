@@ -280,7 +280,7 @@ class Scoresheet6 extends Scoresheet
 
     // Plants
     $plantsScore = 0;
-    $waterScoreThresholds = [
+    $plantScoreThresholds = [
       199 => 80,
       198 => 55,
       197 => 35,
@@ -288,13 +288,14 @@ class Scoresheet6 extends Scoresheet
       195 => 10,
       194 => 5,
     ];
-    foreach ($waterScoreThresholds as $slot => $threshold) {
+    foreach ($plantScoreThresholds as $slot => $threshold) {
       if ($this->hasScribbledSlot($slot)) {
         $plantsScore = $threshold;
         break;
       }
     }
     $data[] = ["slot" => 60, "v" => $plantsScore];
+    $data[] = ["overview" => "plants", "v" => $plantsScore];
 
     $waterScore = 0;
     $waterScoreThresholds = [
@@ -311,20 +312,27 @@ class Scoresheet6 extends Scoresheet
       }
     }
     $data[] = ["slot" => 61, "v" => $waterScore];
+    $data[] = ["overview" => "waters", "v" => $waterScore];
 
     // Evacuated quarters
     $quartersTotal = 0;
+    $nEvacuated = 0;
     foreach (self::getQuarters() as $quarterData) {
       $scribble = $this->scribblesBySlots[$quarterData[1]][0] ?? null;
-      $quarterScore = is_null($scribble) ? 0 : $scribble->getNumber();
-      $quartersTotal += $quarterScore;
+      if (!is_null($scribble)) {
+        $quarterScore = $scribble->getNumber();
+        $quartersTotal += $quarterScore;
+        $nEvacuated++;
+      }
     }
     $data[] = ["slot" => 62, "v" => $quartersTotal];
+    $data[] = ["overview" => "quarters", "v" => $quartersTotal, "details" => $nEvacuated . " / 11"];
 
 
     // Infected housing spaces
     $infectedAmount = $this->countScribblesInSection('numbers', SCRIBBLE);
     $data[] = ["slot" => 63, "v" => $infectedAmount];
+    $data[] = ["overview" => "infections", "v" => -$infectedAmount];
 
     // System errors
     $scribbledErrors = $this->countScribblesInSection('errors');

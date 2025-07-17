@@ -139,6 +139,24 @@
     background-repeat: no-repeat;
     margin: 0 0.1em;
   }
+
+  .icon-evacuated {
+    width: 2.4em;
+    height: 2em;
+    background-image: url("img/overview/evacuated.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em;
+  }
+
+  .icon-infected {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/overview/infected.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em;
+  }
 }
 
 .action-button.btnAction {

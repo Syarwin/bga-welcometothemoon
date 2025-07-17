@@ -2,6 +2,53 @@
   "id": "scenario-6",
   "name": "The Virus",
   "jpgUrl": "scenarios/scenario-6.jpg",
+  "overview": [
+    {
+      "name": "numbers",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "stack-A",
+      "type": "points-or-dash",
+      "icon": "stack-A"
+    },
+    {
+      "name": "stack-B",
+      "type": "points-or-dash",
+      "icon": "stack-B"
+    },
+    {
+      "name": "stack-C",
+      "type": "points-or-dash",
+      "icon": "stack-C"
+    },
+    {
+      "name": "plants",
+      "type": "points",
+      "icon": "plant"
+    },
+    {
+      "name": "waters",
+      "type": "points",
+      "icon": "water"
+    },
+    {
+      "name": "quarters",
+      "type": "points",
+      "icon": "evacuated"
+    },
+    {
+      "name": "infections",
+      "type": "points",
+      "icon": "infected"
+    },
+    {
+      "name": "errors",
+      "type": "points",
+      "icon": "system-error"
+    }
+  ],
   "sections": [
     {
       "id": "numbers",
