@@ -67,5 +67,12 @@
         transform-origin: center center;
       }
     }
+
+    &.slot-score {
+      &[data-id="54"],
+      &[data-id="55"] {
+        color: #c40524;
+      }
+    }
   }
 }

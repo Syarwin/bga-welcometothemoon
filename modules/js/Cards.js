@@ -384,6 +384,47 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, cross off 1 Planning symbol on the right side of your sheet. Whenever you have 2 crossed off Planning, circle a Wild Action symbol. Note that you cannot cross off a Planning symbol without writing down an X in an empty space.'
               );
           }
+
+        // Scenario 7
+        case 7:
+          switch (action) {
+            case 'energy':
+              return (
+                _(
+                  'Fire the reactors. With this action, you can circle a reactor at the end of the same starship in which you just have written down the number of your combination.'
+                ) + _('At the beginning of the game, some reactors are already circled.')
+              );
+            case 'robot':
+              return (
+                _('With this action, you can activate an airlock.') +
+                _('For that purpose, draw a line on an airlock between two modules or between a module and a greenhouse.') +
+                _('You can activate an airlock only if it is connected to a module or a greenhouse already connected.') +
+                _('That way you will access new modules, greenhouses and starships so that you can number them.') +
+                _(
+                  'Do not forget that each starship is a zone that must be numbered in ascending order. The airlocks, activated or not, do not change the numbering constraint of these zones.'
+                )
+              );
+            case 'plant':
+              return (
+                _(
+                  'You can circle a plant in a greenhouse in the same starship in which you just have written down the number of your combination.'
+                ) +
+                _('At the beginning of the game, some plants are already circled.') +
+                _('You can circle a plant in a greenhouse even though it is not yet connected with an airlock.')
+              );
+            case 'water':
+              return _(
+                'If you have written down the number of your combination in a space with a water tank, then you can circle that water tank.'
+              );
+            case 'astronaut':
+              return _(
+                'The Astronaut action allows you to modify the value of the number of the chosen combination, before you write it down (-2, -1, 0, +1, +2). Moreover, cross off 1 Astronaut symbol on the right side of your sheet. Whenever you have 2 crossed off Astronauts, circle a Wild Action symbol'
+              );
+            case 'planning':
+              return _(
+                'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the Planning scoring area, at the bottom of your sheet'
+              );
+          }
       }
     },
 

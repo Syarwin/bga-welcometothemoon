@@ -83,5 +83,12 @@
       background-color: transparent;
       box-shadow: none;
     }
+
+    &.slot-score {
+      &[data-id="63"],
+      &[data-id="64"] {
+        color: #c40524;
+      }
+    }
   }
 }

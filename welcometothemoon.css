@@ -1812,6 +1812,8 @@ body {
     text-indent: 3px;
     background-color: transparent;
     box-shadow: none; }
+  .score-sheet[data-board="6"] .wttm-slot.slot-score[data-id="63"], .score-sheet[data-board="6"] .wttm-slot.slot-score[data-id="64"] {
+    color: #c40524; }
 
 .score-sheet[data-board="7"] {
   background-image: url("img/scenario-7.jpg"); }
@@ -1857,6 +1859,8 @@ body {
     .score-sheet[data-board="7"] .wttm-slot.slot-airlock .scribble-line {
       transform: scaleY(1.2) scaleX(3);
       transform-origin: center center; }
+  .score-sheet[data-board="7"] .wttm-slot.slot-score[data-id="54"], .score-sheet[data-board="7"] .wttm-slot.slot-score[data-id="55"] {
+    color: #c40524; }
 
 .score-sheet[data-board="8"] {
   border-color: transparent !important; }
@@ -2600,7 +2604,8 @@ body {
       #popin_showOverview #popin_showOverview_contents table th .icon-water,
       #popin_showOverview #popin_showOverview_contents table th .icon-planning,
       #popin_showOverview #popin_showOverview_contents table th .icon-astronaut,
-      #popin_showOverview #popin_showOverview_contents table th .icon-plant {
+      #popin_showOverview #popin_showOverview_contents table th .icon-plant,
+      #popin_showOverview #popin_showOverview_contents table th .icon-energy {
         background-color: transparent;
         font-size: 0.9em;
         filter: drop-shadow(0px 0px 1px black);

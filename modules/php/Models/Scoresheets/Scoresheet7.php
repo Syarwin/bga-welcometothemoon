@@ -295,6 +295,7 @@ class Scoresheet7 extends Scoresheet
       $data[] = ["slot" => $scoreSlot, "v" => array_sum($scoresPair)];
       $greenhousesTotal += array_sum($scoresPair);
     }
+    $data[] = ["overview" => "plants", "v" => $greenhousesTotal];
 
     // Starships
     $blockInfos = array_filter(static::getBlockInfos(), function ($block) {
@@ -342,6 +343,7 @@ class Scoresheet7 extends Scoresheet
       $data[] = ["slot" => $scoreSlot, "v" => array_sum($scoresPair)];
       $starshipsTotal += array_sum($scoresPair);
     }
+    $data[] = ["overview" => "starships", "v" => $starshipsTotal];
 
     // Planning
     $planningNegativePoints = 0;

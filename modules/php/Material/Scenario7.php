@@ -3,6 +3,48 @@ const DATAS7 = [
   'id' => 'scenario-7',
   'name' => 'The Escape',
   'jpgUrl' => 'scenarios/scenario-7.jpg',
+  'overview' => [
+    0 => [
+      'name' => 'numbers',
+      'type' => '/',
+      'icon' => 'slot-number',
+    ],
+    1 => [
+      'name' => 'stack-A',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-A',
+    ],
+    2 => [
+      'name' => 'stack-B',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-B',
+    ],
+    3 => [
+      'name' => 'stack-C',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-C',
+    ],
+    4 => [
+      'name' => 'plants',
+      'type' => 'points',
+      'icon' => 'plant',
+    ],
+    5 => [
+      'name' => 'starships',
+      'type' => 'points',
+      'icon' => 'energy/water',
+    ],
+    6 => [
+      'name' => 'planning',
+      'type' => 'points',
+      'icon' => 'planning',
+    ],
+    7 => [
+      'name' => 'errors',
+      'type' => 'points',
+      'icon' => 'system-error',
+    ],
+  ],
   'sections' => [
     0 => [
       'id' => 'numbers',

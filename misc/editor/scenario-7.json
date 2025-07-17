@@ -2,6 +2,48 @@
   "id": "scenario-7",
   "name": "The Escape",
   "jpgUrl": "scenarios/scenario-7.jpg",
+  "overview": [
+    {
+      "name": "numbers",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "stack-A",
+      "type": "points-or-dash",
+      "icon": "stack-A"
+    },
+    {
+      "name": "stack-B",
+      "type": "points-or-dash",
+      "icon": "stack-B"
+    },
+    {
+      "name": "stack-C",
+      "type": "points-or-dash",
+      "icon": "stack-C"
+    },
+    {
+      "name": "plants",
+      "type": "points",
+      "icon": "plant"
+    },
+    {
+      "name": "starships",
+      "type": "points",
+      "icon": "energy/water"
+    },
+    {
+      "name": "planning",
+      "type": "points",
+      "icon": "planning"
+    },
+    {
+      "name": "errors",
+      "type": "points",
+      "icon": "system-error"
+    }
+  ],
   "sections": [
     {
       "id": "numbers",
