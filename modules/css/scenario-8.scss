@@ -157,7 +157,8 @@
     }
 
     &.slot-insigna,
-    &.slot-asteroid {
+    &.slot-asteroid,
+    &.slot-astronautmarker {
       width: 40px;
       height: 40px;
     }
@@ -184,14 +185,16 @@
       height: 30px;
     }
 
-    &.slot-astronautmarker {
-      width: 40px;
-      height: 40px;
-    }
     &.slot-energymarker,
     &.slot-planningmarker {
       width: 30px;
       height: 30px;
+    }
+
+    &.slot-planet {
+      width: 220px;
+      height: 220px;
+      pointer-events: none;
     }
   }
 }

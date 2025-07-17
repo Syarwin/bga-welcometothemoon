@@ -284,3 +284,16 @@
   border-radius: 0px;
   border: none;
 }
+
+#main-frame.add-planets .slot-planet,
+#main-frame.show-planets .slot-planet,
+#main-frame.add-planets #hover-indicator {
+  display: block;
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: url("img/circled-bis.png");
+  background-size: 100%;
+  border-radius: 0px;
+  border: none;
+}
