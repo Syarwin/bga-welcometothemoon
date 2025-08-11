@@ -347,7 +347,7 @@ class Scoresheet6 extends Scoresheet
       "slot" => 65,
       "score" => true,
       "overview" => "total",
-      "v" => $plantsScore + $waterScore + $quartersTotal - $infectedAmount - $negativePoints,
+      "v" => $missionPoints + $plantsScore + $waterScore + $quartersTotal - $infectedAmount - $negativePoints,
     ];
 
     return $data;

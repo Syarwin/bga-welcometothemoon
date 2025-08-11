@@ -239,7 +239,7 @@ class Scoresheet5 extends Scoresheet
     foreach ($scribbles as $scribble) {
       $player = Players::get($scribble->getPId());
       $slot = $scribble->getSlot();
-      [$value, $skyscraper] = $fillingBonuses[$slot];
+      [$skyscraper, $value] = $fillingBonuses[$slot];
       Notifications::crossOffSkyscraperFillingBonus($player, $scribble, $value, $skyscraper);
     }
   }
