@@ -88,8 +88,13 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $this->incStat($combination['action'], $player->getId());
 
     // Insert reactions first, unless some specific cases:
-    //  - S4 : always cross off water/plant linked before extraction
-    if (in_array($combination['action'], [WATER, PLANT]) && in_array(Globals::getScenario(), [4])) {
+    $actionBeforeReaction = false;
+    // S4 : always cross off water/plant linked before extraction
+    if (Globals::getScenario() == 4 && in_array($combination['action'], [WATER, PLANT]))  $actionBeforeReaction = true;
+    // S5 : quarantine quarter after action
+    if (Globals::getScenario() == 6 && in_array($combination['action'], [WATER, PLANT, ENERGY]))  $actionBeforeReaction = true;
+
+    if ($actionBeforeReaction) {
       $this->insertAsChild($action);
       $this->insertAsChild($reactions);
     } else {
