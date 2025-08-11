@@ -30,11 +30,19 @@ class Astra6 extends Astra
         }
       }
     } else {
-      $viruses[] = [
+      $virus = [
         'A' => VIRUS_RED,
         'B' => VIRUS_PURPLE,
         'C' => VIRUS_YELLOW,
       ][$stack];
+
+      [$linkedVirusSlot, $virusSlot] = Scoresheet6::getViruses()[$virus];
+      if ($scoresheet->hasScribbledSlot($virusSlot)) {
+        // No effect if the virus is already active
+        return [];
+      }
+
+      $viruses[] = $virus;
     }
 
     $states = [
