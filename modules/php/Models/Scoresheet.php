@@ -294,6 +294,11 @@ class Scoresheet
     return $score;
   }
 
+  public function getScoreAux(): int
+  {
+    return count($this->slotsBySection['errors']) - $this->countScribblesInSection('errors', SCRIBBLE);
+  }
+
   /**
    * getAvailableSlotsForNumber : where can I put a given number
    *  - considering filled-up slots
