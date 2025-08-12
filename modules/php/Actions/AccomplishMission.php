@@ -51,7 +51,7 @@ class AccomplishMission extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Was the plan already validated or not ?
     $validationScribble = Scribbles::getInLocation("plan-$planId")->first();
-    $firstValidation = is_null($validationScribble) || $validationScribble->getTurn() == Globals::getTurn();
+    $firstValidation = is_null($validationScribble) || (!Globals::isSolo() && $validationScribble->getTurn() == Globals::getTurn());
 
     // Mark the plan as validated
     $scribbles[] = Scribbles::add($player, [
