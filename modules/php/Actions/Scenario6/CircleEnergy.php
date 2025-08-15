@@ -28,13 +28,12 @@ class CircleEnergy extends GenericPickSlot
     $slots = [];
     foreach ($quarters as $quarterInfo) {
       // If the quarter is complete => skip
-      $quarterSlot = $quarterInfo[0];
-      if ($scoresheet->hasScribbledSlot($quarterSlot)) {
+      if ($scoresheet->hasScribbledSlot($quarterInfo['slot'])) {
         continue;
       }
 
       // Take first unscribbled energy slot
-      foreach ($quarterInfo[3] as $slot) {
+      foreach ($quarterInfo['energy'] as $slot) {
         if (!$scoresheet->hasScribbledSlot($slot)) {
           $slots[] = $slot;
           break;

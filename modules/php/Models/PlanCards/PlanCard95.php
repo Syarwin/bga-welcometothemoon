@@ -25,7 +25,7 @@ class PlanCard95 extends PlanCard
       // Extract list of quarter slots of the floor
       $slots = [];
       foreach ($quarters as $quarter) {
-        $slots[] = $quarter[0];
+        $slots[] = $quarter['slot'];
       }
 
       if ($scoresheet->hasScribbledSlots($slots)) {

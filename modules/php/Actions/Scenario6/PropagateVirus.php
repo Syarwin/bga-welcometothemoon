@@ -18,7 +18,7 @@ class PropagateVirus extends Action
   public function getVirus(): int
   {
     $quarter = Scoresheet6::getQuarters()[$this->getCtxArg('quarter')];
-    return Scoresheet6::getVirusOfQuarter($quarter[5]);
+    return Scoresheet6::getVirusOfQuarter($quarter['virus']);
   }
 
   public function getVirusName(): string
@@ -58,13 +58,13 @@ class PropagateVirus extends Action
     $slots = [];
 
     // Evacuated quarter
-    if ($scoresheet->hasScribbledSlot($quarter[0])) {
+    if ($scoresheet->hasScribbledSlot($quarter['slot'])) {
       // For each connected quarter
-      foreach ($quarter[4] as $linkSlot => $linkedQuarter) {
+      foreach ($quarter['links'] as $linkSlot => $linkedQuarter) {
         // If it's not quarantines
         if ($scoresheet->hasScribbledSlot($linkSlot)) continue;
 
-        $quarterSlots = $quarters[$linkedQuarter][2];
+        $quarterSlots = $quarters[$linkedQuarter]['numbers'];
         Utils::filter($quarterSlots, fn($slot) => !$scoresheet->hasScribbledSlot($slot));
         if (!empty($quarterSlots)) {
           $slots[] = $quarterSlots;
@@ -72,7 +72,7 @@ class PropagateVirus extends Action
       }
     } // Non-evacuated quarter
     else {
-      $quarterSlots = $quarter[2];
+      $quarterSlots = $quarter['numbers'];
       Utils::filter($quarterSlots, fn($slot) => !$scoresheet->hasScribbledSlot($slot));
       $slots[] = $quarterSlots;
     }

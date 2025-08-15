@@ -34,7 +34,7 @@ class Propagate extends Action
     $viruses = [];
     $childs = [];
     foreach ($quarters as $i => $quarter) {
-      $virusSlot = $quarter[5];
+      $virusSlot = $quarter['virus'];
       if (!is_null($virusSlot) && $scoresheet->hasScribbledSlot($virusSlot, SCRIBBLE_CIRCLE)) {
         $viruses[] = Scoresheet6::getVirusOfQuarter($virusSlot);
         $childs[] = [

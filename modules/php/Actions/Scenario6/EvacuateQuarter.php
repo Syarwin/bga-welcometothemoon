@@ -34,12 +34,12 @@ class EvacuateQuarter extends Action
     $scribbles = [];
 
     // Score it
-    $nEnergy = 1 + $scoresheet->countScribbledSlots($quarter[3]);
-    $nHousing = 5 - $scoresheet->countScribbledSlots($quarter[2], SCRIBBLE);
+    $nEnergy = 1 + $scoresheet->countScribbledSlots($quarter['energy']);
+    $nHousing = 5 - $scoresheet->countScribbledSlots($quarter['numbers'], SCRIBBLE);
     $score = $nEnergy * $nHousing;
-    $scribbles[] = $scoresheet->addScribble($quarter[1], $score);
+    $scribbles[] = $scoresheet->addScribble($quarter['scoreSlot'], $score);
     // Scribble it
-    $scribbles[] = $scoresheet->addScribble($quarter[0], SCRIBBLE_RECTANGLE);
+    $scribbles[] = $scoresheet->addScribble($quarter['slot'], SCRIBBLE_RECTANGLE);
 
     Notifications::evacuateQuarter($player, $scribbles, $score, $quarterId);
   }

@@ -19,7 +19,7 @@ class InitGreyVirus extends GenericPickSlot
     $quarters = Scoresheet6::getQuarters();
     $slots = [];
     foreach ([0, 3, 7, 10] as $quarter) {
-      $slots = array_merge($slots, $quarters[$quarter][2]);
+      $slots = array_merge($slots, $quarters[$quarter]['numbers']);
     }
     return $slots;
   }
@@ -28,25 +28,24 @@ class InitGreyVirus extends GenericPickSlot
   {
     $this->sanityCheck($slot);
 
-    // Which quarter is that ?
+    // Which quarter is that?
     $quarters = Scoresheet6::getQuarters();
     $quarterId = null;
     foreach ([0, 3, 7, 10] as $quarter) {
-      if (in_array($slot, $quarters[$quarter][2])) {
+      if (in_array($slot, $quarters[$quarter]['numbers'])) {
         $quarterId = $quarter;
         break;
       }
     }
     $quarter = $quarters[$quarterId];
-    $quarterSlot = $quarter[5];
+    $quarterSlot = $quarter['virus'];
 
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $scribbles = [];
-    $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE);
+    $scribbles[] = $scoresheet->addScribble($slot);
     $scribbles[] = $scoresheet->addScribble($quarterSlot, SCRIBBLE_CIRCLE);
     $scribbles[] = $scoresheet->addScribble($quarterSlot, SCRIBBLE_CHECKMARK);
-
 
     Notifications::initGreyVirus($player, $scribbles, $quarterId);
   }

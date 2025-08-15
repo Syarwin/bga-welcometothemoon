@@ -24,7 +24,7 @@ class PlanCard96 extends PlanCard
     foreach (Scoresheet6::getQuarters() as $quarter) {
       // Is the quarter quarantined?
       $isQuarantine = true;
-      foreach ($quarter[4] as $linkSlot => $linkedQuarter) {
+      foreach ($quarter['links'] as $linkSlot => $linkedQuarter) {
         if (!$scoresheet->hasScribbledSlot($linkSlot)) {
           $isQuarantine = false;
           break;

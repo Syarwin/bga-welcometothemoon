@@ -24,7 +24,7 @@ class PlanCard97 extends PlanCard
     $quarters = Scoresheet6::getQuarters();
     $quarters = [$quarters[2], $quarters[8]];
     foreach ($quarters as $quarter) {
-      foreach ($quarter[4] as $linkSlot => $linkedQuarter) {
+      foreach ($quarter['links'] as $linkSlot => $linkedQuarter) {
         if (!$scoresheet->hasScribbledSlot($linkSlot)) {
           return false;
         }
