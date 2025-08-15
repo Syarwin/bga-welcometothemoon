@@ -26,13 +26,11 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\States\EngineTrait;
 use Bga\Games\WelcomeToTheMoon\States\SetupTrait;
-use Bga\Games\WelcomeToTheMoon\DebugTrait;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\States\TurnTrait;
 use Bga\Games\WelcomeToTheMoon\Core\Engine;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\States\EndGameTrait;
 
@@ -45,6 +43,7 @@ class Game extends \Table
   use EndGameTrait;
 
   public static $instance = null;
+
   function __construct()
   {
     parent::__construct();
@@ -89,7 +88,7 @@ class Game extends \Table
   {
     $currentPId = (int) $this->getCurrentPlayerId();
 
-    $datas =  [
+    $datas = [
       'players' => Players::getUiData($currentPId),
       'constructionCards' => ConstructionCards::getUiData(),
       'deckCount' => ConstructionCards::getCardsLeft(),

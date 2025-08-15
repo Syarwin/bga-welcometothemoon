@@ -22,7 +22,10 @@ class ConstructionCards extends CachedPieces
     'deck-2' => 'discard-2',
   ];
   protected static bool $autoreshuffle = true;
-  protected static ?array $autoreshuffleListener = ['obj' => 'Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards', 'method' => 'onReshuffle'];
+  protected static ?array $autoreshuffleListener = [
+    'obj' => 'Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards',
+    'method' => 'onReshuffle'
+  ];
 
   protected static function cast($row): ConstructionCard
   {
@@ -284,8 +287,7 @@ class ConstructionCards extends CachedPieces
           'number' => $stacks[$i][1]->getNumber(),
         ];
       }
-    }
-    // Solo mode => can pick any pair of cards
+    } // Solo mode => can pick any pair of cards
     else {
       for ($i = 0; $i < 3; $i++) {
         for ($j = 0; $j < 3; $j++) {

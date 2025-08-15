@@ -12,6 +12,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
 
 trait TurnTrait
 {
@@ -210,7 +211,7 @@ trait TurnTrait
 
     ConstructionCards::endOfTurn();
 
-    // Check end of scenario
+    // Check the end of a scenario
     $nextState = ST_START_TURN;
     foreach (Players::getAll() as $pId => $player) {
       PGlobals::setCombination($pId, []);
@@ -219,7 +220,14 @@ trait TurnTrait
         $nextState = ST_END_SCENARIO;
       }
     }
-
-    $this->gamestate->jumpToState($nextState);
+    $flows = [];
+    if ($nextState === ST_END_SCENARIO && Globals::getScenario() === 6) {
+      $flows = Scoresheet6::getEndScenarioEvacuationFlows();
+    }
+    if (empty($flows)) {
+      $this->gamestate->jumpToState($nextState);
+    } else {
+      Engine::multipleSetup($flows, ['state' => ST_END_TURN], '');
+    }
   }
 }

@@ -273,6 +273,31 @@ class Scoresheet6 extends Scoresheet
     return [175 => 217, 178 => 218, 188 => 220, 190 => 221][$slot] ?? null;
   }
 
+  public static function getEndScenarioEvacuationFlows()
+  {
+    $flows = [];
+    foreach (Players::getAll() as $pId => $player) {
+      $scoresheet = $player->scoresheet();
+      $quarters = Scoresheet6::getQuarters();
+      $childs = [];
+      foreach ($quarters as $quarterId => $quarter) {
+        if (!$scoresheet->hasScribbledSlot($quarter['slot'])) {
+          $childs[] = [
+            'action' => S6_EVACUATE_QUARTER,
+            'args' => ['quarter' => $quarterId],
+          ];
+        }
+      }
+      if (!empty($childs)) {
+        $flows[$pId] = [
+          'type' => NODE_SEQ,
+          'childs' => $childs,
+        ];
+      }
+    }
+    return $flows;
+  }
+
   /**
    * UI DATA
    */

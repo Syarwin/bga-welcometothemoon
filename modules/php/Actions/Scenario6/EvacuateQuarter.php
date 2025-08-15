@@ -35,7 +35,8 @@ class EvacuateQuarter extends Action
 
     // Score it
     $nEnergy = 1 + $scoresheet->countScribbledSlots($quarter['energy']);
-    $nHousing = 5 - $scoresheet->countScribbledSlots($quarter['numbers'], SCRIBBLE);
+    $unscribbledAmount = count($scoresheet->getAllUnscribbled($quarter['numbers']));
+    $nHousing = 5 - $scoresheet->countScribbledSlots($quarter['numbers'], SCRIBBLE) - $unscribbledAmount;
     $score = $nEnergy * $nHousing;
     $scribbles[] = $scoresheet->addScribble($quarter['scoreSlot'], $score);
     // Scribble it
