@@ -163,7 +163,7 @@ class CircleSymbol extends Action
 
     // Linked propagations
     $linkedPropagationSlot = $scoresheet->getLinkedPropagationSlot($scoreSlot);
-    if (!is_null($linkedPropagationSlot)) {
+    if (!is_null($linkedPropagationSlot) && !$scoresheet->hasScribbledSlot($linkedPropagationSlot)) {
       // Cross the slot
       $scribbles[] = $scoresheet->addScribble($linkedPropagationSlot);
       // Register for phase5 (race slot)
