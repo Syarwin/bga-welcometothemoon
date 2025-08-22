@@ -559,7 +559,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.onClick(o, () => {
           // Basic case => combination selection is over
           if (selectableStacks[stackId].length == 1) {
-            this.takeAtomicAction('actChooseCards', [combination]);
+            this.takeAtomicAction('actChooseCards', {combination: combination, useJoker: args.useJoker});
           }
           // Joker card or joker bonus => need to choose the action
           else {
