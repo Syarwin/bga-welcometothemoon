@@ -233,7 +233,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
 
     $scenarioId = $options[OPTION_ADVENTURE];
     if ($scenarioId == 0) {
-      $scenarioId = bga_rand(1, 5);
+      $scenarioId = bga_rand(1, 6);
     }
     static::setScenario($scenarioId);
   }
