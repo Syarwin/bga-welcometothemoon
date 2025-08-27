@@ -106,7 +106,9 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         CIRCLE_SYMBOL_REACTOR => clienttranslate('${player_name} circles a reactor symbol'),
 
         CROSS_SYMBOL_WATER => clienttranslate('${player_name} crosses off a water symbol'),
-      ][$symbol];
+        CROSS_SYMBOL_PLANT_ON_PLANET => clienttranslate('${player_name} crosses off a plant symbol on the same planet and a plant symbol on his scoring sheet'),
+        CROSS_SYMBOL_WATER_ON_PLANET => clienttranslate('${player_name} crosses off a water symbol on the same planet and a water symbol on his scoring sheet'),
+      ][$symbol] ?? '';
 
       // Scenario 8 => astronaut symbol are circled first, not crossed
       if ($symbol == CIRCLE_SYMBOL_ASTRONAUT && $this->getCtxArg('scribbleType') == SCRIBBLE_CIRCLE) {

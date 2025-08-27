@@ -72,6 +72,9 @@ class Actions
     S7_ACTIVATE_AIRLOCK,
     S7_CIRCLE_GREENHOUSE_MULTIPLIER,
     S7_CROSS_OFF_MULTIPLIER,
+
+    // Scenario 8
+    S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER
   ];
 
   public static function get($actionId, &$ctx = null)

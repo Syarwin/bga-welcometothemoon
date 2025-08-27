@@ -3,8 +3,6 @@
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -48,6 +46,8 @@ class Scoresheet8 extends Scoresheet
     17 => [6]
   ];
 
+  protected array $planetsPlants = [[181], [184], [185, 186], [188, 189], [191, 192], [194, 195], [197, 198]];
+  protected array $planetsWaters = [[182], [183], [187], [190], [193], [196], []];
 
   public function setupScenario(): void
   {
@@ -69,7 +69,15 @@ class Scoresheet8 extends Scoresheet
     return $slots;
   }
 
-
+  private function getPlanetBySlot(int $slot): ?int
+  {
+    foreach ($this->numberBlocks as $planet => $slots) {
+      if (in_array($slot, $slots)) {
+        return $planet;
+      }
+    }
+    return null;
+  }
 
   // PHASE 5
   public static function phase5Check(): void {}
@@ -81,7 +89,6 @@ class Scoresheet8 extends Scoresheet
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
   {
-
     switch ($combination['action']) {
       case ASTRONAUT:
         return [
@@ -92,20 +99,56 @@ class Scoresheet8 extends Scoresheet
             'scribbleType' => SCRIBBLE_CIRCLE,
           ]
         ];
-        // case PLANNING:
-        //   return $this->getStandardPlanningAction();
-        // case ROBOT:
-        //   return [
-        //     'action' => S5_BUILD_DOME,
-        //     'args' => ['parity' => $combination['number'] % 2],
-        //   ];
-        // case ENERGY:
-        //   return [
-        //     'action' => S5_ENERGY_UPGRADE
-        //   ];
+      // case PLANNING:
+      //   return $this->getStandardPlanningAction();
+      // case ROBOT:
+      //   return [
+      //     'action' => S5_BUILD_DOME,
+      //     'args' => ['parity' => $combination['number'] % 2],
+      //   ];
+      // case ENERGY:
+      //   return [
+      //     'action' => S5_ENERGY_UPGRADE
+      //   ];
 
-        // case PLANT:
-        // case WATER:
+      case PLANT:
+        $planet = $this->getPlanetBySlot($slot);
+        if (is_null($planet)) {
+          throw new \BgaVisibleSystemException('Adventure 8, plant action - planet not found. Should not happen');
+        }
+        return [
+          'action' => S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
+          'args' => [
+            'planet' => [
+              'symbol' => CROSS_SYMBOL_PLANT_ON_PLANET,
+              'slots' => $this->planetsPlants[$planet],
+              'scribbleType' => SCRIBBLE,
+            ],
+            'scoring' => [
+              'slots' => $this->getPlayerSectionSlots('plants'),
+              'scribbleType' => SCRIBBLE,
+            ],
+          ],
+        ];
+      case WATER:
+        $planet = $this->getPlanetBySlot($slot);
+        if (is_null($planet)) {
+          throw new \BgaVisibleSystemException('Adventure 8, water action - planet not found. Should not happen');
+        }
+        return [
+          'action' => S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
+          'args' => [
+            'planet' => [
+              'symbol' => CROSS_SYMBOL_WATER_ON_PLANET,
+              'slots' => $this->planetsWaters[$planet],
+              'scribbleType' => SCRIBBLE,
+            ],
+            'scoring' => [
+              'slots' => $this->getPlayerSectionSlots('waters'),
+              'scribbleType' => SCRIBBLE,
+            ],
+          ],
+        ];
     }
     return null;
   }

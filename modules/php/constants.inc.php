@@ -169,6 +169,9 @@ const S7_ACTIVATE_AIRLOCK = 'Scenario7\ActivateAirlock';
 const S7_CIRCLE_GREENHOUSE_MULTIPLIER = 'Scenario7\CircleGreenhouseMultiplier';
 const S7_CROSS_OFF_MULTIPLIER = 'Scenario7\CrossOffx2Multiplier';
 
+// SCENARIO 8
+const S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER = 'Scenario8\CircleNextInRowMultiple';
+
 /*
  * Actions
  */
@@ -262,6 +265,8 @@ const CIRCLE_SYMBOL_RUBY = 4;
 const CIRCLE_SYMBOL_PEARL = 5;
 const CIRCLE_SYMBOL_REACTOR = 6;
 const CROSS_SYMBOL_WATER = 10;
+const CROSS_SYMBOL_PLANT_ON_PLANET = 11;
+const CROSS_SYMBOL_WATER_ON_PLANET = 12;
 
 const VIRUS_GREY = 0;
 const VIRUS_RED = 1;
