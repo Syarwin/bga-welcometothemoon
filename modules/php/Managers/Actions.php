@@ -74,7 +74,8 @@ class Actions
     S7_CROSS_OFF_MULTIPLIER,
 
     // Scenario 8
-    S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER
+    S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
+    S8_DRAW_ON_MOON,
   ];
 
   public static function get($actionId, &$ctx = null)

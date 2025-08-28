@@ -77,6 +77,7 @@ const ST_S6_CROSS_OFF_PROPAGATION_SYMBOL = 56;
 const ST_S6_CROSS_OFF_VIRUS = 58;
 const ST_S7_ACTIVATE_AIRLOCK = 57;
 const ST_S7_CROSS_OFF_MULTIPLIER = 59;
+const ST_S8_DRAW_ON_MOON = 60;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -171,6 +172,7 @@ const S7_CROSS_OFF_MULTIPLIER = 'Scenario7\CrossOffx2Multiplier';
 
 // SCENARIO 8
 const S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER = 'Scenario8\CircleNextInRowMultiple';
+const S8_DRAW_ON_MOON = 'Scenario8\DrawOnMoon';
 
 /*
  * Actions
@@ -278,6 +280,10 @@ const VIRUS_YELLOW = 5;
 
 const BLOCK_MODULE = 0;
 const BLOCK_GREENHOUSE = 1;
+
+const PLANET_TYPE_GREEN = 0;
+const PLANET_TYPE_BLUE = 1;
+const PLANET_TYPE_GREY = 2;
 
 /******************
  ****** STATS ******

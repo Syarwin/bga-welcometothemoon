@@ -532,6 +532,23 @@ $machinestates = [
     'possibleactions' => ['actCrossOffx2Multiplier', 'actRestart'],
   ],
 
+  /////////////////////////////////////////////////////////
+  //  ____                            _
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |   8 :)
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/
+  /////////////////////////////////////////////////////////
+
+  ST_S8_DRAW_ON_MOON => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must draw your insignia on a moon of your choice'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actDrawOnMoon', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

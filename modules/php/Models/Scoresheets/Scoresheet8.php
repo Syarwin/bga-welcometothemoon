@@ -16,14 +16,14 @@ class Scoresheet8 extends Scoresheet
 
   protected int $scenario = 8;
   protected array $datas = DATAS8;
-  protected array $numberBlocks = [
-    [1, 2, 3],
-    [4, 5, 6, 7, 8],
-    [9, 10, 11, 12, 13],
-    [14, 15, 16, 17, 18, 19, 20],
-    [21, 22, 23, 24, 25],
-    [26, 27, 28, 29, 30],
-    [31, 32, 33]
+  protected array $planets = [
+    ['slots' => [1, 2, 3], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [79, 80]],
+    ['slots' => [4, 5, 6, 7, 8], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [81, 82]],
+    ['slots' => [9, 10, 11, 12, 13], 'type' => PLANET_TYPE_BLUE, 'moonSlots' => [83, 84]],
+    ['slots' => [14, 15, 16, 17, 18, 19, 20], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [85, 86]],
+    ['slots' => [21, 22, 23, 24, 25], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [87, 88]],
+    ['slots' => [26, 27, 28, 29, 30], 'type' => PLANET_TYPE_BLUE, 'moonSlots' => [89, 90]],
+    ['slots' => [31, 32, 33], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [91, 92]],
   ];
   protected array $allowedBlocksByNumber = [
     0 => [0],
@@ -55,6 +55,10 @@ class Scoresheet8 extends Scoresheet
     $this->addScribble(222, SCRIBBLE_INSIGNAS[$this->player1->getNo()], true);
   }
 
+  public function getNumberBlocks(): array
+  {
+    return array_map(fn($planet) => $planet['slots'], $this->planets);
+  }
 
   public function getAvailableSlotsForNumber(int $number, string $action): array
   {
@@ -62,7 +66,7 @@ class Scoresheet8 extends Scoresheet
     $blocks = $this->allowedBlocksByNumber[$number];
     $slots = [];
     foreach ($blocks as $blockId) {
-      $slot = $this->getFirstUnscribbled($this->numberBlocks[$blockId]);
+      $slot = $this->getFirstUnscribbled($this->planets[$blockId]['slots']);
       if (!is_null($slot)) $slots[] = $slot;
     }
 
@@ -71,9 +75,9 @@ class Scoresheet8 extends Scoresheet
 
   private function getPlanetBySlot(int $slot): ?int
   {
-    foreach ($this->numberBlocks as $planet => $slots) {
-      if (in_array($slot, $slots)) {
-        return $planet;
+    foreach ($this->planets as $planetId => $planet) {
+      if (in_array($slot, $planet['slots'])) {
+        return $planetId;
       }
     }
     return null;
@@ -99,8 +103,14 @@ class Scoresheet8 extends Scoresheet
             'scribbleType' => SCRIBBLE_CIRCLE,
           ]
         ];
-      // case PLANNING:
-      //   return $this->getStandardPlanningAction();
+      case PLANNING:
+        return [
+          'action' => S8_DRAW_ON_MOON,
+          'args' => [
+            'planets' => $this->planets,
+            'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()]
+          ]
+        ];
       case ROBOT:
         $scribbleType = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
         return [

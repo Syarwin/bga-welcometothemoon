@@ -690,6 +690,14 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a greenhouse x2 multiplier'));
   }
 
+  public static function drawOnMoon(Player $player, array $scribbles, string $planetName)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia on a ${planet_name}'), [
+      'planet_name' => $planetName,
+      'i18n' => ['planet_name'],
+    ]);
+  }
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
