@@ -101,11 +101,16 @@ class Scoresheet8 extends Scoresheet
         ];
       // case PLANNING:
       //   return $this->getStandardPlanningAction();
-      // case ROBOT:
-      //   return [
-      //     'action' => S5_BUILD_DOME,
-      //     'args' => ['parity' => $combination['number'] % 2],
-      //   ];
+      case ROBOT:
+        $scribbleType = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
+        return [
+          'action' => CIRCLE_NEXT_IN_ROW,
+          'args' => [
+            'symbol' => CIRCLE_INSIGNIA_ON_ASTEROID,
+            'slots' => $this->getPlayerSectionSlots('asteroids'),
+            'scribbleType' => $scribbleType,
+          ]
+        ];
       case ENERGY:
         return [
           'action' => IMPROVE_BONUS,
@@ -257,6 +262,13 @@ class Scoresheet8 extends Scoresheet
   // Useful for section slots that are mirrored on top and bottom
   public function getPlayerSectionSlots(string $section): array
   {
+    if (!isset($this->slotsBySection[$section . $this->whoIsPlaying])) {
+      if ($this->whoIsPlaying === 1) {
+        return $this->slotsBySection[$section];
+      } else {
+        return array_reverse($this->slotsBySection[$section]);
+      }
+    }
     return $this->slotsBySection[$section . $this->whoIsPlaying] ?? [];
   }
 

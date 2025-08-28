@@ -108,14 +108,16 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         CROSS_SYMBOL_WATER => clienttranslate('${player_name} crosses off a water symbol'),
         CROSS_SYMBOL_PLANT_ON_PLANET => clienttranslate('${player_name} crosses off a plant symbol on the same planet and a plant symbol on his scoring sheet'),
         CROSS_SYMBOL_WATER_ON_PLANET => clienttranslate('${player_name} crosses off a water symbol on the same planet and a water symbol on his scoring sheet'),
+        CIRCLE_INSIGNIA_ON_ASTEROID => clienttranslate('${player_name} draws his insignia symbol on the first available asteroid'),
       ][$symbol] ?? '';
 
       // Scenario 8 => astronaut symbol are circled first, not crossed
+      // TODO: Rename existing CIRCLE_SYMBOL_ASTRONAUT to CROSS_SYMBOL_ASTRONAUT and use new CIRCLE_SYMBOL_ASTRONAUT const in S8 only
       if ($symbol == CIRCLE_SYMBOL_ASTRONAUT && $this->getCtxArg('scribbleType') == SCRIBBLE_CIRCLE) {
         $msg = clienttranslate('${player_name} circles an Astronaut symbol');
       }
     } else {
-      // If at any time we'll start to scribble more than 1 symbol for astronauts and/or planning, add them here
+      // If at any time we start to scribble more than 1 symbol for astronauts and/or planning, add them here
       $msg = [
         CIRCLE_SYMBOL_WATER => clienttranslate('${player_name} circles ${amount} water symbols'),
         CIRCLE_SYMBOL_PLANT => clienttranslate('${player_name} circles ${amount} plant symbols'),
