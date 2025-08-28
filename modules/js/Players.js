@@ -278,7 +278,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     updateComputedScoresheetData(pId) {
-      this.gamedatas.players[pId].scoresheet.forEach((entry) => {
+      let entries = pId == 0 ? this.gamedatas.astra : this.gamedatas.players[pId].scoresheet;
+      entries.forEach((entry) => {
         // Dynamic slot on scoresheet
         if (entry.slot) {
           $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;

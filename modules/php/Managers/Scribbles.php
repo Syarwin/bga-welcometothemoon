@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Managers;
 
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Collection;
+use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
@@ -49,7 +50,7 @@ class Scribbles extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedPieces
     return $maxId;
   }
 
-  public static function add(Player|int $player, array $info): Scribble
+  public static function add(Player|Astra|int $player, array $info): Scribble
   {
     $pId = is_int($player) ? $player : $player->getId();
     $index = self::getMaxIndexOfPlayer($pId) + 1;
