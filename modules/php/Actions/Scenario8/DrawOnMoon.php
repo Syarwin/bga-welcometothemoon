@@ -33,6 +33,9 @@ class DrawOnMoon extends GenericPickSlot
     ];
 
     Notifications::drawOnMoon($player, [$scribble], $msgs[$planet['type']]);
+
+    $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actDrawOnMoon');
+    $this->insertAsChild($reactions);
   }
 
   private function getPlanetByMoonSlot(int $slot)

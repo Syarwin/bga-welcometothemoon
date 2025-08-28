@@ -88,7 +88,28 @@ class Scoresheet8 extends Scoresheet
 
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
-    return [];
+    $slot = $scribble->getSlot();
+    $reactions = [];
+
+    // PLANNING markers
+    if ($methodSource == 'actDrawOnMoon') {
+      return [
+        'action' => CIRCLE_NEXT_IN_ROW,
+        'args' => [
+          'symbol' => CIRCLE_SYMBOL_PLANNING,
+          'slots' => $this->getPlayerSectionSlots('planningmarkers'),
+          'scribbleType' => SCRIBBLE,
+        ]
+      ];
+    }
+
+    // // Number slots with robot bonus action
+    // $robotBonusSlots = [8, 11, 20];
+    // if (in_array($slot, $robotBonusSlots)) {
+    //   return ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
+    // }
+
+    return $reactions;
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -108,7 +129,7 @@ class Scoresheet8 extends Scoresheet
           'action' => S8_DRAW_ON_MOON,
           'args' => [
             'planets' => $this->planets,
-            'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()]
+            'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()],
           ]
         ];
       case ROBOT:
