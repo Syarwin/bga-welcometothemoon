@@ -103,11 +103,51 @@ class Scoresheet8 extends Scoresheet
       ];
     }
 
-    // // Number slots with robot bonus action
-    // $robotBonusSlots = [8, 11, 20];
-    // if (in_array($slot, $robotBonusSlots)) {
-    //   return ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
-    // }
+    // Number slots with robot bonus action
+    $robotBonusSlots = [8, 11, 20];
+    if (in_array($slot, $robotBonusSlots)) {
+      return $this->getRobotAction();
+    }
+
+    // Number slots with plant bonus action
+    $plantBonusSlots = [3, 14, 18, 25, 33];
+    $plantAsteroidBonusSlots = [63, 65, 76, 78];
+    if (in_array($slot, [...$plantBonusSlots, ...$plantAsteroidBonusSlots])) {
+      return [
+        'action' => CIRCLE_NEXT_IN_ROW,
+        'args' => [
+          'symbol' => CROSS_SYMBOL_PLANT_ON_PLANET,
+          'slots' => $this->getPlayerSectionSlots('plants'),
+          'scribbleType' => SCRIBBLE,
+        ]
+      ];
+    }
+
+    // Number slots with water bonus action
+    $waterBonusSlots = [13, 24, 30];
+    $waterAsteroidBonusSlots = [64, 66, 74, 77];
+    if (in_array($slot, [...$waterBonusSlots, ...$waterAsteroidBonusSlots])) {
+      return [
+        'action' => CIRCLE_NEXT_IN_ROW,
+        'args' => [
+          'symbol' => CROSS_SYMBOL_WATER_ON_PLANET,
+          'slots' => $this->getPlayerSectionSlots('waters'),
+          'scribbleType' => SCRIBBLE,
+        ]
+      ];
+    }
+
+    // Number slots with energy bonus action
+    $energyAsteroidBonusSlots = [67, 68, 69, 72, 73, 75];
+    if (in_array($slot, $energyAsteroidBonusSlots)) {
+      return $this->getEnergyAction();
+    }
+
+    // Number slots with planning bonus action
+    $planningAsteroidBonusSlots = [70, 71];
+    if (in_array($slot, $planningAsteroidBonusSlots)) {
+      return $this->getPlanningAction(true);
+    }
 
     return $reactions;
   }
@@ -125,44 +165,11 @@ class Scoresheet8 extends Scoresheet
           ]
         ];
       case PLANNING:
-        return [
-          'action' => S8_DRAW_ON_MOON,
-          'args' => [
-            'planets' => $this->planets,
-            'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()],
-          ]
-        ];
+        return $this->getPlanningAction();
       case ROBOT:
-        $scribbleType = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
-        return [
-          'action' => CIRCLE_NEXT_IN_ROW,
-          'args' => [
-            'symbol' => CIRCLE_INSIGNIA_ON_ASTEROID,
-            'slots' => $this->getPlayerSectionSlots('asteroids'),
-            'scribbleType' => $scribbleType,
-          ]
-        ];
+        return $this->getRobotAction();
       case ENERGY:
-        return [
-          'action' => IMPROVE_BONUS,
-          'args' => [
-            'data' => [
-              [
-                'name' => clienttranslate('green planets'),
-                'slots' => [140 => 2, 141 => 3, 142 => 4, 143 => 6],
-              ],
-              [
-                'name' => clienttranslate('blue planets'),
-                'slots' => [144 => 2, 145 => 4, 146 => 6, 147 => 8],
-              ],
-              [
-                'name' => clienttranslate('grey planets'),
-                'slots' => [148 => 4, 149 => 5, 150 => 6, 151 => 9],
-              ]
-            ]
-          ]
-        ];
-
+        return $this->getEnergyAction();
       case PLANT:
         $planet = $this->getPlanetBySlot($slot);
         if (is_null($planet)) {
@@ -203,6 +210,54 @@ class Scoresheet8 extends Scoresheet
         ];
     }
     return null;
+  }
+
+  private function getRobotAction(): array
+  {
+    $scribbleType = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
+    return [
+      'action' => CIRCLE_NEXT_IN_ROW,
+      'args' => [
+        'symbol' => CIRCLE_INSIGNIA_ON_ASTEROID,
+        'slots' => $this->getPlayerSectionSlots('asteroids'),
+        'scribbleType' => $scribbleType,
+      ]
+    ];
+  }
+
+  private function getEnergyAction(): array
+  {
+    return [
+      'action' => IMPROVE_BONUS,
+      'args' => [
+        'data' => [
+          [
+            'name' => clienttranslate('green planets'),
+            'slots' => [140 => 2, 141 => 3, 142 => 4, 143 => 6],
+          ],
+          [
+            'name' => clienttranslate('blue planets'),
+            'slots' => [144 => 2, 145 => 4, 146 => 6, 147 => 8],
+          ],
+          [
+            'name' => clienttranslate('grey planets'),
+            'slots' => [148 => 4, 149 => 5, 150 => 6, 151 => 9],
+          ]
+        ]
+      ]
+    ];
+  }
+
+  private function getPlanningAction(bool $isBonus = false): array
+  {
+    return [
+      'action' => S8_DRAW_ON_MOON,
+      'args' => [
+        'planets' => $this->planets,
+        'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()],
+        'isBonus' => $isBonus,
+      ]
+    ];
   }
 
   /**
