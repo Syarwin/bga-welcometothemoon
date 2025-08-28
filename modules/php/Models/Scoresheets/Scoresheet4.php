@@ -2,7 +2,6 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
@@ -298,19 +297,19 @@ class Scoresheet4 extends Scoresheet
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-          [
-            'type' => PLANT,
-            'slots' => $this->linkedPlants[$slot] ?? null,
-          ]
+            [
+              'type' => PLANT,
+              'slots' => $this->linkedPlants[$slot] ?? null,
+            ]
         ];
       case WATER:
         return [
           'action' => S4_CIRCLE_PLANT_OR_WATER,
           'args' =>
-          [
-            'type' => WATER,
-            'slots' => $this->linkedWater[$slot] ?? null,
-          ]
+            [
+              'type' => WATER,
+              'slots' => $this->linkedWater[$slot] ?? null,
+            ]
         ];
       case ROBOT:
       case ENERGY:

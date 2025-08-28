@@ -5,12 +5,10 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 use Bga\Games\WelcomeToTheMoon\Actions\Scenario3\BuildRobotTunnel;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
-use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Quarter;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
-use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 
 include_once dirname(__FILE__) . "/../../Material/Scenario3.php";
 

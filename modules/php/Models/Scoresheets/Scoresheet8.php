@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -49,6 +50,20 @@ class Scoresheet8 extends Scoresheet
   protected array $planetsPlants = [[181], [184], [185, 186], [188, 189], [191, 192], [194, 195], [197, 198]];
   protected array $planetsWaters = [[182], [183], [187], [190], [193], [196], []];
 
+  protected array $asteroidsBonuses = [
+    51 => [63],
+    52 => [64],
+    53 => [65],
+    54 => [66, 67],
+    55 => [68, 69],
+    56 => [70, 71],
+    57 => [72, 73],
+    58 => [74, 75],
+    59 => [76],
+    60 => [77],
+    61 => [78],
+  ];
+
   public function setupScenario(): void
   {
     $this->addScribble(221, SCRIBBLE_INSIGNAS[$this->player2->getNo()], true);
@@ -93,7 +108,7 @@ class Scoresheet8 extends Scoresheet
 
     // PLANNING markers
     if ($methodSource == 'actDrawOnMoon') {
-      return [
+      $reactions[] = [
         'action' => CIRCLE_NEXT_IN_ROW,
         'args' => [
           'symbol' => CIRCLE_SYMBOL_PLANNING,
@@ -106,50 +121,51 @@ class Scoresheet8 extends Scoresheet
     // Number slots with robot bonus action
     $robotBonusSlots = [8, 11, 20];
     if (in_array($slot, $robotBonusSlots)) {
-      return $this->getRobotAction();
+      $reactions[] = $this->getRobotAction();
     }
 
     // Number slots with plant bonus action
     $plantBonusSlots = [3, 14, 18, 25, 33];
     $plantAsteroidBonusSlots = [63, 65, 76, 78];
     if (in_array($slot, [...$plantBonusSlots, ...$plantAsteroidBonusSlots])) {
-      return [
-        'action' => CIRCLE_NEXT_IN_ROW,
-        'args' => [
-          'symbol' => CROSS_SYMBOL_PLANT_ON_PLANET,
-          'slots' => $this->getPlayerSectionSlots('plants'),
-          'scribbleType' => SCRIBBLE,
-        ]
-      ];
+      $reactions[] = $this->getWaterOrPlantAction(false);
     }
 
     // Number slots with water bonus action
     $waterBonusSlots = [13, 24, 30];
     $waterAsteroidBonusSlots = [64, 66, 74, 77];
     if (in_array($slot, [...$waterBonusSlots, ...$waterAsteroidBonusSlots])) {
-      return [
-        'action' => CIRCLE_NEXT_IN_ROW,
-        'args' => [
-          'symbol' => CROSS_SYMBOL_WATER_ON_PLANET,
-          'slots' => $this->getPlayerSectionSlots('waters'),
-          'scribbleType' => SCRIBBLE,
-        ]
-      ];
+      $reactions[] = $this->getWaterOrPlantAction(true);
     }
 
     // Number slots with energy bonus action
     $energyAsteroidBonusSlots = [67, 68, 69, 72, 73, 75];
     if (in_array($slot, $energyAsteroidBonusSlots)) {
-      return $this->getEnergyAction();
+      $reactions[] = $this->getEnergyAction();
     }
 
     // Number slots with planning bonus action
     $planningAsteroidBonusSlots = [70, 71];
     if (in_array($slot, $planningAsteroidBonusSlots)) {
-      return $this->getPlanningAction(true);
+      $reactions[] = $this->getPlanningAction(true);
     }
 
-    return $reactions;
+    // Asteroid bonuses
+    if (in_array($slot, array_keys($this->asteroidsBonuses))) {
+      $scribbles = [];
+      foreach ($this->asteroidsBonuses[$slot] as $bonusSlot) {
+        $bonusScribble = $this->addScribble($bonusSlot);
+        $scribbles[] = $bonusScribble;
+        $reactions[] = $this->getScribbleReactions($bonusScribble, 'getScribbleReactions');
+      }
+      $player = $this->whoIsPlaying === 1 ? $this->player1 : $this->player2;
+      Notifications::addScribbles($player, $scribbles);
+    }
+
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -179,7 +195,7 @@ class Scoresheet8 extends Scoresheet
           'action' => S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
           'args' => [
             'planet' => [
-              'symbol' => CROSS_SYMBOL_PLANT_ON_PLANET,
+              'symbol' => CROSS_SYMBOL_PLANT_ON_PLANET_AND_SHEET,
               'slots' => $this->planetsPlants[$planet],
               'scribbleType' => SCRIBBLE,
             ],
@@ -198,7 +214,7 @@ class Scoresheet8 extends Scoresheet
           'action' => S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
           'args' => [
             'planet' => [
-              'symbol' => CROSS_SYMBOL_WATER_ON_PLANET,
+              'symbol' => CROSS_SYMBOL_WATER_ON_PLANET_AND_SHEET,
               'slots' => $this->planetsWaters[$planet],
               'scribbleType' => SCRIBBLE,
             ],
@@ -256,6 +272,18 @@ class Scoresheet8 extends Scoresheet
         'planets' => $this->planets,
         'insignia' => SCRIBBLE_INSIGNAS[$this->player1->getNo()],
         'isBonus' => $isBonus,
+      ]
+    ];
+  }
+
+  private function getWaterOrPlantAction(bool $isWater): array
+  {
+    return [
+      'action' => CIRCLE_NEXT_IN_ROW,
+      'args' => [
+        'symbol' => $isWater ? CROSS_SYMBOL_WATER_ON_SHEET : CROSS_SYMBOL_PLANT_ON_SHEET,
+        'slots' => $isWater ? $this->getPlayerSectionSlots('waters') : $this->getPlayerSectionSlots('plants'),
+        'scribbleType' => SCRIBBLE,
       ]
     ];
   }

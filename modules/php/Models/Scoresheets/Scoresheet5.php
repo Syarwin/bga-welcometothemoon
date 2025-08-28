@@ -2,7 +2,6 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
-use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
