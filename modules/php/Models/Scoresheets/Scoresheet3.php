@@ -101,7 +101,25 @@ class Scoresheet3 extends Scoresheet
         $quarterId = self::getQuarterOfSlot($slot)->getId();
         return ['action' => CIRCLE_GREENHOUSE, 'args' => ['quarterId' => $quarterId]];
       case ENERGY:
-        return ['action' => IMPROVE_BONUS];
+        return [
+          'action' => IMPROVE_BONUS,
+          'args' => [
+            'data' => [
+              [
+                'name' => clienttranslate('greenhouses'),
+                'slots' => [101 => 0, 102 => 1, 103 => 2, 104 => 3],
+              ],
+              [
+                'name' => clienttranslate('water'),
+                'slots' => [105 => 0, 106 => 2, 107 => 4, 108 => 6],
+              ],
+              [
+                'name' => clienttranslate('antennas'),
+                'slots' => [109 => 0, 110 => 1, 111 => 2, 112 => 4],
+              ]
+            ]
+          ]
+        ];
       case PLANNING:
         return $this->getStandardPlanningAction();
       case ROBOT:

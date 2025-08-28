@@ -118,6 +118,7 @@ const REPLACE_SOLO_CARD = 'ReplaceSoloCard';
 const WRITE_X = 'WriteX';
 const CIRCLE_SINGLE_LINKED = 'CircleSingleLinked';
 const CIRCLE_NEXT_IN_ROW = 'CircleNextInRow';
+const IMPROVE_BONUS = 'ImproveBonus';
 
 // SCENARIO 1
 const TAKE_BONUS = 'Scenario1\TakeBonus';
@@ -135,7 +136,6 @@ const CROSS_OFF_MULTIPLIER = 'Scenario2\CrossOffMultiplier';
 
 // SCENARIO 3
 const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
-const IMPROVE_BONUS = 'Scenario3\ImproveBonus';
 const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
 const FILLED_QUARTER = 'Scenario3\FilledQuarter';
 const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';

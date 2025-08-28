@@ -106,10 +106,26 @@ class Scoresheet8 extends Scoresheet
       //     'action' => S5_BUILD_DOME,
       //     'args' => ['parity' => $combination['number'] % 2],
       //   ];
-      // case ENERGY:
-      //   return [
-      //     'action' => S5_ENERGY_UPGRADE
-      //   ];
+      case ENERGY:
+        return [
+          'action' => IMPROVE_BONUS,
+          'args' => [
+            'data' => [
+              [
+                'name' => clienttranslate('green planets'),
+                'slots' => [140 => 2, 141 => 3, 142 => 4, 143 => 6],
+              ],
+              [
+                'name' => clienttranslate('blue planets'),
+                'slots' => [144 => 2, 145 => 4, 146 => 6, 147 => 8],
+              ],
+              [
+                'name' => clienttranslate('grey planets'),
+                'slots' => [148 => 4, 149 => 5, 150 => 6, 151 => 9],
+              ]
+            ]
+          ]
+        ];
 
       case PLANT:
         $planet = $this->getPlanetBySlot($slot);
