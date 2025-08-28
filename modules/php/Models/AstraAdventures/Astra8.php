@@ -20,14 +20,14 @@ class Astra8 extends Astra
 
   public function getNo(): int
   {
-    return 0;
+    return 2;
   }
 
   public function setupScenario(): void
   {
     $pId = Players::getAll()->first();
     Scribbles::add($pId, [
-      'type' => SCRIBBLE_INSIGNAS[0],
+      'type' => SCRIBBLE_INSIGNAS[2],
       'location' => "slot-221",
     ]);
     Scribbles::add($pId, [
