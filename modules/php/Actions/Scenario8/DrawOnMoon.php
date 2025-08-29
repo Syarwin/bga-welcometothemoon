@@ -26,13 +26,8 @@ class DrawOnMoon extends GenericPickSlot
     $scoresheet = $player->scoresheet();
     $scribble = $scoresheet->addScribble($slot, $this->getCtxArg('insignia'));
     $planet = $this->getPlanetByMoonSlot($slot);
-    $msgs = [
-      PLANET_TYPE_GREEN => clienttranslate('green planet'),
-      PLANET_TYPE_BLUE => clienttranslate('blue planet'),
-      PLANET_TYPE_GREY => clienttranslate('grey planet'),
-    ];
 
-    Notifications::drawOnMoon($player, [$scribble], $msgs[$planet['type']]);
+    Notifications::drawOnMoon($player, [$scribble], $planet['type']);
     if (!$this->getCtxArg('isBonus')) {
       $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actDrawOnMoon');
       $this->insertAsChild($reactions);

@@ -18,13 +18,31 @@ class Scoresheet8 extends Scoresheet
   protected int $scenario = 8;
   protected array $datas = DATAS8;
   protected array $planets = [
-    ['slots' => [1, 2, 3], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [79, 80]],
-    ['slots' => [4, 5, 6, 7, 8], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [81, 82]],
-    ['slots' => [9, 10, 11, 12, 13], 'type' => PLANET_TYPE_BLUE, 'moonSlots' => [83, 84]],
-    ['slots' => [14, 15, 16, 17, 18, 19, 20], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [85, 86]],
-    ['slots' => [21, 22, 23, 24, 25], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [87, 88]],
-    ['slots' => [26, 27, 28, 29, 30], 'type' => PLANET_TYPE_BLUE, 'moonSlots' => [89, 90]],
-    ['slots' => [31, 32, 33], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [91, 92]],
+    ['slots' => [1, 2, 3], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [79, 80], 'flag' => 93, 'final' => 223],
+    ['slots' => [4, 5, 6, 7, 8], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [81, 82], 'flag' => 94, 'final' => 224],
+    ['slots' => [9, 10, 11, 12, 13], 'type' => PLANET_TYPE_BLUE, 'moonSlots' => [83, 84], 'flag' => 95, 'final' => 225],
+    [
+      'slots' => [14, 15, 16, 17, 18, 19, 20],
+      'type' => PLANET_TYPE_GREY,
+      'moonSlots' => [85, 86],
+      'flag' => 96,
+      'final' => 226
+    ],
+    [
+      'slots' => [21, 22, 23, 24, 25],
+      'type' => PLANET_TYPE_GREEN,
+      'moonSlots' => [87, 88],
+      'flag' => 97,
+      'final' => 227
+    ],
+    [
+      'slots' => [26, 27, 28, 29, 30],
+      'type' => PLANET_TYPE_BLUE,
+      'moonSlots' => [89, 90],
+      'flag' => 98,
+      'final' => 228
+    ],
+    ['slots' => [31, 32, 33], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [91, 92], 'flag' => 99, 'final' => 229],
   ];
   protected array $allowedBlocksByNumber = [
     0 => [0],
@@ -66,8 +84,8 @@ class Scoresheet8 extends Scoresheet
 
   public function setupScenario(): void
   {
-    $this->addScribble(221, SCRIBBLE_INSIGNAS[$this->player2->getNo()], true);
-    $this->addScribble(222, SCRIBBLE_INSIGNAS[$this->player1->getNo()], true);
+    $this->addScribble(221, SCRIBBLE_INSIGNAS[$this->player2->getNo()], false);
+    $this->addScribble(222, SCRIBBLE_INSIGNAS[$this->player1->getNo()], false);
   }
 
   public function getNumberBlocks(): array
@@ -88,7 +106,7 @@ class Scoresheet8 extends Scoresheet
     return $slots;
   }
 
-  private function getPlanetBySlot(int $slot): ?int
+  private function getPlanetIdBySlot(int $slot): ?int
   {
     foreach ($this->planets as $planetId => $planet) {
       if (in_array($slot, $planet['slots'])) {
@@ -104,6 +122,7 @@ class Scoresheet8 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     $slot = $scribble->getSlot();
+    $player = $this->getCurrentPlayer();
     $reactions = [];
 
     // PLANNING markers
@@ -158,8 +177,31 @@ class Scoresheet8 extends Scoresheet
         $scribbles[] = $bonusScribble;
         $reactions[] = $this->getScribbleReactions($bonusScribble, 'getScribbleReactions');
       }
-      $player = $this->whoIsPlaying === 1 ? $this->player1 : $this->player2;
       Notifications::addScribbles($player, $scribbles);
+    }
+
+    // Finishing a planet
+    $planetId = $this->getPlanetIdBySlot($slot);
+    if (!is_null($planetId)) {
+      $currentPlanet = $this->planets[$planetId];
+      if ($this->countScribbledSlots($currentPlanet['slots']) === count($currentPlanet['slots'])) {
+        $planetAndMoonSlots = [...$currentPlanet['slots'], ...$currentPlanet['moonSlots']];
+        $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
+        $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
+        $insnCountFirstPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaFirstPlayer);
+        $insnCountSecondPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaSecondPlayer);
+        $scribbles = [$this->addScribble($currentPlanet['final'], SCRIBBLE_CIRCLE)];
+        if ($insnCountFirstPlayer === $insnCountSecondPlayer) {
+          $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaFirstPlayer, false);
+          $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaSecondPlayer, false);
+          Notifications::drawOnFlagDouble($player, $this->getOpponentPlayer(), $scribbles, $currentPlanet['type']);
+        } else {
+          $maxInsignias = max($insnCountFirstPlayer, $insnCountSecondPlayer);
+          $controller = $insnCountFirstPlayer === $maxInsignias ? $this->player1 : $this->player2;
+          $scribbles[] = $this->addScribble($currentPlanet['flag'], SCRIBBLE_INSIGNAS[$controller->getNo()], false);
+          Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type']);
+        }
+      }
     }
 
     return [
@@ -187,7 +229,7 @@ class Scoresheet8 extends Scoresheet
       case ENERGY:
         return $this->getEnergyAction();
       case PLANT:
-        $planet = $this->getPlanetBySlot($slot);
+        $planet = $this->getPlanetIdBySlot($slot);
         if (is_null($planet)) {
           throw new \BgaVisibleSystemException('Adventure 8, plant action - planet not found. Should not happen');
         }
@@ -206,7 +248,7 @@ class Scoresheet8 extends Scoresheet
           ],
         ];
       case WATER:
-        $planet = $this->getPlanetBySlot($slot);
+        $planet = $this->getPlanetIdBySlot($slot);
         if (is_null($planet)) {
           throw new \BgaVisibleSystemException('Adventure 8, water action - planet not found. Should not happen');
         }
@@ -354,13 +396,22 @@ class Scoresheet8 extends Scoresheet
     return $this->player1->getId();
   }
 
-  public function addScribble($location, $type = SCRIBBLE, $isSetup = false): Scribble
+  public function getCurrentPlayer(): Player
   {
-    if (!$isSetup) {
-      $currentPlayer = Globals::getTurn() % 2 == 0 ? $this->player2 : $this->player1;
-      $currentInsigna = SCRIBBLE_INSIGNAS[$currentPlayer->getNo()];
+    return $this->whoIsPlaying === 1 ? $this->player1 : $this->player2;
+  }
+
+  public function getOpponentPlayer(): Player
+  {
+    return $this->whoIsPlaying === 1 ? $this->player2 : $this->player1;
+  }
+
+  public function addScribble($location, $type = SCRIBBLE, $overrideWithCurrentInsignia = true): Scribble
+  {
+    if ($overrideWithCurrentInsignia) {
+      $currentInsignia = SCRIBBLE_INSIGNAS[$this->getCurrentPlayer()->getNo()];
       if (!in_array($type, [SCRIBBLE, SCRIBBLE_CIRCLE])) {
-        $type = $currentInsigna;
+        $type = $currentInsignia;
       }
     }
 
