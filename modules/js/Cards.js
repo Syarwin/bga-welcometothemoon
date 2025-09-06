@@ -559,7 +559,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.onClick(o, () => {
           // Basic case => combination selection is over
           if (selectableStacks[stackId].length == 1) {
-            this.takeAtomicAction('actChooseCards', {combination: combination, useJoker: args.useJoker});
+            this.takeAtomicAction('actChooseCards', { combination: combination, useJoker: args.useJoker });
           }
           // Joker card or joker bonus => need to choose the action
           else {
@@ -583,18 +583,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       if (!this._isStandard) {
         await Promise.all(
-          args.cards.map(async (card) => {
-            card.stackId = card.location.split('-')[1];
-            let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector(
-              '.construction-card-holder:last-of-type'
-            );
+          [0, 1, 2].map(async (stackId) => {
+            let cardsInStack = $(`construction-cards-stack-${stackId}`).querySelector('.construction-card-holder:last-of-type');
             let oldCard = cardsInStack;
 
             // Compute x position to make it slide out the left border of window
             await this.slideToLeftAndDestroy(oldCard);
 
             // Remove flipped class if needed
-            let stack = $(`construction-cards-stack-${card.stackId}`);
+            let stack = $(`construction-cards-stack-${stackId}`);
             stack.classList.add('notransition');
             stack.classList.remove('flipped');
             stack.offsetHeight;
@@ -639,6 +636,29 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addConstructionCardTooltip(newCard);
             return this.slideFromLeft(newCard);
           }
+        })
+      );
+      this.updateDeckCount(args.deckCount);
+      return true;
+    },
+
+    async notif_newTurnAux(args) {
+      debug('Notif: new turn aux (solo S8)', args);
+
+      await Promise.all(
+        args.cards.map((card) => {
+          card.stackId = card.location.split('-')[1];
+          let cardsInStack = $(`construction-cards-stack-${card.stackId}`).querySelector(
+            '.construction-card-holder:last-of-type'
+          );
+          let stack = $(`construction-cards-stack-${card.stackId}`);
+
+          // Create a new card and put it to the left (hidden)
+          stack.insertAdjacentHTML('beforeend', this.tplConstructionCard(card));
+          let newCard = $(`construction-card-${card.id}`);
+          newCard.style.zIndex = 100 - args.turn;
+          this.addConstructionCardTooltip(newCard);
+          return this.slideFromLeft(newCard);
         })
       );
       this.updateDeckCount(args.deckCount);

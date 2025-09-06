@@ -251,4 +251,6 @@ class Astra
 
   // Listener (only useful for scenario 1 probably)
   public function onReceivingCard(ConstructionCard $card): void {}
+  // Useful for scenario 8 only
+  public function playTurn(ConstructionCard $card): void {}
 }

@@ -36,11 +36,52 @@ trait TurnTrait
       $this->stResolveSoloCards();
       return;
     }
+    // Solo S8 => Astra take their turn
+    else if (Globals::isSolo() && Globals::getScenario() == 8) {
+      $this->gamestate->setAllPlayersMultiactive();
+      $this->gamestate->jumpToState(ST_START_ASTRA_S8_TURN_ENGINE);
 
-    $this->gamestate->setAllPlayersMultiactive();
-    $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
+      // // Astra take their turn
+      // Players::getAstra()->playTurn($cards[0]);
+      // // We draw more cards
+      // $cards = ConstructionCards::newTurnAuxSoloScenario8();
+      // Notifications::newTurnAux($cards);
+
+      // // We need to recheck for solo cards here
+      // if (ConstructionCards::getPendingSoloCards()->count() > 0) {
+      //   $this->stResolveSoloCards();
+      //   return;
+      // }
+    } else {
+      $this->gamestate->setAllPlayersMultiactive();
+      $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
+    }
   }
 
+  /////////////////////////////////////////
+  // SOLO S8 ASTRA TURN
+  function stStartAstraS8TurnEngine()
+  {
+    // Reshuffled twice ? Game is over !
+    if (Globals::getSoloDraw() >= 2) {
+      Notifications::endGameTriggered(null, 'soloDraw');
+      $this->gamestate->jumpToState(ST_END_SCENARIO);
+      return;
+    }
+
+    $player = Players::getAll()->first();
+    $flows = [
+      $player->getId() => ['action' => S8_ASTRA_TURN],
+    ];
+    Globals::setAstraTurn(true);
+    Engine::multipleSetup($flows, ['method' => 'stEndAstraS8TurnEngine']);
+  }
+
+  public function stEndAstraS8TurnEngine()
+  {
+    Globals::setAstraTurn(false);
+    die("TODO");
+  }
 
   /////////////////////////////////////////////////////
   //  ____        _          ____              _     
@@ -68,6 +109,25 @@ trait TurnTrait
 
   public function stEndResolveSoloCardsEngine()
   {
+    ///////////////////////////////////////////////////////
+    // Solo S8 => we might have drawn the solo card as the very first card!
+    // If that's the case, trigger Astra's turn and draw more cards
+    if (Globals::isSolo() && Globals::getScenario() == 8 && ConstructionCards::getInLocation("stack-%")->count() < 3) {
+      // Astra take their turn
+      $card = ConstructionCards::getInLocation('stack-0')->first();
+      Players::getAstra()->playTurn($card);
+      // We draw more cards
+      $cards = ConstructionCards::newTurnAuxSoloScenario8();
+      Notifications::newTurnAux($cards);
+
+      // We need to recheck for solo cards here
+      if (ConstructionCards::getPendingSoloCards()->count() > 0) {
+        $this->stResolveSoloCards();
+        return;
+      }
+    }
+    ///////////////////////////////////////////////////////
+
     $this->gamestate->setAllPlayersMultiactive();
     $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
   }

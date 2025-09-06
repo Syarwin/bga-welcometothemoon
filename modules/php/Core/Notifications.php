@@ -40,6 +40,14 @@ class Notifications
       'deckCount' => ConstructionCards::getCardsLeft(),
     ]);
   }
+  // Useful in solo scenario 8 only
+  public static function newTurnAux(array $cards)
+  {
+    self::notifyAll('newTurnAux', '', [
+      'cards' => $cards,
+      'deckCount' => ConstructionCards::getCardsLeft(),
+    ]);
+  }
 
 
   public static function endGameTriggered(?Player $player, string $condition)
@@ -128,6 +136,14 @@ class Notifications
       $data['i18n'][] = 'source';
     }
 
+    self::addScribbles($player, $scribbles, $msg, $data);
+  }
+  public static function writeNumberS8AstraTurn(Player $player, int $number, array $scribbles, ?string $source = null)
+  {
+    $msg = clienttranslate('Astra writes ${number} on the scoresheet');
+    $data = [
+      'number' => $number,
+    ];
     self::addScribbles($player, $scribbles, $msg, $data);
   }
 

@@ -47,6 +47,7 @@ define([
           'useSoloBonus',
           'replaceSoloCard',
           'newTurn',
+          'newTurnAux',
           'endGameTriggered',
           'endGameMessage',
           'clearTurn',
@@ -657,6 +658,15 @@ define([
 
             // Add that number as a possibility for that slot
             numbersBySlots[slotId].push(number);
+          });
+        });
+      },
+      onEnteringStateWriteNumberS8AstraTurn(args) {
+        Object.entries(args.numbers).forEach(([number, slots]) => {
+          slots.forEach((slotId) => {
+            this.onClick(`slot-${this.scoresheet_id}-${slotId}`, () => {
+              this.takeAtomicAction('actAstraTurn', [slotId, number]);
+            });
           });
         });
       },

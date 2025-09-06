@@ -45,6 +45,7 @@ const ST_END_TURN = 15;
 const ST_START_TURN = 20;
 const ST_CHOOSE_ROTATION = 21;
 const ST_START_TURN_ENGINE = 22;
+const ST_START_ASTRA_S8_TURN_ENGINE = 23;
 
 // Atomic actions
 const ST_CHOOSE_CARDS = 30;
@@ -78,6 +79,7 @@ const ST_S6_CROSS_OFF_VIRUS = 58;
 const ST_S7_ACTIVATE_AIRLOCK = 57;
 const ST_S7_CROSS_OFF_MULTIPLIER = 59;
 const ST_S8_DRAW_ON_MOON = 60;
+const ST_S8_ASTRA_TURN = 61;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -173,6 +175,7 @@ const S7_CROSS_OFF_MULTIPLIER = 'Scenario7\CrossOffx2Multiplier';
 // SCENARIO 8
 const S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER = 'Scenario8\CircleNextInRowMultiple';
 const S8_DRAW_ON_MOON = 'Scenario8\DrawOnMoon';
+const S8_ASTRA_TURN = 'Scenario8\AstraTurn';
 
 /*
  * Actions

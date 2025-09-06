@@ -240,10 +240,21 @@ class ConstructionCards extends CachedPieces
   public static function newTurn()
   {
     $drawnCards = [];
-    for ($i = 0; $i < 3; $i++) {
+    $stacksToFill = (Globals::isSolo() && Globals::getScenario() == 8) ? 1 : 3;
+    for ($i = 0; $i < $stacksToFill; $i++) {
       $fromLocation = Globals::isSolo() ? "deck" : "deck-$i";
       $drawnCard = self::pickOneForLocation($fromLocation, "stack-$i", 0);
       $drawnCards[$i] = $drawnCard;
+    }
+
+    return $drawnCards;
+  }
+  public static function newTurnAuxSoloScenario8()
+  {
+    $drawnCards = [];
+    for ($i = 1; $i < 3; $i++) {
+      $drawnCard = self::pickOneForLocation("deck", "stack-$i", 0);
+      $drawnCards[] = $drawnCard;
     }
 
     return $drawnCards;

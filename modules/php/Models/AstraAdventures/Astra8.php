@@ -6,6 +6,7 @@ use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
+use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 class Astra8 extends Astra
@@ -36,21 +37,10 @@ class Astra8 extends Astra
     ]);
   }
 
-  public function addScribble($location, $type = SCRIBBLE): Scribble
+  public function playTurn(ConstructionCard $card): void
   {
-    $currentPlayer = Globals::getTurn() % 2 == 0 ? Players::getAll()->first() : $this;
-    $currentInsigna = SCRIBBLE_INSIGNAS[$currentPlayer->getNo()];
-    if (!in_array($type, [SCRIBBLE, SCRIBBLE_CIRCLE])) {
-      $type = $currentInsigna;
-    }
-
-    $scribble = Scribbles::add(0, [
-      'type' => $type,
-      'location' => "slot-$location",
-    ]);
-    return $scribble;
+    // var_dump($card->getNumber());
   }
-
 
   public function getUiData(): array
   {

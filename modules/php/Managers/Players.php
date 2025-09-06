@@ -190,6 +190,14 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
 
     return static::$astra;
   }
+  public static function getSolo(): Player
+  {
+    if (!Globals::isSolo()) {
+      throw new \BgaUserException('Call to getSolo in a non solo game');
+    }
+
+    return self::getAll()->first();
+  }
 
   public static function getAstraDatas(): array
   {

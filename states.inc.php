@@ -533,11 +533,11 @@ $machinestates = [
   ],
 
   /////////////////////////////////////////////////////////
-  //  ____                            _
-  // / ___|  ___ ___ _ __   __ _ _ __(_) ___
-  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \
-  //  ___) | (_|  __/ | | | (_| | |  | | (_) |   8 :)
-  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/
+  //  ____                            _          ___  
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___    ( _ ) 
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \   / _ \ 
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) | | (_) |
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/   \___/                                                  
   /////////////////////////////////////////////////////////
 
   ST_S8_DRAW_ON_MOON => [
@@ -548,6 +548,22 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'possibleactions' => ['actDrawOnMoon', 'actRestart'],
   ],
+
+  ST_START_ASTRA_S8_TURN_ENGINE => [
+    'name' => 'startTurnEngine',
+    'type' => 'game',
+    'action' => 'stStartAstraS8TurnEngine',
+  ],
+
+  ST_S8_ASTRA_TURN => [
+    'name' => 'writeNumberS8AstraTurn',
+    'descriptionmyturn' => clienttranslate('${you} must write the number for Astra'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actAstraTurn'],
+  ],
+
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
