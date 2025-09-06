@@ -265,13 +265,16 @@ class Scoresheet
   }
 
   // Generic UI-data for missions for all scenarios except the 1st one
-  public function computeMissionsUiData(&$data): int
+  public function computeMissionsUiData(array &$data, Scoresheet $scoresheet = null): int
   {
+    if (is_null($scoresheet)) {
+      $scoresheet = $this;
+    }
     $missionPoints = 0;
     $stacks = ['stack-A', 'stack-B', 'stack-C'];
-    foreach ($this->getSectionSlots('plans') as $i => $slot) {
+    foreach ($scoresheet->getSectionSlots('plans') as $i => $slot) {
       $stack = $stacks[$i];
-      $scribbles = $this->scribblesBySlots[$slot] ?? [];
+      $scribbles = $scoresheet->scribblesBySlots[$slot] ?? [];
       $missionPoint = 0;
       if (!empty($scribbles)) {
         $missionPoint = $scribbles[0]->getNumber();

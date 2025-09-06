@@ -4,6 +4,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\PlanCards;
 
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 
 class PlanCard111 extends PlanCard
 {
@@ -18,6 +19,8 @@ class PlanCard111 extends PlanCard
 
   public function canAccomplish(Player $player): bool
   {
-    return false;
+    /** @var Scoresheet8 $scoresheet */
+    $scoresheet = $player->scoresheet();
+    return $scoresheet->isAnySheetHasInsigniaOn4Moons();
   }
 }

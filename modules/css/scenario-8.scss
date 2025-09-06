@@ -198,3 +198,15 @@
     }
   }
 }
+
+.score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot {
+  &.slot-flag {
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    height: 45px;
+  }
+  .wttm-scribble {
+    position: unset;
+  }
+}

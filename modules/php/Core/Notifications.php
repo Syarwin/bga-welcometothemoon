@@ -706,10 +706,45 @@ class Notifications
     static::addScribble($player, $scribble, clienttranslate('${player_name} crosses off a greenhouse x2 multiplier'));
   }
 
-  public static function drawOnMoon(Player $player, array $scribbles, string $planetName)
+  /////////////////////////////////////////////////////////
+  //  ____                            _
+  // / ___|  ___ ___ _ __   __ _ _ __(_) ___
+  // \___ \ / __/ _ \ '_ \ / _` | '__| |/ _ \
+  //  ___) | (_|  __/ | | | (_| | |  | | (_) |   8 :)
+  // |____/ \___\___|_| |_|\__,_|_|  |_|\___/
+  /////////////////////////////////////////////////////////
+
+  private static function getPlanetTypeMsg(int $type)
+  {
+    return [
+      PLANET_TYPE_GREEN => clienttranslate('green planet'),
+      PLANET_TYPE_BLUE => clienttranslate('blue planet'),
+      PLANET_TYPE_GREY => clienttranslate('grey planet'),
+    ][$type];
+  }
+
+  public static function drawOnMoon(Player $player, array $scribbles, int $planetType)
   {
     static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia on a ${planet_name}'), [
-      'planet_name' => $planetName,
+      'planet_name' => static::getPlanetTypeMsg($planetType),
+      'i18n' => ['planet_name'],
+    ]);
+  }
+
+  public static function drawOnFlagSingle(Player $player, Player $controller, array $scribbles, int $planetType)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. ${player_name2} has the most insignia there and now controls this planet'), [
+      'planet_name' => static::getPlanetTypeMsg($planetType),
+      'player2' => $controller,
+      'i18n' => ['planet_name'],
+    ]);
+  }
+
+  public static function drawOnFlagDouble(Player $player, Player $player2, array $scribbles, int $planetType)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. Its control is now shared between ${player_name} and ${player_name2}'), [
+      'planet_name' => static::getPlanetTypeMsg($planetType),
+      'player2' => $player2,
       'i18n' => ['planet_name'],
     ]);
   }
