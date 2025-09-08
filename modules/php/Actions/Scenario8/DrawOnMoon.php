@@ -4,6 +4,8 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario8;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
+use Bga\Games\WelcomeToTheMoon\Models\Player;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 
 class DrawOnMoon extends GenericPickSlot
 {
@@ -12,7 +14,19 @@ class DrawOnMoon extends GenericPickSlot
     return ST_S8_DRAW_ON_MOON;
   }
 
-  protected array $slots = [79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92];
+  protected function getSlots(Player $player): array
+  {
+    $scoresheet = $player->scoresheet();
+    $planets = $this->getCtxArg('planets');
+    $slots = [];
+    foreach ($planets as $planetData) {
+      if (!$scoresheet->hasScribbledSlot($planetData['final'])) {
+        $slots = array_merge($slots, $planetData['moonSlots']);
+      }
+    }
+
+    return $slots;
+  }
 
   /**
    * @throws \BgaUserException
