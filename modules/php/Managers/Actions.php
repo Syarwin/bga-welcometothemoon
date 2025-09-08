@@ -40,6 +40,7 @@ class Actions
     // Scenario 3
     CIRCLE_GREENHOUSE,
     IMPROVE_BONUS,
+    S3_IMPROVE_BONUS,
     BUILD_ROBOT_TUNNEL,
     FILLED_QUARTER,
     CROSS_OFF_FILLED_QUARTER_BONUS,
@@ -86,6 +87,8 @@ class Actions
     // TODO: Revert the commit this was added after all tables will be started after 6/03/2025
     $actionId = str_replace('StirWaterTanks', 'CircleSingleLinked', $actionId);
     $actionId = str_replace('CircleOther', 'CircleNextInRow', $actionId);
+    // TODO: Revert the commit this was added after all tables will be started after 8/09/2025
+    $actionId = str_replace(S3_IMPROVE_BONUS, IMPROVE_BONUS, $actionId);
 
     if (!in_array($actionId, self::$classes)) {
       // throw new \feException(print_r(debug_print_backtrace()));

@@ -143,6 +143,7 @@ const CIRCLE_GREENHOUSE = 'Scenario3\CircleGreenhouse';
 const BUILD_ROBOT_TUNNEL = 'Scenario3\BuildRobotTunnel';
 const FILLED_QUARTER = 'Scenario3\FilledQuarter';
 const CROSS_OFF_FILLED_QUARTER_BONUS = 'Scenario3\CrossOffFilledQuarterBonus';
+const S3_IMPROVE_BONUS = 'Scenario3\ImproveBonus';
 
 // SCENARIO 4
 const S4_CIRCLE_PLANT_OR_WATER = 'Scenario4\CirclePlantOrWater';
