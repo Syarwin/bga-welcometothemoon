@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Core;
 use Bga\Games\WelcomeToTheMoon\Game;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
+use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 use Bga\Games\WelcomeToTheMoon\Models\PlanCard;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
@@ -723,15 +724,16 @@ class Notifications
     ][$type];
   }
 
-  public static function drawOnMoon(Player $player, array $scribbles, int $planetType)
+  public static function drawOnMoon(Player $player, array $scribbles, int $planetType, bool $astraTurn = false)
   {
-    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia on a ${planet_name}'), [
+    $msg = $astraTurn ? clienttranslate('Astra draws insignia on a ${planet_name}\'s moon') : clienttranslate('${player_name} draws his insignia on a ${planet_name}\'s moon');
+    static::addScribbles($player, $scribbles, $msg, [
       'planet_name' => static::getPlanetTypeMsg($planetType),
       'i18n' => ['planet_name'],
     ]);
   }
 
-  public static function drawOnFlagSingle(Player $player, Player $controller, array $scribbles, int $planetType)
+  public static function drawOnFlagSingle(Player $player, Astra|Player $controller, array $scribbles, int $planetType)
   {
     static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. ${player_name2} has the most insignia there and now controls this planet'), [
       'planet_name' => static::getPlanetTypeMsg($planetType),
@@ -740,7 +742,7 @@ class Notifications
     ]);
   }
 
-  public static function drawOnFlagDouble(Player $player, Player $player2, array $scribbles, int $planetType)
+  public static function drawOnFlagDouble(Player $player, Astra|Player $player2, array $scribbles, int $planetType)
   {
     static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. Its control is now shared between ${player_name} and ${player_name2}'), [
       'planet_name' => static::getPlanetTypeMsg($planetType),

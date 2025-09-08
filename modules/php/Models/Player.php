@@ -72,7 +72,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
       // Scenario 8 has this weird double player thing
       if ($scenarioId == 8) {
         // Even turn, play on "my" sheet
-        if (Globals::getTurn() % 2 == 0) {
+        if (Globals::getTurn() % 2 == 1) {
           $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
         } else {
           $this->scoresheet = new Scoresheet8($this, Players::getPrevOrAstra($this), 1);

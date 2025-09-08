@@ -5,6 +5,7 @@ namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
+use Bga\Games\WelcomeToTheMoon\Models\AstraAdventures\Astra8;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
@@ -64,8 +65,8 @@ class Scoresheet8 extends Scoresheet
     17 => [6]
   ];
 
-  protected array $planetsPlants = [[181], [184], [185, 186], [188, 189], [191, 192], [194, 195], [197, 198]];
-  protected array $planetsWaters = [[182], [183], [187], [190], [193], [196], []];
+  public array $planetsPlants = [[181], [184], [185, 186], [188, 189], [191, 192], [194, 195], [197, 198]];
+  public array $planetsWaters = [[182], [183], [187], [190], [193], [196], []];
 
   protected array $asteroidsBonuses = [
     50 => [],
@@ -194,7 +195,7 @@ class Scoresheet8 extends Scoresheet
     return $slots;
   }
 
-  private function getPlanetIdBySlot(int $slot): ?int
+  public function getPlanetIdBySlot(int $slot): ?int
   {
     foreach ($this->planets as $planetId => $planet) {
       if (in_array($slot, $planet['slots'])) {
@@ -202,6 +203,11 @@ class Scoresheet8 extends Scoresheet
       }
     }
     return null;
+  }
+  public function getPlanetOfSlot(int $slot): ?array
+  {
+    $planetId = $this->getPlanetIdBySlot($slot);
+    return is_null($planetId) ? null : $this->planets[$planetId];
   }
 
   // PHASE 5
@@ -271,31 +277,37 @@ class Scoresheet8 extends Scoresheet
     // Finishing a planet
     $planetId = $this->getPlanetIdBySlot($slot);
     if (!is_null($planetId)) {
-      $currentPlanet = $this->planets[$planetId];
-      if ($this->countScribbledSlots($currentPlanet['slots']) === count($currentPlanet['slots'])) {
-        $planetAndMoonSlots = [...$currentPlanet['slots'], ...$currentPlanet['moonSlots']];
-        $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
-        $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
-        $insnCountFirstPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaFirstPlayer);
-        $insnCountSecondPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaSecondPlayer);
-        $scribbles = [$this->addScribble($currentPlanet['final'], SCRIBBLE_CIRCLE)];
-        if ($insnCountFirstPlayer === $insnCountSecondPlayer) {
-          $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaFirstPlayer, false);
-          $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaSecondPlayer, false);
-          Notifications::drawOnFlagDouble($player, $this->getOpponentPlayer(), $scribbles, $currentPlanet['type']);
-        } else {
-          $maxInsignias = max($insnCountFirstPlayer, $insnCountSecondPlayer);
-          $controller = $insnCountFirstPlayer === $maxInsignias ? $this->player1 : $this->player2;
-          $scribbles[] = $this->addScribble($currentPlanet['flag'], SCRIBBLE_INSIGNAS[$controller->getNo()], false);
-          Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type']);
-        }
-      }
+      $this->resolvePlanetWinnerIfNeeded($player, $planetId);
     }
 
     return [
       'type' => NODE_SEQ,
       'childs' => $reactions
     ];
+  }
+
+  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): void
+  {
+    $currentPlanet = $this->planets[$planetId];
+    if ($this->countScribbledSlots($currentPlanet['slots']) !== count($currentPlanet['slots'])) return;
+
+
+    $planetAndMoonSlots = [...$currentPlanet['slots'], ...$currentPlanet['moonSlots']];
+    $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
+    $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
+    $insnCountFirstPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaFirstPlayer);
+    $insnCountSecondPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaSecondPlayer);
+    $scribbles = [$this->addScribble($currentPlanet['final'], SCRIBBLE_CIRCLE)];
+    if ($insnCountFirstPlayer === $insnCountSecondPlayer) {
+      $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaFirstPlayer, false);
+      $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaSecondPlayer, false);
+      Notifications::drawOnFlagDouble($player, $this->getOpponentPlayer(), $scribbles, $currentPlanet['type']);
+    } else {
+      $maxInsignias = max($insnCountFirstPlayer, $insnCountSecondPlayer);
+      $controller = $insnCountFirstPlayer === $maxInsignias ? $this->player1 : $this->player2;
+      $scribbles[] = $this->addScribble($currentPlanet['flag'], SCRIBBLE_INSIGNAS[$controller->getNo()], false);
+      Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type']);
+    }
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -780,7 +792,7 @@ class Scoresheet8 extends Scoresheet
   //////////////////////////////////////////
   protected Player|Astra $player1; // Player at the BOTTOM
   protected Player|Astra $player2; // Player at the TOP
-  protected int $whoIsPlaying = 0;
+  public int $whoIsPlaying = 0;
 
   public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null, int|null $whoIsPlaying = null)
   {
@@ -804,12 +816,12 @@ class Scoresheet8 extends Scoresheet
     return $this->player1->getId();
   }
 
-  public function getCurrentPlayer(): Player
+  public function getCurrentPlayer(): Player|Astra8
   {
     return $this->whoIsPlaying === 1 ? $this->player1 : $this->player2;
   }
 
-  public function getOpponentPlayer(Player $player = null): Player
+  public function getOpponentPlayer(?Player $player = null): Player|Astra8
   {
     if (is_null($player)) {
       $player = $this->getCurrentPlayer();

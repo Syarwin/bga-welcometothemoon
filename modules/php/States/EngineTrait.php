@@ -37,7 +37,8 @@ trait EngineTrait
 
     // Scenario 8
     if (Globals::getScenario() == 8) {
-      $args['scoresheetPId'] = Players::get($pId)->scoresheet()->getPId();
+      $player = Globals::isSolo() ? Players::getCurrentSolo() : Players::get($pId);
+      $args['scoresheetPId'] = $player->scoresheet()->getPId();
     }
   }
 

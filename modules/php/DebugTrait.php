@@ -16,7 +16,9 @@ trait DebugTrait
     // Globals::setMode(MODE_PRIVATE);
     $player = Players::getCurrent();
     $scoresheet = $player->scoresheet();
-    var_dump($scoresheet->hasScribbledSomeSlots($scoresheet->getSectionSlots('waters'), 6));
+    var_dump($scoresheet->hasScribbledSlot(26));
+    var_dump($scoresheet->getScribbles()->getIds());
+    var_dump($player->getId());
   }
 
 

@@ -50,22 +50,51 @@ class AstraTurn extends \Bga\Games\WelcomeToTheMoon\Models\Action
       throw new \BgaUserException('You cannot write this number here. Should not happen.');
     }
 
-    $player = Players::getSolo();
-    $scribble = $player->scoresheet()->addScribble($slot, SCRIBBLE_INSIGNA_TRIANGLE);
-    Notifications::writeNumberS8AstraTurn($player, $number, [$scribble]);
+    $player = Players::getCurrentSolo();
+    $soloPlayer = Players::getSolo();
+    $scoresheet = $player->scoresheet();
+    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_INSIGNA_TRIANGLE, false);
+    Notifications::writeNumberS8AstraTurn($soloPlayer, $number, [$scribble]);
 
     // Reaction to the scribble itself (filled up quarter bonuses, etc)
-    $reactions = $player->scoresheet()->getScribbleReactions($scribble, 'actWriteNumber');
+    $planetId = $scoresheet->getPlanetIdBySlot($slot);
+    $scoresheet->resolvePlanetWinnerIfNeeded($soloPlayer, $planetId);
 
     // Action corresponding to the combination
     $card = ConstructionCards::getInLocation('stack-0')->first();
-    $combination = ['number' => $card->getNumber(), 'action' => $card->getAction()];
-    if ($combination['action'] == ASTRONAUT) $combination['action'] = PLANNING;
-    if ($combination['action'] == ENERGY) $combination['action'] = ROBOT;
+    $action = $card->getAction();
+    if ($action == ASTRONAUT) $action = PLANNING;
+    if ($action == ENERGY) $action = ROBOT;
 
-    $action = $player->scoresheet()->getCombinationAtomicAction($combination, $slot);
+    // PLANNING
+    $planet = $scoresheet->getPlanetOfSlot($slot);
+    if ($action == PLANNING) {
+      $slotId = $scoresheet->getFirstUnscribbled($planet['moonSlots']);
+      if (!is_null($slotId)) {
+        $scribble = $scoresheet->addScribble($slotId, SCRIBBLE_INSIGNA_TRIANGLE, false);
+        Notifications::drawOnMoon($soloPlayer, [$scribble], $planet['type'], true);
+      }
+    }
 
-    $this->insertAsChild($reactions);
-    $this->insertAsChild($action);
+    // ROBOT
+    if ($action == ROBOT) {
+      $slotIds = $scoresheet->getSectionSlots('asteroids');
+      if (Globals::getTurn() % 2 == 0) $slotIds = array_reverse($slotIds);
+      $slotId = $scoresheet->getFirstUnscribbled($slotIds);
+      if (!is_null($slotId)) {
+        $scribble = $scoresheet->addScribble($slotId, SCRIBBLE_INSIGNA_TRIANGLE, false);
+        Notifications::addScribbles($soloPlayer, [$scribble], clienttranslate('Astra draws insignia on the first available asteroid'));
+      }
+    }
+
+    // WATER/PLANT
+    if ($action == WATER || $action == PLANT) {
+      $slotIds = $action == WATER ? $scoresheet->planetsWaters[$planetId] : $scoresheet->planetsPlants[$planetId];
+      $slotId = $scoresheet->getFirstUnscribbled($slotIds);
+      if (!is_null($slotId)) {
+        $scribble = $scoresheet->addScribble($slotId, SCRIBBLE, false);
+        Notifications::addScribbles($soloPlayer, [$scribble], clienttranslate('Astra scribbles off a corresponding symbol on the planet'));
+      }
+    }
   }
 }

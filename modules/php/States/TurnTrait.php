@@ -40,18 +40,6 @@ trait TurnTrait
     else if (Globals::isSolo() && Globals::getScenario() == 8) {
       $this->gamestate->setAllPlayersMultiactive();
       $this->gamestate->jumpToState(ST_START_ASTRA_S8_TURN_ENGINE);
-
-      // // Astra take their turn
-      // Players::getAstra()->playTurn($cards[0]);
-      // // We draw more cards
-      // $cards = ConstructionCards::newTurnAuxSoloScenario8();
-      // Notifications::newTurnAux($cards);
-
-      // // We need to recheck for solo cards here
-      // if (ConstructionCards::getPendingSoloCards()->count() > 0) {
-      //   $this->stResolveSoloCards();
-      //   return;
-      // }
     } else {
       $this->gamestate->setAllPlayersMultiactive();
       $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
@@ -79,8 +67,21 @@ trait TurnTrait
 
   public function stEndAstraS8TurnEngine()
   {
+    if (ConstructionCards::getInLocation("stack-%")->count() < 3) {
+      // We draw more cards
+      $cards = ConstructionCards::newTurnAuxSoloScenario8();
+      Notifications::newTurnAux($cards);
+
+      // We need to recheck for solo cards here
+      if (ConstructionCards::getPendingSoloCards()->count() > 0) {
+        $this->stResolveSoloCards();
+        return;
+      }
+    }
+
     Globals::setAstraTurn(false);
-    die("TODO");
+    $this->gamestate->setAllPlayersMultiactive();
+    $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
   }
 
   /////////////////////////////////////////////////////
@@ -126,6 +127,7 @@ trait TurnTrait
         return;
       }
     }
+    Globals::setAstraTurn(false);
     ///////////////////////////////////////////////////////
 
     $this->gamestate->setAllPlayersMultiactive();

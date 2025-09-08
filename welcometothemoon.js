@@ -418,7 +418,7 @@ define([
           );
           this.addDangerActionButton('btnUnstuck', _('Unstuck table'), () => this.takeAction('actUnstuckGame', {}, false));
         } else {
-          if (args.args && args.args.scoresheetPId) {
+          if (args.args && args.args.scoresheetPId !== undefined) {
             this.scoresheet_id = args.args.scoresheetPId;
           }
           $('score-sheet-holder').classList.toggle('rotated', this.scoresheet_id != this.player_id);

@@ -7,6 +7,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 use Bga\Games\WelcomeToTheMoon\Models\Scribble;
 
 class Astra8 extends Astra
@@ -24,9 +25,26 @@ class Astra8 extends Astra
     return 2;
   }
 
+  public function getName(): string
+  {
+    return clienttranslate('Astra');
+  }
+
+  public function scoresheet(): ?Scoresheet8
+  {
+    $player = Players::getSolo();
+    // Even turn, play on "my" sheet
+    if (Globals::getTurn() % 2 == 0) {
+      return new Scoresheet8($player, $this, 2);
+    } else {
+      return new Scoresheet8($this, $player, 1);
+    }
+  }
+
+
   public function setupScenario(): void
   {
-    $pId = Players::getAll()->first();
+    $pId = Players::getSolo();
     Scribbles::add($pId, [
       'type' => SCRIBBLE_INSIGNAS[2],
       'location' => "slot-221",

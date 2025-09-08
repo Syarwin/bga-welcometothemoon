@@ -425,6 +425,66 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'The Planning action allows you to fill in a space with an X in addition to the number of your combination. Moreover, you must immediately cross off the available box with the lowest value in the Planning scoring area, at the bottom of your sheet'
               );
           }
+
+        // Scenario 8
+        case 8:
+          switch (action) {
+            case 'energy':
+              return (
+                _(
+                  'You can improve the value of the planets that you control. There are 3 types of planets: green, blue, and grey ones.'
+                ) +
+                _(
+                  'In your scoring area, there is a column for each of the 3 types of planets. Cross off the scoring box with the lowest visible value in the column of your choice'
+                )
+              );
+            case 'robot':
+              return (
+                _('With this action, you can mine an asteroid field.') +
+                _('For that purpose, draw your insignia on the first available asteroid.') +
+                _(
+                  'If there are one or several Bonus symbols on this asteroid, you must cross them off and immediately use them.'
+                ) +
+                _(
+                  'You must draw your insignia on the asteroids starting from your side of the sheet and then progressing towards your opponent.'
+                )
+              );
+
+            case 'plant':
+              return (
+                _('On the planet on which you have just drawn your insignia, cross off an available Plant symbol.') +
+                _('Cross off the scoring box of the lowest visible value in the corresponding scoring area.') +
+                _('If there is no available Plant symbol on the planet, then you cannot use the action.')
+              );
+            case 'water':
+              return (
+                _('On the planet on which you have just drawn your insignia, cross off an available Water symbol.') +
+                _('Cross off the scoring box of the lowest visible value in the corresponding scoring area.') +
+                _('If there is no available Water symbol on the planet, then you cannot use the action.')
+              );
+            case 'astronaut':
+              return (
+                _(
+                  'The Astronaut action allows you to modify the value of the number of the chosen combination, before you draw your insignia (-2, -1, 0, +1, +2). Moreover, circle 1 Astronaut symbol in your scoring area'
+                ) +
+                _(
+                  'On a next turn on the same sheet, in addition to the action of your combination you can use this circled astronaut symbol as a bonus to modify the value of the number of your combination.'
+                ) +
+                _(
+                  'When this Astronaut symbol is used, cross it off. The use of this Astronaut symbol allows you to modify the number, but not circle a new Astronaut symbol.'
+                )
+              );
+            case 'planning':
+              return (
+                _(
+                  'In addition to drawing your insignia on a planet with the number of your combination, with this action, you can draw your insignia on a moon of a planet of your choice.'
+                ) +
+                _('Then you must cross off the scoring box of the lowest visible value in your Planning scoring area') +
+                _(
+                  'Note that there are only 2 available spots on each moon and that both can be occupied by the same player. You cannot draw your insignia on a moon of a planet that is already complete, and whose control has been awarded.'
+                )
+              );
+          }
       }
     },
 
