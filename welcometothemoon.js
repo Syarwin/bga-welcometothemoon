@@ -782,6 +782,8 @@ define([
        *  @Override
        */
       format_string_recursive(log, args) {
+        if (log === null) return;
+
         try {
           if (log && args && !args.processed) {
             args.processed = true;

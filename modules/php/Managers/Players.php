@@ -203,7 +203,7 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
       throw new \BgaUserException('Call to getSolo in a non solo game');
     }
 
-    if (Globals::getTurn() % 2 == 1) {
+    if (Globals::getTurn() % 2 == 0) {
       return self::getSolo();
     } else {
       return self::getAstra();

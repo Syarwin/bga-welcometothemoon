@@ -14,10 +14,12 @@ trait DebugTrait
     // Globals::setMode(MODE_APPLY);
     // Globals::setTurn(14);
     // Globals::setMode(MODE_PRIVATE);
-    $player = Players::getCurrent();
-    $scoresheet = $player->scoresheet();
-    var_dump($scoresheet->hasScribbledSlot(26));
-    var_dump($scoresheet->getScribbles()->getIds());
+    // $player = Players::getCurrent();
+    // $scoresheet = $player->scoresheet();
+    // var_dump($scoresheet->hasScribbledSlot(26));
+    // var_dump($scoresheet->getScribbles()->getIds());
+    // var_dump($player->getId());
+    $player = Players::getCurrentSolo();
     var_dump($player->getId());
   }
 

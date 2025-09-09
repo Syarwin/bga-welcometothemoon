@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Models\AstraAdventures;
 
 use Bga\Games\WelcomeToTheMoon\Core\Globals;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
@@ -33,7 +34,7 @@ class Astra8 extends Astra
   public function scoresheet(): ?Scoresheet8
   {
     $player = Players::getSolo();
-    // Even turn, play on "my" sheet
+    // Even turn, NOT play on "my" sheet
     if (Globals::getTurn() % 2 == 0) {
       return new Scoresheet8($player, $this, 2);
     } else {
@@ -41,28 +42,48 @@ class Astra8 extends Astra
     }
   }
 
+  public function scoresheetForScore(): ?Scoresheet8
+  {
+    $player = Players::getSolo();
+    // Even turn, "play" on "my" sheet
+    if (Globals::getTurn() % 2 == 0) {
+      return new Scoresheet8($this, $player, 1);
+    } else {
+      return new Scoresheet8($player, $this, 2);
+    }
+  }
+
 
   public function setupScenario(): void
   {
-    $pId = Players::getSolo();
+    $pId = 0;
     Scribbles::add($pId, [
-      'type' => SCRIBBLE_INSIGNAS[2],
+      'type' => SCRIBBLE_INSIGNAS[1],
       'location' => "slot-221",
     ]);
     Scribbles::add($pId, [
-      'type' => SCRIBBLE_INSIGNAS[1],
+      'type' => SCRIBBLE_INSIGNAS[2],
       'location' => "slot-222",
     ]);
   }
 
-  public function playTurn(ConstructionCard $card): void
-  {
-    // var_dump($card->getNumber());
-  }
-
   public function getUiData(): array
   {
-    return [];
+    $data = parent::getUiData();
+    // Make the front aware that this is not on the scoresheet
+    foreach ($data as &$entry) {
+      $entry['outsideScoresheet'] = true;
+    }
+
+    $scoresheet = $this->scoresheetForScore();
+    $sheetData = $scoresheet->computeUiData();
+    foreach ($sheetData as $entry2) {
+      if (isset($entry2['slot']) && !($entry2['score'] ?? false)) {
+        $data[] = $entry2;
+      }
+    }
+
+    return $data;
   }
 
 

@@ -3,6 +3,7 @@
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\AstraAdventures\Astra8;
@@ -271,7 +272,9 @@ class Scoresheet8 extends Scoresheet
         $scribbles[] = $bonusScribble;
         $reactions[] = $this->getScribbleReactions($bonusScribble, 'getScribbleReactions');
       }
-      Notifications::addScribbles($player, $scribbles);
+      if (!empty($scribbles)) {
+        Notifications::addScribbles($player, $scribbles);
+      }
     }
 
     // Finishing a planet
@@ -520,7 +523,7 @@ class Scoresheet8 extends Scoresheet
     });
   }
 
-  private function getControlledPlanetsAmount(Scoresheet $scoresheet, int $insignia, int $planetType = null): int
+  private function getControlledPlanetsAmount(Scoresheet $scoresheet, int $insignia, ?int $planetType = null): int
   {
     $planets = is_null($planetType) ? $this->planets : $this->getPlanets($planetType);
     $planetsMap = array_map(fn($planet) => $scoresheet->hasScribbledSlot($planet['flag'], $insignia), $planets);
@@ -535,8 +538,10 @@ class Scoresheet8 extends Scoresheet
     $data = [];
     $p1Insignia = SCRIBBLE_INSIGNAS[$this->getOpponentPlayer()->getNo()];
     $p2Insignia = SCRIBBLE_INSIGNAS[$this->getCurrentPlayer()->getNo()];
-    $b1 = $this->player2->scoresheet();
-    $b2 = $this->player1->scoresheet();
+    $b1 = $this->player2->scoresheetForScore();
+    $b2 = $this->player1->scoresheetForScore();
+    $data[] = [$b1->getPId(), $b2->getPId()];
+
     // Player 1
 
     // Number of numbered slots
@@ -782,6 +787,16 @@ class Scoresheet8 extends Scoresheet
         + $p2b1plantsPoints + $p2b1waterPoints + $p2b1greenPlanetsScore + $p2b1bluePlanetsScore
         + $p2b1greyPlanetsScore - $p2b1planningNegativePoints - $p2b1errorsNegativePoints,
     ];
+
+    // Filter out Astra useless slots
+    $slots = [];
+    if ($this->player1 instanceof Astra8) {
+      $slots = [207, 208, 209, 210, 211, 212, 213, 214, 218, 219, 220];
+    }
+    if ($this->player2 instanceof Astra8) {
+      $slots = [199, 200, 201, 202, 203, 204, 205, 206, 215, 216, 217];
+    }
+    Utils::filter($data, fn($entry) => !in_array($entry['slot'] ?? null, $slots));
 
     return $data;
   }

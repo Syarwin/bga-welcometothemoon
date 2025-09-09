@@ -29,6 +29,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
     'zombie' => 'player_zombie',
+    'state' => 'player_state',
   ];
   protected int $id;
 
@@ -72,10 +73,10 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
       // Scenario 8 has this weird double player thing
       if ($scenarioId == 8) {
         // Even turn, play on "my" sheet
-        if (Globals::getTurn() % 2 == 1) {
-          $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
-        } else {
+        if (Globals::getTurn() % 2 == 0) {
           $this->scoresheet = new Scoresheet8($this, Players::getPrevOrAstra($this), 1);
+        } else {
+          $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
         }
       }
       // Otherwise it's just as usual
@@ -89,6 +90,11 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   public function refreshScoresheet(): void
   {
     $this->scoresheet = null;
+  }
+  // USEFUL ONLY FOR ASTRA BECAUSE OF WEIRDNESS
+  public function scoresheetForScore(): ?Scoresheet
+  {
+    return $this->scoresheet();
   }
 
   public function getCombination()

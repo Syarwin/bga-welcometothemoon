@@ -34,7 +34,7 @@ class AstraTurn extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
   public function argsAstraTurn()
   {
-    $player = Players::getSolo();
+    $player = Players::getCurrentSolo();
     $card = ConstructionCards::getInLocation('stack-0')->first();
     $combination = ['number' => $card->getNumber(), 'action' => '']; // Give a fake action to make sure it's not using astronaut
     return [

@@ -54,7 +54,7 @@ trait EngineTrait
   /**
    * Ask the corresponding atomic action for its args
    */
-  function argsAtomicAction($pId, $state)
+  function argsAtomicAction($pId)
   {
     if ($pId != Players::getCurrentId(true) && !Engine::$multipleSetupCalled) return [];
     $player = Players::get($pId);
