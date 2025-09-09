@@ -72,8 +72,11 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         }
       }
     }
-    Notifications::addScribbles($player, $scribbles);
-    $this->sendTextNotification($player, $scribbles);
+
+    if (empty($scribbles)) return;
+
+    $msg = $this->getNotificationMsg($player, $scribbles);
+    Notifications::addScribbles($player, $scribbles, $msg, ['amount' => count($scribbles)]);
   }
 
   // TODO: Revert the commit this was added after all tables will be started after 6/03/2025
@@ -92,7 +95,7 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
     return $slots;
   }
 
-  private function sendTextNotification(Player $player, array $scribbles)
+  private function getNotificationMsg(Player $player, array $scribbles): string
   {
     $symbol = $this->getCtxArg('symbol');
     if (count($scribbles) === 1) {
@@ -127,8 +130,7 @@ class CircleNextInRow extends \Bga\Games\WelcomeToTheMoon\Models\Action
         CIRCLE_SYMBOL_PEARL => clienttranslate('${player_name} circles ${amount} pearls'),
       ][$symbol] ?? null;
     }
-    if ($msg) {
-      Notifications::pmidMessage($player, $msg, ['amount' => count($scribbles)]);
-    }
+
+    return $msg ?? '';
   }
 }
