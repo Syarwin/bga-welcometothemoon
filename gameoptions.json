@@ -34,7 +34,8 @@
       },
       "7": {
         "name": "Adventure 7: The Escape",
-        "tmdisplay": "[7: The Escape]"
+        "tmdisplay": "[7: The Escape]",
+        "alpha": true
       },
       "8": {
         "name": "Adventure 8: The Battle",

@@ -181,6 +181,10 @@ class Scoresheet7 extends Scoresheet
       ];
     }
 
+    if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
+      return $this->getStandardPlanningReaction();
+    }
+
     return [];
   }
 
