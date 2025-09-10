@@ -37,8 +37,21 @@ class AstraTurn extends \Bga\Games\WelcomeToTheMoon\Models\Action
     $player = Players::getCurrentSolo();
     $card = ConstructionCards::getInLocation('stack-0')->first();
     $combination = ['number' => $card->getNumber(), 'action' => '']; // Give a fake action to make sure it's not using astronaut
+    $numbers = self::getAvailableNumbersOfCombination($player, $combination);
+
+    // If this/these planets are full, go to next planet
+    $safeCheck = 0;
+    while (empty($numbers) && $safeCheck++ < 15) {
+      $combination['number']++;
+      if ($combination['number'] > 15) $combination['number'] = 1;
+      $numbers = self::getAvailableNumbersOfCombination($player, $combination);
+    }
+    if ($safeCheck >= 15) {
+      throw new \BgaUserException('Astra cannot write anywhere. Should not happen.');
+    }
+
     return [
-      'numbers' => self::getAvailableNumbersOfCombination($player, $combination),
+      'numbers' => $numbers,
     ];
   }
 
