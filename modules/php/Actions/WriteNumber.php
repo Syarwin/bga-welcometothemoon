@@ -26,15 +26,35 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
   /*
   * Given a number/action combination (as assoc array), compute the set of writtable numbers on the sheet
   */
-  public static function getAvailableNumbersOfCombination($player, $combination)
+  public static function getAvailableNumbersOfCombination($player, $combination, $usableJokers = -1)
   {
-    // Unless the action is temporary agent, a combination is uniquely associated to a number
+    // Unless the action is an astronaut agent, a combination is uniquely associated to a number
     $numbers = [$combination['number']];
 
     // For astronaut, we can do -2, -1, +1, +2 EXCEPT for first scenario
     if ($combination['action'] == ASTRONAUT && Globals::getScenario() != 1) {
       $modifiers = [-2, -1, 1, 2];
       foreach ($modifiers as $dx) {
+        $n = $combination['number'] + $dx;
+        if ($n < 0 || $n > 17) {
+          continue;
+        }
+
+        array_push($numbers, $n);
+      }
+    }
+
+    // Scenario 8 => can use stored astronaut bonuses
+    if (Globals::getScenario() == 8) {
+      if ($usableJokers === -1) {
+        $scoresheet = $player->scoresheet();
+        $slots = $scoresheet->getPlayerSectionSlots('astronautmarkers');
+        $usableJokers = $scoresheet->countScribbledSlots($slots, SCRIBBLE_CIRCLE) - $scoresheet->countScribbledSlots($slots, SCRIBBLE);
+      }
+
+      $modifiers = [];
+      $numbers = [];
+      for ($dx = -2 * $usableJokers; $dx <= 2 * $usableJokers; $dx++) {
         $n = $combination['number'] + $dx;
         if ($n < 0 || $n > 17) {
           continue;
@@ -72,8 +92,34 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
     if (!in_array($slot, $slots)) {
       throw new \BgaUserException('You cannot write this number here. Should not happen.');
     }
-
     $player = $this->getPlayer();
+    $scoresheet = $player->scoresheet();
+
+    // SCENARIO 8 => have we used some astronaut jokers ?
+    if (Globals::getScenario() == 8) {
+      $combination = $player->getCombination();
+      $scribbles = [];
+      $circledJokers = array_filter($scoresheet->getPlayerSectionSlots('astronautmarkers'), fn($jokerSlot) => $scoresheet->hasScribbledSlot($jokerSlot, SCRIBBLE_CIRCLE));
+
+      for ($jokers = 0; $jokers < 7; $jokers++) {
+        $numbers = self::getAvailableNumbersOfCombination($player, $combination, $jokers);
+        $slots = [];
+        foreach ($numbers as $number => $numberSlots) {
+          $slots = array_merge($slots, $numberSlots);
+        }
+        if (in_array($slot, $slots)) break;
+
+        $jokerSlot = $scoresheet->getFirstUnscribbled($circledJokers, SCRIBBLE);
+        if (is_null($jokerSlot)) {
+          throw new \BgaUserException('Not enough astronaut joker to write on this planet. Should not happen.');
+        }
+        $scribbles[] = $scoresheet->addScribble($jokerSlot, SCRIBBLE);
+      }
+      if ($jokers > 0) {
+        Notifications::useAstronautJoker($player, $scribbles);
+      }
+    }
+
     $scribble = $player->scoresheet()->addScribble($slot, $number);
     Stats::incNumberedSpacesNumber($player->getId(), 1);
     Stats::setEmptySlotsNumber($player->getId(), $player->scoresheet()->countAllUnscribbledSlots());

@@ -2001,8 +2001,8 @@ body {
   flex-direction: column;
   width: 30px;
   height: 45px; }
-.score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot .wttm-scribble {
-  position: unset; }
+  .score-sheet-wrapper .score-sheet-holder .score-sheet .wttm-slot.slot-flag .wttm-scribble {
+    position: unset; }
 
 .score-sheet-wrapper {
   width: 1128px;

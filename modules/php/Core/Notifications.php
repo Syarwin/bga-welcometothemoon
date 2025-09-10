@@ -751,6 +751,14 @@ class Notifications
     ]);
   }
 
+  public static function useAstronautJoker(Player $player, array $scribbles)
+  {
+    static::addScribbles($player, $scribbles, clienttranslate('${player_name} uses ${n} astronaut joker(s) to change the number of his combination'), [
+      'n' => count($scribbles)
+    ]);
+  }
+
+
   /////////////////////////////////////
   //   ____           _          
   //  / ___|__ _  ___| |__   ___ 
