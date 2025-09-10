@@ -52,6 +52,11 @@ class WriteNumber extends \Bga\Games\WelcomeToTheMoon\Models\Action
         $usableJokers = $scoresheet->countScribbledSlots($slots, SCRIBBLE_CIRCLE) - $scoresheet->countScribbledSlots($slots, SCRIBBLE);
       }
 
+      // If current action is an astronaut, it acts like an extra usable joker
+      if ($combination['action'] == ASTRONAUT) {
+        $usableJokers++;
+      }
+
       $modifiers = [];
       $numbers = [];
       for ($dx = -2 * $usableJokers; $dx <= 2 * $usableJokers; $dx++) {
