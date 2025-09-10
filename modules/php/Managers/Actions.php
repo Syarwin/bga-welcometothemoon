@@ -76,7 +76,9 @@ class Actions
     // Scenario 8
     S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER,
     S8_DRAW_ON_MOON,
+    S8_RESOLVE_PLANET_WINNER,
     S8_ASTRA_TURN,
+    S8_ASTRA_DRAW_ON_MOON,
   ];
 
   public static function get($actionId, &$ctx = null)

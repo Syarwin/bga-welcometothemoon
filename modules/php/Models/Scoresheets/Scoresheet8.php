@@ -45,6 +45,11 @@ class Scoresheet8 extends Scoresheet
     ],
     ['slots' => [31, 32, 33], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [91, 92], 'flag' => 99, 'final' => 229],
   ];
+  public function getS8Planets(): array
+  {
+    return $this->planets;
+  }
+
   protected array $allowedBlocksByNumber = [
     0 => [0],
     1 => [0],
@@ -280,7 +285,10 @@ class Scoresheet8 extends Scoresheet
     // Finishing a planet
     $planetId = $this->getPlanetIdBySlot($slot);
     if (!is_null($planetId)) {
-      $this->resolvePlanetWinnerIfNeeded($player, $planetId);
+      $reactions[] = [
+        'action' => S8_RESOLVE_PLANET_WINNER,
+        'args' => ['planetId' => $planetId]
+      ];
     }
 
     return [
@@ -289,17 +297,26 @@ class Scoresheet8 extends Scoresheet
     ];
   }
 
-  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): void
+  public function getCurrentPlanetStatus(int $planetId): array
   {
     $currentPlanet = $this->planets[$planetId];
-    if ($this->countScribbledSlots($currentPlanet['slots']) !== count($currentPlanet['slots'])) return;
-
-
     $planetAndMoonSlots = [...$currentPlanet['slots'], ...$currentPlanet['moonSlots']];
     $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
     $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
     $insnCountFirstPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaFirstPlayer);
     $insnCountSecondPlayer = $this->countScribbledSlots($planetAndMoonSlots, $insigniaSecondPlayer);
+    return [$insnCountFirstPlayer, $insnCountSecondPlayer];
+  }
+
+  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): array
+  {
+    $currentPlanet = $this->planets[$planetId];
+    if ($this->countScribbledSlots($currentPlanet['slots']) !== count($currentPlanet['slots'])) return [];
+
+    [$insnCountFirstPlayer, $insnCountSecondPlayer] = $this->getCurrentPlanetStatus($planetId);
+
+    $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
+    $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
     $scribbles = [$this->addScribble($currentPlanet['final'], SCRIBBLE_CIRCLE)];
     if ($insnCountFirstPlayer === $insnCountSecondPlayer) {
       $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaFirstPlayer, false);
@@ -311,6 +328,7 @@ class Scoresheet8 extends Scoresheet
       $scribbles[] = $this->addScribble($currentPlanet['flag'], SCRIBBLE_INSIGNAS[$controller->getNo()], false);
       Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type']);
     }
+    return $scribbles;
   }
 
   public function getCombinationAtomicAction(array $combination, int $slot): ?array
@@ -523,7 +541,7 @@ class Scoresheet8 extends Scoresheet
     });
   }
 
-  private function getControlledPlanetsAmount(Scoresheet $scoresheet, int $insignia, ?int $planetType = null): int
+  public function getControlledPlanetsAmount(Scoresheet $scoresheet, int $insignia, ?int $planetType = null): int
   {
     $planets = is_null($planetType) ? $this->planets : $this->getPlanets($planetType);
     $planetsMap = array_map(fn($planet) => $scoresheet->hasScribbledSlot($planet['flag'], $insignia), $planets);
@@ -790,10 +808,10 @@ class Scoresheet8 extends Scoresheet
 
     // Filter out Astra useless slots
     $slots = [];
-    if ($this->player1 instanceof Astra8) {
+    if ($this->getOpponentPlayer() instanceof Astra8) {
       $slots = [207, 208, 209, 210, 211, 212, 213, 214, 218, 219, 220];
     }
-    if ($this->player2 instanceof Astra8) {
+    if ($this->getCurrentPlayer() instanceof Astra8) {
       $slots = [199, 200, 201, 202, 203, 204, 205, 206, 215, 216, 217];
     }
     Utils::filter($data, fn($entry) => !in_array($entry['slot'] ?? null, $slots));
@@ -882,7 +900,7 @@ class Scoresheet8 extends Scoresheet
     return $this->slotsBySection[$section . $this->whoIsPlaying] ?? [];
   }
 
-  public function countScribblesInSectionS8(string $section, ?int $type = null, int $playerNumber = null): int
+  public function countScribblesInSectionS8(string $section, ?int $type = null, ?int $playerNumber = null): int
   {
     if (is_null($playerNumber)) {
       return parent::countScribblesInSection($section, $type);

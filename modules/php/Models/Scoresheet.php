@@ -418,27 +418,12 @@ class Scoresheet
     return empty($slots) ? null : $slots[0];
   }
 
-  public function getCompleteSectionsCount(): int
-  {
-    return 0;
-  }
-
   public function prepareForPhaseFive(array $args)
   {
     // Register for phase 5
     $raceSlots = Globals::getRaceSlots();
     $raceSlots[] = $args['slot'];
     Globals::setRaceSlots($raceSlots);
-  }
-
-  public function getVirusLinkedToPlantOrWater(int $slot): ?int
-  {
-    return null;
-  }
-
-  public function getLinkedPropagationSlot(int $slot): ?int
-  {
-    return null;
   }
 
   protected function getStandardPlanningAction(): array
@@ -515,4 +500,59 @@ class Scoresheet
   {
     return [];
   }
+
+
+  public function getVirusLinkedToPlantOrWater(int $slot): ?int
+  {
+    return null;
+  }
+
+  public function getLinkedPropagationSlot(int $slot): ?int
+  {
+    return null;
+  }
+
+  public function getCompleteSectionsCount(): int
+  {
+    return 0;
+  }
+
+  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): array
+  {
+    return [];
+  }
+
+  public function getPlanetIdBySlot(int $slot): ?int
+  {
+    return null;
+  }
+
+  public function getPlanetOfSlot(int $slot): ?array
+  {
+    return null;
+  }
+
+  public function getS8Planets(): array
+  {
+    return [];
+  }
+
+  public function countScribblesInSectionS8(string $section, ?int $type = null, ?int $playerNumber = null): int
+  {
+    return 0;
+  }
+
+  public function getCurrentPlanetStatus(int $planetId): array
+  {
+    return [];
+  }
+
+  public function getControlledPlanetsAmount(Scoresheet $scoresheet, int $insignia, ?int $planetType = null): int
+  {
+    return 0;
+  }
+
+
+  public array $planetsWaters = [];
+  public array $planetsPlants = [];
 }

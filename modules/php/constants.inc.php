@@ -80,6 +80,7 @@ const ST_S7_ACTIVATE_AIRLOCK = 57;
 const ST_S7_CROSS_OFF_MULTIPLIER = 59;
 const ST_S8_DRAW_ON_MOON = 60;
 const ST_S8_ASTRA_TURN = 61;
+const ST_S8_ASTRA_DRAW_ON_MOON = 62;
 
 // Engine state
 const ST_GENERIC_AUTOMATIC = 88;
@@ -176,6 +177,8 @@ const S7_CROSS_OFF_MULTIPLIER = 'Scenario7\CrossOffx2Multiplier';
 const S8_CIRCLE_NEXT_IN_ROW_PLANT_WATER = 'Scenario8\CircleNextInRowMultiple';
 const S8_DRAW_ON_MOON = 'Scenario8\DrawOnMoon';
 const S8_ASTRA_TURN = 'Scenario8\AstraTurn';
+const S8_RESOLVE_PLANET_WINNER = 'Scenario8\ResolvePlanetWinner';
+const S8_ASTRA_DRAW_ON_MOON = 'Scenario8\AstraDrawOnMoon';
 
 /*
  * Actions

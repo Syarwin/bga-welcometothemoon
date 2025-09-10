@@ -564,6 +564,14 @@ $machinestates = [
     'possibleactions' => ['actAstraTurn'],
   ],
 
+  ST_S8_ASTRA_DRAW_ON_MOON => [
+    'name' => 'pickOneSlot',
+    'descriptionmyturn' => clienttranslate('${you} must draw Astra\'s insignia on a moon (${n}/2)'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actAstraDrawOnMoon', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

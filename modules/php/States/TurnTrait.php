@@ -114,18 +114,9 @@ trait TurnTrait
     // Solo S8 => we might have drawn the solo card as the very first card!
     // If that's the case, trigger Astra's turn and draw more cards
     if (Globals::isSolo() && Globals::getScenario() == 8 && ConstructionCards::getInLocation("stack-%")->count() < 3) {
-      // Astra take their turn
-      $card = ConstructionCards::getInLocation('stack-0')->first();
-      Players::getAstra()->playTurn($card);
-      // We draw more cards
-      $cards = ConstructionCards::newTurnAuxSoloScenario8();
-      Notifications::newTurnAux($cards);
-
-      // We need to recheck for solo cards here
-      if (ConstructionCards::getPendingSoloCards()->count() > 0) {
-        $this->stResolveSoloCards();
-        return;
-      }
+      $this->gamestate->setAllPlayersMultiactive();
+      $this->gamestate->jumpToState(ST_START_ASTRA_S8_TURN_ENGINE);
+      return;
     }
     Globals::setAstraTurn(false);
     ///////////////////////////////////////////////////////

@@ -89,8 +89,15 @@ class Astra8 extends Astra
 
   public function getAstraEffect(string $stack, bool $isFirstDraw): array
   {
-    if ($stack == 'C') return [];
-
-    return [];
+    return [
+      [
+        'action' => S8_ASTRA_DRAW_ON_MOON,
+        'args' => ['n' => 1]
+      ],
+      [
+        'action' => S8_ASTRA_DRAW_ON_MOON,
+        'args' => ['n' => 2]
+      ],
+    ];
   }
 }
