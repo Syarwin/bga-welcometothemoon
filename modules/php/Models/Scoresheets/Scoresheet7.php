@@ -164,28 +164,32 @@ class Scoresheet7 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     $slot = $scribble->getSlot();
+    $reactions = [];
 
     // Number slots with robot bonus action
     $robotBonusSlots = [1, 8, 12, 19, 24, 28, 38, 40];
     $systemErrorsWithRobots = [69, 70];
     if (in_array($slot, [...$robotBonusSlots, ...$systemErrorsWithRobots])) {
-      return ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
+      $reactions[] = ['action' => S7_ACTIVATE_AIRLOCK, 'args' => ['bonus' => true]];
     }
 
     // Check greenhouse x2 bonus
     $greenhousesNumberSlots = array_map(fn($gh) => $gh['numberSlot'], $this->greenhouses);
     if (in_array($slot, $greenhousesNumberSlots)) {
-      return [
+      $reactions[] = [
         'action' => S7_CIRCLE_GREENHOUSE_MULTIPLIER,
         'args' => ['slot' => $this->getGreenhouseByNumberSlot($slot)['x2Slot']]
       ];
     }
 
     if ($scribble->getNumber() === NUMBER_X && $methodSource == 'actWriteX') {
-      return $this->getStandardPlanningReaction();
+      $reactions[] = $this->getStandardPlanningReaction();
     }
 
-    return [];
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $reactions
+    ];
   }
 
   public function getCircledPlants(array $greenhouse): int
