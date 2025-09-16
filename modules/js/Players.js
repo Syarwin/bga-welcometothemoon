@@ -550,6 +550,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           this.updateOverviewEntry(entry, 'astra');
         }
       });
+
+      const scenarioId = this.gamedatas.scenario;
+      if (scenarioId == 8) {
+        this.updateComputedScoresheetData(0);
+      }
     },
 
     getAstraOpponentsData() {

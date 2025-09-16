@@ -485,10 +485,9 @@ define([
         this.setupConstructionCards();
         this.updateAstra();
 
-        // this.forEachPlayer((player) => {
-        //   this._scoreCounters[player.id].toValue(player.newScore);
-        //   this._playerCounters[player.id]['income'].toValue(player.income);
-        // });
+        this.forEachPlayer((player) => {
+          this.updateComputedScoresheetData(player.id);
+        });
       },
 
       ////////////////////////////////////////
