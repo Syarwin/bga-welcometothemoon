@@ -23,7 +23,7 @@ class PlanCard extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   protected array $desc = [];
   protected array $rewards = [];
 
-  public function isValidated(Player $player): bool
+  public function isValidated(Player|Astra $player): bool
   {
     return in_array($this->id, PGlobals::getValidatedPlans($player->getId()));
   }

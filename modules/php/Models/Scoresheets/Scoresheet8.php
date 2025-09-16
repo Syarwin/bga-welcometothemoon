@@ -3,7 +3,9 @@
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
+use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
+use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\AstraAdventures\Astra8;
@@ -683,7 +685,7 @@ class Scoresheet8 extends Scoresheet
     // System errors
     $p1b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, true);
     $p1b1errorsNegativePoints = 5 * $p1b1scribbledErrors;
-    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
+    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
     $p2b2errorsNegativePoints = 5 * $p2b2scribbledErrors;
     $data[] = ["slot" => 206, "v" => $p2b2errorsNegativePoints];
 
@@ -786,7 +788,7 @@ class Scoresheet8 extends Scoresheet
     // System errors
     $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
     $p2b1errorsNegativePoints = 5 * $p2b1scribbledErrors;
-    $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
+    $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
     $p1b2errorsNegativePoints = 5 * $p1b2scribbledErrors;
     $data[] = ["slot" => 213, "v" => $p1b2errorsNegativePoints];
 
@@ -931,29 +933,53 @@ class Scoresheet8 extends Scoresheet
     return SCRIBBLE_INSIGNAS[$this->getCurrentPlayer()->getNo()];
   }
 
+  public function getNextFreeSystemErrorSlot(): ?int
+  {
+    $slots = $this->getSectionFreeSlots($this->whoIsPlaying == 1 ? 'errors1' : 'errors2');
+    return empty($slots) ? null : $slots[0];
+  }
+
+  public function getScoreAux(): int
+  {
+    return 0; // TODO...
+  }
+
   public function isEndOfGameTriggered(): bool
   {
-    // // System errors
-    // if (is_null($this->getNextFreeSystemErrorSlot())) {
-    //   Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
-    //   Notifications::endGameTriggered($this->player, 'errors');
-    //   return true;
-    // }
+    // System errors
+    if (empty($this->getSectionFreeSlots('errors1'))) {
+      Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
+      Notifications::endGameTriggered($this->player1, 'errors');
+      return true;
+    }
+    if (empty($this->getSectionFreeSlots('errors2'))) {
+      Stats::setEnding(STAT_ENDING_SYSTEM_ERRORS);
+      Notifications::endGameTriggered($this->player2, 'errors');
+      return true;
+    }
 
-    // // Plans
-    // $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player));
-    // if ($unsatisfiedPlans->empty()) {
-    //   Stats::setEnding(STAT_ENDING_MISSIONS);
-    //   Notifications::endGameTriggered($this->player, 'plans');
-    //   return true;
-    // }
+    // Plans
+    $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player1));
+    if ($unsatisfiedPlans->empty()) {
+      Stats::setEnding(STAT_ENDING_MISSIONS);
+      Notifications::endGameTriggered($this->player1, 'plans');
+      return true;
+    }
+    $unsatisfiedPlans = PlanCards::getCurrent()->filter(fn($plan) => !$plan->isValidated($this->player2));
+    if ($unsatisfiedPlans->empty()) {
+      Stats::setEnding(STAT_ENDING_MISSIONS);
+      Notifications::endGameTriggered($this->player2, 'plans');
+      return true;
+    }
 
-    // // Full scoresheet
-    // if ($this->countAllUnscribbledSlots() === 0) {
-    //   Stats::setEnding(STAT_ENDING_FILLED_ALL);
-    //   Notifications::endGameTriggered($this->player, 'houses');
-    //   return true;
-    // }
+    // Full scoresheet
+    if ($this->countAllUnscribbledSlots() === 0) {
+      Stats::setEnding(STAT_ENDING_FILLED_ALL);
+      $player = $this->player1;
+      if ($player->getId() == 0) $player = $this->player2;
+      Notifications::endGameTriggered($player, 'houses');
+      return true;
+    }
 
     return false;
   }

@@ -109,5 +109,7 @@ class AstraTurn extends \Bga\Games\WelcomeToTheMoon\Models\Action
         Notifications::addScribbles($soloPlayer, [$scribble], clienttranslate('Astra scribbles off a corresponding symbol on the planet'));
       }
     }
+
+    $soloPlayer->refreshScoresheet();
   }
 }

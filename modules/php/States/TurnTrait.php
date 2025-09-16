@@ -274,6 +274,7 @@ trait TurnTrait
         $nextState = ST_END_SCENARIO;
       }
     }
+
     $flows = [];
     if ($nextState === ST_END_SCENARIO && Globals::getScenario() === 6) {
       $flows = Scoresheet6::getEndScenarioEvacuationFlows();
