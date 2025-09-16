@@ -188,6 +188,9 @@
                             top: 8px;
                             left: 2px;
                         }
+                        br ~ span.details {
+                            position: initial;
+                        }
                     }
                 }
                 tr:nth-of-type(2n + 1) {

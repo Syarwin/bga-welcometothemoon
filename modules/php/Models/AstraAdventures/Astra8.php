@@ -69,21 +69,17 @@ class Astra8 extends Astra
 
   public function getUiData(): array
   {
+    $scoresheet = $this->scoresheetForScore();
+    $sheetData = $scoresheet->computeUiData();
+
     $data = parent::getUiData();
     // Make the front aware that this is not on the scoresheet
     foreach ($data as &$entry) {
       $entry['outsideScoresheet'] = true;
+      $sheetData[] = $entry;
     }
 
-    $scoresheet = $this->scoresheetForScore();
-    $sheetData = $scoresheet->computeUiData();
-    foreach ($sheetData as $entry2) {
-      if (isset($entry2['slot']) && !($entry2['score'] ?? false)) {
-        $data[] = $entry2;
-      }
-    }
-
-    return $data;
+    return $sheetData;
   }
 
 

@@ -209,7 +209,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       let players = this.orderedPlayers;
 
       if (this.isSolo()) {
-        debug('TODO SOMETHING HERE');
         players.push({
           id: 0,
           name: 'Astra',
@@ -286,7 +285,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         if (entry.slot) {
           let id = `slot-${pId}-${entry.slot}`;
           if (!$(id)) {
-            console.error('Not found slot:', id);
             return;
           }
           $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;
@@ -297,10 +295,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
         // Dynamic data on overview
         if (entry.overview) {
-          this.updateOverviewEntry(entry, pId);
+          let overviewPId = pId;
+          if (this.isScenario8()) {
+            overviewPId = entries[0][0];
+          }
+          if (overviewPId != 0) {
+            this.updateOverviewEntry(entry, overviewPId);
+          }
         }
         // SCORE
-        if (entry.score) {
+        if (entry.score && pId != 0) {
           if (this.scoreCtrl[pId]) this.scoreCtrl[pId].toValue(entry.v);
           else $(`player_score_${pId}`).innerHTML = entry.v;
         }
@@ -390,6 +394,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     updateOverviewEntry(entry, pId) {
+      console.log(entry, pId);
       let o = $(`overview-${entry.overview}-${pId}`);
       if (!o) {
         console.error(`Unfound overview entry: overview-${entry.overview}-${pId}`);
@@ -403,8 +408,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       }
       // Basic display with points + star icon
       else if (config.type == 'points') {
+        let breakline = entry.subdetails ? '<br />' : '';
         let details = entry.details !== undefined ? ` <span class='details'>(${entry.details})</span>` : '';
-        o.innerHTML = `${entry.v}<i class="fa fa-star"></i>${details}`;
+        o.innerHTML = `${entry.v}<i class="fa fa-star"></i>${breakline}${details}`;
       }
       // Basic display with points + star icon or dash if 0
       else if (config.type == 'points-or-dash') {
@@ -547,12 +553,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
         // Dynamic data on overview
         if (entry.overview) {
+          if (this.isScenario8() && entry.overview !== 'total') {
+            return;
+          }
           this.updateOverviewEntry(entry, 'astra');
         }
       });
 
-      const scenarioId = this.gamedatas.scenario;
-      if (scenarioId == 8) {
+      if (this.isScenario8()) {
         this.updateComputedScoresheetData(0);
       }
     },

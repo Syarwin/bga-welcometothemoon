@@ -3,6 +3,73 @@ const DATAS8 = [
   'id' => 'scenario-8',
   'name' => 'The Battle',
   'jpgUrl' => './scenarios/scenario-8.jpg',
+  'overview' => [
+    0 => [
+      'name' => 'numbers1',
+      'type' => '/',
+      'icon' => 'slot-number',
+    ],
+    1 => [
+      'name' => 'numbers2',
+      'type' => '/',
+      'icon' => 'slot-number',
+    ],
+    2 => [
+      'name' => 'stack-A',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-A',
+    ],
+    3 => [
+      'name' => 'stack-B',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-B',
+    ],
+    4 => [
+      'name' => 'stack-C',
+      'type' => 'points-or-dash',
+      'icon' => 'stack-C',
+    ],
+    5 => [
+      'name' => 'plants',
+      'type' => 'points',
+      'icon' => 'plant',
+    ],
+    6 => [
+      'name' => 'waters',
+      'type' => 'points',
+      'icon' => 'water',
+    ],
+    7 => [
+      'name' => 'plant-planets',
+      'type' => 'points',
+      'icon' => 'planet-plant',
+    ],
+    8 => [
+      'name' => 'water-planets',
+      'type' => 'points',
+      'icon' => 'planet-water',
+    ],
+    9 => [
+      'name' => 'robot-planets',
+      'type' => 'points',
+      'icon' => 'planet-robot',
+    ],
+    10 => [
+      'name' => 'plannings',
+      'type' => 'points',
+      'icon' => 'planning',
+    ],
+    11 => [
+      'name' => 'errors1',
+      'type' => 'points',
+      'icon' => 'system-error',
+    ],
+    12 => [
+      'name' => 'errors2',
+      'type' => 'points',
+      'icon' => 'system-error',
+    ],
+  ],
   'sections' => [
     0 => [
       'id' => 'numbers',

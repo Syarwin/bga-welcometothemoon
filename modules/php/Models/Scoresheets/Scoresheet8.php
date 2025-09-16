@@ -572,11 +572,13 @@ class Scoresheet8 extends Scoresheet
 
     // Number of numbered slots
     // TODO: Do we need this? For S8 we probably need to delete this block + remove the corresponding UI items
-    // $nNumberedSlots = $this->countScribblesInSection('numbers');
-    // $data[] = ["overview" => "numbers", "v" => $nNumberedSlots, 'max' => count($this->getSectionSlots('numbers'))];
+    $nNumberedSlots1 = $b1->countScribblesInSection('numbers');
+    $nNumberedSlots2 = $b2->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers1", "v" => $nNumberedSlots1, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["overview" => "numbers2", "v" => $nNumberedSlots2, 'max' => count($this->getSectionSlots('numbers'))];
     // $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
 
-    // // Missions
+    // Missions
     $b2missionPoints = $this->computeMissionsUiData($data, $b2);
     $dataCopy = $data;
     $b1missionPoints = $this->computeMissionsUiData($dataCopy, $b1);
@@ -677,7 +679,6 @@ class Scoresheet8 extends Scoresheet
       }
     }
     $data[] = ["slot" => 205, "v" => $p2b2planningNegativePoints];
-    // $data[] = ["overview" => "planning", "v" => -$p1planningNegativePoints];
 
     // System errors
     $p1b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, true);
@@ -685,10 +686,6 @@ class Scoresheet8 extends Scoresheet
     $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
     $p2b2errorsNegativePoints = 5 * $p2b2scribbledErrors;
     $data[] = ["slot" => 206, "v" => $p2b2errorsNegativePoints];
-
-    // $data[] = ["slot" => 213, "v" => $p1b1negativePoints];
-    // $data[] = ["overview" => "errors", "v" => -$negativePoints, "details" => ($scribbledErrors . " / 6")];
-    // $data[] = ["panel" => "errors", "v" => $scribbledErrors];
 
 
     // ********* RIGHT SIDE OF THE BOARD *********
@@ -785,7 +782,6 @@ class Scoresheet8 extends Scoresheet
       }
     }
     $data[] = ["slot" => 212, "v" => $p1b2planningNegativePoints];
-    // $data[] = ["overview" => "planning", "v" => -$p1planningNegativePoints];
 
     // System errors
     $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
@@ -811,6 +807,20 @@ class Scoresheet8 extends Scoresheet
         + $p2b1plantsPoints + $p2b1waterPoints + $p2b1greenPlanetsScore + $p2b1bluePlanetsScore
         + $p2b1greyPlanetsScore - $p2b1planningNegativePoints - $p2b1errorsNegativePoints,
     ];
+
+
+    $data[] = ["overview" => "errors1", "v" => -$p1b1errorsNegativePoints, "details" => ($p1b1scribbledErrors . " / 2"), "subdetails" => true];
+    $data[] = ["overview" => "errors2", "v" => -$p1b2errorsNegativePoints, "details" => ($p1b2scribbledErrors . " / 2"), "subdetails" => true];
+
+    $data[] = ["overview" => "plants", "v" => $p1b1plantsPoints + $p1b2plantsPoints, "details" => ($p1b1plantsPoints . "+" . $p1b2plantsPoints), "subdetails" => true];
+
+    $data[] = ["overview" => "waters", "v" => $p1b1waterPoints + $p1b2waterPoints, "details" => ($p1b1waterPoints . "+" . $p1b2waterPoints), "subdetails" => true];
+
+    $data[] = ["overview" => "plant-planets", "v" => $p1b1greenPlanetsScore + $p1b2greenPlanetsScore, "details" => ($p1b1greenPlanetsScore . "+" . $p1b2greenPlanetsScore), "subdetails" => true];
+    $data[] = ["overview" => "water-planets", "v" => $p1b1bluePlanetsScore + $p1b2bluePlanetsScore, "details" => ($p1b1bluePlanetsScore . "+" . $p1b2bluePlanetsScore), "subdetails" => true];
+    $data[] = ["overview" => "robot-planets", "v" => $p1b1greyPlanetsScore + $p1b2greyPlanetsScore, "details" => ($p1b1greyPlanetsScore . "+" . $p1b2greyPlanetsScore), "subdetails" => true];
+
+    $data[] = ["overview" => "plannings", "v" => -$p1b1planningNegativePoints - $p1b2planningNegativePoints, "details" => ($p1b1planningNegativePoints . "+" . $p1b2planningNegativePoints), "subdetails" => true];
 
     // Filter out Astra useless slots
     $slots = [];

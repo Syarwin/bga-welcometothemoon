@@ -802,6 +802,27 @@
     background-size: 100%;
     background-repeat: no-repeat;
     margin: 0 0.1em; }
+  .icon-container .icon-planet-plant {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/overview/planet-plant.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
+  .icon-container .icon-planet-robot {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/overview/planet-robot.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
+  .icon-container .icon-planet-water {
+    width: 2em;
+    height: 2em;
+    background-image: url("img/overview/planet-water.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 0.1em; }
 
 .action-button.btnAction {
   background-color: #4c483e;
@@ -2662,6 +2683,8 @@ body {
           position: relative;
           top: 8px;
           left: 2px; }
+        #popin_showOverview #popin_showOverview_contents table tbody tr td br ~ span.details {
+          position: initial; }
     #popin_showOverview #popin_showOverview_contents table tbody tr:nth-of-type(2n + 1) {
       background-color: #f2ede7; }
 

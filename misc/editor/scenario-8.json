@@ -2,6 +2,73 @@
   "id": "scenario-8",
   "name": "The Battle",
   "jpgUrl": "./scenarios/scenario-8.jpg",
+  "overview": [
+    {
+      "name": "numbers1",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "numbers2",
+      "type": "/",
+      "icon": "slot-number"
+    },
+    {
+      "name": "stack-A",
+      "type": "points-or-dash",
+      "icon": "stack-A"
+    },
+    {
+      "name": "stack-B",
+      "type": "points-or-dash",
+      "icon": "stack-B"
+    },
+    {
+      "name": "stack-C",
+      "type": "points-or-dash",
+      "icon": "stack-C"
+    },
+    {
+      "name": "plants",
+      "type": "points",
+      "icon": "plant"
+    },
+    {
+      "name": "waters",
+      "type": "points",
+      "icon": "water"
+    },
+    {
+      "name": "plant-planets",
+      "type": "points",
+      "icon": "planet-plant"
+    },
+    {
+      "name": "water-planets",
+      "type": "points",
+      "icon": "planet-water"
+    },
+    {
+      "name": "robot-planets",
+      "type": "points",
+      "icon": "planet-robot"
+    },
+    {
+      "name": "plannings",
+      "type": "points",
+      "icon": "planning"
+    },
+    {
+      "name": "errors1",
+      "type": "points",
+      "icon": "system-error"
+    },
+    {
+      "name": "errors2",
+      "type": "points",
+      "icon": "system-error"
+    }
+  ],
   "sections": [
     {
       "id": "numbers",
