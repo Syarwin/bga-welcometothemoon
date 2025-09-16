@@ -590,7 +590,7 @@ $machinestates = [
   ],
 
   ST_PRE_END_OF_GAME => [
-    'name' => 'preEndOfGame',
+    // 'name' => 'preEndOfGame',
     // 'description' => '',
     // 'descriptionmyturn' => '',
     // 'type' => ACTIVE_PLAYER,

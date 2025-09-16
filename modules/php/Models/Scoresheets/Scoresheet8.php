@@ -941,7 +941,12 @@ class Scoresheet8 extends Scoresheet
 
   public function getScoreAux(): int
   {
-    return 0; // TODO...
+    $b1 = $this->player2->scoresheetForScore();
+    $b2 = $this->player1->scoresheetForScore();
+    $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
+    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
+
+    return 4 - $p2b1scribbledErrors - $p2b2scribbledErrors;
   }
 
   public function isEndOfGameTriggered(): bool
