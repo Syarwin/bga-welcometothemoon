@@ -537,7 +537,7 @@ class Scoresheet
     return [];
   }
 
-  public function countScribblesInSectionS8(string $section, ?int $type = null, ?int $playerNumber = null): int
+  public function countScribblesInSectionS8(string $section, ?int $type = null, ?bool $thisPlayer = null): int
   {
     return 0;
   }

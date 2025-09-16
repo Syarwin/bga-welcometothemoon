@@ -177,6 +177,14 @@ class Scoresheet8 extends Scoresheet
     return $thisPlayer ? $leftEnergyMap[$planetType] : $rightEnergyMap[$planetType];
   }
 
+  private function getPlanningSlots($thisPlayer = true): array
+  {
+    $leftPlanningMap = [164 => 3, 165 => 6, 166 => 9, 167 => 15, 168 => 21, 169 => 28, 170 => 36];
+    $rightPlanningMap = [171 => 3, 172 => 6, 173 => 9, 174 => 15, 175 => 21, 176 => 28, 177 => 36];
+    return $thisPlayer ? $leftPlanningMap : $rightPlanningMap;
+  }
+
+
   public function setupScenario(): void
   {
     $this->addScribble(221, SCRIBBLE_INSIGNAS[$this->player2->getNo()], false);
@@ -658,12 +666,11 @@ class Scoresheet8 extends Scoresheet
     $data[] = ["slot" => 204, "v" => $p2b2greyPlanetsScore];
 
     // Planning
-    $leftPlanningMap = [164 => 3, 165 => 6, 166 => 9, 167 => 15, 168 => 21, 169 => 28, 170 => 36];
     $p1b1planningNegativePoints = 0;
     $p2b2planningNegativePoints = 0;
-    foreach ($leftPlanningMap as $slot => $points) {
+    foreach ($this->getPlanningSlots() as $slot => $points) {
       if ($b1->hasScribbledSlot($slot)) {
-        $p2b1planningNegativePoints = $points;
+        $p1b1planningNegativePoints = $points;
       }
       if ($b2->hasScribbledSlot($slot)) {
         $p2b2planningNegativePoints = $points;
@@ -673,9 +680,9 @@ class Scoresheet8 extends Scoresheet
     // $data[] = ["overview" => "planning", "v" => -$p1planningNegativePoints];
 
     // System errors
-    $p1b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, $this->whoIsPlaying);
+    $p1b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, true);
     $p1b1errorsNegativePoints = 5 * $p1b1scribbledErrors;
-    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, $this->getWhoIsNotPlaying());
+    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
     $p2b2errorsNegativePoints = 5 * $p2b2scribbledErrors;
     $data[] = ["slot" => 206, "v" => $p2b2errorsNegativePoints];
 
@@ -767,10 +774,9 @@ class Scoresheet8 extends Scoresheet
     $data[] = ["slot" => 211, "v" => $p1b2greyPlanetsScore];
 
     // Planning
-    $rightPlanningMap = [171 => 3, 172 => 6, 173 => 9, 174 => 15, 175 => 21, 176 => 28, 177 => 36];
     $p2b1planningNegativePoints = 0;
     $p1b2planningNegativePoints = 0;
-    foreach ($rightPlanningMap as $slot => $points) {
+    foreach ($this->getPlanningSlots(false) as $slot => $points) {
       if ($b1->hasScribbledSlot($slot)) {
         $p2b1planningNegativePoints = $points;
       }
@@ -782,9 +788,9 @@ class Scoresheet8 extends Scoresheet
     // $data[] = ["overview" => "planning", "v" => -$p1planningNegativePoints];
 
     // System errors
-    $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, $this->getWhoIsNotPlaying());
+    $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
     $p2b1errorsNegativePoints = 5 * $p2b1scribbledErrors;
-    $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, $this->whoIsPlaying);
+    $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
     $p1b2errorsNegativePoints = 5 * $p1b2scribbledErrors;
     $data[] = ["slot" => 213, "v" => $p1b2errorsNegativePoints];
 
@@ -900,11 +906,12 @@ class Scoresheet8 extends Scoresheet
     return $this->slotsBySection[$section . $this->whoIsPlaying] ?? [];
   }
 
-  public function countScribblesInSectionS8(string $section, ?int $type = null, ?int $playerNumber = null): int
+  public function countScribblesInSectionS8(string $section, ?int $type = null, ?bool $thisPlayer = null): int
   {
-    if (is_null($playerNumber)) {
+    if (is_null($thisPlayer)) {
       return parent::countScribblesInSection($section, $type);
     }
+    $playerNumber = $thisPlayer ? 1 : 2;
     return parent::countScribblesInSection($section . $playerNumber, $type);
   }
 

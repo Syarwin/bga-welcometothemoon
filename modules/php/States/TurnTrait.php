@@ -20,16 +20,17 @@ trait TurnTrait
   {
     Stats::incTurns(1);
     Globals::incTurn();
-    $cards = ConstructionCards::newTurn();
-    Notifications::newTurn(Globals::getTurn(), $cards);
-    Log::checkpoint();
-
     // Scenario 8 => clear cache for scoresheet to allow alternating
     if (Globals::getScenario() == 8) {
       foreach (Players::getAll() as $player) {
         $player->refreshScoresheet();
       }
     }
+
+    $cards = ConstructionCards::newTurn();
+    Notifications::newTurn(Globals::getTurn(), $cards);
+    Log::checkpoint();
+
 
     // Any pending solo cards to resolve ?
     if (ConstructionCards::getPendingSoloCards()->count() > 0) {
