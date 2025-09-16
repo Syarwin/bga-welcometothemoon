@@ -249,7 +249,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           nErrors = 0;
         data.sections.forEach((section) => {
           if (section.id == 'numbers') nNumbers = section.elts.length;
-          if (section.id == 'errors') nErrors = section.elts.length;
+          if (section.id == 'errors1') nErrors = section.elts.length;
 
           let className = section.eltClass;
           section.elts.forEach((elt) => {
@@ -266,6 +266,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
         // Scoresheet dynamic data
         this.updateComputedScoresheetData(pId);
+
+        // Player panels
+        if (pId != 0) {
+          let numberDiv = $(`numbers-status-container-${pId}`).querySelector('.numbers-scenario-amount');
+          numberDiv.innerHTML = nNumbers;
+          numberDiv.parentNode.classList.add('S8');
+          let errorDiv = $(`system-errors-status-container-${pId}`).querySelector('.errors-scenario-amount');
+          errorDiv.innerHTML = nErrors;
+          errorDiv.parentNode.classList.add('S8');
+        }
       }
 
       this.setupChangeScoreSheetArrows();
@@ -278,6 +288,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
     updateComputedScoresheetData(pId) {
       let entries = pId == 0 ? this.gamedatas.astra : this.gamedatas.players[pId].scoresheet;
+      let overviewPId = pId;
+      if (this.isScenario8()) {
+        overviewPId = entries[0][0];
+      }
+
       entries.forEach((entry) => {
         if (entry.outsideScoresheet) return;
 
@@ -291,14 +306,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
         // Dynamic data on player panel
         if (entry.panel) {
-          $(`${entry.panel}-status-${pId}`).innerHTML = entry.v;
+          if (overviewPId != 0) {
+            $(`${entry.panel}-status-${overviewPId}`).innerHTML = entry.v;
+          }
         }
         // Dynamic data on overview
         if (entry.overview) {
-          let overviewPId = pId;
-          if (this.isScenario8()) {
-            overviewPId = entries[0][0];
-          }
           if (overviewPId != 0) {
             this.updateOverviewEntry(entry, overviewPId);
           }

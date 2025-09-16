@@ -576,7 +576,7 @@ class Scoresheet8 extends Scoresheet
     $nNumberedSlots2 = $b2->countScribblesInSection('numbers');
     $data[] = ["overview" => "numbers1", "v" => $nNumberedSlots1, 'max' => count($this->getSectionSlots('numbers'))];
     $data[] = ["overview" => "numbers2", "v" => $nNumberedSlots2, 'max' => count($this->getSectionSlots('numbers'))];
-    // $data[] = ["panel" => "numbers", "v" => $nNumberedSlots];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots1 . " | " . $nNumberedSlots2];
 
     // Missions
     $b2missionPoints = $this->computeMissionsUiData($data, $b2);
@@ -811,6 +811,7 @@ class Scoresheet8 extends Scoresheet
 
     $data[] = ["overview" => "errors1", "v" => -$p1b1errorsNegativePoints, "details" => ($p1b1scribbledErrors . " / 2"), "subdetails" => true];
     $data[] = ["overview" => "errors2", "v" => -$p1b2errorsNegativePoints, "details" => ($p1b2scribbledErrors . " / 2"), "subdetails" => true];
+    $data[] = ["panel" => "errors", "v" => $p1b1scribbledErrors . " | " . $p1b2scribbledErrors];
 
     $data[] = ["overview" => "plants", "v" => $p1b1plantsPoints + $p1b2plantsPoints, "details" => ($p1b1plantsPoints . "+" . $p1b2plantsPoints), "subdetails" => true];
 
