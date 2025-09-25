@@ -112,7 +112,7 @@ class Scoresheet6 extends Scoresheet
   public function isQuarterQuarantined(int $quarterId): bool
   {
     $quarter = $this->getQuarters()[$quarterId];
-    if ($this->hasScribbledSlot($quarter['virus'], SCRIBBLE)) {
+    if (is_null($quarter['virus']) || $this->hasScribbledSlot($quarter['virus'], SCRIBBLE)) {
       return true;
     }
 
@@ -251,7 +251,7 @@ class Scoresheet6 extends Scoresheet
       foreach ($this->getQuarters() as $quarterId => $quarter) {
         if (!array_key_exists($slot, $quarter['links'])) continue;
 
-        if ($this->isQuarterQuarantined($quarterId)) {
+        if (!is_null($quarter['virus']) && $this->isQuarterQuarantined($quarterId)) {
           $reactions[] = [
             'action' => S6_QUARANTINE_QUARTER,
             'args' => ['quarter' => $quarterId]
