@@ -109,6 +109,20 @@ class Scoresheet6 extends Scoresheet
     return VIRUS_GREY;
   }
 
+  public function isQuarterQuarantined(int $quarterId): bool
+  {
+    $quarter = $this->getQuarters()[$quarterId];
+    if ($this->hasScribbledSlot($quarter['virus'], SCRIBBLE)) {
+      return true;
+    }
+
+    foreach ($quarter['links'] as $linkSlot => $linkedQuarter) {
+      if (!$this->hasScribbledSlot($linkSlot)) return false;
+    }
+
+    return true;
+  }
+
   // PHASE 5
   public static function phase5Check(): void
   {
@@ -221,6 +235,7 @@ class Scoresheet6 extends Scoresheet
   public function getScribbleReactions(Scribble $scribble, string $methodSource): array
   {
     $slot = $scribble->getSlot();
+    $reactions = [];
 
     // System errors
     if (in_array($slot, [78, 79])) {
@@ -230,10 +245,27 @@ class Scoresheet6 extends Scoresheet
       return [];
     }
 
+    // Quarantine quarters
+    if (in_array($slot, $this->getSectionSlots('walkways'))) {
+      // Find the two quarters connected by this walkay
+      foreach ($this->getQuarters() as $quarterId => $quarter) {
+        if (!array_key_exists($slot, $quarter['links'])) continue;
+
+        if ($this->isQuarterQuarantined($quarterId)) {
+          $reactions[] = [
+            'action' => S6_QUARANTINE_QUARTER,
+            'args' => ['quarter' => $quarterId]
+          ];
+        }
+      }
+      return [
+        'type' => NODE_SEQ,
+        'childs' => $reactions
+      ];
+    }
 
     if (!in_array($slot, $this->getSectionSlots('numbers'))) return [];
 
-    $reactions = [];
 
     // Check full quarter
     $quarterId = self::getQuarterOfSlot($slot);

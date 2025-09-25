@@ -32,7 +32,10 @@ class CloseWalkway extends GenericPickSlot
     $player = $this->getPlayer();
     $scoresheet = $player->scoresheet();
     $scribbles = [];
-    $scribbles[] = $scoresheet->addScribble($slot, SCRIBBLE_LINE);
+    $scribble = $scoresheet->addScribble($slot, SCRIBBLE_LINE);
+    $scribbles[] = $scribble;
+    $reactions = $scoresheet->getScribbleReactions($scribble, 'actCloseWalkway');
+    $this->insertAsChild($reactions);
 
     // Bonus slot?
     $bonusSlot = $this->getCtxArg('bonusSlot');

@@ -35,7 +35,7 @@ class Propagate extends Action
     $childs = [];
     foreach ($quarters as $i => $quarter) {
       $virusSlot = $quarter['virus'];
-      if (!is_null($virusSlot) && $scoresheet->hasScribbledSlot($virusSlot, SCRIBBLE_CIRCLE)) {
+      if (!is_null($virusSlot) && $scoresheet->hasScribbledSlot($virusSlot, SCRIBBLE_CIRCLE) && !$scoresheet->hasScribbledSlot($virusSlot, SCRIBBLE)) {
         $viruses[] = Scoresheet6::getVirusOfQuarter($virusSlot);
         $childs[] = [
           'action' => S6_PROPAGATE_VIRUS,

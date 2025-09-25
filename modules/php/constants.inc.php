@@ -168,6 +168,7 @@ const S6_PROPAGATE_VIRUS = 'Scenario6\PropagateVirus';
 const S6_EVACUATE_QUARTER = 'Scenario6\EvacuateQuarter';
 const S6_CROSS_OFF_PROPAGATION_SYMBOL = 'Scenario6\CrossOffPropagationSymbol';
 const S6_CROSS_OFF_VIRUS = 'Scenario6\CrossOffVirus';
+const S6_QUARANTINE_QUARTER = 'Scenario6\QuarantineQuarter';
 
 // SCENARIO 7
 const S7_ACTIVATE_AIRLOCK = 'Scenario7\ActivateAirlock';
