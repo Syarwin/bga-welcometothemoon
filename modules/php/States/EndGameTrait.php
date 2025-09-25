@@ -30,6 +30,6 @@ trait EndGameTrait
   function stPreEndOfGame()
   {
     //    Notifications::endOfGame();
-    // $this->gamestate->nextState('');
+    $this->gamestate->nextState('');
   }
 }
