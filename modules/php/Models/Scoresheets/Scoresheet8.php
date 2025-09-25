@@ -2,10 +2,12 @@
 
 namespace Bga\Games\WelcomeToTheMoon\Models\Scoresheets;
 
+use Bga\Games\WelcomeToTheMoon\Core\Globals;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
+use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Managers\Scribbles;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\AstraAdventures\Astra8;
@@ -318,26 +320,45 @@ class Scoresheet8 extends Scoresheet
     return [$insnCountFirstPlayer, $insnCountSecondPlayer];
   }
 
-  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): array
+  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId, bool $endOfGame): array
   {
     $currentPlanet = $this->planets[$planetId];
-    if ($this->countScribbledSlots($currentPlanet['slots']) !== count($currentPlanet['slots'])) return [];
+    if (!$endOfGame && $this->countScribbledSlots($currentPlanet['slots']) !== count($currentPlanet['slots'])) return [];
 
     [$insnCountFirstPlayer, $insnCountSecondPlayer] = $this->getCurrentPlanetStatus($planetId);
 
     $insigniaFirstPlayer = SCRIBBLE_INSIGNAS[$this->player1->getNo()];
     $insigniaSecondPlayer = SCRIBBLE_INSIGNAS[$this->player2->getNo()];
     $scribbles = [$this->addScribble($currentPlanet['final'], SCRIBBLE_CIRCLE)];
-    if ($insnCountFirstPlayer === $insnCountSecondPlayer) {
+    if ($insnCountFirstPlayer === $insnCountSecondPlayer && !Globals::isSolo()) {
       $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaFirstPlayer, false);
       $scribbles[] = $this->addScribble($currentPlanet['flag'], $insigniaSecondPlayer, false);
-      Notifications::drawOnFlagDouble($player, $this->getOpponentPlayer(), $scribbles, $currentPlanet['type']);
+      Notifications::drawOnFlagDouble($player, $this->getOpponentPlayer(), $scribbles, $currentPlanet['type'], $endOfGame);
     } else {
       $maxInsignias = max($insnCountFirstPlayer, $insnCountSecondPlayer);
       $controller = $insnCountFirstPlayer === $maxInsignias ? $this->player1 : $this->player2;
+      if (Globals::isSolo() && $insnCountFirstPlayer === $insnCountSecondPlayer && $controller instanceof Astra) {
+        $controller = $this->player2;
+      }
       $scribbles[] = $this->addScribble($currentPlanet['flag'], SCRIBBLE_INSIGNAS[$controller->getNo()], false);
-      Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type']);
+      Notifications::drawOnFlagSingle($player, $controller, $scribbles, $currentPlanet['type'], $endOfGame);
     }
+
+    // SOLO EFFECT
+    if (Globals::isSolo() && !$endOfGame) {
+      // Have we won this planet ?
+      $types = array_map(fn($scribble) => $scribble->getType(), $scribbles);
+      if (in_array(SCRIBBLE_INSIGNA_SQUARE, $types)) {
+        $scoresheet1 = Players::getSolo()->scoresheetForScore();
+        $scoresheet2 = Players::getAstra()->scoresheetForScore();
+        $controlledPlanets = $scoresheet1->getControlledPlanetsAmount($scoresheet1, SCRIBBLE_INSIGNA_SQUARE) + $scoresheet1->getControlledPlanetsAmount($scoresheet2, SCRIBBLE_INSIGNA_SQUARE);
+        if ($controlledPlanets % 2 == 0) {
+          $bonusScribble = Players::getAstra()->circleNextBonus();
+          Notifications::gainOneSoloBonus($player, $bonusScribble);
+        }
+      }
+    }
+
     return $scribbles;
   }
 
@@ -557,6 +578,48 @@ class Scoresheet8 extends Scoresheet
     $planetsMap = array_map(fn($planet) => $scoresheet->hasScribbledSlot($planet['flag'], $insignia), $planets);
     return count(array_filter($planetsMap));
   }
+
+  public static function getEndScenarioPlanetMajorityFlows()
+  {
+    $flows = [];
+    foreach (Players::getAll() as $pId => $player) {
+      $scoresheet = $player->scoresheetForScore();
+      $planets = $scoresheet->getS8Planets();
+      $childs = [];
+      foreach ($planets as $planetId => $planet) {
+        if (!$scoresheet->hasScribbledSlot($planet['flag'])) {
+          $childs[] = [
+            'action' => S8_RESOLVE_PLANET_WINNER,
+            'args' => ['planetId' => $planetId, 'endOfGame' => true]
+          ];
+        }
+      }
+
+      if (!empty($childs)) {
+        $flows[$pId] = [
+          'type' => NODE_SEQ,
+          'childs' => $childs,
+        ];
+      }
+    }
+
+    // ASTRA
+    if (Globals::isSolo()) {
+      $player = Players::getAstra();
+      $scoresheet = $player->scoresheetForScore();
+      $planets = $scoresheet->getS8Planets();
+      foreach ($planets as $planetId => $planet) {
+        if (!$scoresheet->hasScribbledSlot($planet['flag'])) {
+          $scoresheet->resolvePlanetWinnerIfNeeded($player, $planetId, true);
+        }
+      }
+    }
+
+
+    return $flows;
+  }
+
+
 
   /**
    * UI DATA

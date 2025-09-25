@@ -36,21 +36,7 @@ class ResolvePlanetWinner extends Action
     $player = $this->getPlayer();
     $planetId = $this->getCtxArg('planetId');
     $scoresheet = $player->scoresheet();
-    $scribbles = $scoresheet->resolvePlanetWinnerIfNeeded($player, $planetId);
-
-    // SOLO EFFECT
-    if (Globals::isSolo()) {
-      // Have we won this planet ?
-      $types = array_map(fn($scribble) => $scribble->getType(), $scribbles);
-      if (in_array(SCRIBBLE_INSIGNA_SQUARE, $types)) {
-        $scoresheet1 = Players::getSolo()->scoresheetForScore();
-        $scoresheet2 = Players::getAstra()->scoresheetForScore();
-        $controlledPlanets = $scoresheet->getControlledPlanetsAmount($scoresheet1, SCRIBBLE_INSIGNA_SQUARE) + $scoresheet->getControlledPlanetsAmount($scoresheet2, SCRIBBLE_INSIGNA_SQUARE);
-        if ($controlledPlanets % 2 == 0) {
-          $bonusScribble = Players::getAstra()->circleNextBonus();
-          Notifications::gainOneSoloBonus($player, $bonusScribble);
-        }
-      }
-    }
+    $endOfGame = ($this->getCtxArg('endOfGame') ?? false);
+    $scoresheet->resolvePlanetWinnerIfNeeded($player, $planetId, $endOfGame);
   }
 }

@@ -113,7 +113,7 @@ class Notifications
   }
 
   // Generic addScribbles notif
-  public static function addScribbles(?Player $player, array $scribbles, $msg = '', $args = [])
+  public static function addScribbles(null|Player|Astra $player, array $scribbles, $msg = '', $args = [])
   {
     $args['scribbles'] = $scribbles;
     if (is_null($player)) {
@@ -740,18 +740,25 @@ class Notifications
     ]);
   }
 
-  public static function drawOnFlagSingle(Player $player, Astra|Player $controller, array $scribbles, int $planetType)
+  public static function drawOnFlagSingle(Astra|Player $player, Astra|Player $controller, array $scribbles, int $planetType, bool $endOfGame)
   {
-    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. ${player_name2} has the most insignia there and now controls this planet'), [
+    $msg = $endOfGame ?
+      clienttranslate('Resolving control of remaining incomplete ${planet_name}: ${player_name2} has the most insignia there and now controls this planet')
+      : clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. ${player_name2} has the most insignia there and now controls this planet');
+
+    static::addScribbles($player, $scribbles, $msg, [
       'planet_name' => static::getPlanetTypeMsg($planetType),
       'player2' => $controller,
       'i18n' => ['planet_name'],
     ]);
   }
 
-  public static function drawOnFlagDouble(Player $player, Astra|Player $player2, array $scribbles, int $planetType)
+  public static function drawOnFlagDouble(Astra|Player $player, Astra|Player $player2, array $scribbles, int $planetType, bool $endOfGame)
   {
-    static::addScribbles($player, $scribbles, clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. Its control is now shared between ${player_name} and ${player_name2}'), [
+    $msg = $endOfGame ?
+      clienttranslate('Resolving control of remaining incomplete ${planet_name}: ${player_name} and ${player_name2} share the control')
+      : clienttranslate('${player_name} draws his insignia in the last space of a ${planet_name}. Its control is now shared between ${player_name} and ${player_name2}');
+    static::addScribbles($player, $scribbles, $msg, [
       'planet_name' => static::getPlanetTypeMsg($planetType),
       'player2' => $player2,
       'i18n' => ['planet_name'],
@@ -878,6 +885,7 @@ class Notifications
 
     // PRIVATE MODE => send private notif
     if ($mode == MODE_PRIVATE) {
+      if ($player instanceof Astra) return;
       self::updateIfNeeded($data, $name, "private");
       Game::get()->notifyPlayer($pId, $name, $msg, $data);
       self::flush();

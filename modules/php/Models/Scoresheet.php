@@ -517,7 +517,7 @@ class Scoresheet
     return 0;
   }
 
-  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId): array
+  public function resolvePlanetWinnerIfNeeded(Astra|Player $player, int $planetId, bool $endOfGame): array
   {
     return [];
   }

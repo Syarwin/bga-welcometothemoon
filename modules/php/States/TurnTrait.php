@@ -13,6 +13,7 @@ use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheet;
 use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet6;
+use Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet8;
 
 trait TurnTrait
 {
@@ -279,6 +280,10 @@ trait TurnTrait
     if ($nextState === ST_END_SCENARIO && Globals::getScenario() === 6) {
       $flows = Scoresheet6::getEndScenarioEvacuationFlows();
     }
+    if ($nextState === ST_END_SCENARIO && Globals::getScenario() === 8) {
+      $flows = Scoresheet8::getEndScenarioPlanetMajorityFlows();
+    }
+
     if (empty($flows)) {
       $this->gamestate->jumpToState($nextState);
     } else {

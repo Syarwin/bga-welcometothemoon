@@ -71,7 +71,7 @@ class AstraTurn extends \Bga\Games\WelcomeToTheMoon\Models\Action
 
     // Reaction to the scribble itself (filled up quarter bonuses, etc)
     $planetId = $scoresheet->getPlanetIdBySlot($slot);
-    $scoresheet->resolvePlanetWinnerIfNeeded($soloPlayer, $planetId);
+    $scoresheet->resolvePlanetWinnerIfNeeded($soloPlayer, $planetId, false);
 
     // Action corresponding to the combination
     $card = ConstructionCards::getInLocation('stack-0')->first();
