@@ -682,7 +682,7 @@ class Notifications
 
   public static function quarantineQuarter(Player $player, Scribble $scribble, int $quarterId)
   {
-    static::addScribble($player, $scribble, clienttranslate('${player_name} quarantines quarter n°${quarter}, preventing any further propagation from this quarter'), [
+    static::addScribble($player, $scribble, clienttranslate('${player_name} quarantines quarter n°${quarter}, preventing any further outside propagation from this quarter'), [
       'quarter' => $quarterId + 1,
     ]);
   }
