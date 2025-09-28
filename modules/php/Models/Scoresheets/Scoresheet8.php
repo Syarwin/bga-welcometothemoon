@@ -512,40 +512,61 @@ class Scoresheet8 extends Scoresheet
   }
 
   // Plan Card 109
-  public function isAllPlanetsUpgradedTwice(): bool
+  // public function isAllPlanetsUpgradedTwice(): bool
+  // {
+  //   $player = $this->getCurrentPlayer();
+  //   /** @var Scoresheet $scoresheet */
+  //   foreach ([$player->scoresheet(), $this->getOpponentPlayer()->scoresheet()] as $index => $scoresheet) {
+  //     $greenPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREEN, $index === 1));
+  //     $greenPlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($greenPlanetsUpgrades);
+  //     $bluePlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_BLUE, $index === 1));
+  //     $bluePlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($bluePlanetsUpgrades);
+  //     $greyPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREY, $index === 1));
+  //     $greyPlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($greyPlanetsUpgrades);
+  //     if ($greenPlanetsUpgradesScribbled >= 2 && $bluePlanetsUpgradesScribbled >= 2 && $greyPlanetsUpgradesScribbled >= 2) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+  public function hasAllPlanetsUpgradedTwice(): bool
   {
-    $player = $this->getCurrentPlayer();
-    /** @var Scoresheet $scoresheet */
-    foreach ([$player->scoresheet(), $this->getOpponentPlayer()->scoresheet()] as $index => $scoresheet) {
-      $greenPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREEN, $index === 1));
-      $greenPlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($greenPlanetsUpgrades);
-      $bluePlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_BLUE, $index === 1));
-      $bluePlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($bluePlanetsUpgrades);
-      $greyPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREY, $index === 1));
-      $greyPlanetsUpgradesScribbled = $scoresheet->countScribbledSlots($greyPlanetsUpgrades);
-      if ($greenPlanetsUpgradesScribbled >= 2 && $bluePlanetsUpgradesScribbled >= 2 && $greyPlanetsUpgradesScribbled >= 2) {
-        return true;
-      }
-    }
-    return false;
+    $greenPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREEN, $this->whoIsPlaying === 1));
+    $greenPlanetsUpgradesScribbled = $this->countScribbledSlots($greenPlanetsUpgrades);
+    $bluePlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_BLUE, $this->whoIsPlaying === 1));
+    $bluePlanetsUpgradesScribbled = $this->countScribbledSlots($bluePlanetsUpgrades);
+    $greyPlanetsUpgrades = array_keys($this->getEnergySlots(PLANET_TYPE_GREY, $this->whoIsPlaying === 1));
+    $greyPlanetsUpgradesScribbled = $this->countScribbledSlots($greyPlanetsUpgrades);
+
+    return ($greenPlanetsUpgradesScribbled >= 2 && $bluePlanetsUpgradesScribbled >= 2 && $greyPlanetsUpgradesScribbled >= 2);
   }
 
   // Plan Card 110
-  public function isAnySheetHas6PlantsAnd4Water(): bool
+  // public function isAnySheetHas6PlantsAnd4Water(): bool
+  // {
+  //   /** @var Scoresheet $scoresheet */
+  //   foreach ([$this->player1->scoresheet(), $this->player2->scoresheet()] as $index => $scoresheet) {
+  //     $currentPlayerPlantsSlots = array_keys($this->getPlantsSlots($index === 1));
+  //     $plantsSlotsScribbled = $scoresheet->countScribbledSlots($currentPlayerPlantsSlots);
+  //     $currentPlayerWatersSlots = array_keys($this->getWatersSlots($index === 1));
+  //     $watersSlotsScribbled = $scoresheet->countScribbledSlots($currentPlayerWatersSlots);
+  //     // var_dump($plantsSlotsScribbled, $watersSlotsScribbled);
+  //     if ($plantsSlotsScribbled >= 6 && $watersSlotsScribbled >= 4) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+  public function has6PlantsAnd4Water(): bool
   {
-    $player = $this->getCurrentPlayer();
-    /** @var Scoresheet $scoresheet */
-    foreach ([$player->scoresheet(), $this->getOpponentPlayer()->scoresheet()] as $index => $scoresheet) {
-      $currentPlayerPlantsSlots = array_keys($this->getPlantsSlots($index === 1));
-      $plantsSlotsScribbled = $scoresheet->countScribbledSlots($currentPlayerPlantsSlots);
-      $currentPlayerWatersSlots = array_keys($this->getWatersSlots($index === 1));
-      $watersSlotsScribbled = $scoresheet->countScribbledSlots($currentPlayerWatersSlots);
-      if ($plantsSlotsScribbled >= 6 && $watersSlotsScribbled >= 4) {
-        return true;
-      }
-    }
-    return false;
+    $currentPlayerPlantsSlots = array_keys($this->getPlantsSlots($this->whoIsPlaying == 1));
+    $plantsSlotsScribbled = $this->countScribbledSlots($currentPlayerPlantsSlots);
+    $currentPlayerWatersSlots = array_keys($this->getWatersSlots($this->whoIsPlaying == 1));
+    $watersSlotsScribbled = $this->countScribbledSlots($currentPlayerWatersSlots);
+
+    return $plantsSlotsScribbled >= 6 && $watersSlotsScribbled >= 4;
   }
+
 
   // Plan Card 111
   public function isAnySheetHasInsigniaOn4Moons(): bool
