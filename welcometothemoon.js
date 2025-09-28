@@ -483,7 +483,9 @@ define([
         });
         this.setupScribbles();
         this.setupConstructionCards();
-        this.updateAstra();
+        if (this.isSolo()) {
+          this.updateAstra();
+        }
 
         this.forEachPlayer((player) => {
           this.updateComputedScoresheetData(player.id);
