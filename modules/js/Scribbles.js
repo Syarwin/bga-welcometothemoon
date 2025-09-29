@@ -66,7 +66,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (scribble.type == SCRIBBLE_INSIGNA_CIRCLE) scribbleTpl = 'tplScribbleInsignaCircle';
       if (scribble.type == SCRIBBLE_INSIGNA_SPIRAL) scribbleTpl = 'tplScribbleInsignaSpiral';
       if (scribble.type == SCRIBBLE_INSIGNA_STAR) scribbleTpl = 'tplScribbleInsignaStar';
-      if (scribble.type == SCRIBBLE_INSIGNA_HEART) scribbleTpl = 'tplScribbleInsignaHear';
+      if (scribble.type == SCRIBBLE_INSIGNA_HEART) scribbleTpl = 'tplScribbleInsignaHeart';
       if (scribble.type == SCRIBBLE_INSIGNA_TRIANGLE) scribbleTpl = 'tplScribbleInsignaTriangle';
 
       this.place(scribbleTpl, scribble, container);
