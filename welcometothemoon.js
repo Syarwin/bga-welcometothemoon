@@ -421,7 +421,7 @@ define([
           if (args.args && args.args.scoresheetPId !== undefined) {
             this.scoresheet_id = args.args.scoresheetPId;
           }
-          $('score-sheet-holder').classList.toggle('rotated', this.scoresheet_id != this.player_id);
+          this.updateScoresheetRotation(this.scoresheet_id != this.player_id);
 
           let prevWrittable = $('score-sheet-holder').querySelector('.writtable');
           if (prevWrittable) prevWrittable.classList.remove('writtable');

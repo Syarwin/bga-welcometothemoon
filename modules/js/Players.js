@@ -278,12 +278,40 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
       }
 
+      this.reversedOrderedPlayers = [];
+      for (let i = 2; i < n; i++) {
+        this.reversedOrderedPlayers.push(players[i]);
+      }
+      this.reversedOrderedPlayers.push(players[0]);
+      this.reversedOrderedPlayers.push(players[1]);
+
       this.setupChangeScoreSheetArrows();
       this.goToPlayerBoard(this.orderedPlayers[0].id);
 
       $(`score-sheet-wrapper`)
         .querySelectorAll('.scoresheet-rotate')
-        .forEach((rotate) => rotate.addEventListener('click', () => $('score-sheet-holder').classList.toggle('rotated')));
+        .forEach((rotate) => rotate.addEventListener('click', () => this.updateScoresheetRotation()));
+    },
+
+    updateScoresheetRotation(newValue) {
+      if (!this.isScenario8()) return;
+
+      if (newValue !== undefined) {
+        $('score-sheet-holder').classList.toggle('rotated', newValue);
+      } else {
+        $('score-sheet-holder').classList.toggle('rotated');
+      }
+
+      // Update order => useful for multiple view !
+      if ($('score-sheet-holder').classList.contains('rotated')) {
+        Object.values(this.reversedOrderedPlayers).forEach((player) => {
+          $('score-sheet-holder').insertAdjacentElement('beforeend', $(`score-sheet-${player.id}`));
+        });
+      } else {
+        Object.values(this.orderedPlayers).forEach((player) => {
+          $('score-sheet-holder').insertAdjacentElement('beforeend', $(`score-sheet-${player.id}`));
+        });
+      }
     },
 
     updateComputedScoresheetData(pId) {
