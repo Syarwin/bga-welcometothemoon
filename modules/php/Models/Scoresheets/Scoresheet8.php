@@ -49,6 +49,7 @@ class Scoresheet8 extends Scoresheet
     ],
     ['slots' => [31, 32, 33], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [91, 92], 'flag' => 99, 'final' => 229],
   ];
+
   public function getS8Planets(): array
   {
     return $this->planets;
@@ -222,6 +223,7 @@ class Scoresheet8 extends Scoresheet
     }
     return null;
   }
+
   public function getPlanetOfSlot(int $slot): ?array
   {
     $planetId = $this->getPlanetIdBySlot($slot);
@@ -641,7 +643,6 @@ class Scoresheet8 extends Scoresheet
   }
 
 
-
   /**
    * UI DATA
    */
@@ -657,7 +658,6 @@ class Scoresheet8 extends Scoresheet
     // Player 1
 
     // Number of numbered slots
-    // TODO: Do we need this? For S8 we probably need to delete this block + remove the corresponding UI items
     $nNumberedSlots1 = $b1->countScribblesInSection('numbers');
     $nNumberedSlots2 = $b2->countScribblesInSection('numbers');
     $data[] = ["overview" => "numbers1", "v" => $nNumberedSlots1, 'max' => count($this->getSectionSlots('numbers'))];
@@ -894,20 +894,59 @@ class Scoresheet8 extends Scoresheet
         + $p2b1greyPlanetsScore - $p2b1planningNegativePoints - $p2b1errorsNegativePoints,
     ];
 
-
-    $data[] = ["overview" => "errors1", "v" => -$p1b1errorsNegativePoints, "details" => ($p1b1scribbledErrors . " / 2"), "subdetails" => true];
-    $data[] = ["overview" => "errors2", "v" => -$p1b2errorsNegativePoints, "details" => ($p1b2scribbledErrors . " / 2"), "subdetails" => true];
+    $data[] = [
+      "overview" => "errors1",
+      "v" => -$p1b1errorsNegativePoints,
+      "details" => ($p1b1scribbledErrors . " / 2"),
+      "subdetails" => true
+    ];
+    $data[] = [
+      "overview" => "errors2",
+      "v" => -$p1b2errorsNegativePoints,
+      "details" => ($p1b2scribbledErrors . " / 2"),
+      "subdetails" => true
+    ];
     $data[] = ["panel" => "errors", "v" => $p1b1scribbledErrors . " | " . $p1b2scribbledErrors];
 
-    $data[] = ["overview" => "plants", "v" => $p1b1plantsPoints + $p1b2plantsPoints, "details" => ($p1b1plantsPoints . "+" . $p1b2plantsPoints), "subdetails" => true];
+    $data[] = [
+      "overview" => "plants",
+      "v" => $p1b1plantsPoints + $p1b2plantsPoints,
+      "details" => ($p1b1plantsPoints . "+" . $p1b2plantsPoints),
+      "subdetails" => true
+    ];
 
-    $data[] = ["overview" => "waters", "v" => $p1b1waterPoints + $p1b2waterPoints, "details" => ($p1b1waterPoints . "+" . $p1b2waterPoints), "subdetails" => true];
+    $data[] = [
+      "overview" => "waters",
+      "v" => $p1b1waterPoints + $p1b2waterPoints,
+      "details" => ($p1b1waterPoints . "+" . $p1b2waterPoints),
+      "subdetails" => true
+    ];
 
-    $data[] = ["overview" => "plant-planets", "v" => $p1b1greenPlanetsScore + $p1b2greenPlanetsScore, "details" => ($p1b1greenPlanetsScore . "+" . $p1b2greenPlanetsScore), "subdetails" => true];
-    $data[] = ["overview" => "water-planets", "v" => $p1b1bluePlanetsScore + $p1b2bluePlanetsScore, "details" => ($p1b1bluePlanetsScore . "+" . $p1b2bluePlanetsScore), "subdetails" => true];
-    $data[] = ["overview" => "robot-planets", "v" => $p1b1greyPlanetsScore + $p1b2greyPlanetsScore, "details" => ($p1b1greyPlanetsScore . "+" . $p1b2greyPlanetsScore), "subdetails" => true];
+    $data[] = [
+      "overview" => "plant-planets",
+      "v" => $p1b1greenPlanetsScore + $p1b2greenPlanetsScore,
+      "details" => ($p1b1greenPlanetsScore . "+" . $p1b2greenPlanetsScore),
+      "subdetails" => true
+    ];
+    $data[] = [
+      "overview" => "water-planets",
+      "v" => $p1b1bluePlanetsScore + $p1b2bluePlanetsScore,
+      "details" => ($p1b1bluePlanetsScore . "+" . $p1b2bluePlanetsScore),
+      "subdetails" => true
+    ];
+    $data[] = [
+      "overview" => "robot-planets",
+      "v" => $p1b1greyPlanetsScore + $p1b2greyPlanetsScore,
+      "details" => ($p1b1greyPlanetsScore . "+" . $p1b2greyPlanetsScore),
+      "subdetails" => true
+    ];
 
-    $data[] = ["overview" => "plannings", "v" => -$p1b1planningNegativePoints - $p1b2planningNegativePoints, "details" => ($p1b1planningNegativePoints . "+" . $p1b2planningNegativePoints), "subdetails" => true];
+    $data[] = [
+      "overview" => "plannings",
+      "v" => -$p1b1planningNegativePoints - $p1b2planningNegativePoints,
+      "details" => ($p1b1planningNegativePoints . "+" . $p1b2planningNegativePoints),
+      "subdetails" => true
+    ];
 
     // Filter out Astra useless slots
     $slots = [];
