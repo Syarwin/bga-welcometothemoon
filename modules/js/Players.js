@@ -143,15 +143,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.ensureSpecificGameImageLoading([`scenario-${scenarioId}.jpg`]);
       $('scenario-name').innerHTML = `#${scenarioId}: ${data.name}`;
 
-      if (this.isSolo()) {
-        $('ebd-body').dataset.solo = 1;
-        this.setupAstra();
-      }
-
       // Specific setup for scenario8
       if (scenarioId == 8) {
         this.setupScoreSheetsScenario8();
         return;
+      }
+
+      if (this.isSolo()) {
+        $('ebd-body').dataset.solo = 1;
+        this.setupAstra();
       }
 
       this.forEachOrderedPlayer((player) => {
@@ -188,9 +188,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             }
           });
         });
-
-        // Scoresheet dynamic data
-        this.updateComputedScoresheetData(pId);
 
         // Player panels
         $(`numbers-status-container-${pId}`).querySelector('.numbers-scenario-amount').innerHTML = nNumbers;
@@ -264,9 +261,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           });
         });
 
-        // Scoresheet dynamic data
-        this.updateComputedScoresheetData(pId);
-
         // Player panels
         if (pId != 0) {
           let numberDiv = $(`numbers-status-container-${pId}`).querySelector('.numbers-scenario-amount');
@@ -276,6 +270,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           errorDiv.innerHTML = nErrors;
           errorDiv.parentNode.classList.add('S8');
         }
+      }
+
+      // Scoresheet dynamic data
+      for (let i = 0; i < n; i++) {
+        this.updateComputedScoresheetData(players[i].id);
+      }
+      if (this.isSolo()) {
+        $('ebd-body').dataset.solo = 1;
+        this.setupAstra();
       }
 
       this.reversedOrderedPlayers = [];
@@ -318,7 +321,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       let entries = pId == 0 ? this.gamedatas.astra : this.gamedatas.players[pId].scoresheet;
       let overviewPId = pId;
       if (this.isScenario8()) {
-        overviewPId = entries[0][0];
+        pId = entries[0][0];
+        overviewPId = entries[0][1];
       }
 
       entries.forEach((entry) => {
@@ -328,6 +332,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         if (entry.slot) {
           let id = `slot-${pId}-${entry.slot}`;
           if (!$(id)) {
+            console.error('Not found slot:', id);
             return;
           }
           $(`slot-${pId}-${entry.slot}`).innerHTML = entry.v;
@@ -340,14 +345,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
         // Dynamic data on overview
         if (entry.overview) {
-          if (overviewPId != 0) {
-            this.updateOverviewEntry(entry, overviewPId);
+          let lOverviewPId = entry.pId || overviewPId;
+          if (lOverviewPId != 0) {
+            this.updateOverviewEntry(entry, lOverviewPId);
           }
         }
         // SCORE
-        if (entry.score && pId != 0) {
-          if (this.scoreCtrl[pId]) this.scoreCtrl[pId].toValue(entry.v);
-          else $(`player_score_${pId}`).innerHTML = entry.v;
+        if (entry.score && overviewPId != 0) {
+          if (this.scoreCtrl[overviewPId]) this.scoreCtrl[overviewPId].toValue(entry.v);
+          else $(`player_score_${overviewPId}`).innerHTML = entry.v;
         }
       });
     },
@@ -435,7 +441,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     updateOverviewEntry(entry, pId) {
-      console.log(entry, pId);
       let o = $(`overview-${entry.overview}-${pId}`);
       if (!o) {
         console.error(`Unfound overview entry: overview-${entry.overview}-${pId}`);

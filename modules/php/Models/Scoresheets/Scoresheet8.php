@@ -658,239 +658,12 @@ class Scoresheet8 extends Scoresheet
   /**
    * UI DATA
    */
-  public function computeUiData(): array
+
+  // ********* HALF-BOARD SCORING *********
+  // This is a new way to score. Calculate the score only of this sheet, no matter whose score it is
+
+  public function computeHalfScores(): array
   {
-    $data = [];
-    $p1Insignia = SCRIBBLE_INSIGNAS[$this->getOpponentPlayer()->getNo()];
-    $p2Insignia = SCRIBBLE_INSIGNAS[$this->getCurrentPlayer()->getNo()];
-    $b1 = $this->player2->scoresheetForScore();
-    $b2 = $this->player1->scoresheetForScore();
-    $data[] = [$b1->getPId(), $b2->getPId()];
-
-    // Player 1
-
-    // Number of numbered slots
-    $nNumberedSlots1 = $b1->countScribblesInSection('numbers');
-    $nNumberedSlots2 = $b2->countScribblesInSection('numbers');
-    $data[] = ["overview" => "numbers1", "v" => $nNumberedSlots1, 'max' => count($this->getSectionSlots('numbers'))];
-    $data[] = ["overview" => "numbers2", "v" => $nNumberedSlots2, 'max' => count($this->getSectionSlots('numbers'))];
-    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots1 . " | " . $nNumberedSlots2];
-
-    // Missions
-    $b2missionPoints = $this->computeMissionsUiData($data, $b2);
-    $dataCopy = $data;
-    $b1missionPoints = $this->computeMissionsUiData($dataCopy, $b1);
-    $data[] = ["slot" => 199, "v" => $b2missionPoints];
-
-    // ********* LEFT SIDE OF THE BOARD (if you place a board so numbers on planets are aligned and readable) *********
-    // Plants
-    $p1b1plantsPoints = 0;
-    $p2b2plantsPoints = 0;
-    foreach ($this->getPlantsSlots() as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1plantsPoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2plantsPoints = $points;
-      }
-    }
-
-    $data[] = ["slot" => 200, "v" => $p2b2plantsPoints];
-
-    // Water
-    $p1b1waterPoints = 0;
-    $p2b2waterPoints = 0;
-    foreach ($this->getWatersSlots() as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1waterPoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2waterPoints = $points;
-      }
-    }
-    $data[] = ["slot" => 201, "v" => $p2b2waterPoints];
-
-    // Energy
-    // Green planets
-    $p1b1greenMultiplier = 2;
-    $p2b2greenMultiplier = 2;
-    foreach ($this->getEnergySlots(PLANET_TYPE_GREEN) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1greenMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2greenMultiplier = $multiplier;
-      }
-    }
-    $p1b1greenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p1Insignia, PLANET_TYPE_GREEN);
-    $p1b1greenPlanetsScore = $p1b1greenPlanetsControlledAmount * $p1b1greenMultiplier;
-    $p2b2greenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p2Insignia, PLANET_TYPE_GREEN);
-    $p2b2greenPlanetsScore = $p2b2greenPlanetsControlledAmount * $p2b2greenMultiplier;
-    $data[] = ["slot" => 215, "v" => $p2b2greenPlanetsControlledAmount];
-    $data[] = ["slot" => 202, "v" => $p2b2greenPlanetsScore];
-
-    // Blue planets
-    $p1b1blueMultiplier = 2;
-    $p2b2blueMultiplier = 2;
-    foreach ($this->getEnergySlots(PLANET_TYPE_BLUE) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1blueMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2blueMultiplier = $multiplier;
-      }
-    }
-    $p1b1bluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p1Insignia, PLANET_TYPE_BLUE);
-    $p1b1bluePlanetsScore = $p1b1bluePlanetsControlledAmount * $p1b1blueMultiplier;
-    $p2b2bluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p2Insignia, PLANET_TYPE_BLUE);
-    $p2b2bluePlanetsScore = $p2b2bluePlanetsControlledAmount * $p2b2blueMultiplier;
-    $data[] = ["slot" => 216, "v" => $p2b2bluePlanetsControlledAmount];
-    $data[] = ["slot" => 203, "v" => $p2b2bluePlanetsScore];
-
-    // Grey planets
-    $p1b1greyMultiplier = 4;
-    $p2b2greyMultiplier = 4;
-    foreach ($this->getEnergySlots(PLANET_TYPE_GREY) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1greyMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2greyMultiplier = $multiplier;
-      }
-    }
-    $p1b1greyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p1Insignia, PLANET_TYPE_GREY);
-    $p1b1greyPlanetsScore = $p1b1greyPlanetsControlledAmount * $p1b1greyMultiplier;
-    $p2b2greyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p2Insignia, PLANET_TYPE_GREY);
-    $p2b2greyPlanetsScore = $p2b2greyPlanetsControlledAmount * $p2b2greyMultiplier;
-    $data[] = ["slot" => 217, "v" => $p2b2greyPlanetsControlledAmount];
-    $data[] = ["slot" => 204, "v" => $p2b2greyPlanetsScore];
-
-    // Planning
-    $p1b1planningNegativePoints = 0;
-    $p2b2planningNegativePoints = 0;
-    foreach ($this->getPlanningSlots() as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p1b1planningNegativePoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p2b2planningNegativePoints = $points;
-      }
-    }
-    $data[] = ["slot" => 205, "v" => $p2b2planningNegativePoints];
-
-    // System errors
-    $p1b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, true);
-    $p1b1errorsNegativePoints = 5 * $p1b1scribbledErrors;
-    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
-    $p2b2errorsNegativePoints = 5 * $p2b2scribbledErrors;
-    $data[] = ["slot" => 206, "v" => $p2b2errorsNegativePoints];
-
-
-    // ********* RIGHT SIDE OF THE BOARD *********
-    // Plants
-    $p2b1plantsPoints = 0;
-    $p1b2plantsPoints = 0;
-    foreach ($this->getPlantsSlots(false) as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1plantsPoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2plantsPoints = $points;
-      }
-    }
-    $data[] = ["slot" => 207, "v" => $p1b2plantsPoints];
-    // Water
-    $p2b1waterPoints = 0;
-    $p1b2waterPoints = 0;
-    foreach ($this->getWatersSlots(false) as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1waterPoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2waterPoints = $points;
-      }
-    }
-    $data[] = ["slot" => 208, "v" => $p1b2waterPoints];
-
-    // Energy
-    // Green planets
-    $p2b1greenMultiplier = 2;
-    $p1b2greenMultiplier = 2;
-    foreach ($this->getEnergySlots(PLANET_TYPE_GREEN, false) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1greenMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2greenMultiplier = $multiplier;
-      }
-    }
-    $p2b1greenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p2Insignia, PLANET_TYPE_GREEN);
-    $p2b1greenPlanetsScore = $p2b1greenPlanetsControlledAmount * $p2b1greenMultiplier;
-    $p1b2greenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p1Insignia, PLANET_TYPE_GREEN);
-    $p1b2greenPlanetsScore = $p1b2greenPlanetsControlledAmount * $p1b2greenMultiplier;
-    $data[] = ["slot" => 218, "v" => $p1b2greenPlanetsControlledAmount];
-    $data[] = ["slot" => 209, "v" => $p1b2greenPlanetsScore];
-
-    // Blue planets
-    $p2b1blueMultiplier = 2;
-    $p1b2blueMultiplier = 2;
-    foreach ($this->getEnergySlots(PLANET_TYPE_BLUE, false) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1blueMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2blueMultiplier = $multiplier;
-      }
-    }
-    $p2b1bluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p2Insignia, PLANET_TYPE_BLUE);
-    $p2b1bluePlanetsScore = $p2b1bluePlanetsControlledAmount * $p2b1blueMultiplier;
-    $p1b2bluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p1Insignia, PLANET_TYPE_BLUE);
-    $p1b2bluePlanetsScore = $p1b2bluePlanetsControlledAmount * $p1b2blueMultiplier;
-    $data[] = ["slot" => 219, "v" => $p1b2bluePlanetsControlledAmount];
-    $data[] = ["slot" => 210, "v" => $p1b2bluePlanetsScore];
-
-    // Grey planets
-    $p2b1greyMultiplier = 4;
-    $p1b2greyMultiplier = 4;
-    foreach ($this->getEnergySlots(PLANET_TYPE_GREY, false) as $slot => $multiplier) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1greyMultiplier = $multiplier;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2greyMultiplier = $multiplier;
-      }
-    }
-    $p2b1greyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b1, $p2Insignia, PLANET_TYPE_GREY);
-    $p2b1greyPlanetsScore = $p2b1greyPlanetsControlledAmount * $p2b1greyMultiplier;
-    $p1b2greyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $p1Insignia, PLANET_TYPE_GREY);
-    $p1b2greyPlanetsScore = $p1b2greyPlanetsControlledAmount * $p1b2greyMultiplier;
-
-    $data[] = ["slot" => 220, "v" => $p1b2greyPlanetsControlledAmount];
-    $data[] = ["slot" => 211, "v" => $p1b2greyPlanetsScore];
-
-    // Planning
-    $p2b1planningNegativePoints = 0;
-    $p1b2planningNegativePoints = 0;
-    foreach ($this->getPlanningSlots(false) as $slot => $points) {
-      if ($b1->hasScribbledSlot($slot)) {
-        $p2b1planningNegativePoints = $points;
-      }
-      if ($b2->hasScribbledSlot($slot)) {
-        $p1b2planningNegativePoints = $points;
-      }
-    }
-    $data[] = ["slot" => 212, "v" => $p1b2planningNegativePoints];
-
-    // System errors
-    $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
-    $p2b1errorsNegativePoints = 5 * $p2b1scribbledErrors;
-    $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
-    $p1b2errorsNegativePoints = 5 * $p1b2scribbledErrors;
-    $data[] = ["slot" => 213, "v" => $p1b2errorsNegativePoints];
-
-    // ********* HALF-BOARD SCORING *********
-    // This is a new way to score. Calculate the score only of this sheet, no matter whose score it is
-
     // Plants
     $rightPlantsPoints = 0;
     foreach ($this->getPlantsSlots(true) as $slot => $points) {
@@ -924,8 +697,7 @@ class Scoresheet8 extends Scoresheet
     $this->rightHalfScores['water'] = $rightWaterPoints;
     $this->leftHalfScores['water'] = $leftWaterPoints;
 
-    // Energy
-    // Green planets
+    // Planets related
     $rightInsignia = $this->getInsignia();
     $leftInsignia = $this->getInsignia(false);
 
@@ -1018,97 +790,153 @@ class Scoresheet8 extends Scoresheet
       $rightScribbledErrors = $this->countScribbledSlots($this->getErrorsSlots());
       $rightErrorsNegativePoints = 5 * $rightScribbledErrors;
       $this->rightHalfScores['errorsNegativePoints'] = $rightErrorsNegativePoints;
+      $this->rightHalfScores['scribbledErrors'] = $rightScribbledErrors;
 
       $leftScribbledErrors = $this->countScribbledSlots($this->getErrorsSlots(false));
       $leftErrorsNegativePoints = 5 * $leftScribbledErrors;
       $this->leftHalfScores['errorsNegativePoints'] = $leftErrorsNegativePoints;
+      $this->leftHalfScores['scribbledErrors'] = $leftScribbledErrors;
 
+      $data = [];
       $missionPoints = $this->computeMissionsUiData($data, $this);
       $this->rightHalfScores['missions'] = $missionPoints;
     }
-    // ********* END OF HALF-BOARD SCORING *********
-    // This scoresheet has $this->rightHalfScores of one player and $this->leftHalfScores of the other player
-    // We also have $rightInsignia and $leftInsignia.
-    // If we can find out which player has each insignia - we easily can do overall calculation
 
-    // Total Player 1 score
+    return [$this->leftHalfScores, $this->rightHalfScores];
+  }
+
+
+  public function computeUiData(): array
+  {
+    [$leftScore, $rightScore] = $this->computeHalfScores();
+    $leftPlayer = $this->player2;
+    $rightPlayer = $this->player1;
+
+    $data = [];
+    $data[] = [$rightPlayer->getId(), $leftPlayer->getId()];
+
+    // Mission data is for the right player whereas all other overview data is for left player
+    $missionPoints = $this->computeMissionsUiData($data, $this);
+    foreach ($data as &$entry) {
+      if (in_array($entry['overview'] ?? '', ['stack-A', 'stack-B', 'stack-C'])) {
+        $entry['pId'] = $rightPlayer->getId();
+      }
+    }
+    $data[] = ["slot" => 199, "v" => $missionPoints];
+
+    $data[] = ["slot" => 207, "v" => $leftScore['plants']];
+    $data[] = ["slot" => 200, "v" => $rightScore['plants']];
+
+    $data[] = ["slot" => 208, "v" => $leftScore['water']];
+    $data[] = ["slot" => 201, "v" => $rightScore['water']];
+
+    $data[] = ["slot" => 218, "v" => $leftScore['greenPlanetsControlledAmount']];
+    $data[] = ["slot" => 209, "v" => $leftScore['greenPlanetsScore']];
+    $data[] = ["slot" => 215, "v" => $rightScore['greenPlanetsControlledAmount']];
+    $data[] = ["slot" => 202, "v" => $rightScore['greenPlanetsScore']];
+
+    $data[] = ["slot" => 219, "v" => $leftScore['bluePlanetsControlledAmount']];
+    $data[] = ["slot" => 210, "v" => $leftScore['bluePlanetsScore']];
+    $data[] = ["slot" => 216, "v" => $rightScore['bluePlanetsControlledAmount']];
+    $data[] = ["slot" => 203, "v" => $rightScore['bluePlanetsScore']];
+
+    $data[] = ["slot" => 220, "v" => $leftScore['greyPlanetsControlledAmount']];
+    $data[] = ["slot" => 211, "v" => $leftScore['greyPlanetsScore']];
+    $data[] = ["slot" => 217, "v" => $rightScore['greyPlanetsControlledAmount']];
+    $data[] = ["slot" => 204, "v" => $rightScore['greyPlanetsScore']];
+
+    $data[] = ["slot" => 212, "v" => $leftScore['planningNegativePoints']];
+    $data[] = ["slot" => 205, "v" => $rightScore['planningNegativePoints']];
+
+    $data[] = ["slot" => 213, "v" => $leftScore['errorsNegativePoints']];
+    $data[] = ["slot" => 206, "v" => $rightScore['errorsNegativePoints']];
+
+
+    $leftLeftPlayer = Players::getPrevOrAstra($leftPlayer);
+    $leftScoresheet = new Scoresheet8($leftPlayer, $leftLeftPlayer, 2);
+    [, $leftRightScore] = $leftScoresheet->computeHalfScores();
     $data[] = [
       "slot" => 214,
       "overview" => "total",
-      "v" => $b1missionPoints + $p1b2plantsPoints + $p1b2waterPoints + $p1b2greenPlanetsScore + $p1b2bluePlanetsScore
-        + $p1b2greyPlanetsScore - $p1b2planningNegativePoints - $p1b2errorsNegativePoints
-        + $p1b1plantsPoints + $p1b1waterPoints + $p1b1greenPlanetsScore + $p1b1bluePlanetsScore
-        + $p1b1greyPlanetsScore - $p1b1planningNegativePoints - $p1b1errorsNegativePoints,
+      "score" => true,
+      "v" => $leftScore['plants'] + $leftScore['water']
+        + $leftScore['greenPlanetsScore'] + $leftScore['bluePlanetsScore'] + $leftScore['greyPlanetsScore'] +
+        -$leftScore['planningNegativePoints'] - $leftScore['errorsNegativePoints']
+          + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
+          + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
+          -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
     ];
 
-    $data[] = [
-      "score" => true,
-      "v" => $b2missionPoints + $p2b2plantsPoints + $p2b2waterPoints + $p2b2greenPlanetsScore + $p2b2bluePlanetsScore
-        + $p2b2greyPlanetsScore - $p2b2planningNegativePoints - $p2b2errorsNegativePoints
-        + $p2b1plantsPoints + $p2b1waterPoints + $p2b1greenPlanetsScore + $p2b1bluePlanetsScore
-        + $p2b1greyPlanetsScore - $p2b1planningNegativePoints - $p2b1errorsNegativePoints,
-    ];
+    ///////////////////////////////////////
+    // Overviews - for LEFT PLAYER only
+
+    // Number of numbered slots
+    $nNumberedSlots1 = $leftScoresheet->countScribblesInSection('numbers');
+    $nNumberedSlots2 = $this->countScribblesInSection('numbers');
+    $data[] = ["overview" => "numbers1", "v" => $nNumberedSlots1, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["overview" => "numbers2", "v" => $nNumberedSlots2, 'max' => count($this->getSectionSlots('numbers'))];
+    $data[] = ["panel" => "numbers", "v" => $nNumberedSlots1 . " | " . $nNumberedSlots2];
 
     $data[] = [
       "overview" => "errors1",
-      "v" => -$p1b1errorsNegativePoints,
-      "details" => ($p1b1scribbledErrors . " / 2"),
+      "v" => -$leftRightScore['errorsNegativePoints'],
+      "details" => ($leftRightScore['scribbledErrors'] . " / 2"),
       "subdetails" => true
     ];
     $data[] = [
       "overview" => "errors2",
-      "v" => -$p1b2errorsNegativePoints,
-      "details" => ($p1b2scribbledErrors . " / 2"),
+      "v" => -$leftScore['errorsNegativePoints'],
+      "details" => ($leftScore['scribbledErrors'] . " / 2"),
       "subdetails" => true
     ];
-    $data[] = ["panel" => "errors", "v" => $p1b1scribbledErrors . " | " . $p1b2scribbledErrors];
+    $data[] = ["panel" => "errors", "v" => $leftRightScore['scribbledErrors'] . " | " . $leftScore['scribbledErrors']];
 
     $data[] = [
       "overview" => "plants",
-      "v" => $p1b1plantsPoints + $p1b2plantsPoints,
-      "details" => ($p1b1plantsPoints . "+" . $p1b2plantsPoints),
+      "v" => $leftRightScore['plants'] + $leftScore['plants'],
+      "details" => ($leftRightScore['plants'] . "+" . $leftScore['plants']),
       "subdetails" => true
     ];
 
     $data[] = [
       "overview" => "waters",
-      "v" => $p1b1waterPoints + $p1b2waterPoints,
-      "details" => ($p1b1waterPoints . "+" . $p1b2waterPoints),
+      "v" => $leftRightScore['water'] + $leftScore['water'],
+      "details" => ($leftRightScore['water'] . "+" . $leftScore['water']),
       "subdetails" => true
     ];
 
     $data[] = [
       "overview" => "plant-planets",
-      "v" => $p1b1greenPlanetsScore + $p1b2greenPlanetsScore,
-      "details" => ($p1b1greenPlanetsScore . "+" . $p1b2greenPlanetsScore),
+      "v" => $leftRightScore['greenPlanetsScore'] + $leftScore['greenPlanetsScore'],
+      "details" => ($leftRightScore['greenPlanetsScore'] . "+" . $leftScore['greenPlanetsScore']),
       "subdetails" => true
     ];
     $data[] = [
       "overview" => "water-planets",
-      "v" => $p1b1bluePlanetsScore + $p1b2bluePlanetsScore,
-      "details" => ($p1b1bluePlanetsScore . "+" . $p1b2bluePlanetsScore),
+      "v" => $leftRightScore['bluePlanetsScore'] + $leftScore['bluePlanetsScore'],
+      "details" => ($leftRightScore['bluePlanetsScore'] . "+" . $leftScore['bluePlanetsScore']),
       "subdetails" => true
     ];
     $data[] = [
       "overview" => "robot-planets",
-      "v" => $p1b1greyPlanetsScore + $p1b2greyPlanetsScore,
-      "details" => ($p1b1greyPlanetsScore . "+" . $p1b2greyPlanetsScore),
+      "v" => $leftRightScore['greyPlanetsScore'] + $leftScore['greyPlanetsScore'],
+      "details" => ($leftRightScore['greyPlanetsScore'] . "+" . $leftScore['greyPlanetsScore']),
       "subdetails" => true
     ];
 
     $data[] = [
       "overview" => "plannings",
-      "v" => -$p1b1planningNegativePoints - $p1b2planningNegativePoints,
-      "details" => ($p1b1planningNegativePoints . "+" . $p1b2planningNegativePoints),
+      "v" => -$leftRightScore['planningNegativePoints'] - $leftScore['planningNegativePoints'],
+      "details" => ($leftRightScore['planningNegativePoints'] . "+" . $leftScore['planningNegativePoints']),
       "subdetails" => true
     ];
 
     // Filter out Astra useless slots
     $slots = [];
-    if ($this->getOpponentPlayer() instanceof Astra8) {
+    if ($leftPlayer instanceof Astra8) {
       $slots = [207, 208, 209, 210, 211, 212, 213, 214, 218, 219, 220];
     }
-    if ($this->getCurrentPlayer() instanceof Astra8) {
+    if ($rightPlayer instanceof Astra8) {
       $slots = [199, 200, 201, 202, 203, 204, 205, 206, 215, 216, 217];
     }
     Utils::filter($data, fn($entry) => !in_array($entry['slot'] ?? null, $slots));
@@ -1120,8 +948,8 @@ class Scoresheet8 extends Scoresheet
   //////////////////////////////////////////
   /////// HANDLE DOUBLE PLAYER /////////////
   //////////////////////////////////////////
-  protected Player|Astra $player1; // Player at the BOTTOM
-  protected Player|Astra $player2; // Player at the TOP
+  protected Player|Astra $player1; // Player at the BOTTOM / RIGHT
+  protected Player|Astra $player2; // Player at the TOP / LEFT
   public int $whoIsPlaying = 0;
 
   public function __construct(Player|Astra|null $player1, Player|Astra|null $player2 = null, int|null $whoIsPlaying = null)
@@ -1219,12 +1047,14 @@ class Scoresheet8 extends Scoresheet
 
   public function getScoreAux(): int
   {
-    $b1 = $this->player2->scoresheetForScore();
-    $b2 = $this->player1->scoresheetForScore();
-    $p2b1scribbledErrors = $b1->countScribblesInSectionS8('errors', null, false);
-    $p2b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, true);
+    $leftPlayer = $this->player2;
+    $leftLeftPlayer = Players::getPrevOrAstra($leftPlayer);
+    $leftScoresheet = new Scoresheet8($leftPlayer, $leftLeftPlayer, 2);
 
-    return 4 - $p2b1scribbledErrors - $p2b2scribbledErrors;
+    $leftScribbledErrors = $this->countScribbledSlots($this->getErrorsSlots(false));
+    $leftRightScribbledErrors = $leftScoresheet->countScribbledSlots($leftScoresheet->getErrorsSlots());
+
+    return 4 - $leftScribbledErrors - $leftRightScribbledErrors;
   }
 
   public function isEndOfGameTriggered(): bool

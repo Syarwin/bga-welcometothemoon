@@ -12,12 +12,14 @@ trait EndGameTrait
   {
     // Update score into database
     foreach (Players::getAll() as $player) {
-      $score = $player->scoresheet()->getScore();
-      $scoreAux = $player->scoresheet()->getScoreAux();
+      $scoresheet = $player->scoresheetForScore();
+      $score = $scoresheet->getScore();
+      $scoreAux = $scoresheet->getScoreAux();
       if (Globals::isSolo()) {
         $astra = Players::getAstra();
         $score -= $astra->getScore();
       }
+
       $player->setScore($score);
       $player->setScoreAux($scoreAux);
       Notifications::setFinalScore($player, $score);

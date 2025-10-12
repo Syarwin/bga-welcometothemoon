@@ -9,6 +9,7 @@ use Bga\Games\WelcomeToTheMoon\Helpers\Utils;
 use Bga\Games\WelcomeToTheMoon\Models\Astra;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 use BgaUserException;
+use Dom\Attr;
 
 /*
  * Players manager : allows to easily access players ...
@@ -108,8 +109,11 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return self::get(self::getNextId($player));
   }
 
-  public static function getNextOrAstra(Player $player): Player|Astra
+  public static function getNextOrAstra(Astra|Player $player): Player|Astra
   {
+    if ($player instanceof Astra) {
+      return self::getSolo();
+    }
     return Globals::isSolo() ? self::getAstra() : self::getNext($player);
   }
 
@@ -125,8 +129,11 @@ class Players extends \Bga\Games\WelcomeToTheMoon\Helpers\CachedDB_Manager
     return self::get(self::getPrevId($player));
   }
 
-  public static function getPrevOrAstra(Player $player): Player|Astra
+  public static function getPrevOrAstra(Astra|Player $player): Player|Astra
   {
+    if ($player instanceof Astra) {
+      return self::getSolo();
+    }
     return Globals::isSolo() ? self::getAstra() : self::getPrev($player);
   }
 

@@ -56,7 +56,7 @@ class Game extends \Table
     require_once dirname(__FILE__) . "/constants.inc.php";
 
     // Stats::checkExistence();
-    Notifications::resetCache();
+    // Notifications::resetCache();
   }
 
   public static function get()

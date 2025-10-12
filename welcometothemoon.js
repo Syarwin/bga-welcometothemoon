@@ -287,7 +287,7 @@ define([
         }
 
         // Aastra data
-        if (infos.astra) {
+        if (infos.astra && this.isSolo()) {
           this.gamedatas.astra = infos.astra;
           this.updateAstra();
         }

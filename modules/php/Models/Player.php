@@ -94,7 +94,11 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   // USEFUL ONLY FOR ASTRA BECAUSE OF WEIRDNESS
   public function scoresheetForScore(): ?Scoresheet
   {
-    return $this->scoresheet();
+    if (Globals::getScenario() != 8) {
+      return $this->scoresheet();
+    } else {
+      return new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
+    }
   }
 
   public function getCombination()
