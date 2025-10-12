@@ -305,6 +305,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         $('score-sheet-holder').classList.toggle('rotated');
       }
 
+      // Prevent repainting animation
+      $('score-sheet-holder')
+        .querySelectorAll('.animate')
+        .forEach((elt) => elt.classList.remove('animate'));
+
       // Update order => useful for multiple view !
       if ($('score-sheet-holder').classList.contains('rotated')) {
         Object.values(this.reversedOrderedPlayers).forEach((player) => {
