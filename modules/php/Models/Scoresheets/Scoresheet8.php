@@ -22,6 +22,8 @@ class Scoresheet8 extends Scoresheet
 
   protected int $scenario = 8;
   protected array $datas = DATAS8;
+  protected array $leftHalfScores = [];
+  protected array $rightHalfScores = [];
   protected array $planets = [
     ['slots' => [1, 2, 3], 'type' => PLANET_TYPE_GREEN, 'moonSlots' => [79, 80], 'flag' => 93, 'final' => 223],
     ['slots' => [4, 5, 6, 7, 8], 'type' => PLANET_TYPE_GREY, 'moonSlots' => [81, 82], 'flag' => 94, 'final' => 224],
@@ -189,6 +191,16 @@ class Scoresheet8 extends Scoresheet
     return $thisPlayer ? $leftPlanningMap : $rightPlanningMap;
   }
 
+  private function getErrorsSlots($rightSide = true): array
+  {
+    return $rightSide ? [34, 35] : [36, 37];
+  }
+
+  private function getInsignia($rightSide = true): int
+  {
+    $slot = $rightSide ? 222 : 221;
+    return $this->scribblesBySlots[$slot][0]->getType();
+  }
 
   public function setupScenario(): void
   {
@@ -875,6 +887,146 @@ class Scoresheet8 extends Scoresheet
     $p1b2scribbledErrors = $b2->countScribblesInSectionS8('errors', null, false);
     $p1b2errorsNegativePoints = 5 * $p1b2scribbledErrors;
     $data[] = ["slot" => 213, "v" => $p1b2errorsNegativePoints];
+
+    // ********* HALF-BOARD SCORING *********
+    // This is a new way to score. Calculate the score only of this sheet, no matter whose score it is
+
+    // Plants
+    $rightPlantsPoints = 0;
+    foreach ($this->getPlantsSlots(true) as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightPlantsPoints = $points;
+      }
+    }
+    $leftPlantsPoints = 0;
+    foreach ($this->getPlantsSlots(false) as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftPlantsPoints = $points;
+      }
+    }
+
+    $this->rightHalfScores['plants'] = $rightPlantsPoints;
+    $this->leftHalfScores['plants'] = $leftPlantsPoints;
+
+    // Water
+    $rightWaterPoints = 0;
+    foreach ($this->getWatersSlots() as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightWaterPoints = $points;
+      }
+    }
+    $leftWaterPoints = 0;
+    foreach ($this->getWatersSlots(false) as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftWaterPoints = $points;
+      }
+    }
+    $this->rightHalfScores['water'] = $rightWaterPoints;
+    $this->leftHalfScores['water'] = $leftWaterPoints;
+
+    // Energy
+    // Green planets
+    $rightInsignia = $this->getInsignia();
+    $leftInsignia = $this->getInsignia(false);
+    $rightGreenMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_GREEN) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightGreenMultiplier = $multiplier;
+      }
+    }
+    $rightGreenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $rightInsignia, PLANET_TYPE_GREEN);
+    $rightGreenPlanetsScore = $rightGreenPlanetsControlledAmount * $rightGreenMultiplier;
+    $this->rightHalfScores['greenPlanetsControlledAmount'] = $rightGreenPlanetsControlledAmount;
+    $this->rightHalfScores['greenPlanetsScore'] = $rightGreenPlanetsScore;
+
+    $leftGreenMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_GREEN, false) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftGreenMultiplier = $multiplier;
+      }
+    }
+    $leftGreenPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $leftInsignia, PLANET_TYPE_GREEN);
+    $leftGreenPlanetsScore = $leftGreenPlanetsControlledAmount * $leftGreenMultiplier;
+    $this->leftHalfScores['greenPlanetsControlledAmount'] = $leftGreenPlanetsControlledAmount;
+    $this->leftHalfScores['greenPlanetsScore'] = $leftGreenPlanetsScore;
+
+    // Blue planets
+    $rightBlueMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_BLUE) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightBlueMultiplier = $multiplier;
+      }
+    }
+    $rightBluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $rightInsignia, PLANET_TYPE_BLUE);
+    $rightBluePlanetsScore = $rightBluePlanetsControlledAmount * $rightBlueMultiplier;
+    $this->rightHalfScores['bluePlanetsControlledAmount'] = $rightBluePlanetsControlledAmount;
+    $this->rightHalfScores['bluePlanetsScore'] = $rightBluePlanetsScore;
+
+    $leftBlueMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_BLUE, false) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftBlueMultiplier = $multiplier;
+      }
+    }
+    $leftBluePlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $leftInsignia, PLANET_TYPE_BLUE);
+    $leftBluePlanetsScore = $leftBluePlanetsControlledAmount * $leftBlueMultiplier;
+    $this->leftHalfScores['bluePlanetsControlledAmount'] = $leftBluePlanetsControlledAmount;
+    $this->leftHalfScores['bluePlanetsScore'] = $leftBluePlanetsScore;
+
+    // Grey planets
+    $rightGreyMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_GREY) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightGreyMultiplier = $multiplier;
+      }
+    }
+    $rightGreyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $rightInsignia, PLANET_TYPE_GREY);
+    $rightGreyPlanetsScore = $rightGreyPlanetsControlledAmount * $rightGreyMultiplier;
+    $this->rightHalfScores['greyPlanetsControlledAmount'] = $rightGreyPlanetsControlledAmount;
+    $this->rightHalfScores['greyPlanetsScore'] = $rightGreyPlanetsScore;
+
+    $leftGreyMultiplier = 2;
+    foreach ($this->getEnergySlots(PLANET_TYPE_GREY, false) as $slot => $multiplier) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftGreyMultiplier = $multiplier;
+      }
+    }
+    $leftGreyPlanetsControlledAmount = $this->getControlledPlanetsAmount($b2, $leftInsignia, PLANET_TYPE_GREY);
+    $leftGreyPlanetsScore = $leftGreyPlanetsControlledAmount * $leftGreyMultiplier;
+    $this->leftHalfScores['greyPlanetsControlledAmount'] = $leftGreyPlanetsControlledAmount;
+    $this->leftHalfScores['greyPlanetsScore'] = $leftGreyPlanetsScore;
+
+    // Planning
+    $rightPlanningNegativePoints = 0;
+    foreach ($this->getPlanningSlots() as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $rightPlanningNegativePoints = $points;
+      }
+    }
+    $this->rightHalfScores['planningNegativePoints'] = $rightPlanningNegativePoints;
+    $leftPlanningNegativePoints = 0;
+    foreach ($this->getPlanningSlots(false) as $slot => $points) {
+      if ($b2->hasScribbledSlot($slot)) {
+        $leftPlanningNegativePoints = $points;
+      }
+    }
+    $this->leftHalfScores['planningNegativePoints'] = $leftPlanningNegativePoints;
+
+    // System errors
+    $rightScribbledErrors = $b2->countScribbledSlots($this->getErrorsSlots());
+    $rightErrorsNegativePoints = 5 * $rightScribbledErrors;
+    $this->rightHalfScores['errorsNegativePoints'] = $rightErrorsNegativePoints;
+
+    $leftScribbledErrors = $b2->countScribbledSlots($this->getErrorsSlots(false));
+    $leftErrorsNegativePoints = 5 * $leftScribbledErrors;
+    $this->leftHalfScores['errorsNegativePoints'] = $leftErrorsNegativePoints;
+
+    $b2missionPoints = $this->computeMissionsUiData($data, $b2);
+    $this->rightHalfScores['missions'] = $b2missionPoints;
+    // ********* END OF HALF-BOARD SCORING *********
+    // This scoresheet has $this->rightHalfScores of one player and $this->leftHalfScores of the other player
+    // We also have $rightInsignia and $leftInsignia.
+    // If we can find out which player has each insignia - we easily can do overall calculation
 
     // Total Player 1 score
     $data[] = [
