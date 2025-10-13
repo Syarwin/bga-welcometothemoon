@@ -287,7 +287,7 @@ trait TurnTrait
     if (empty($flows)) {
       $this->gamestate->jumpToState($nextState);
     } else {
-      Engine::multipleSetup($flows, ['state' => ST_END_TURN], '');
+      Engine::multipleSetup($flows, ['state' => $nextState], '');
     }
   }
 }

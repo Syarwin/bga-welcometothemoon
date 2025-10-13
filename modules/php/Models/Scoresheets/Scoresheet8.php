@@ -618,7 +618,7 @@ class Scoresheet8 extends Scoresheet
   {
     $flows = [];
     foreach (Players::getAll() as $pId => $player) {
-      $scoresheet = $player->scoresheetForScore();
+      $scoresheet = $player->scoresheet();
       $planets = $scoresheet->getS8Planets();
       $childs = [];
       foreach ($planets as $planetId => $planet) {
@@ -877,9 +877,9 @@ class Scoresheet8 extends Scoresheet
       "v" => $leftScore['plants'] + $leftScore['water']
         + $leftScore['greenPlanetsScore'] + $leftScore['bluePlanetsScore'] + $leftScore['greyPlanetsScore'] +
         -$leftScore['planningNegativePoints'] - $leftScore['errorsNegativePoints']
-        + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
-        + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
-        -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
+          + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
+          + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
+          -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
     ];
 
     ///////////////////////////////////////
