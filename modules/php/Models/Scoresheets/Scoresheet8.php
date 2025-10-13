@@ -800,6 +800,21 @@ class Scoresheet8 extends Scoresheet
       $data = [];
       $missionPoints = $this->computeMissionsUiData($data, $this);
       $this->rightHalfScores['missions'] = $missionPoints;
+    } else {
+      $rest = [
+        'greenPlanetsControlledAmount' => 0,
+        'greenPlanetsScore' => 0,
+        'bluePlanetsControlledAmount' => 0,
+        'bluePlanetsScore' => 0,
+        'greyPlanetsControlledAmount' => 0,
+        'greyPlanetsScore' => 0,
+        'planningNegativePoints' => 0,
+        'errorsNegativePoints' => 0,
+        'scribbledErrors' => 0,
+        'missions' => 0,
+      ];
+      $this->leftHalfScores = [...$this->leftHalfScores, ...$rest];
+      $this->rightHalfScores = [...$this->rightHalfScores, ...$rest];
     }
 
     return [$this->leftHalfScores, $this->rightHalfScores];
@@ -862,9 +877,9 @@ class Scoresheet8 extends Scoresheet
       "v" => $leftScore['plants'] + $leftScore['water']
         + $leftScore['greenPlanetsScore'] + $leftScore['bluePlanetsScore'] + $leftScore['greyPlanetsScore'] +
         -$leftScore['planningNegativePoints'] - $leftScore['errorsNegativePoints']
-          + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
-          + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
-          -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
+        + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
+        + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
+        -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
     ];
 
     ///////////////////////////////////////
