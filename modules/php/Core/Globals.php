@@ -232,7 +232,7 @@ class Globals extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Manager
     $isSolo = count($players) == 1;
     static::setSolo($isSolo);
     static::setFirstPlayer(array_keys($players)[0]);
-    static::setAstraLevel($options[OPTION_ASTRA_LEVEL] ?? 0);
+    static::setAstraLevel($options[OPTION_ASTRA_LEVEL] ?? 1);
 
     $scenarioId = $options[OPTION_ADVENTURE];
     if ($scenarioId == 0) {
