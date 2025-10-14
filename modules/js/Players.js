@@ -189,6 +189,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           });
         });
 
+        // Scoresheet dynamic data
+        this.updateComputedScoresheetData(pId);
+
         // Player panels
         $(`numbers-status-container-${pId}`).querySelector('.numbers-scenario-amount').innerHTML = nNumbers;
         $(`system-errors-status-container-${pId}`).querySelector('.errors-scenario-amount').innerHTML = nErrors;
