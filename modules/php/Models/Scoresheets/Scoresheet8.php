@@ -368,7 +368,9 @@ class Scoresheet8 extends Scoresheet
         $controlledPlanets = $scoresheet1->getControlledPlanetsAmount($scoresheet1, SCRIBBLE_INSIGNA_SQUARE) + $scoresheet1->getControlledPlanetsAmount($scoresheet2, SCRIBBLE_INSIGNA_SQUARE);
         if ($controlledPlanets % 2 == 0) {
           $bonusScribble = Players::getAstra()->circleNextBonus();
-          Notifications::gainOneSoloBonus($player, $bonusScribble);
+          if (!is_null($bonusScribble)) {
+            Notifications::gainOneSoloBonus($player, $bonusScribble);
+          }
         }
       }
     }
@@ -877,9 +879,9 @@ class Scoresheet8 extends Scoresheet
       "v" => $leftScore['plants'] + $leftScore['water']
         + $leftScore['greenPlanetsScore'] + $leftScore['bluePlanetsScore'] + $leftScore['greyPlanetsScore'] +
         -$leftScore['planningNegativePoints'] - $leftScore['errorsNegativePoints']
-          + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
-          + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
-          -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
+        + $leftRightScore['missions'] + $leftRightScore['plants'] + $leftRightScore['water']
+        + $leftRightScore['greenPlanetsScore'] + $leftRightScore['bluePlanetsScore'] + $leftRightScore['greyPlanetsScore'] +
+        -$leftRightScore['planningNegativePoints'] - $leftRightScore['errorsNegativePoints']
     ];
 
     ///////////////////////////////////////
