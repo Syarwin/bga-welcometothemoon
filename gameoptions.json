@@ -38,8 +38,11 @@
       },
       "8": {
         "name": "Adventure 8: The Battle",
-        "tmdisplay": "[8: The Battle]",
-        "alpha": true
+        "tmdisplay": "[8: The Battle]"
+      },
+      "9": {
+        "name": "Random adventure excluding 1",
+        "tmdisplay": "[Random excluding 1]"
       }
     }
   },

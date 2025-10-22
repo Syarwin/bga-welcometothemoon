@@ -9,7 +9,6 @@ use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Core\Stats;
 use Bga\Games\WelcomeToTheMoon\Managers\ConstructionCards;
 use Bga\Games\WelcomeToTheMoon\Managers\PlanCards;
-use Bga\Games\WelcomeToTheMoon\Models\ConstructionCard;
 
 trait SetupTrait
 {
