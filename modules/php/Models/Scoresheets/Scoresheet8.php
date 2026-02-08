@@ -750,7 +750,7 @@ class Scoresheet8 extends Scoresheet
       $this->leftHalfScores['bluePlanetsScore'] = $leftBluePlanetsScore;
 
       // Grey planets
-      $rightGreyMultiplier = 2;
+      $rightGreyMultiplier = 4;
       foreach ($this->getEnergySlots(PLANET_TYPE_GREY) as $slot => $multiplier) {
         if ($this->hasScribbledSlot($slot)) {
           $rightGreyMultiplier = $multiplier;
@@ -761,7 +761,7 @@ class Scoresheet8 extends Scoresheet
       $this->rightHalfScores['greyPlanetsControlledAmount'] = $rightGreyPlanetsControlledAmount;
       $this->rightHalfScores['greyPlanetsScore'] = $rightGreyPlanetsScore;
 
-      $leftGreyMultiplier = 2;
+      $leftGreyMultiplier = 4;
       foreach ($this->getEnergySlots(PLANET_TYPE_GREY, false) as $slot => $multiplier) {
         if ($this->hasScribbledSlot($slot)) {
           $leftGreyMultiplier = $multiplier;
