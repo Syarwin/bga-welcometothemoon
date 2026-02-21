@@ -4,7 +4,6 @@ namespace Bga\Games\WelcomeToTheMoon\Actions\Scenario4;
 
 use Bga\Games\WelcomeToTheMoon\Actions\GenericPickSlot;
 use Bga\Games\WelcomeToTheMoon\Core\Notifications;
-use Bga\Games\WelcomeToTheMoon\Managers\Players;
 use Bga\Games\WelcomeToTheMoon\Models\Player;
 
 class CirclePlantOrWater extends GenericPickSlot

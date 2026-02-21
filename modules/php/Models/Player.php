@@ -51,7 +51,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
 
   public function getPref(int $prefId)
   {
-    return Game::get()->getGameUserPreference($this->id, $prefId);
+    return Game::get()->bga->userPreferences->get($this->id, $prefId);
   }
 
   public function getStat($name)
@@ -66,6 +66,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
   }
 
   protected ?Scoresheet $scoresheet = null;
+
   public function scoresheet(): ?Scoresheet
   {
     $scenarioId = Globals::getScenario();
@@ -78,8 +79,7 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
         } else {
           $this->scoresheet = new Scoresheet8(Players::getNextOrAstra($this), $this, 2);
         }
-      }
-      // Otherwise it's just as usual
+      } // Otherwise it's just as usual
       else {
         $className = 'Bga\Games\WelcomeToTheMoon\Models\Scoresheets\Scoresheet' . $scenarioId;
         $this->scoresheet = new $className($this);
@@ -87,10 +87,12 @@ class Player extends \Bga\Games\WelcomeToTheMoon\Helpers\DB_Model
     }
     return $this->scoresheet;
   }
+
   public function refreshScoresheet(): void
   {
     $this->scoresheet = null;
   }
+
   // USEFUL ONLY FOR ASTRA BECAUSE OF WEIRDNESS
   public function scoresheetForScore(): ?Scoresheet
   {
